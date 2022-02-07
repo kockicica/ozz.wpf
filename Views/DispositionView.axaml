@@ -32,10 +32,9 @@
         </ItemsControl>
         <Grid Grid.Row="1" ColumnDefinitions="2*, 1*">
             <DockPanel Grid.Column="0">
-                <DockPanel DockPanel.Dock="Top" Margin="5">
-                    <TextBlock Text="Naziv:" VerticalAlignment="Center" Margin="5"></TextBlock>
-                    <TextBox Text="{Binding SearchTerm}" VerticalAlignment="Center"></TextBox>
-                </DockPanel>
+                <TextBox Text="{Binding SearchTerm}" VerticalAlignment="Center" Watermark="Naziv ili deo naziva" Classes="clearButton"
+                         DockPanel.Dock="Top" Margin="5">
+                </TextBox>
                 <views:AudioRecordingsListView DockPanel.Dock="Bottom"></views:AudioRecordingsListView>
             </DockPanel>
             <Panel Grid.Column="1" Background="Yellow"></Panel>
