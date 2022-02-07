@@ -1,0 +1,47 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
+             xmlns:models="clr-namespace:ozz.wpf.Models"
+             xmlns:views="clr-namespace:ozz.wpf.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" d:DataContext="{x:Static viewModels:DesignData.DispositionViewModel}"
+             x:Class="ozz.wpf.Views.DispositionView">
+
+    <UserControl.Styles>
+        <Style Selector="Button:focus /template/ ContentPresenter">
+            <Setter Property="TextBlock.FontWeight" Value="Heavy" />
+        </Style>
+    </UserControl.Styles>
+
+    <Grid RowDefinitions="Auto,*, Auto">
+        <ItemsControl Items="{Binding Categories}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Margin="10" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="models:Category">
+                    <Button Content="{Binding Name}" Margin="5 0"
+                            Command="{Binding $parent[views:DispositionView].DataContext.ProcessCategory }" CommandParameter="{Binding .}">
+
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Grid Grid.Row="1" ColumnDefinitions="2*, 1*">
+            <DockPanel Grid.Column="0">
+                <DockPanel DockPanel.Dock="Top" Margin="5">
+                    <TextBlock Text="Naziv:" VerticalAlignment="Center" Margin="5"></TextBlock>
+                    <TextBox Text="{Binding SearchTerm}" VerticalAlignment="Center"></TextBox>
+                </DockPanel>
+                <views:AudioRecordingsListView DockPanel.Dock="Bottom"></views:AudioRecordingsListView>
+            </DockPanel>
+            <Panel Grid.Column="1" Background="Yellow"></Panel>
+        </Grid>
+        <StackPanel Grid.Row="2">
+            <Button Content="{Binding SelectedCategory.Name}"></Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

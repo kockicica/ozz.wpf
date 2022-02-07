@@ -1,0 +1,71 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
+             xmlns:models="clr-namespace:ozz.wpf.Models"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
+             xmlns:services="clr-namespace:ozz.wpf.Services"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" d:DataContext="{x:Static viewModels:DesignData.AudioRecordingsListViewModel}"
+             x:Class="ozz.wpf.Views.AudioRecordingsListView">
+
+    <UserControl.Resources>
+        <services:DurationToStringConverter x:Key="DurationToStringConverter" />
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+        <Style Selector="TextBlock">
+            <Setter Property="Padding" Value="1"></Setter>
+        </Style>
+        <Style Selector="Panel.tracks:pointerover">
+            <Setter Property="Background" Value="{DynamicResource ThemeControlHighlightHighColor}"></Setter>
+        </Style>
+        <Style Selector="TextBlock.name">
+            <Setter Property="FontSize" Value="16"></Setter>
+            <!-- <Setter Property="FontWeight" Value="Heavy"></Setter> -->
+        </Style>
+        <Style Selector="TextBlock.date">
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="FontWeight" Value="Light"></Setter>
+        </Style>
+        <Style Selector="TextBlock.duration">
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="FontWeight" Value="Medium"></Setter>
+        </Style>
+        <Style Selector="DataGrid:focus DataGridCell:current /template/ Grid#FocusVisual">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>        
+    </UserControl.Styles>
+    <DataGrid Items="{Binding Recordings}" AutoGenerateColumns="False" x:DataType="models:AudioRecording" IsReadOnly="True"
+              CanUserResizeColumns="True" SelectionMode="Single">
+        <DataGrid.FocusAdorner></DataGrid.FocusAdorner>
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="4*"></DataGridTextColumn>
+            <DataGridTextColumn Header="Datum" Binding="{Binding Date, StringFormat={}{0:dd.MM.yyyy}}" Width="2*"></DataGridTextColumn>
+            <DataGridTextColumn Header="Trajanje" Binding="{Binding Duration, Converter={StaticResource DurationToStringConverter}}" Width="*"></DataGridTextColumn>
+        </DataGrid.Columns>
+    </DataGrid>
+    <!-- <ScrollViewer> -->
+    <!--     <ItemsControl Items="{Binding Recordings}"> -->
+    <!--         <ItemsControl.ItemTemplate> -->
+    <!--             <DataTemplate x:DataType="models:AudioRecording"> -->
+    <!--                 <Panel Classes="tracks"> -->
+    <!--                     ~1~ <TextBlock Text="{Binding Source={x:Static system:DateTime.Now}, StringFormat=Date: {0:dddd, MMMM dd}}" />                         @1@ -->
+    <!--                     <Grid RowDefinitions="*,*" ColumnDefinitions="*, Auto" ShowGridLines="False" Margin="5"> -->
+    <!--                         <Grid.Resources> -->
+    <!--                         </Grid.Resources> -->
+    <!--                         <TextBlock Classes="name" Text="{Binding Name}" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Center"></TextBlock> -->
+    <!--                         <TextBlock Classes="date" Text="{Binding Date, StringFormat={}{0:dd.MM.yyyy}}" Grid.Row="0" Grid.Column="1" -->
+    <!--                                    HorizontalAlignment="Right"> -->
+    <!--                         </TextBlock> -->
+    <!--                         <TextBlock Classes="duration" Text="{Binding Duration, Converter={StaticResource DurationToStringConverter}}" Grid.Row="1" Grid.Column="1" -->
+    <!--                                    HorizontalAlignment="Right"> -->
+    <!--                         </TextBlock> -->
+    <!--                     </Grid> -->
+    <!--                 </Panel> -->
+    <!--             </DataTemplate> -->
+    <!--         </ItemsControl.ItemTemplate> -->
+    <!--     </ItemsControl> -->
+    <!-- </ScrollViewer> -->
+
+</UserControl>
