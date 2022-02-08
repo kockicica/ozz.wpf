@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
              xmlns:models="clr-namespace:ozz.wpf.Models"
-             xmlns:system="clr-namespace:System;assembly=System.Runtime"
              xmlns:services="clr-namespace:ozz.wpf.Services"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" d:DataContext="{x:Static viewModels:DesignData.AudioRecordingsListViewModel}"
              x:Class="ozz.wpf.Views.AudioRecordingsListView">
@@ -15,22 +14,22 @@
 
     <UserControl.Styles>
         <Style Selector="TextBlock">
-            <Setter Property="Padding" Value="1"></Setter>
+            <Setter Property="Padding" Value="1" />
         </Style>
         <Style Selector="Panel.tracks:pointerover">
-            <Setter Property="Background" Value="{DynamicResource ThemeControlHighlightHighColor}"></Setter>
+            <Setter Property="Background" Value="{DynamicResource ThemeControlHighlightHighColor}" />
         </Style>
         <Style Selector="TextBlock.name">
-            <Setter Property="FontSize" Value="16"></Setter>
+            <Setter Property="FontSize" Value="16" />
             <!-- <Setter Property="FontWeight" Value="Heavy"></Setter> -->
         </Style>
         <Style Selector="TextBlock.date">
-            <Setter Property="FontSize" Value="12"></Setter>
-            <Setter Property="FontWeight" Value="Light"></Setter>
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="Light" />
         </Style>
         <Style Selector="TextBlock.duration">
-            <Setter Property="FontSize" Value="12"></Setter>
-            <Setter Property="FontWeight" Value="Medium"></Setter>
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="Medium" />
         </Style>
         <Style Selector="DataGrid:focus DataGridCell:current /template/ Grid#FocusVisual">
             <Setter Property="IsVisible" Value="False" />
@@ -39,9 +38,9 @@
     <DataGrid Name="Recordings" Items="{Binding Recordings}" AutoGenerateColumns="False" x:DataType="models:AudioRecording" IsReadOnly="True"
               CanUserResizeColumns="True" SelectionMode="Single" SelectedItem="{Binding SelectedRecording}">
         <DataGrid.Columns>
-            <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="4*"></DataGridTextColumn>
-            <DataGridTextColumn Header="Datum" Binding="{Binding Date, StringFormat={}{0:dd.MM.yyyy}}" Width="2*"></DataGridTextColumn>
-            <DataGridTextColumn Header="Trajanje" Binding="{Binding Duration, Converter={StaticResource DurationToStringConverter}}" Width="*"></DataGridTextColumn>
+            <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="4*" />
+            <DataGridTextColumn Header="Datum" Binding="{Binding Date, StringFormat={}{0:dd.MM.yyyy}}" Width="2*" />
+            <DataGridTextColumn Header="Trajanje" Binding="{Binding Duration, Converter={StaticResource DurationToStringConverter}}" Width="*" />
         </DataGrid.Columns>
     </DataGrid>
     <!-- <ScrollViewer> -->

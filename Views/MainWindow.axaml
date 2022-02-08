@@ -7,13 +7,35 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ozz.wpf.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Content="{Binding Disposition}"
+        WindowStartupLocation="CenterScreen"
         Title="ozz.wpf">
+    
+    <Window.Styles>
+        <Style Selector="Grid#Overlay">
+            <Setter Property="IsVisible" Value="{Binding ShowOverlay}"></Setter>
+        </Style>
+    </Window.Styles>
 
     <Design.DataContext>
         <vm:MainWindowViewModel />
     </Design.DataContext>
+    <Grid x:Name="LayoutRoot">
 
+        <Grid x:Name="Overlay" Panel.ZIndex="1000">
+            <Grid.Background>
+                <SolidColorBrush Color="Black" Opacity=".2"/>
+            </Grid.Background>
+        
+            <!-- Add controls as needed -->
+        </Grid>
+
+        <!-- Use whatever layout you need -->
+        <ContentControl x:Name="MainContent" Content="{Binding Disposition}" />
+
+    </Grid>    
+    <!-- <Panel> -->
+    <!--     <ContentControl Content="{Binding Disposition}" ZIndex="100"></ContentControl> -->
+    <!-- </Panel> -->
     <!-- <views:DispositionView DataContext="{Binding Disposition}"/> -->
 
 </Window>

@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Data.Common;
 using System.Net.Http;
 using System.Reflection;
-using System.Runtime.InteropServices.ComTypes;
 
 using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.OpenGL.Egl;
-using Avalonia.Platform;
 using Avalonia.ReactiveUI;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 using ozz.wpf.Services;
 using ozz.wpf.ViewModels;
@@ -20,11 +14,10 @@ using ozz.wpf.ViewModels;
 using ReactiveUI;
 
 using Serilog;
-using Serilog.Events;
 
 using Splat;
 
-using ILogger = Microsoft.Extensions.Logging.ILogger;
+using ILogger = Serilog.ILogger;
 
 namespace ozz.wpf {
 
@@ -39,29 +32,28 @@ namespace ozz.wpf {
             Log.Logger = new LoggerConfiguration()
                          .MinimumLevel.Debug()
                          .WriteTo.Console()
-                         .WriteTo.File("log-.log", rollingInterval:RollingInterval.Day)
+                         .WriteTo.File("log-.log", rollingInterval: RollingInterval.Day)
                          .CreateLogger();
-            
 
-            AppDomain.CurrentDomain.UnhandledException += (sender, eventArgs) => {
-                Console.WriteLine(eventArgs.ExceptionObject);
-            };
-            var host = new HostBuilder().ConfigureServices(s => {
-                s.AddHttpClient("default", client => {
-                    client.BaseAddress = new Uri("http://localhost:27000");
-                });
-                s.AddLogging(builder => {
-                    builder.AddConsole();
-                });
-            }).Build();
+
+            AppDomain.CurrentDomain.UnhandledException += (sender, eventArgs) => { Log.Logger.Error("exc: {@e}", eventArgs.ExceptionObject); };
+            var host = new HostBuilder().ConfigureServices(
+                                            s => {
+                                                s.AddHttpClient("default", client => { client.BaseAddress = new Uri("http://localhost:27000"); });
+                                                //s.AddLogging(builder => builder.AddSerilog());
+                                            })
+                                        .Build();
 
             Locator.CurrentMutable.Register<IDataService>(() => new DataService(Locator.Current.GetService<IHttpClientFactory>()));
-            Locator.CurrentMutable.Register(() => new DispositionViewModel(Locator.Current.GetService<IDataService>(), Locator.Current.GetService<ILogger>()));
+            Locator.CurrentMutable.Register(
+                () => new DispositionViewModel(Locator.Current.GetService<IDataService>(), Locator.Current.GetService<ILogger>()));
             Locator.CurrentMutable.Register<IHttpClientFactory>(() => host.Services.GetService<IHttpClientFactory>());
-            Locator.CurrentMutable.Register<ILogger>(() => host.Services.GetService<ILoggerProvider>().CreateLogger("ads"));
+            Locator.CurrentMutable.Register(() => Log.Logger);
             Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
+
+            Log.CloseAndFlush();
         }
 
         // Avalonia configuration, don't remove; also used by visual designer.
