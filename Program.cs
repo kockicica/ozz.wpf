@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Common;
 using System.Net.Http;
+using System.Reflection;
 using System.Runtime.InteropServices.ComTypes;
 
 using Avalonia;
@@ -15,6 +16,8 @@ using Microsoft.Extensions.Logging;
 
 using ozz.wpf.Services;
 using ozz.wpf.ViewModels;
+
+using ReactiveUI;
 
 using Serilog;
 using Serilog.Events;
@@ -56,6 +59,7 @@ namespace ozz.wpf {
             Locator.CurrentMutable.Register(() => new DispositionViewModel(Locator.Current.GetService<IDataService>(), Locator.Current.GetService<ILogger>()));
             Locator.CurrentMutable.Register<IHttpClientFactory>(() => host.Services.GetService<IHttpClientFactory>());
             Locator.CurrentMutable.Register<ILogger>(() => host.Services.GetService<ILoggerProvider>().CreateLogger("ads"));
+            Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
         }

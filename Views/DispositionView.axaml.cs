@@ -1,13 +1,22 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.ReactiveUI;
 
-namespace ozz.wpf.Views; 
+using ozz.wpf.ViewModels;
 
-public partial class DispositionView : UserControl {
+using ReactiveUI;
+
+namespace ozz.wpf.Views;
+
+public partial class DispositionView : ReactiveUserControl<DispositionViewModel> {
 
     public DispositionView() {
         InitializeComponent();
+
+        this.WhenActivated(disposable => {
+            var mdl = this.ViewModel;
+        });
     }
 
     private void InitializeComponent() {
