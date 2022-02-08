@@ -17,34 +17,33 @@ public class DialogWindowBase<TResult> : ReactiveWindow<DialogViewModelBase<TRes
     private Window ParentWindow => (Window)Owner;
 
     protected DialogWindowBase() {
-        
+
+        var sub = Observable
+                  .FromEventPattern<EventArgs>(this, "Opened")
+                  .Subscribe(pattern => {
+                      // CenterDialog();
+                      // LockSize();
+                  });
+
         this.WhenActivated(disposables => {
 
             ViewModel!.CloseRequested.Subscribe(Observer.Create<TResult>(Close)).DisposeWith(disposables);
-
-            Observable.FromEventPattern<EventArgs>(this, "Opened").Do(_ => {
-                CenterDialog();
-                LockSize();
-            }).Subscribe().DisposeWith(disposables);
-
+            disposables.Add(sub);
         });
     }
-    
-    private void CenterDialog()
-    {
+
+    private void CenterDialog() {
         var x = ParentWindow.Position.X + (ParentWindow.Bounds.Width - Width) / 2;
         var y = ParentWindow.Position.Y + (ParentWindow.Bounds.Height - Height) / 2;
 
-        Position = new PixelPoint((int) x, (int) y);
+        Position = new PixelPoint((int)x, (int)y);
     }
 
-    private void LockSize()
-    {
+    private void LockSize() {
         MaxWidth = MinWidth = Width;
         MaxHeight = MinHeight = Height;
-    }    
-
-
+    }
+    
 }
 
 public class DialogWindowBase : DialogWindowBase<DialogResultBase> { }

@@ -1,10 +1,11 @@
+using ozz.wpf.Dialog;
 using ozz.wpf.Models;
 
 using ReactiveUI;
 
 namespace ozz.wpf.ViewModels;
 
-public class AudioPlayerViewModel : ViewModelBase {
+public class AudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
 
     private AudioRecording _track;
 

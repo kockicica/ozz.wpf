@@ -1,14 +1,11 @@
 using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Avalonia.ReactiveUI;
 
-using ozz.wpf.ViewModels;
+using ozz.wpf.Dialog;
 
 namespace ozz.wpf.Views;
 
-public partial class AudioPlayerWindow : ReactiveWindow<AudioPlayerViewModel> {
+public partial class AudioPlayerWindow : DialogWindowBase<DialogResultBase> {
 
     public AudioPlayerWindow() {
         InitializeComponent();
@@ -21,8 +18,5 @@ public partial class AudioPlayerWindow : ReactiveWindow<AudioPlayerViewModel> {
         AvaloniaXamlLoader.Load(this);
     }
 
-    private void Button_OnClick(object? sender, RoutedEventArgs e) {
-        Close();
-    }
 
 }
