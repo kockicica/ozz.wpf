@@ -8,16 +8,16 @@ namespace ozz.wpf.ViewModels {
 
         public string Greeting => "Welcome to Avalonia!";
 
-        public bool ShowOverlay {
-            get => _showOverlay;
-            set => this.RaiseAndSetIfChanged(ref _showOverlay, value);
+        public bool OverlayVisible {
+            get => _overlayVisible;
+            set => this.RaiseAndSetIfChanged(ref _overlayVisible, value);
         }
 
         // public MainWindowViewModel(DispositionViewModel disposition) {
         //     Disposition = disposition;
         // }
 
-        private bool _showOverlay;
+        private bool _overlayVisible;
         
 
     }

@@ -12,7 +12,7 @@
     
     <Window.Styles>
         <Style Selector="Grid#Overlay">
-            <Setter Property="IsVisible" Value="{Binding ShowOverlay}"></Setter>
+            <Setter Property="IsVisible" Value="{Binding OverlayVisible}"></Setter>
         </Style>
     </Window.Styles>
 
@@ -23,7 +23,7 @@
 
         <Grid x:Name="Overlay" Panel.ZIndex="1000">
             <Grid.Background>
-                <SolidColorBrush Color="Black" Opacity=".2"/>
+                <SolidColorBrush Color="Black" Opacity=".4"/>
             </Grid.Background>
         
             <!-- Add controls as needed -->

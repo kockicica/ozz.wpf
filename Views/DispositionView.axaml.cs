@@ -30,26 +30,23 @@ public partial class DispositionView : ReactiveUserControl<DispositionViewModel>
         AvaloniaXamlLoader.Load(this);
     }
 
-    private Task DoShowDialogAsync(InteractionContext<AudioRecording, Unit> interactionContext) {
+    private async Task DoShowDialogAsync(InteractionContext<AudioRecording, Unit> interactionContext) {
         if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
-            var mainWindow = desktop.MainWindow;
-            var modal = new AudioPlayerWindow();
-            modal.DataContext = new AudioPlayerViewModel{Track = interactionContext.Input};
-            modal.Show(mainWindow);
+            if (desktop.MainWindow is MainWindow wnd) {
+                var modal = new AudioPlayerWindow {
+                    DataContext = new AudioPlayerViewModel { Track = interactionContext.Input }
+                };
+                wnd.ShowOverlay();
+                await modal.ShowDialog(wnd);
+                wnd.HideOverlay();
+
+            }
 
         }
 
         interactionContext.SetOutput(Unit.Default);
-        return Task.CompletedTask;
-    }
 
-    private void DoShowDialog(InteractionContext<AudioRecording, Unit> interactionContext) {
-        var d = interactionContext.Input;
-        if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
-            var wnd = desktop.MainWindow;
-        }
-
-        interactionContext.SetOutput(Unit.Default);
+        //return Task.CompletedTask;
     }
 
 }

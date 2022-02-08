@@ -49,7 +49,10 @@ namespace ozz.wpf {
                 () => new DispositionViewModel(Locator.Current.GetService<IDataService>(), Locator.Current.GetService<ILogger>()));
             Locator.CurrentMutable.Register<IHttpClientFactory>(() => host.Services.GetService<IHttpClientFactory>());
             Locator.CurrentMutable.Register(() => Log.Logger);
-            Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
+            //Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
+            //Locator.CurrentMutable.Register<IViewFor<DispositionViewModel>>(() => new MainWindow);
+            //Locator.CurrentMutable.Register<IViewFor<AudioRecordingsListViewModel>>(() => new AudioRecordingsListViewModel());
+            //Locator.CurrentMutable.Register<IViewFor<AudioPlayerViewModel>>(() => new AudioPlayerViewModel());
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
 

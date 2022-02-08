@@ -24,5 +24,13 @@ namespace ozz.wpf.Views
             AvaloniaXamlLoader.Load(this);
             Core.Initialize();
         }
+
+        public void ShowOverlay() {
+            ViewModel!.OverlayVisible = true;
+        }
+        
+        public void HideOverlay() {
+            ViewModel!.OverlayVisible = false;
+        }
     }
 }
