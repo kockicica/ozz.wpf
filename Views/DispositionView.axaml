@@ -39,8 +39,9 @@
             </DockPanel>
             <Panel Grid.Column="1" Background="Yellow"></Panel>
         </Grid>
-        <StackPanel Grid.Row="2">
-            <Button Content="{Binding SelectedCategory.Name}"></Button>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button Content="{Binding SelectedCategory.Name}" Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}"></Button>
+            <TextBlock Text="{Binding SelectedRecording.Name}" VerticalAlignment="Center"></TextBlock>
         </StackPanel>
     </Grid>
 </UserControl>

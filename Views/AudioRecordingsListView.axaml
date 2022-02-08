@@ -36,9 +36,8 @@
             <Setter Property="IsVisible" Value="False" />
         </Style>        
     </UserControl.Styles>
-    <DataGrid Items="{Binding Recordings}" AutoGenerateColumns="False" x:DataType="models:AudioRecording" IsReadOnly="True"
-              CanUserResizeColumns="True" SelectionMode="Single">
-        <DataGrid.FocusAdorner></DataGrid.FocusAdorner>
+    <DataGrid Name="Recordings" Items="{Binding Recordings}" AutoGenerateColumns="False" x:DataType="models:AudioRecording" IsReadOnly="True"
+              CanUserResizeColumns="True" SelectionMode="Single" SelectedItem="{Binding SelectedRecording}">
         <DataGrid.Columns>
             <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="4*"></DataGridTextColumn>
             <DataGridTextColumn Header="Datum" Binding="{Binding Date, StringFormat={}{0:dd.MM.yyyy}}" Width="2*"></DataGridTextColumn>

@@ -5,6 +5,7 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
+using System.Windows.Input;
 
 using JetBrains.Annotations;
 
@@ -29,12 +30,22 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
     private Category _selectedCategory;
     private string   _searchTerm;
 
+
     public DispositionViewModel(IDataService dataService, ILogger logger) {
 
         _dataService = dataService;
         _logger = logger;
 
+        ShowPlayer = new Interaction<AudioRecording, Unit>();
+
         ProcessCategory = ReactiveCommand.Create<Category>(cat => SelectedCategory = cat, Observable.Return(true));
+
+        async void Execute(AudioRecording recording) {
+            await ShowPlayer.Handle(recording);
+            var c = 100;
+        }
+
+        ViewPlayerCommand = ReactiveCommand.Create<AudioRecording>(Execute);
 
         this.WhenActivated(d => {
 
@@ -57,12 +68,13 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
 
             _logger.LogDebug("Test log");
 
-            // var interval = TimeSpan.FromMinutes(5);
-            //
-            // Observable
-            //     .Timer(interval, interval)
-            //     .Subscribe(x => { /* do smth every 5m */ })
-            //     .DisposeWith(d);            
+            var interval = TimeSpan.FromSeconds(10);
+            Observable
+                .Timer(interval, interval)
+                .Subscribe(x => {
+                     /* do smth every 5m */
+                })
+                .DisposeWith(d);            
         });
 
         // _categories = dataService
@@ -107,8 +119,21 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
         set => this.RaiseAndSetIfChanged(ref _searchTerm, value);
     }
 
+    private AudioRecording _selectedRecording;
+
+    [NotNull]
+    public AudioRecording SelectedRecording {
+        get => _selectedRecording;
+        set => this.RaiseAndSetIfChanged(ref _selectedRecording, value);
+    }
+
     public ReactiveCommand<Category, Unit> ProcessCategory { get; }
 
     public ViewModelActivator Activator { get; } = new();
+    
+    public ReactiveCommand<AudioRecording, Unit> ViewPlayerCommand { get; set; }
 
+    [NotNull]
+    public Interaction<AudioRecording, Unit> ShowPlayer { get; }
+    
 }
