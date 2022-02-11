@@ -1,0 +1,79 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:avalonia="clr-namespace:LibVLCSharp.Avalonia;assembly=LibVLCSharp.Avalonia"
+             xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
+             xmlns:s="clr-namespace:Avalonia.Svg.Skia;assembly=Avalonia.Svg.Skia"
+             xmlns:controls="clr-namespace:ozz.wpf.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" d:DataContext="{x:Static viewModels:DesignData.AudioPlayerViewModel}"
+             x:Class="ozz.wpf.Views.AudioPlayerView">
+    <UserControl.Styles>
+        <StyleInclude Source="avares://ozz.wpf/AudioPlayer.axaml"></StyleInclude>
+        <Style Selector="Button.cmd_button Image">
+            <Setter Property="Width" Value="60"></Setter>
+            <Setter Property="Height" Value="60"></Setter>
+        </Style>
+        <!-- <Style Selector="Button#PlayOrPauseButton.play_or_pause_button"> -->
+        <!--     <Setter Property="Content"> -->
+        <!--         <Setter.Value> -->
+        <!--             <Template> -->
+        <!--                 ~1~ <PathIcon Data="{StaticResource pause_regular}"/> @1@ -->
+        <!--                 ~1~ <PathIcon Data="{StaticResource play_regular}"/> @1@ -->
+        <!--             </Template> -->
+        <!--         </Setter.Value> -->
+        <!--     </Setter> -->
+        <!-- </Style> -->
+
+        <Style Selector="TextBlock.name">
+            <Setter Property="FontWeight" Value="Light"></Setter>
+            <Setter Property="FontSize" Value="28"></Setter>
+        </Style>
+        <Style Selector="TextBlock.duration">
+            <Setter Property="FontWeight" Value="Light"></Setter>
+            <Setter Property="FontSize" Value="12"></Setter>
+        </Style>
+        <Style Selector="TextBlock.current_time">
+            <Setter Property="FontSize" Value="16"></Setter>
+        </Style>
+    </UserControl.Styles>
+    <Grid RowDefinitions="Auto, Auto, *" Margin="5">
+        <Grid Grid.Row="0" ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto">
+            <TextBlock Classes="name" Text="{Binding Track.Name}" Grid.Row="0" Grid.Column="0"></TextBlock>
+            <TextBlock Classes="duration" Text="{Binding Track.Duration, Converter={StaticResource DurationToStringConverter}}" Grid.Row="1"></TextBlock>
+            <TextBlock
+                Classes="current_time"
+                Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
+                HorizontalAlignment="Right" VerticalAlignment="Center"
+                Text="{Binding CurrentPlayerTime, StringFormat='{}{0:hh\\:mm\\:ss}'}" DockPanel.Dock="Left">
+            </TextBlock>
+        </Grid>
+        <Grid ColumnDefinitions="Auto, *" Grid.Row="1" Margin="0 20 0 0 ">
+            <StackPanel Orientation="Horizontal" Grid.Column="0" Spacing="10">
+                <Button Classes="cmd_button" Command="{Binding Stop}" IsEnabled="{Binding !IsStopped}">
+                    <Image Source="{s:SvgImage /Assets/stop.svg}"></Image>
+                </Button>
+                <Button Classes="cmd_button" x:Name="PlayOrPauseButton" Command="{Binding PlayOrPause}">
+                    <Panel>
+                        <Image Source="{s:SvgImage /Assets/play.svg}" IsVisible="{Binding IsPaused}"></Image>
+                        <Image Source="{s:SvgImage /Assets/pause.svg}" IsVisible="{Binding !IsPaused}"></Image>
+                    </Panel>
+
+                </Button>
+            </StackPanel>
+            <DockPanel Grid.Column="1" Margin="10 0" VerticalAlignment="Center">
+                <controls:PlayerSlider x:Name="PlayerSlider" Grid.Row="3" Orientation="Horizontal" Minimum="0" Maximum="{Binding MediaLength}"
+                                       OutsideValue="{Binding MediaPosition}">
+                </controls:PlayerSlider>
+            </DockPanel>
+        </Grid>
+        <!-- <StackPanel Orientation="Horizontal" Grid.Row="2"> -->
+        <!--     <TextBlock Text="{Binding MediaLength}"></TextBlock> -->
+        <!--     <Button Content="Skip" Command="{Binding ToggleSkip}"></Button> -->
+        <!-- </StackPanel> -->
+        <!-- <avalonia:VideoView x:Name="VideoView" MediaPlayer="{Binding Player}" DockPanel.Dock="Bottom"></avalonia:VideoView> -->
+        <DockPanel Grid.Row="2" LastChildFill="True">
+            <Slider Value="{Binding Volume}" Minimum="0" Maximum="100" TickFrequency="10" TickPlacement="Outside"></Slider>
+        </DockPanel>
+    </Grid>
+</UserControl>

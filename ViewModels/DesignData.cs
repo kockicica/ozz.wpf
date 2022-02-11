@@ -11,7 +11,7 @@ namespace ozz.wpf.ViewModels;
 
 public static class DesignData {
 
-    public static DispositionViewModel DispositionViewModel => new(new DesignTimeDataService(), Log.Logger);
+    public static DispositionViewModel DispositionViewModel => new(new DesignTimeDataService(), null);
 
     public static AudioRecordingsListViewModel AudioRecordingsListViewModel => new() {
         Recordings = new ObservableCollection<AudioRecording>(new List<AudioRecording> {
@@ -20,7 +20,7 @@ public static class DesignData {
         })
     };
 
-    public static AudioPlayerViewModel AudioPlayerViewModel => new AudioPlayerViewModel {
+    public static AudioPlayerViewModel AudioPlayerViewModel => new AudioPlayerViewModel(Log.Logger) {
         Track = new() { Id = 1, Name = "Recording 1", Duration = 90000000000, Category = "REKLAME", Date = new DateTime(2022, 2, 5) },
     };
 

@@ -9,7 +9,6 @@
              x:Class="ozz.wpf.Views.AudioRecordingsListView">
 
     <UserControl.Resources>
-        <services:DurationToStringConverter x:Key="DurationToStringConverter" />
     </UserControl.Resources>
 
     <UserControl.Styles>

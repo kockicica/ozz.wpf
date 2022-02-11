@@ -1,7 +1,11 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:ozz.wpf"
+             xmlns:services="clr-namespace:ozz.wpf.Services"
              x:Class="ozz.wpf.App">
+    <Application.Resources>
+        <services:DurationToStringConverter x:Key="DurationToStringConverter" />
+    </Application.Resources>
     <Application.DataTemplates>
         <local:ViewLocator />
     </Application.DataTemplates>
@@ -9,9 +13,8 @@
     <Application.Styles>
         <FluentTheme Mode="Light" />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
-        <Style Selector="Button">
-            <Setter Property="FontSize" Value="16"></Setter>
-            <!-- <Setter Property="Background" Value="#00000000"></Setter> -->
-        </Style>
+        <StyleInclude Source="avares://Aura.UI.FluentTheme/AuraUI.xaml"></StyleInclude>
+        <StyleInclude Source="avares://ozz.wpf/Icons.axaml" />
+        <StyleInclude Source="avares://ozz.wpf/Styles/PlayerSlider.axaml" />
     </Application.Styles>
 </Application>

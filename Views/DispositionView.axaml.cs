@@ -14,6 +14,10 @@ using ozz.wpf.ViewModels;
 
 using ReactiveUI;
 
+using Splat;
+
+using ILogger = Serilog.ILogger;
+
 namespace ozz.wpf.Views;
 
 public partial class DispositionView : ReactiveUserControl<DispositionViewModel> {
@@ -33,11 +37,16 @@ public partial class DispositionView : ReactiveUserControl<DispositionViewModel>
     private async Task DoShowDialogAsync(InteractionContext<AudioRecording, Unit> interactionContext) {
         if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
             if (desktop.MainWindow is MainWindow wnd) {
-                var modal = new AudioPlayerWindow {
-                    DataContext = new AudioPlayerViewModel { Track = interactionContext.Input }
+                var vm = Locator.Current.GetService<AudioPlayerViewModel>();
+                vm.Track = interactionContext.Input;
+                //var modal = new DialogWindow() { DataContext = new DialogWindowViewModel(){Content = vm} };
+
+                var modal = new ModalAudioPlayerWindow {
+                    DataContext = vm
                 };
                 wnd.ShowOverlay();
                 await modal.ShowDialog(wnd);
+                //await Task.Delay(1000);
                 wnd.HideOverlay();
 
             }

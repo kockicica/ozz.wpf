@@ -7,8 +7,8 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ozz.wpf.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        WindowStartupLocation="CenterScreen"
-        Title="ozz.wpf">
+        WindowStartupLocation="CenterScreen" 
+        Title="OZZZZZZZZZ-o-matic">
     
     <Window.Styles>
         <Style Selector="Grid#Overlay">
@@ -20,7 +20,6 @@
         <vm:MainWindowViewModel />
     </Design.DataContext>
     <Grid x:Name="LayoutRoot">
-
         <Grid x:Name="Overlay" Panel.ZIndex="1000">
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity=".4"/>

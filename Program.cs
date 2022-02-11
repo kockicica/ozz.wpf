@@ -8,8 +8,10 @@ using Avalonia.ReactiveUI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using ozz.wpf.Dialog;
 using ozz.wpf.Services;
 using ozz.wpf.ViewModels;
+using ozz.wpf.Views;
 
 using ReactiveUI;
 
@@ -52,7 +54,7 @@ namespace ozz.wpf {
             //Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
             //Locator.CurrentMutable.Register<IViewFor<DispositionViewModel>>(() => new MainWindow);
             //Locator.CurrentMutable.Register<IViewFor<AudioRecordingsListViewModel>>(() => new AudioRecordingsListViewModel());
-            //Locator.CurrentMutable.Register<IViewFor<AudioPlayerViewModel>>(() => new AudioPlayerViewModel());
+            Locator.CurrentMutable.Register(() => new AudioPlayerViewModel(Locator.Current.GetService<ILogger>()));
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
 

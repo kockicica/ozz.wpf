@@ -2,6 +2,8 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
+using LibVLCSharp.Shared;
+
 using ozz.wpf.ViewModels;
 using ozz.wpf.Views;
 
@@ -12,6 +14,7 @@ namespace ozz.wpf {
     public partial class App : Application {
 
         public override void Initialize() {
+            Core.Initialize();
             AvaloniaXamlLoader.Load(this);
         }
 

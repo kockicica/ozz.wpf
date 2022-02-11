@@ -22,7 +22,6 @@ namespace ozz.wpf.Views
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-            Core.Initialize();
         }
 
         public void ShowOverlay() {

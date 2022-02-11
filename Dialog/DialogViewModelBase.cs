@@ -3,6 +3,9 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Windows.Input;
 
+using Avalonia.Controls;
+using Avalonia.ReactiveUI;
+
 using JetBrains.Annotations;
 
 using ozz.wpf.ViewModels;
@@ -11,7 +14,7 @@ using ReactiveUI;
 
 namespace ozz.wpf.Dialog;
 
-public class DialogViewModelBase<TResult> : ViewModelBase where TResult : DialogResultBase {
+public class DialogViewModelBase<TResult> : ViewModelBase, IActivatableViewModel where TResult : DialogResultBase {
 
     //public event EventHandler<DialogResultEventArgs<TResult>> CloseRequested;
 
@@ -31,6 +34,7 @@ public class DialogViewModelBase<TResult> : ViewModelBase where TResult : Dialog
     }
 
     public IObservable<TResult> CloseRequested => _closeRequested.AsObservable();
+    public ViewModelActivator   Activator      { get; } = new();
 
 }
 

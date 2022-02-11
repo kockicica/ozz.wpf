@@ -2,12 +2,15 @@ using System;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Threading;
 
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.ReactiveUI;
 
 using ReactiveUI;
+
+using Splat;
 
 namespace ozz.wpf.Dialog;
 
@@ -28,8 +31,10 @@ public class DialogWindowBase<TResult> : ReactiveWindow<DialogViewModelBase<TRes
         this.WhenActivated(disposables => {
 
             ViewModel!.CloseRequested.Subscribe(Observer.Create<TResult>(Close)).DisposeWith(disposables);
+
             disposables.Add(sub);
         });
+
     }
 
     private void CenterDialog() {
@@ -43,7 +48,7 @@ public class DialogWindowBase<TResult> : ReactiveWindow<DialogViewModelBase<TRes
         MaxWidth = MinWidth = Width;
         MaxHeight = MinHeight = Height;
     }
-    
+
 }
 
 public class DialogWindowBase : DialogWindowBase<DialogResultBase> { }
