@@ -1,36 +1,64 @@
 <Window xmlns="https://github.com/avaloniaui"
+        xmlns:i="using:Avalonia.Xaml.Interactivity"
+        xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+        xmlns:iac="using:Avalonia.Xaml.Interactions.Custom"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        xmlns:vlc="clr-namespace:LibVLCSharp.Avalonia;assembly=LibVLCSharp.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="120" d:DesignHeight="450"
         xmlns:views="clr-namespace:ozz.wpf.Views"
+        xmlns:models="clr-namespace:ozz.wpf.Models"
         x:Class="ozz.wpf.Views.ModalAudioPlayerWindow"
-        d:DataContext="{x:Static viewModels:DesignData.AudioPlayerViewModel}"
-        WindowStartupLocation="CenterOwner" ShowInTaskbar="False" SystemDecorations="Full"
+        d:DataContext="{x:Static viewModels:DesignData.ModalAudioPlayer}"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False" SystemDecorations="None"
         SizeToContent="WidthAndHeight" CanResize="False"
         MinHeight="400" MinWidth="800"
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="PreferSystemChrome"
-        ExtendClientAreaTitleBarHeightHint="-1"        
+        ExtendClientAreaTitleBarHeightHint="-1"
         Title="Preslušavanje snimka">
     <Window.Styles>
+        <Styles>
+            <Style Selector="Button.toggle_eq.on">
+                <Setter Property="Background" Value="Green" />
+            </Style>
+            <Style Selector="Button.toggle_eq.on:pointerover">
+                <Setter Property="Background" Value="Green" />
+            </Style>
+        </Styles>
     </Window.Styles>
     <Border x:Name="Border">
         <Border.Styles>
             <Style Selector="Border#Border">
-                <Setter Property="BorderThickness" Value="1"></Setter>
-                <Setter Property="BorderBrush" Value="Black"></Setter>
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderBrush" Value="Black" />
             </Style>
         </Border.Styles>
-        <DockPanel>
+        <DockPanel LastChildFill="True">
             <DockPanel DockPanel.Dock="Top" Background="Red">
                 <Button Classes="accent" Command="{Binding CloseCommand}" DockPanel.Dock="Right" Margin="3">Close</Button>
-                <TextBlock></TextBlock>
+                <TextBlock />
             </DockPanel>
             <Border Padding="5">
-                <views:AudioPlayerView />
+                <DockPanel LastChildFill="True">
+                    <views:AudioPlayerView DockPanel.Dock="Top" DataContext="{Binding PlayerModel}" />
+                    <Grid ColumnDefinitions="*, Auto">
+                        <views:EqualizerView DataContext="{Binding EqualizerViewModel}" />
+                        <StackPanel Orientation="Vertical" Grid.Column="1">
+                            <Button Command="{Binding EqualizerViewModel.ResetCommand}">Reset</Button>
+                            <ToggleButton IsChecked="{Binding EqualizerOn}" Content="Active" />
+                            <!-- <Button Classes.toggle_eq="True" Classes.on="{Binding EqualizerOn}" Command="{Binding ToggleEqualizer}">Toggle</Button> -->
+                            <ComboBox Items="{Binding Equalizers}" SelectedItem="{Binding EqualizerViewModel.Equalizer}" x:Name="ComboBox">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Equalizer">
+                                        <TextBlock Text="{Binding Name}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+                    </Grid>
+                </DockPanel>
             </Border>
         </DockPanel>
     </Border>

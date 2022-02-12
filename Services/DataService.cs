@@ -1,20 +1,28 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
+using System.Reflection;
 using System.Threading.Tasks;
 
 using Newtonsoft.Json;
 
 using ozz.wpf.Models;
 
+using Serilog;
+
 namespace ozz.wpf.Services;
 
 public class DataService : IDataService {
 
+    private readonly ILogger            _logger;
     private readonly IHttpClientFactory _clientFactory;
 
-    public DataService(IHttpClientFactory clientFactory) {
+    public DataService(IHttpClientFactory clientFactory, ILogger logger) {
         _clientFactory = clientFactory;
+        _logger = logger;
     }
 
     public async Task<IEnumerable<Category>> Categories() {
@@ -26,8 +34,6 @@ public class DataService : IDataService {
         rsp.EnsureSuccessStatusCode();
         var data = JsonConvert.DeserializeObject<IEnumerable<Category>>(stream);
         return data;
-
-
 
     }
 
@@ -43,6 +49,128 @@ public class DataService : IDataService {
         rsp.EnsureSuccessStatusCode();
         var data = JsonConvert.DeserializeObject<IEnumerable<AudioRecording>>(stream);
         return data;
+    }
+
+    public async Task<IEnumerable<Equalizer>?> Equalizers() {
+        var cl = _clientFactory.CreateClient("default");
+        var url = $"/api/equalizers";
+
+        try {
+            var res = await cl.GetFromJsonAsync<IEnumerable<EqualizerResponse>>(url);
+            return res.Select(x => x.ToEqualizer());
+        }
+        catch (Exception e) {
+            _logger.Error("Error retrieving equalizers: {@e}", e);
+            return null;
+        }
+    }
+
+    public async Task<Equalizer?> Equalizer(int id) {
+        var cl = _clientFactory.CreateClient("default");
+        var url = $"/api/equalizers/{id}";
+
+        try {
+            var res = await cl.GetFromJsonAsync<EqualizerResponse>(url);
+            return res.ToEqualizer();
+        }
+        catch (Exception e) {
+            _logger.Error("Error retrieving equalizers: {@e}", e);
+            return null;
+        }
+    }
+
+    public async Task<Equalizer?> CreateEqualizer(Equalizer eq) {
+        var cl = _clientFactory.CreateClient("default");
+        var url = $"/api/equalizers";
+
+        try {
+            var res = await cl.PostAsJsonAsync(url, eq);
+            var saved = await res.Content.ReadFromJsonAsync<EqualizerResponse>();
+            return saved.ToEqualizer();
+        }
+        catch (Exception e) {
+            _logger.Error("Error creating equalizer: {@e}", e);
+            return null;
+        }
+    }
+
+    public async Task DeleteEqualizer(int id) {
+        var cl = _clientFactory.CreateClient("default");
+        var url = $"/api/equalizers/{id}";
+
+        try {
+            await cl.DeleteAsync(url);
+        }
+        catch (Exception e) {
+            _logger.Error("Error updating equalizer: {@e}", e);
+        }
+    }
+
+    public async Task<Equalizer?> UpdateEqualizer(int id, Equalizer eq) {
+        var cl = _clientFactory.CreateClient("default");
+        var url = $"/api/equalizers/{id}";
+
+        try {
+            var res = await cl.PutAsJsonAsync(url, EqualizerResponse.FromEqualizer(eq));
+            var saved = await res.Content.ReadFromJsonAsync<EqualizerResponse>();
+            return saved.ToEqualizer();
+        }
+        catch (Exception e) {
+            _logger.Error("Error updating equalizer: {@e}", e);
+            return null;
+        }
+    }
+
+    private class EqualizerResponse {
+        public int    Id     { get; set; }
+        public string Name   { get; set; }
+        public double PreAmp { get; set; }
+        public double Amp1   { get; set; }
+        public double Amp2   { get; set; }
+        public double Amp3   { get; set; }
+        public double Amp4   { get; set; }
+        public double Amp5   { get; set; }
+        public double Amp6   { get; set; }
+        public double Amp7   { get; set; }
+        public double Amp8   { get; set; }
+        public double Amp9   { get; set; }
+        public double Amp10  { get; set; }
+
+        public Equalizer ToEqualizer() {
+
+            var bands = new EqualizerBand[10];
+            for (int i = 0; i < 10; i++) {
+                bands[i].Number = i;
+                if (typeof(Equalizer).GetProperty($"Amp{i + 1}") is { } pi) {
+                    var val = pi.GetValue(this);
+                    if (val != null) {
+                        bands[i].Amp = (double)val;
+                    }
+                }
+            }
+
+            return new Equalizer {
+                Id = Id,
+                Name = Name,
+                PreAmp = PreAmp,
+                Bands = new ObservableCollection<EqualizerBand>(bands)
+            };
+        }
+
+        public static EqualizerResponse FromEqualizer(Equalizer eq) {
+            var rsp = new EqualizerResponse {
+                Id = eq.Id,
+                Name = eq.Name,
+                PreAmp = eq.PreAmp
+            };
+
+            foreach (var equalizerBand in eq.Bands) {
+                if (typeof(EqualizerResponse).GetProperty($"Amb{equalizerBand.Number}") is { } pi) {
+                    pi.SetValue(rsp, equalizerBand.Amp);
+                }
+            }
+            return rsp;
+        }
     }
 
 }

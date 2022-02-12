@@ -46,15 +46,22 @@ namespace ozz.wpf {
                                             })
                                         .Build();
 
-            Locator.CurrentMutable.Register<IDataService>(() => new DataService(Locator.Current.GetService<IHttpClientFactory>()));
+            Locator.CurrentMutable.Register<IDataService>(
+                () => new DataService(Locator.Current.GetService<IHttpClientFactory>(), Locator.Current.GetService<ILogger>()));
             Locator.CurrentMutable.Register(
-                () => new DispositionViewModel(Locator.Current.GetService<IDataService>(), Locator.Current.GetService<ILogger>()));
+                () => new DispositionViewModel(Locator.Current.GetService<IDataService>(),
+                                               Locator.Current.GetService<ILogger>(),
+                                               Locator.Current.GetService<IEqualizerPresetFactory>()
+                )
+            );
             Locator.CurrentMutable.Register<IHttpClientFactory>(() => host.Services.GetService<IHttpClientFactory>());
             Locator.CurrentMutable.Register(() => Log.Logger);
             //Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
             //Locator.CurrentMutable.Register<IViewFor<DispositionViewModel>>(() => new MainWindow);
             //Locator.CurrentMutable.Register<IViewFor<AudioRecordingsListViewModel>>(() => new AudioRecordingsListViewModel());
             Locator.CurrentMutable.Register(() => new AudioPlayerViewModel(Locator.Current.GetService<ILogger>()));
+            Locator.CurrentMutable.Register(() => new ModalAudioPlayerViewModel(Locator.Current.GetService<ILogger>()));
+            Locator.CurrentMutable.Register<IEqualizerPresetFactory>(() => new VLCEqualizePresetFactory());
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
 

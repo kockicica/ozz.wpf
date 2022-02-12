@@ -20,4 +20,23 @@ public class DesignTimeDataService: IDataService {
         return Task.FromResult(new List<AudioRecording>().AsEnumerable());
     }
 
+    public Task<IEnumerable<Equalizer>?> Equalizers() {
+        return Task.FromResult(new List<Equalizer>().AsEnumerable())!;
+    }
+
+    public async Task<Equalizer?> Equalizer(int id) {
+        throw new System.NotImplementedException();
+    }
+
+    public async Task<Equalizer?> CreateEqualizer(Equalizer eq) {
+        throw new System.NotImplementedException();
+    }
+
+    public Task DeleteEqualizer(int id) {
+        return Task.CompletedTask;
+    }
+
+    public async Task<Equalizer?> UpdateEqualizer(int id, Equalizer eq) {
+        throw new System.NotImplementedException();
+    }
 }

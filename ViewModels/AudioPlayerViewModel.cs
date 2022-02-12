@@ -1,4 +1,5 @@
 using System;
+using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Windows.Input;
@@ -11,6 +12,9 @@ using ozz.wpf.Models;
 using ReactiveUI;
 
 using Serilog;
+
+using Equalizer = LibVLCSharp.Shared.Equalizer;
+using EqualizerModel = ozz.wpf.Models.Equalizer;
 
 namespace ozz.wpf.ViewModels;
 
@@ -40,6 +44,8 @@ public class AudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
 
     private int _volume = 30;
 
+    private EqualizerModel _equalizer = EqualizerModel.Default;
+
     public AudioPlayerViewModel(ILogger logger) {
 
         _logger = logger;
@@ -50,6 +56,14 @@ public class AudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
         Pause = ReactiveCommand.Create(HandlePause);
         Stop = ReactiveCommand.Create(HandleStop);
         PlayOrPause = ReactiveCommand.Create(HandlePlayOrPause);
+
+        // var eq = new Equalizer();
+        // var count = eq.PresetCount;
+        // var bc = eq.BandCount;
+        // for (uint i = 0; i < count; i++) {
+        //     var pName = eq.PresetName(i);
+        //     _logger.Debug("Preseet name: {@name}", pName);
+        // }
 
 
         this.WhenActivated(disposables => {
@@ -153,6 +167,14 @@ public class AudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
         }
     }
 
+    public EqualizerModel Equalizer {
+        get => _equalizer;
+        set {
+            Player.SetEqualizer(FromModel(value));
+            this.RaiseAndSetIfChanged(ref _equalizer, value);
+        }
+    }
+
     public void Seek(double position) {
         Player.SeekTo(TimeSpan.FromMilliseconds(position));
     }
@@ -175,6 +197,7 @@ public class AudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
 
     private void HandlePlay() {
         Player.Volume = Volume;
+        Player.SetEqualizer(FromModel(Equalizer));
 
         //var eq = new Equalizer();
         //Player.SetEqualizer(new Equalizer());
@@ -192,6 +215,14 @@ public class AudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
         Player.Stop();
     }
 
+    private Equalizer FromModel(EqualizerModel mdl) {
+        var eq = new Equalizer();
+        eq.SetPreamp((float)mdl.PreAmp);
+        foreach (var equalizerBand in mdl.Bands) {
+            eq.SetAmp((float)equalizerBand.Amp, (uint)equalizerBand.Number);
+        }
+        return eq;
+    }
 }
 
 public enum MediaPlayerState {

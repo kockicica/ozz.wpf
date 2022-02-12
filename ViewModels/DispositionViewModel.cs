@@ -1,41 +1,56 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
-using System.Windows.Input;
+using System.Threading.Tasks;
+
+using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
 
 using JetBrains.Annotations;
 
 using ozz.wpf.Models;
 using ozz.wpf.Services;
+using ozz.wpf.Views;
 
 using ReactiveUI;
 
-using Serilog;
+using Splat;
+
+using ILogger = Serilog.ILogger;
+using EqualizerModel = ozz.wpf.Models.Equalizer;
+using Equalizer = LibVLCSharp.Shared.Equalizer;
 
 namespace ozz.wpf.ViewModels;
 
 public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
 
+    private readonly IDataService _dataService;
+
+    private readonly ILogger _logger;
+
+    private readonly IEqualizerPresetFactory _equalizerPresetFactory;
+
     private ObservableAsPropertyHelper<IEnumerable<Category>> _categories;
 
     private ObservableAsPropertyHelper<IEnumerable<AudioRecording>> _recordings;
 
-    private readonly ILogger _logger;
+    private string _searchTerm;
 
     private Category _selectedCategory;
 
-    private string _searchTerm;
+    private AudioRecording _selectedRecording;
 
-    private readonly IDataService _dataService;
-
-    public DispositionViewModel(IDataService dataService, ILogger logger) {
+    public DispositionViewModel(IDataService dataService, ILogger logger, IEqualizerPresetFactory equalizerPresetFactory) {
 
         _dataService = dataService;
         _logger = logger;
+        _equalizerPresetFactory = equalizerPresetFactory;
 
         ShowPlayer = new Interaction<AudioRecording, Unit>();
 
@@ -43,7 +58,6 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
 
         async void Execute(AudioRecording recording) {
             await ShowPlayer.Handle(recording);
-            var c = 100;
         }
 
         ViewPlayerCommand = ReactiveCommand.Create<AudioRecording>(Execute);
@@ -76,6 +90,8 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
                     /* do smth every 5m */
                 })
                 .DisposeWith(d);
+
+            ShowPlayer.RegisterHandler(DoShowDialogAsync).DisposeWith(d);
         });
 
     }
@@ -101,8 +117,6 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
         set => this.RaiseAndSetIfChanged(ref _searchTerm, value);
     }
 
-    private AudioRecording _selectedRecording;
-
     [NotNull]
     public AudioRecording SelectedRecording {
         get => _selectedRecording;
@@ -111,11 +125,48 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
 
     public ReactiveCommand<Category, Unit> ProcessCategory { get; }
 
-    public ViewModelActivator Activator { get; } = new();
-
     public ReactiveCommand<AudioRecording, Unit> ViewPlayerCommand { get; set; }
 
     [NotNull]
     public Interaction<AudioRecording, Unit> ShowPlayer { get; }
 
+    #region IActivatableViewModel Members
+
+    public ViewModelActivator Activator { get; } = new();
+
+    #endregion
+
+
+    private async Task DoShowDialogAsync(InteractionContext<AudioRecording, Unit> interactionContext) {
+        if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
+            if (desktop.MainWindow is MainWindow wnd) {
+                
+                var vm = Locator.Current.GetService<ModalAudioPlayerViewModel>();
+                var pl = Locator.Current.GetService<AudioPlayerViewModel>();
+
+                pl.Track = interactionContext.Input;
+                
+                vm.PlayerModel = pl;
+                vm.EqualizerViewModel = new EqualizerViewModel {
+                    //Equalizer = (await _equalizerPresetFactory.GetPresets()).FirstOrDefault()
+                };
+                vm.Equalizers = new ObservableCollection<EqualizerModel>(await _equalizerPresetFactory.GetPresets());
+                vm.EqualizerViewModel.Equalizer = vm.Equalizers.FirstOrDefault();
+                
+                var modal = new ModalAudioPlayerWindow {
+                    DataContext = vm
+                };
+                wnd.ShowOverlay();
+                await modal.ShowDialog(wnd);
+                //await Task.Delay(1000);
+                wnd.HideOverlay();
+
+            }
+
+        }
+
+        interactionContext.SetOutput(Unit.Default);
+
+        //return Task.CompletedTask;
+    }
 }
