@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -25,33 +24,28 @@ using ReactiveUI;
 using Splat;
 
 using EqualizerModel = ozz.wpf.Models.Equalizer;
-using Equalizer = LibVLCSharp.Shared.Equalizer;
 
 namespace ozz.wpf.ViewModels;
 
 public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
 
-    private readonly IDataService _dataService;
+    private readonly IDataService                                            _dataService;
+    private readonly ILogger<DialogWindowViewModel>                          _logger;
+    private readonly IEqualizerPresetFactory                                 _equalizerPresetFactory;
+    private readonly IResolver                                               _resolver;
+    private          ObservableAsPropertyHelper<IEnumerable<Category>>       _categories;
+    private          ObservableAsPropertyHelper<IEnumerable<AudioRecording>> _recordings;
+    private          string                                                  _searchTerm;
+    private          Category                                                _selectedCategory;
+    private          AudioRecording                                          _selectedRecording;
 
-    private readonly ILogger<DialogWindowViewModel> _logger;
-
-    private readonly IEqualizerPresetFactory _equalizerPresetFactory;
-
-    private ObservableAsPropertyHelper<IEnumerable<Category>> _categories;
-
-    private ObservableAsPropertyHelper<IEnumerable<AudioRecording>> _recordings;
-
-    private string _searchTerm;
-
-    private Category _selectedCategory;
-
-    private AudioRecording _selectedRecording;
-
-    public DispositionViewModel(IDataService dataService, ILogger<DialogWindowViewModel> logger, IEqualizerPresetFactory equalizerPresetFactory) {
+    public DispositionViewModel(IDataService dataService, ILogger<DialogWindowViewModel> logger, IEqualizerPresetFactory equalizerPresetFactory,
+                                IResolver resolver) {
 
         _dataService = dataService;
         _logger = logger;
         _equalizerPresetFactory = equalizerPresetFactory;
+        _resolver = resolver;
 
         ShowPlayer = new Interaction<AudioRecording, Unit>();
 
@@ -141,19 +135,19 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
     private async Task DoShowDialogAsync(InteractionContext<AudioRecording, Unit> interactionContext) {
         if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
             if (desktop.MainWindow is MainWindow wnd) {
-                
-                var vm = Locator.Current.GetService<ModalAudioPlayerViewModel>();
-                var pl = Locator.Current.GetService<AudioPlayerViewModel>();
+
+                var vm = _resolver.GetService<ModalAudioPlayerViewModel>();
+                var pl = _resolver.GetService<AudioPlayerViewModel>();
 
                 pl.Track = interactionContext.Input;
-                
+
                 vm.PlayerModel = pl;
                 vm.EqualizerViewModel = new EqualizerViewModel {
                     //Equalizer = (await _equalizerPresetFactory.GetPresets()).FirstOrDefault()
                 };
                 vm.Equalizers = new ObservableCollection<EqualizerModel>(await _equalizerPresetFactory.GetPresets());
                 vm.EqualizerViewModel.Equalizer = vm.Equalizers.FirstOrDefault();
-                
+
                 var modal = new ModalAudioPlayerWindow {
                     DataContext = vm
                 };

@@ -60,6 +60,7 @@ namespace ozz.wpf {
 
                                //s.AddSingleton<IDataService, DataService>();
                                s.AddSingleton<IEqualizerPresetFactory, VLCEqualizePresetFactory>();
+                               s.AddSingleton<IResolver, LocatorBasedResolver>();
 
                                s.AddSingleton<MainWindowViewModel>();
                                s.AddSingleton<DispositionViewModel>();

@@ -16,7 +16,8 @@ public static class DesignData {
     public static DispositionViewModel DispositionViewModel
         => new(new DesignTimeDataService(),
                NullLogger<DialogWindowViewModel>.Instance,
-               new VLCEqualizePresetFactory(NullLogger<VLCEqualizePresetFactory>.Instance));
+               new VLCEqualizePresetFactory(NullLogger<VLCEqualizePresetFactory>.Instance),
+               new LocatorBasedResolver());
 
     public static AudioRecordingsListViewModel AudioRecordingsListViewModel => new() {
         Recordings = new ObservableCollection<AudioRecording>(new List<AudioRecording> {
