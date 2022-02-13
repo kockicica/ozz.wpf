@@ -15,7 +15,7 @@ namespace ozz.wpf.ViewModels;
 
 public class ModalAudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
 
-    private bool _equalizerOn;
+    private bool _equalizerOn = true;
 
     private ObservableCollection<Equalizer> _equalizers;
 
