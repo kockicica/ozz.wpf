@@ -5,12 +5,13 @@ using Avalonia.Markup.Xaml;
 using LibVLCSharp.Avalonia;
 
 using ozz.wpf.Dialog;
+using ozz.wpf.ViewModels;
+
+using ReactiveUI;
 
 namespace ozz.wpf.Views;
 
 public partial class ModalAudioPlayerWindow : DialogWindowBase<DialogResultBase> {
-
-    VideoView _videoView;
 
     public ModalAudioPlayerWindow() {
         InitializeComponent();
@@ -18,7 +19,13 @@ public partial class ModalAudioPlayerWindow : DialogWindowBase<DialogResultBase>
         this.AttachDevTools();
 
 #endif
-        this._videoView = this.FindControl<VideoView>("VideoView");
+        this.WhenActivated(d => {
+            if (DataContext is ModalAudioPlayerViewModel vm) {
+                if (vm.AutoPlay) {
+                    vm.PlayerModel.Play.Execute(null);
+                }
+            }
+        });
     }
 
     private void InitializeComponent() {

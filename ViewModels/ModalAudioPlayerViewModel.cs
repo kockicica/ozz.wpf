@@ -25,15 +25,11 @@ public class ModalAudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
 
         _logger = logger;
 
-        ToggleEqualizer = ReactiveCommand.Create(() => {
-            EqualizerOn = !EqualizerOn;
-        });
+        ToggleEqualizer = ReactiveCommand.Create(() => { EqualizerOn = !EqualizerOn; });
 
         this.WhenActivated(d => {
             this.WhenAnyValue(x => x.EqualizerOn)
-                .Subscribe(b => {
-                    PlayerModel!.Equalizer = b ? EqualizerViewModel!.Equalizer : Equalizer.Default;
-                })
+                .Subscribe(b => { PlayerModel!.Equalizer = b ? EqualizerViewModel!.Equalizer : Equalizer.Default; })
                 .DisposeWith(d);
 
             EqualizerViewModel!
@@ -59,4 +55,6 @@ public class ModalAudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
         get => _equalizerOn;
         set => this.RaiseAndSetIfChanged(ref _equalizerOn, value);
     }
+
+    public bool AutoPlay { get; set; }
 }

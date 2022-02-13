@@ -142,6 +142,7 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
                 pl.Track = interactionContext.Input;
 
                 vm.PlayerModel = pl;
+                vm.AutoPlay = true;
                 vm.EqualizerViewModel = new EqualizerViewModel {
                     //Equalizer = (await _equalizerPresetFactory.GetPresets()).FirstOrDefault()
                 };
