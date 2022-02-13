@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Reflection;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -13,18 +12,19 @@ using Newtonsoft.Json;
 
 using ozz.wpf.Models;
 
-
 namespace ozz.wpf.Services;
 
 public class Client : IClient {
+    private readonly HttpClient _client;
 
     private readonly ILogger<Client> _logger;
-    private readonly HttpClient          _client;
 
     public Client(ILogger<Client> logger, HttpClient client) {
         _logger = logger;
         _client = client;
     }
+
+    #region IClient Members
 
     public async Task<IEnumerable<Category>> Categories() {
 
@@ -85,7 +85,7 @@ public class Client : IClient {
         var url = $"/api/equalizers";
 
         try {
-            var res = await cl.PostAsJsonAsync(url, eq);
+            var res = await cl.PostAsJsonAsync(url, EqualizerResponse.FromEqualizer(eq));
             res.EnsureSuccessStatusCode();
             var saved = await res.Content.ReadFromJsonAsync<EqualizerResponse>();
             return saved.ToEqualizer();
@@ -138,8 +138,12 @@ public class Client : IClient {
             _logger.LogError("Error getting equalizer by name: {@e}", e);
             return null;
         }
-        
+
     }
+
+    #endregion
+
+    #region Nested type: EqualizerResponse
 
     private class EqualizerResponse {
         public int    Id     { get; set; }
@@ -192,5 +196,7 @@ public class Client : IClient {
             return rsp;
         }
     }
+
+    #endregion
 
 }
