@@ -7,7 +7,9 @@ using System.Windows.Input;
 using LibVLCSharp.Shared;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
+using ozz.wpf.Config;
 using ozz.wpf.Dialog;
 using ozz.wpf.Models;
 
@@ -46,8 +48,10 @@ public class AudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
 
     private EqualizerModel _equalizer = EqualizerModel.Default;
 
-    public AudioPlayerViewModel(ILogger<AudioPlayerViewModel> logger) {
+    public AudioPlayerViewModel(ILogger<AudioPlayerViewModel> logger, IOptions<AudioPlayerConfiguration> options) {
 
+        _volume = options.Value.Volume.GetValueOrDefault();
+        
         _logger = logger;
         _libVLC = new LibVLC("--no-video");
         _mediaPlayer = new MediaPlayer(_libVLC);

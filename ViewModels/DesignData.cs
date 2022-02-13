@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
 
+using ozz.wpf.Config;
 using ozz.wpf.Models;
 using ozz.wpf.Services;
-
-using Serilog;
 
 namespace ozz.wpf.ViewModels;
 
@@ -25,9 +25,11 @@ public static class DesignData {
         })
     };
 
-    public static AudioPlayerViewModel AudioPlayerViewModel => new AudioPlayerViewModel(NullLogger<AudioPlayerViewModel>.Instance) {
-        Track = new() { Id = 1, Name = "Recording 1", Duration = 90000000000, Category = "REKLAME", Date = new DateTime(2022, 2, 5) },
-    };
+    public static AudioPlayerViewModel AudioPlayerViewModel
+        => new(NullLogger<AudioPlayerViewModel>.Instance,
+               new OptionsWrapper<AudioPlayerConfiguration>(new AudioPlayerConfiguration())) {
+            Track = new() { Id = 1, Name = "Recording 1", Duration = 90000000000, Category = "REKLAME", Date = new DateTime(2022, 2, 5) },
+        };
 
     public static EqualizerViewModel Equalizer => new() {
         Equalizer = new() {

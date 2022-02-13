@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Net.Http;
-using System.Reflection;
 
 using Avalonia;
 using Avalonia.ReactiveUI;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
-using ozz.wpf.Dialog;
+using ozz.wpf.Config;
 using ozz.wpf.Services;
 using ozz.wpf.ViewModels;
-using ozz.wpf.Views;
 
 using ReactiveUI;
 
@@ -22,8 +19,6 @@ using Serilog.Events;
 using Splat;
 using Splat.Microsoft.Extensions.DependencyInjection;
 using Splat.Microsoft.Extensions.Logging;
-
-using ILogger = Serilog.ILogger;
 
 namespace ozz.wpf {
 
@@ -52,28 +47,52 @@ namespace ozz.wpf {
                            //                  .WriteTo.Console()
                            //                  .WriteTo.File("log-.log", rollingInterval: RollingInterval.Day);
                            // })
-                           .ConfigureServices(
-                               s => {
-                                   s.UseMicrosoftDependencyResolver();
-                                   var resolver = Locator.CurrentMutable;
-                                   resolver.InitializeSplat();
-                                   resolver.InitializeReactiveUI();
+                           .ConfigureServices((ctx, s) => {
+                               s.UseMicrosoftDependencyResolver();
+                               var resolver = Locator.CurrentMutable;
+                               resolver.InitializeSplat();
+                               resolver.InitializeReactiveUI();
 
-                                   // s.AddHttpClient(client => {
-                                   //     client.BaseAddress = new Uri("http://localhost:27000");
-                                   // });
-                                   //s.AddHttpClient("default", client => { client.BaseAddress = new Uri("http://localhost:27000"); });
+                               // s.AddHttpClient(client => {
+                               //     client.BaseAddress = new Uri("http://localhost:27000");
+                               // });
+                               //s.AddHttpClient("default", client => { client.BaseAddress = new Uri("http://localhost:27000"); });
 
-                                   //s.AddSingleton<IDataService, DataService>();
-                                   s.AddSingleton<IEqualizerPresetFactory, VLCEqualizePresetFactory>();
+                               //s.AddSingleton<IDataService, DataService>();
+                               s.AddSingleton<IEqualizerPresetFactory, VLCEqualizePresetFactory>();
 
-                                   s.AddSingleton<MainWindowViewModel>();
-                                   s.AddSingleton<DispositionViewModel>();
-                                   s.AddTransient<AudioPlayerViewModel>();
-                                   s.AddTransient<ModalAudioPlayerViewModel>();
+                               s.AddSingleton<MainWindowViewModel>();
+                               s.AddSingleton<DispositionViewModel>();
+                               s.AddTransient<AudioPlayerViewModel>();
+                               s.AddTransient<ModalAudioPlayerViewModel>();
 
-                                   s.AddHttpClient<IDataService, DataService>(client => client.BaseAddress = new Uri("http://localhost:27000"));
-                               })
+                               // configure settings
+                               s.AddOptions<ServerConfiguration>()
+                                .Bind(ctx.Configuration.GetSection(ServerConfiguration.Server))
+                                .PostConfigure(configuration => {
+                                    if (string.IsNullOrEmpty(configuration.Url)) {
+                                        configuration.Url = "http://localhost:27000";
+                                    }
+                                });
+
+                               s.AddOptions<AudioPlayerConfiguration>()
+                                .Bind(ctx.Configuration.GetSection(AudioPlayerConfiguration.AudioPlayer))
+                                .PostConfigure(configuration => {
+                                    configuration.Volume ??= 100;
+                                    configuration.Volume = configuration.Volume switch {
+                                        < 0 => 0,
+                                        > 100 => 100,
+                                        _ => configuration.Volume
+                                    };
+                                });
+
+                               s.AddHttpClient<IDataService, DataService>((services, client) => {
+                                   var config = services.GetService<IOptions<ServerConfiguration>>();
+                                   client.BaseAddress = new Uri(config.Value.Url);
+
+                               });
+
+                           })
                            .ConfigureLogging(builder => {
                                builder.AddSerilog();
                                builder.AddSplat();
@@ -93,7 +112,6 @@ namespace ozz.wpf {
                          .UsePlatformDetect()
                          .LogToTrace()
                          .UseReactiveUI();
-
     }
 
 }
