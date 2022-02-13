@@ -29,7 +29,8 @@ namespace ozz.wpf.ViewModels;
 
 public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
 
-    private readonly IDataService                                            _dataService;
+    private readonly IClient                                            _client;
+    private readonly IAudioRecordingsService                                 _audioRecordingsService;
     private readonly ILogger<DialogWindowViewModel>                          _logger;
     private readonly IEqualizerPresetFactory                                 _equalizerPresetFactory;
     private readonly IResolver                                               _resolver;
@@ -39,13 +40,14 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
     private          Category                                                _selectedCategory;
     private          AudioRecording                                          _selectedRecording;
 
-    public DispositionViewModel(IDataService dataService, ILogger<DialogWindowViewModel> logger, IEqualizerPresetFactory equalizerPresetFactory,
-                                IResolver resolver) {
+    public DispositionViewModel(IClient client, ILogger<DialogWindowViewModel> logger, IEqualizerPresetFactory equalizerPresetFactory,
+                                IResolver resolver, IAudioRecordingsService audioRecordingsService) {
 
-        _dataService = dataService;
+        _client = client;
         _logger = logger;
         _equalizerPresetFactory = equalizerPresetFactory;
         _resolver = resolver;
+        _audioRecordingsService = audioRecordingsService;
 
         ShowPlayer = new Interaction<AudioRecording, Unit>();
 
@@ -59,7 +61,7 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
 
         this.WhenActivated(d => {
 
-            _categories = dataService
+            _categories = client
                           .Categories()
                           .ToObservable()
                           .Do(categories => { SelectedCategory = categories.FirstOrDefault()!; })
@@ -72,7 +74,7 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
                                         this.WhenAnyValue(model => model.SearchTerm).Throttle(TimeSpan.FromMilliseconds(300))
                                     )
                                     .Where(x => x != null)
-                                    .SelectMany(_ => _dataService.AudioRecordingsForCategory(SelectedCategory.Id, SearchTerm).ToObservable()
+                                    .SelectMany(_ => _audioRecordingsService.AudioRecordingsForCategory(SelectedCategory.Id, SearchTerm).ToObservable()
                                                                  .Catch(Observable.Return(new List<AudioRecording>())))
                                     .ToProperty(this, x => x.Recordings).DisposeWith(d);
 
@@ -93,7 +95,7 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
 
 
     public IEnumerable<Category> Categories {
-        get => _categories?.Value;
+        get => _categories?.Value ?? new Category[]{new() {Id = 1, Name = "test", Order = 1}};
     }
 
     public IEnumerable<AudioRecording> Recordings {

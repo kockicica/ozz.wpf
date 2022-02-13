@@ -10,15 +10,15 @@ namespace ozz.wpf.Services;
 public class RemoteEqualizePresetFactory : IEqualizerPresetFactory {
 
     private ILogger      _logger;
-    private IDataService _dataService;
+    private IClient _client;
 
-    public RemoteEqualizePresetFactory(ILogger logger, IDataService dataService) {
+    public RemoteEqualizePresetFactory(ILogger logger, IClient client) {
         _logger = logger;
-        _dataService = dataService;
+        _client = client;
     }
 
     public async Task<IEnumerable<Equalizer>> GetPresets() {
-        var data = await _dataService.Equalizers();
+        var data = await _client.Equalizers();
         return data;
     }
 

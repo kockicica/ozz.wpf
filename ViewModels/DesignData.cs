@@ -14,10 +14,10 @@ namespace ozz.wpf.ViewModels;
 public static class DesignData {
 
     public static DispositionViewModel DispositionViewModel
-        => new(new DesignTimeDataService(),
+        => new(new DesignTimeClient(),
                NullLogger<DialogWindowViewModel>.Instance,
                new VLCEqualizePresetFactory(NullLogger<VLCEqualizePresetFactory>.Instance),
-               new LocatorBasedResolver());
+               new LocatorBasedResolver(), new DesignTimeAudioRecordingsService());
 
     public static AudioRecordingsListViewModel AudioRecordingsListViewModel => new() {
         Recordings = new ObservableCollection<AudioRecording>(new List<AudioRecording> {

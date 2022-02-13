@@ -61,6 +61,7 @@ namespace ozz.wpf {
                                //s.AddSingleton<IDataService, DataService>();
                                s.AddSingleton<IEqualizerPresetFactory, VLCEqualizePresetFactory>();
                                s.AddSingleton<IResolver, LocatorBasedResolver>();
+                               s.AddSingleton<IAudioRecordingsService, BackendAudioRecordingsService>();
 
                                s.AddSingleton<MainWindowViewModel>();
                                s.AddSingleton<DispositionViewModel>();
@@ -87,7 +88,7 @@ namespace ozz.wpf {
                                     };
                                 });
 
-                               s.AddHttpClient<IDataService, DataService>((services, client) => {
+                               s.AddHttpClient<IClient, Client>((services, client) => {
                                    var config = services.GetService<IOptions<ServerConfiguration>>();
                                    client.BaseAddress = new Uri(config.Value.Url);
 

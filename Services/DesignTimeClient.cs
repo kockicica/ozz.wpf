@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 using ozz.wpf.Models;
 
-namespace ozz.wpf.Services; 
+namespace ozz.wpf.Services;
 
-public class DesignTimeDataService: IDataService {
+public class DesignTimeClient : IClient {
 
     public Task<IEnumerable<Category>> Categories() {
         return Task.FromResult(new List<Category> {
@@ -39,4 +39,12 @@ public class DesignTimeDataService: IDataService {
     public async Task<Equalizer?> UpdateEqualizer(int id, Equalizer eq) {
         throw new System.NotImplementedException();
     }
+}
+
+public class DesignTimeAudioRecordingsService : IAudioRecordingsService {
+
+    public Task<IEnumerable<AudioRecording>> AudioRecordingsForCategory(int categoryId, string name) {
+        return Task.FromResult(new List<AudioRecording>().AsEnumerable());
+    }
+
 }

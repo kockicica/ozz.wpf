@@ -16,12 +16,12 @@ using ozz.wpf.Models;
 
 namespace ozz.wpf.Services;
 
-public class DataService : IDataService {
+public class Client : IClient {
 
-    private readonly ILogger<DataService> _logger;
+    private readonly ILogger<Client> _logger;
     private readonly HttpClient          _client;
 
-    public DataService(ILogger<DataService> logger, HttpClient client) {
+    public Client(ILogger<Client> logger, HttpClient client) {
         _logger = logger;
         _client = client;
     }

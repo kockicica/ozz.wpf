@@ -5,7 +5,7 @@ using ozz.wpf.Models;
 
 namespace ozz.wpf.Services;
 
-public interface IDataService {
+public interface IClient {
 
     Task<IEnumerable<Category>>       Categories();
     Task<IEnumerable<AudioRecording>> AudioRecordingsForCategory(int categoryId, string name);
