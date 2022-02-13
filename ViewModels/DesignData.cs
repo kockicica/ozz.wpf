@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
+using Microsoft.Extensions.Logging.Abstractions;
+
 using ozz.wpf.Models;
 using ozz.wpf.Services;
 
@@ -11,7 +13,10 @@ namespace ozz.wpf.ViewModels;
 
 public static class DesignData {
 
-    public static DispositionViewModel DispositionViewModel => new(new DesignTimeDataService(), null, new VLCEqualizePresetFactory());
+    public static DispositionViewModel DispositionViewModel
+        => new(new DesignTimeDataService(),
+               NullLogger<DialogWindowViewModel>.Instance,
+               new VLCEqualizePresetFactory(NullLogger<VLCEqualizePresetFactory>.Instance));
 
     public static AudioRecordingsListViewModel AudioRecordingsListViewModel => new() {
         Recordings = new ObservableCollection<AudioRecording>(new List<AudioRecording> {
@@ -20,7 +25,7 @@ public static class DesignData {
         })
     };
 
-    public static AudioPlayerViewModel AudioPlayerViewModel => new AudioPlayerViewModel(Log.Logger) {
+    public static AudioPlayerViewModel AudioPlayerViewModel => new AudioPlayerViewModel(NullLogger<AudioPlayerViewModel>.Instance) {
         Track = new() { Id = 1, Name = "Recording 1", Duration = 90000000000, Category = "REKLAME", Date = new DateTime(2022, 2, 5) },
     };
 
@@ -44,6 +49,6 @@ public static class DesignData {
     };
 
     public static ModalAudioPlayerViewModel ModalAudioPlayer
-        => new(Log.Logger) { EqualizerViewModel = Equalizer, PlayerModel = AudioPlayerViewModel };
+        => new(NullLogger<ModalAudioPlayerViewModel>.Instance) { EqualizerViewModel = Equalizer, PlayerModel = AudioPlayerViewModel };
 
 }

@@ -6,12 +6,12 @@ using System.Windows.Input;
 
 using LibVLCSharp.Shared;
 
+using Microsoft.Extensions.Logging;
+
 using ozz.wpf.Dialog;
 using ozz.wpf.Models;
 
 using ReactiveUI;
-
-using Serilog;
 
 using Equalizer = LibVLCSharp.Shared.Equalizer;
 using EqualizerModel = ozz.wpf.Models.Equalizer;
@@ -20,7 +20,7 @@ namespace ozz.wpf.ViewModels;
 
 public class AudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
 
-    private readonly ILogger _logger;
+    private readonly ILogger<AudioPlayerViewModel> _logger;
 
     private ObservableAsPropertyHelper<TimeSpan> _currentPlayerTime;
 
@@ -46,7 +46,7 @@ public class AudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
 
     private EqualizerModel _equalizer = EqualizerModel.Default;
 
-    public AudioPlayerViewModel(ILogger logger) {
+    public AudioPlayerViewModel(ILogger<AudioPlayerViewModel> logger) {
 
         _logger = logger;
         _libVLC = new LibVLC("--no-video");

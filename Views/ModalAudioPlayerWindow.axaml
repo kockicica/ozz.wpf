@@ -6,14 +6,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
-        mc:Ignorable="d" d:DesignWidth="120" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="120" d:DesignHeight="850"
         xmlns:views="clr-namespace:ozz.wpf.Views"
         xmlns:models="clr-namespace:ozz.wpf.Models"
         x:Class="ozz.wpf.Views.ModalAudioPlayerWindow"
         d:DataContext="{x:Static viewModels:DesignData.ModalAudioPlayer}"
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False" SystemDecorations="None"
         SizeToContent="WidthAndHeight" CanResize="False"
-        MinHeight="400" MinWidth="800"
+        MinHeight="500" MinWidth="800"
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="PreferSystemChrome"
         ExtendClientAreaTitleBarHeightHint="-1"
@@ -41,9 +41,9 @@
                 <TextBlock />
             </DockPanel>
             <Border Padding="5">
-                <DockPanel LastChildFill="True">
-                    <views:AudioPlayerView DockPanel.Dock="Top" DataContext="{Binding PlayerModel}" />
-                    <Grid ColumnDefinitions="*, Auto">
+                <Grid RowDefinitions="*, *">
+                    <views:AudioPlayerView DataContext="{Binding PlayerModel}" />
+                    <Grid Grid.Row="1" ColumnDefinitions="*, Auto">
                         <views:EqualizerView DataContext="{Binding EqualizerViewModel}" />
                         <StackPanel Orientation="Vertical" Grid.Column="1">
                             <Button Command="{Binding EqualizerViewModel.ResetCommand}">Reset</Button>
@@ -58,7 +58,7 @@
                             </ComboBox>
                         </StackPanel>
                     </Grid>
-                </DockPanel>
+                </Grid>
             </Border>
         </DockPanel>
     </Border>

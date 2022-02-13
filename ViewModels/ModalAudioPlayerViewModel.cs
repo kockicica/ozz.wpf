@@ -4,12 +4,12 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
+using Microsoft.Extensions.Logging;
+
 using ozz.wpf.Dialog;
 using ozz.wpf.Models;
 
 using ReactiveUI;
-
-using Serilog;
 
 namespace ozz.wpf.ViewModels;
 
@@ -19,9 +19,9 @@ public class ModalAudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
 
     private ObservableCollection<Equalizer> _equalizers;
 
-    private ILogger _logger;
+    private ILogger<ModalAudioPlayerViewModel> _logger;
 
-    public ModalAudioPlayerViewModel(ILogger logger) {
+    public ModalAudioPlayerViewModel(ILogger<ModalAudioPlayerViewModel> logger) {
 
         _logger = logger;
 

@@ -14,6 +14,8 @@ using Avalonia.Controls.ApplicationLifetimes;
 
 using JetBrains.Annotations;
 
+using Microsoft.Extensions.Logging;
+
 using ozz.wpf.Models;
 using ozz.wpf.Services;
 using ozz.wpf.Views;
@@ -22,7 +24,6 @@ using ReactiveUI;
 
 using Splat;
 
-using ILogger = Serilog.ILogger;
 using EqualizerModel = ozz.wpf.Models.Equalizer;
 using Equalizer = LibVLCSharp.Shared.Equalizer;
 
@@ -32,7 +33,7 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
 
     private readonly IDataService _dataService;
 
-    private readonly ILogger _logger;
+    private readonly ILogger<DialogWindowViewModel> _logger;
 
     private readonly IEqualizerPresetFactory _equalizerPresetFactory;
 
@@ -46,7 +47,7 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
 
     private AudioRecording _selectedRecording;
 
-    public DispositionViewModel(IDataService dataService, ILogger logger, IEqualizerPresetFactory equalizerPresetFactory) {
+    public DispositionViewModel(IDataService dataService, ILogger<DialogWindowViewModel> logger, IEqualizerPresetFactory equalizerPresetFactory) {
 
         _dataService = dataService;
         _logger = logger;
@@ -81,7 +82,7 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
                                                                  .Catch(Observable.Return(new List<AudioRecording>())))
                                     .ToProperty(this, x => x.Recordings).DisposeWith(d);
 
-            _logger.Debug("Test log");
+            _logger.LogDebug("Test log");
 
             var interval = TimeSpan.FromSeconds(10);
             Observable

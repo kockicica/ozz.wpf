@@ -4,11 +4,19 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Logging;
+
 using ozz.wpf.Models;
 
 namespace ozz.wpf.Services;
 
 public class VLCEqualizePresetFactory : IEqualizerPresetFactory {
+
+    private readonly ILogger<VLCEqualizePresetFactory> _logger;
+
+    public VLCEqualizePresetFactory(ILogger<VLCEqualizePresetFactory> logger) {
+        _logger = logger;
+    }
 
     public Task<IEnumerable<Equalizer>> GetPresets() {
 
@@ -24,6 +32,8 @@ public class VLCEqualizePresetFactory : IEqualizerPresetFactory {
             };
             res.Add(eq);
         }
+        
+        _logger.LogDebug("Presets: {@presets}", res);
 
         return Task.FromResult(res.AsEnumerable());
     }

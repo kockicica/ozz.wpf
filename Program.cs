@@ -7,6 +7,7 @@ using Avalonia.ReactiveUI;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 using ozz.wpf.Dialog;
 using ozz.wpf.Services;
@@ -18,6 +19,8 @@ using ReactiveUI;
 using Serilog;
 
 using Splat;
+using Splat.Microsoft.Extensions.DependencyInjection;
+using Splat.Microsoft.Extensions.Logging;
 
 using ILogger = Serilog.ILogger;
 
@@ -35,33 +38,42 @@ namespace ozz.wpf {
                          .MinimumLevel.Debug()
                          .WriteTo.Console()
                          .WriteTo.File("log-.log", rollingInterval: RollingInterval.Day)
-                         .CreateLogger();
+                         .CreateBootstrapLogger();
+            //.CreateLogger();
 
 
             AppDomain.CurrentDomain.UnhandledException += (sender, eventArgs) => { Log.Logger.Error("exc: {@e}", eventArgs.ExceptionObject); };
-            var host = new HostBuilder().ConfigureServices(
-                                            s => {
-                                                s.AddHttpClient("default", client => { client.BaseAddress = new Uri("http://localhost:27000"); });
-                                                //s.AddLogging(builder => builder.AddSerilog());
-                                            })
-                                        .Build();
+            var host = Host.CreateDefaultBuilder()
+                           // .UseSerilog((context, services, configuration) => {
+                           //     configuration.ReadFrom.Services(services)
+                           //                  .Enrich.FromLogContext()
+                           //                  .WriteTo.Console()
+                           //                  .WriteTo.File("log-.log", rollingInterval: RollingInterval.Day);
+                           // })
+                           .ConfigureServices(
+                               s => {
+                                   s.UseMicrosoftDependencyResolver();
+                                   var resolver = Locator.CurrentMutable;
+                                   resolver.InitializeSplat();
+                                   resolver.InitializeReactiveUI();
 
-            Locator.CurrentMutable.Register<IDataService>(
-                () => new DataService(Locator.Current.GetService<IHttpClientFactory>(), Locator.Current.GetService<ILogger>()));
-            Locator.CurrentMutable.Register(
-                () => new DispositionViewModel(Locator.Current.GetService<IDataService>(),
-                                               Locator.Current.GetService<ILogger>(),
-                                               Locator.Current.GetService<IEqualizerPresetFactory>()
-                )
-            );
-            Locator.CurrentMutable.Register<IHttpClientFactory>(() => host.Services.GetService<IHttpClientFactory>());
-            Locator.CurrentMutable.Register(() => Log.Logger);
-            //Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
-            //Locator.CurrentMutable.Register<IViewFor<DispositionViewModel>>(() => new MainWindow);
-            //Locator.CurrentMutable.Register<IViewFor<AudioRecordingsListViewModel>>(() => new AudioRecordingsListViewModel());
-            Locator.CurrentMutable.Register(() => new AudioPlayerViewModel(Locator.Current.GetService<ILogger>()));
-            Locator.CurrentMutable.Register(() => new ModalAudioPlayerViewModel(Locator.Current.GetService<ILogger>()));
-            Locator.CurrentMutable.Register<IEqualizerPresetFactory>(() => new VLCEqualizePresetFactory());
+                                   s.AddHttpClient("default", client => { client.BaseAddress = new Uri("http://localhost:27000"); });
+
+                                   s.AddSingleton<IDataService, DataService>();
+                                   s.AddSingleton<IEqualizerPresetFactory, VLCEqualizePresetFactory>();
+
+                                   s.AddSingleton<MainWindowViewModel>();
+                                   s.AddSingleton<DispositionViewModel>();
+                                   s.AddTransient<AudioPlayerViewModel>();
+                                   s.AddTransient<ModalAudioPlayerViewModel>();
+                               })
+                           .ConfigureLogging(builder => {
+                               builder.AddSerilog();
+                               builder.AddSplat();
+                           })
+                           .UseEnvironment(Environments.Development)
+                           .Build();
+
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
 

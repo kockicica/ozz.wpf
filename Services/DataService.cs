@@ -7,20 +7,21 @@ using System.Net.Http.Json;
 using System.Reflection;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Logging;
+
 using Newtonsoft.Json;
 
 using ozz.wpf.Models;
 
-using Serilog;
 
 namespace ozz.wpf.Services;
 
 public class DataService : IDataService {
 
-    private readonly ILogger            _logger;
-    private readonly IHttpClientFactory _clientFactory;
+    private readonly ILogger<DataService> _logger;
+    private readonly IHttpClientFactory   _clientFactory;
 
-    public DataService(IHttpClientFactory clientFactory, ILogger logger) {
+    public DataService(IHttpClientFactory clientFactory, ILogger<DataService> logger) {
         _clientFactory = clientFactory;
         _logger = logger;
     }
@@ -60,7 +61,7 @@ public class DataService : IDataService {
             return res.Select(x => x.ToEqualizer());
         }
         catch (Exception e) {
-            _logger.Error("Error retrieving equalizers: {@e}", e);
+            _logger.LogError("Error retrieving equalizers: {@e}", e);
             return null;
         }
     }
@@ -74,7 +75,7 @@ public class DataService : IDataService {
             return res.ToEqualizer();
         }
         catch (Exception e) {
-            _logger.Error("Error retrieving equalizers: {@e}", e);
+            _logger.LogError("Error retrieving equalizers: {@e}", e);
             return null;
         }
     }
@@ -89,7 +90,7 @@ public class DataService : IDataService {
             return saved.ToEqualizer();
         }
         catch (Exception e) {
-            _logger.Error("Error creating equalizer: {@e}", e);
+            _logger.LogError("Error creating equalizer: {@e}", e);
             return null;
         }
     }
@@ -102,7 +103,7 @@ public class DataService : IDataService {
             await cl.DeleteAsync(url);
         }
         catch (Exception e) {
-            _logger.Error("Error updating equalizer: {@e}", e);
+            _logger.LogError("Error updating equalizer: {@e}", e);
         }
     }
 
@@ -116,7 +117,7 @@ public class DataService : IDataService {
             return saved.ToEqualizer();
         }
         catch (Exception e) {
-            _logger.Error("Error updating equalizer: {@e}", e);
+            _logger.LogError("Error updating equalizer: {@e}", e);
             return null;
         }
     }

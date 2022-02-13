@@ -46,6 +46,8 @@
     <PackageReference Include="Serilog.Extensions.Hosting" Version="4.2.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Include="Splat.Microsoft.Extensions.DependencyInjection" Version="14.1.45" />
+    <PackageReference Include="Splat.Microsoft.Extensions.Logging" Version="14.1.45" />
     <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.16" />
 	<PackageReference Include="XamlNameReferenceGenerator" Version="1.3.4" />
   </ItemGroup>
