@@ -20,30 +20,33 @@
         <Style Selector="Slider:pointerover /template/ RepeatButton#PART_IncreaseButton">
             <Setter Property="Background" Value="{DynamicResource SliderTrackValueFill}" />
         </Style>
-        
+
     </UserControl.Styles>
-    <Grid RowDefinitions="Auto, *">
+    <Grid RowDefinitions="Auto, Auto">
         <TextBlock Text="{Binding Equalizer.Name}" HorizontalAlignment="Center"></TextBlock>
-        <Grid ColumnDefinitions="*, Auto" Grid.Row="1">
-            <ItemsControl Items="{Binding Equalizer.Bands}" Grid.Column="0">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <DockPanel></DockPanel>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
+        <Grid ColumnDefinitions="Auto, Auto" Grid.Row="1">
+            <ItemsRepeater Items="{Binding Equalizer.Bands}" Grid.Column="0" MaxHeight="600" KeyboardNavigation.TabNavigation="Local">
+                <!-- <ItemsRepeater.Ite> -->
+                <!--     <ItemsPanelTemplate> -->
+                <!--         <DockPanel></DockPanel> -->
+                <!--     </ItemsPanelTemplate> -->
+                <!-- </ItemsR.ItemsPanel> -->
+                <ItemsRepeater.Layout>
+                    <UniformGridLayout MinItemHeight="200" MinColumnSpacing="10" Orientation="Horizontal">
+                    </UniformGridLayout>
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="models:EqualizerBand">
                         <Grid RowDefinitions="*, Auto">
-                            <Slider Grid.Row="0" Orientation="Vertical" Value="{Binding Amp}" Minimum="-20" Maximum="20"></Slider>
+                            <Slider Grid.Row="0" Orientation="Vertical" Value="{Binding Amp}" Minimum="-20" Maximum="20"
+                                    KeyboardNavigation.IsTabStop="True">
+                            </Slider>
                             <TextBlock Grid.Row="1" Text="{Binding Amp, StringFormat={}{0:n2}}" HorizontalAlignment="Left" Margin="0 10"></TextBlock>
                         </Grid>
                     </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <ItemsControl.Styles>
-
-                </ItemsControl.Styles>
-            </ItemsControl>
-            <Grid RowDefinitions="*, Auto" Grid.Column="1">
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+            <Grid RowDefinitions="*, Auto" Grid.Column="1" Margin="50 0">
                 <Slider Grid.Row="0" Orientation="Vertical" Value="{Binding Equalizer.PreAmp}" Minimum="-20" Maximum="20"></Slider>
                 <TextBlock Grid.Row="1" Text="{Binding Equalizer.PreAmp, StringFormat={}{0:n2}}" HorizontalAlignment="Left" Margin="0 10"></TextBlock>
             </Grid>
