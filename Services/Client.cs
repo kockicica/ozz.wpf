@@ -86,6 +86,7 @@ public class Client : IClient {
 
         try {
             var res = await cl.PostAsJsonAsync(url, eq);
+            res.EnsureSuccessStatusCode();
             var saved = await res.Content.ReadFromJsonAsync<EqualizerResponse>();
             return saved.ToEqualizer();
         }
@@ -113,6 +114,7 @@ public class Client : IClient {
 
         try {
             var res = await cl.PutAsJsonAsync(url, EqualizerResponse.FromEqualizer(eq));
+            res.EnsureSuccessStatusCode();
             var saved = await res.Content.ReadFromJsonAsync<EqualizerResponse>();
             return saved.ToEqualizer();
         }
@@ -120,6 +122,23 @@ public class Client : IClient {
             _logger.LogError("Error updating equalizer: {@e}", e);
             return null;
         }
+    }
+
+    public async Task<Equalizer?> EqualizerByName(string name) {
+        var cl = _client;
+        var url = $"/api/equalizers?name={name}";
+
+        try {
+            var res = await cl.GetAsync(url);
+            var eq = await res.Content.ReadFromJsonAsync<EqualizerResponse>();
+            res.EnsureSuccessStatusCode();
+            return eq.ToEqualizer();
+        }
+        catch (Exception e) {
+            _logger.LogError("Error getting equalizer by name: {@e}", e);
+            return null;
+        }
+        
     }
 
     private class EqualizerResponse {
@@ -141,8 +160,8 @@ public class Client : IClient {
 
             var bands = new EqualizerBand[10];
             for (int i = 0; i < 10; i++) {
-                bands[i].Number = i;
-                if (typeof(Equalizer).GetProperty($"Amp{i + 1}") is { } pi) {
+                bands[i] = new EqualizerBand { Number = i + 1 };
+                if (typeof(EqualizerResponse).GetProperty($"Amp{i + 1}") is { } pi) {
                     var val = pi.GetValue(this);
                     if (val != null) {
                         bands[i].Amp = (double)val;
@@ -166,7 +185,7 @@ public class Client : IClient {
             };
 
             foreach (var equalizerBand in eq.Bands) {
-                if (typeof(EqualizerResponse).GetProperty($"Amb{equalizerBand.Number}") is { } pi) {
+                if (typeof(EqualizerResponse).GetProperty($"Amp{equalizerBand.Number}") is { } pi) {
                     pi.SetValue(rsp, equalizerBand.Amp);
                 }
             }

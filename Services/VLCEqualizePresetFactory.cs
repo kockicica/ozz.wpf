@@ -32,13 +32,17 @@ public class VLCEqualizePresetFactory : IEqualizerPresetFactory {
             };
             res.Add(eq);
         }
-        
-        _logger.LogDebug("Presets: {@presets}", res);
+
+        _logger.LogDebug("VLC Presets: {@presets}", res);
 
         return Task.FromResult(res.AsEnumerable());
     }
 
     public Task<Equalizer> GetDefaultPreset() {
         return Task.FromResult(Equalizer.Default);
+    }
+
+    public Task<Equalizer> SavePreset(Equalizer preset) {
+        return Task.FromResult(preset);
     }
 }

@@ -59,7 +59,8 @@ namespace ozz.wpf {
                                //s.AddHttpClient("default", client => { client.BaseAddress = new Uri("http://localhost:27000"); });
 
                                //s.AddSingleton<IDataService, DataService>();
-                               s.AddSingleton<IEqualizerPresetFactory, VLCEqualizePresetFactory>();
+                               //s.AddSingleton<IEqualizerPresetFactory, VLCEqualizePresetFactory>();
+                               s.AddSingleton<IEqualizerPresetFactory, RemoteEqualizePresetFactory>();
                                s.AddSingleton<IResolver, LocatorBasedResolver>();
                                s.AddSingleton<IAudioRecordingsService, BackendAudioRecordingsService>();
 

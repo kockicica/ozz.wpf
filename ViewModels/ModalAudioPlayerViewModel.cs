@@ -3,11 +3,13 @@ using System.Collections.ObjectModel;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
 using ozz.wpf.Dialog;
 using ozz.wpf.Models;
+using ozz.wpf.Services;
 
 using ReactiveUI;
 
@@ -21,9 +23,12 @@ public class ModalAudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
 
     private ILogger<ModalAudioPlayerViewModel> _logger;
 
-    public ModalAudioPlayerViewModel(ILogger<ModalAudioPlayerViewModel> logger) {
+    private readonly IEqualizerPresetFactory _equalizerPresetFactory;
+
+    public ModalAudioPlayerViewModel(ILogger<ModalAudioPlayerViewModel> logger, IEqualizerPresetFactory equalizerPresetFactory) {
 
         _logger = logger;
+        _equalizerPresetFactory = equalizerPresetFactory;
 
         ToggleEqualizer = ReactiveCommand.Create(() => { EqualizerOn = !EqualizerOn; });
 
@@ -36,6 +41,16 @@ public class ModalAudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
                 .EqualizerUpdated
                 .Where(_ => EqualizerOn)
                 .Subscribe(equalizer => { PlayerModel!.Equalizer = equalizer; })
+                .DisposeWith(d);
+
+            EqualizerViewModel!
+                .EqualizerUpdated
+                .Throttle(TimeSpan.FromMilliseconds(500))
+                .SelectMany(equalizer => _equalizerPresetFactory.SavePreset(equalizer).ToObservable())
+                .Subscribe(equalizer => {
+                    //PlayerModel!.Equalizer = equalizer;
+                    EqualizerViewModel.Equalizer.Id = equalizer.Id;
+                })
                 .DisposeWith(d);
         });
     }

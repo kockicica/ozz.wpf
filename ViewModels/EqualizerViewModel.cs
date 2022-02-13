@@ -16,6 +16,7 @@ namespace ozz.wpf.ViewModels;
 public class EqualizerViewModel : ViewModelBase, IActivatableViewModel {
 
     private EqualizerModel _equalizer = EqualizerModel.Default;
+    private bool           _isUpdating;
 
     public EqualizerViewModel() {
 
@@ -24,7 +25,7 @@ public class EqualizerViewModel : ViewModelBase, IActivatableViewModel {
         var ps = Equalizer.Bands.Select(b => b.WhenPropertyChanged(band => band.Amp).Select(_ => true)).ToList();
         var ds = Equalizer.WhenPropertyChanged(equalizer => equalizer.PreAmp).Select(_ => true);
         ps.Add(ds);
-        EqualizerUpdated = ps.Merge().Select(_ => Equalizer);
+        EqualizerUpdated = ps.Merge().SkipWhile(_ =>_isUpdating).Throttle(TimeSpan.FromMilliseconds(500)).Select(_ => Equalizer);
 
         // var ps = Equalizer.Bands.Select(b => b.WhenPropertyChanged(band => band.Amp));
         // var ds = Equalizer.WhenPropertyChanged(equalizer => equalizer.Name);
@@ -69,6 +70,8 @@ public class EqualizerViewModel : ViewModelBase, IActivatableViewModel {
         if (other == null) {
             return;
         }
+        _isUpdating = true;
+        _equalizer.Id = other.Id;
         _equalizer.Name = other.Name;
         _equalizer.PreAmp = other.PreAmp;
         foreach (var equalizerBand in _equalizer.Bands) {
@@ -77,6 +80,7 @@ public class EqualizerViewModel : ViewModelBase, IActivatableViewModel {
                 equalizerBand.Amp = otherBand.Amp;
             }
         }
+        _isUpdating = false;
     }
 
 }

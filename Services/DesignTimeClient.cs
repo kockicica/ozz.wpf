@@ -39,6 +39,10 @@ public class DesignTimeClient : IClient {
     public async Task<Equalizer?> UpdateEqualizer(int id, Equalizer eq) {
         throw new System.NotImplementedException();
     }
+
+    public async Task<Equalizer?> EqualizerByName(string name) {
+        throw new System.NotImplementedException();
+    }
 }
 
 public class DesignTimeAudioRecordingsService : IAudioRecordingsService {

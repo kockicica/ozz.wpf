@@ -17,7 +17,8 @@ public static class DesignData {
         => new(new DesignTimeClient(),
                NullLogger<DialogWindowViewModel>.Instance,
                new VLCEqualizePresetFactory(NullLogger<VLCEqualizePresetFactory>.Instance),
-               new LocatorBasedResolver(), new DesignTimeAudioRecordingsService());
+               new LocatorBasedResolver(),
+               new DesignTimeAudioRecordingsService());
 
     public static AudioRecordingsListViewModel AudioRecordingsListViewModel => new() {
         Recordings = new ObservableCollection<AudioRecording>(new List<AudioRecording> {
@@ -52,6 +53,7 @@ public static class DesignData {
     };
 
     public static ModalAudioPlayerViewModel ModalAudioPlayer
-        => new(NullLogger<ModalAudioPlayerViewModel>.Instance) { EqualizerViewModel = Equalizer, PlayerModel = AudioPlayerViewModel };
+        => new(NullLogger<ModalAudioPlayerViewModel>.Instance, new VLCEqualizePresetFactory(NullLogger<VLCEqualizePresetFactory>.Instance))
+            { EqualizerViewModel = Equalizer, PlayerModel = AudioPlayerViewModel };
 
 }

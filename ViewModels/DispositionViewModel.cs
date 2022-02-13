@@ -149,7 +149,7 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
                     //Equalizer = (await _equalizerPresetFactory.GetPresets()).FirstOrDefault()
                 };
                 vm.Equalizers = new ObservableCollection<EqualizerModel>(await _equalizerPresetFactory.GetPresets());
-                vm.EqualizerViewModel.Equalizer = vm.Equalizers.FirstOrDefault();
+                vm.EqualizerViewModel.Equalizer = await _equalizerPresetFactory.GetDefaultPreset();
 
                 var modal = new ModalAudioPlayerWindow {
                     DataContext = vm

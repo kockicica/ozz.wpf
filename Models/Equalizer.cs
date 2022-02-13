@@ -33,11 +33,13 @@ public class Equalizer : INotifyPropertyChanged {
 
     public static Equalizer Default {
         get {
-            var eq = new Equalizer();
-            eq.PreAmp = 0;
-            eq.Bands = new ObservableCollection<EqualizerBand>();
+            var eq = new Equalizer {
+                PreAmp = 0,
+                Bands = new ObservableCollection<EqualizerBand>(),
+                Name = "default"
+            };
             for (int i = 0; i < 10; i++) {
-                eq.Bands.Add(new() { Number = i, Amp = 0d });
+                eq.Bands.Add(new() { Number = i + 1, Amp = 0d });
             }
             return eq;
         }
