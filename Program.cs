@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using ozz.wpf.Config;
 using ozz.wpf.Services;
 using ozz.wpf.ViewModels;
+using ozz.wpf.Views;
 
 using ReactiveUI;
 
@@ -65,9 +66,13 @@ namespace ozz.wpf {
                                s.AddSingleton<IAudioRecordingsService, BackendAudioRecordingsService>();
 
                                s.AddSingleton<MainWindowViewModel>();
-                               s.AddSingleton<DispositionViewModel>();
+                               s.AddSingleton<IScreen, MainWindowViewModel>(provider => provider.GetRequiredService<MainWindowViewModel>());
+
+                               s.AddTransient<DispositionViewModel>();
                                s.AddTransient<AudioPlayerViewModel>();
+                               s.AddTransient<LoginViewModel>();
                                s.AddTransient<ModalAudioPlayerViewModel>();
+                               s.AddTransient<IViewFor<DispositionViewModel>, DispositionView>();
 
                                // configure settings
                                s.AddOptions<ServerConfiguration>()

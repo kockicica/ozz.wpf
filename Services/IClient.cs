@@ -15,5 +15,5 @@ public interface IClient {
     Task<Equalizer?>                  CreateEqualizer(Equalizer eq);
     Task                              DeleteEqualizer(int id);
     Task<Equalizer?>                  UpdateEqualizer(int id, Equalizer eq);
-
+    Task<User?>                       Authorize(string username);
 }

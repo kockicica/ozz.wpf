@@ -8,6 +8,8 @@ namespace ozz.wpf.Services;
 
 public class DesignTimeClient : IClient {
 
+    #region IClient Members
+
     public Task<IEnumerable<Category>> Categories() {
         return Task.FromResult(new List<Category> {
             new() { Id = 1, Name = "REKLAME", Order = 1 },
@@ -43,12 +45,23 @@ public class DesignTimeClient : IClient {
     public async Task<Equalizer?> EqualizerByName(string name) {
         throw new System.NotImplementedException();
     }
+
+    public async Task<User?> Authorize(string username) {
+        throw new System.NotImplementedException();
+    }
+
+    #endregion
+
 }
 
 public class DesignTimeAudioRecordingsService : IAudioRecordingsService {
 
+    #region IAudioRecordingsService Members
+
     public Task<IEnumerable<AudioRecording>> AudioRecordingsForCategory(int categoryId, string name) {
         return Task.FromResult(new List<AudioRecording>().AsEnumerable());
     }
+
+    #endregion
 
 }

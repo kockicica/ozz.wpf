@@ -21,18 +21,16 @@ using ozz.wpf.Views;
 
 using ReactiveUI;
 
-using Splat;
-
 using EqualizerModel = ozz.wpf.Models.Equalizer;
 
 namespace ozz.wpf.ViewModels;
 
-public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
+public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRoutableViewModel {
+    private readonly IAudioRecordingsService _audioRecordingsService;
 
-    private readonly IClient                                            _client;
-    private readonly IAudioRecordingsService                                 _audioRecordingsService;
-    private readonly ILogger<DialogWindowViewModel>                          _logger;
+    private readonly IClient                                                 _client;
     private readonly IEqualizerPresetFactory                                 _equalizerPresetFactory;
+    private readonly ILogger<DialogWindowViewModel>                          _logger;
     private readonly IResolver                                               _resolver;
     private          ObservableAsPropertyHelper<IEnumerable<Category>>       _categories;
     private          ObservableAsPropertyHelper<IEnumerable<AudioRecording>> _recordings;
@@ -41,13 +39,14 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
     private          AudioRecording                                          _selectedRecording;
 
     public DispositionViewModel(IClient client, ILogger<DialogWindowViewModel> logger, IEqualizerPresetFactory equalizerPresetFactory,
-                                IResolver resolver, IAudioRecordingsService audioRecordingsService) {
+                                IResolver resolver, IAudioRecordingsService audioRecordingsService, IScreen screen) {
 
         _client = client;
         _logger = logger;
         _equalizerPresetFactory = equalizerPresetFactory;
         _resolver = resolver;
         _audioRecordingsService = audioRecordingsService;
+        HostScreen = screen;
 
         ShowPlayer = new Interaction<AudioRecording, Unit>();
 
@@ -74,8 +73,9 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
                                         this.WhenAnyValue(model => model.SearchTerm).Throttle(TimeSpan.FromMilliseconds(300))
                                     )
                                     .Where(x => x != null)
-                                    .SelectMany(_ => _audioRecordingsService.AudioRecordingsForCategory(SelectedCategory.Id, SearchTerm).ToObservable()
-                                                                 .Catch(Observable.Return(new List<AudioRecording>())))
+                                    .SelectMany(_ => _audioRecordingsService
+                                                     .AudioRecordingsForCategory(SelectedCategory.Id, SearchTerm).ToObservable()
+                                                     .Catch(Observable.Return(new List<AudioRecording>())))
                                     .ToProperty(this, x => x.Recordings).DisposeWith(d);
 
             _logger.LogDebug("Test log");
@@ -95,7 +95,7 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
 
 
     public IEnumerable<Category> Categories {
-        get => _categories?.Value ?? new Category[]{new() {Id = 1, Name = "test", Order = 1}};
+        get => _categories?.Value ?? new Category[] { new() { Id = 1, Name = "test", Order = 1 } };
     }
 
     public IEnumerable<AudioRecording> Recordings {
@@ -133,6 +133,13 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
 
     #endregion
 
+    #region IRoutableViewModel Members
+
+    public string? UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
+    public IScreen HostScreen     { get; }
+
+    #endregion
+
 
     private async Task DoShowDialogAsync(InteractionContext<AudioRecording, Unit> interactionContext) {
         if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
@@ -165,6 +172,5 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel {
 
         interactionContext.SetOutput(Unit.Default);
 
-        //return Task.CompletedTask;
     }
 }

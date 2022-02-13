@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ozz.wpf.Views.LoginView">
+    <!-- <i:Interaction.Behaviors> -->
+    <!--     <ia:EventTriggerBehavior EventName="AttachedToVisualTree" SourceObject="{Binding #UsernameBlock}"> -->
+    <!--         <ia:CallMethodAction TargetObject="{Binding #UsernameBlock}" MethodName="Focus"></ia:CallMethodAction> -->
+    <!--         <ia:ChangePropertyAction TargetObject="{Binding #LoginBtn}" PropertyName="Background" Value="Red"></ia:ChangePropertyAction> -->
+    <!--     </ia:EventTriggerBehavior> -->
+    <!-- </i:Interaction.Behaviors> -->
+    
+    <Grid>
+        <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Width="400" Height="300">
+            <Border Margin="40, 90">
+                <Grid RowDefinitions="*,*" ColumnDefinitions="*,2*">
+                    <TextBlock Text="Korisničko ime:" VerticalAlignment="Center" IsTabStop="True" TabIndex="0" />
+                    <TextBox x:Name="UsernameBlock" Grid.Column="1" Grid.Row="0" Text="{Binding Username}" HorizontalAlignment="Stretch"
+                             VerticalAlignment="Center" />
+                    <Button x:Name="LoginBtn" Opacity="1" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Content="Prijava" HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Command="{Binding Login}" CommandParameter="{Binding Username}" IsDefault="True" />
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

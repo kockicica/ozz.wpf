@@ -141,6 +141,23 @@ public class Client : IClient {
 
     }
 
+    public async Task<User?> Authorize(string username) {
+        var cl = _client;
+        var url = $"/api/authorize";
+
+        try {
+            var res = await cl.PostAsJsonAsync(url, new { username });
+            var eq = await res.Content.ReadFromJsonAsync<User>();
+            res.EnsureSuccessStatusCode();
+            return eq;
+        }
+        catch (Exception e) {
+            _logger.LogError("Error authorizing: {@e}", e);
+            return null;
+        }
+
+    }
+
     #endregion
 
     #region Nested type: EqualizerResponse
