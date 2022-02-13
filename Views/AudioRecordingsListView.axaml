@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
              xmlns:models="clr-namespace:ozz.wpf.Models"
-             xmlns:services="clr-namespace:ozz.wpf.Services"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" d:DataContext="{x:Static viewModels:DesignData.AudioRecordingsListViewModel}"
              x:Class="ozz.wpf.Views.AudioRecordingsListView">
 
@@ -34,8 +35,14 @@
             <Setter Property="IsVisible" Value="False" />
         </Style>        
     </UserControl.Styles>
-    <DataGrid Name="Recordings" Items="{Binding Recordings}" AutoGenerateColumns="False" x:DataType="models:AudioRecording" IsReadOnly="True"
+    <DataGrid Name="RecordingGrid" Items="{Binding Recordings}" AutoGenerateColumns="False" x:DataType="models:AudioRecording" IsReadOnly="True"
               CanUserResizeColumns="True" SelectionMode="Single" SelectedItem="{Binding SelectedRecording}">
+        <i:Interaction.Behaviors>
+            <ia:EventTriggerBehavior EventName="DoubleTapped" SourceObject="{Binding #RecordingGrid}">
+                <!-- <ia:ChangePropertyAction TargetObject="{Binding}" PropertyName="SelectedRecording" Value="Red"></ia:ChangePropertyAction> -->
+                <ia:InvokeCommandAction Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}" />
+            </ia:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
         <DataGrid.Columns>
             <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="4*" />
             <DataGridTextColumn Header="Datum" Binding="{Binding Date, StringFormat={}{0:dd.MM.yyyy}}" Width="2*" />

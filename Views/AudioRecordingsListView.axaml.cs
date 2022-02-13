@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace ozz.wpf.Views; 
+namespace ozz.wpf.Views;
 
 public partial class AudioRecordingsListView : UserControl {
 
@@ -14,6 +14,4 @@ public partial class AudioRecordingsListView : UserControl {
     private void InitializeComponent() {
         AvaloniaXamlLoader.Load(this);
     }
-
-
 }
