@@ -1,5 +1,4 @@
 using System;
-using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Windows.Input;
@@ -26,6 +25,8 @@ public class AudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
 
     private ObservableAsPropertyHelper<TimeSpan> _currentPlayerTime;
 
+    private EqualizerModel _equalizer = EqualizerModel.Default;
+
     private bool _isPaused = true;
 
     private bool _isStopped = true;
@@ -42,16 +43,18 @@ public class AudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
 
     private ObservableAsPropertyHelper<MediaPlayerState> _playerState;
 
+    private ServerConfiguration _serverConfiguration;
+
     private AudioRecording? _track;
 
     private int _volume = 30;
 
-    private EqualizerModel _equalizer = EqualizerModel.Default;
-
-    public AudioPlayerViewModel(ILogger<AudioPlayerViewModel> logger, IOptions<AudioPlayerConfiguration> options) {
+    public AudioPlayerViewModel(ILogger<AudioPlayerViewModel> logger, IOptions<AudioPlayerConfiguration> options,
+                                IOptions<ServerConfiguration> serverConfigurationOptions) {
 
         _volume = options.Value.Volume.GetValueOrDefault();
-        
+        _serverConfiguration = serverConfigurationOptions.Value;
+
         _logger = logger;
         _libVLC = new LibVLC("--no-video");
         _mediaPlayer = new MediaPlayer(_libVLC);
@@ -205,7 +208,7 @@ public class AudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
 
         //var eq = new Equalizer();
         //Player.SetEqualizer(new Equalizer());
-        Player.Play(new Media(_libVLC, new Uri($"http://localhost:27000/api/audio/media/{Track.Id}")));
+        Player.Play(new Media(_libVLC, new Uri($"{_serverConfiguration.Url}/api/audio/media/{Track.Id}")));
 
         //Player.Play(new Media(_libVLC, new Uri($"file://D:\\project\\source\\repositories\\ozzz\\ozz-ms\\artifacts\\media\\{Track.Path}")));
         //Player.Play(new Media(_libVLC, $"D:\\project\\source\\repositories\\ozzz\\ozz-ms\\artifacts\\{Track.Path}"));

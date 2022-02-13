@@ -30,7 +30,8 @@ public static class DesignData {
 
     public static AudioPlayerViewModel AudioPlayerViewModel
         => new(NullLogger<AudioPlayerViewModel>.Instance,
-               new OptionsWrapper<AudioPlayerConfiguration>(new AudioPlayerConfiguration())) {
+               new OptionsWrapper<AudioPlayerConfiguration>(new AudioPlayerConfiguration()),
+               new OptionsWrapper<ServerConfiguration>(new ServerConfiguration())) {
             Track = new() { Id = 1, Name = "Recording 1", Duration = 90000000000, Category = "REKLAME", Date = new DateTime(2022, 2, 5) },
         };
 
