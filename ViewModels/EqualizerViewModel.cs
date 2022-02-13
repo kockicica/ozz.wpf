@@ -1,11 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 
+using DynamicData;
 using DynamicData.Binding;
+
+using ozz.wpf.Models;
 
 using ReactiveUI;
 
@@ -15,37 +18,37 @@ namespace ozz.wpf.ViewModels;
 
 public class EqualizerViewModel : ViewModelBase, IActivatableViewModel {
 
-    private EqualizerModel _equalizer = EqualizerModel.Default;
-    private bool           _isUpdating;
+    private EqualizerModel          _equalizer        = EqualizerModel.Default;
+    private Subject<EqualizerModel> _equalizerUpdated = new();
+    private bool                    _isUpdating;
 
     public EqualizerViewModel() {
 
         ResetCommand = ReactiveCommand.Create(Reset);
 
-        var ps = Equalizer.Bands.Select(b => b.WhenPropertyChanged(band => band.Amp).Select(_ => true)).ToList();
-        var ds = Equalizer.WhenPropertyChanged(equalizer => equalizer.PreAmp).Select(_ => true);
-        ps.Add(ds);
-        EqualizerUpdated = ps.Merge().SkipWhile(_ =>_isUpdating).Throttle(TimeSpan.FromMilliseconds(500)).Select(_ => Equalizer);
+        this.WhenActivated(d => {
+            var e = new SourceList<EqualizerBand>();
+            e.AddRange(Equalizer.Bands);
 
-        // var ps = Equalizer.Bands.Select(b => b.WhenPropertyChanged(band => band.Amp));
-        // var ds = Equalizer.WhenPropertyChanged(equalizer => equalizer.Name);
+            e.Connect()
+             .WhenAnyPropertyChanged()
+             .SkipWhile(_ => _isUpdating)
+             .Subscribe(set => { _equalizerUpdated.OnNext(Equalizer); })
+             .DisposeWith(d);
 
-        //this.WhenActivated(d => {
-        // Observable
-        //     .Merge(Equalizer.Bands.Select(b => b.WhenAnyPropertyChanged()))
-        //     .Subscribe(_ => this.RaisePropertyChanged(nameof(Equalizer)))
-        //     .DisposeWith(d);
-        //});
+            Equalizer
+                .WhenPropertyChanged(x => x.PreAmp)
+                .SkipWhile(_ => _isUpdating)
+                .Subscribe(_ => _equalizerUpdated.OnNext(Equalizer))
+                .DisposeWith(d);
+
+        });
 
     }
 
-    public IObservable<EqualizerModel> EqualizerUpdated { get; set; }
+    public IObservable<EqualizerModel> EqualizerUpdated => _equalizerUpdated.AsObservable();
 
     public ReactiveCommand<Unit, Unit> ResetCommand { get; set; }
-
-    #region IActivatableViewModel Members
-
-    public ViewModelActivator Activator { get; } = new();
 
     public EqualizerModel Equalizer {
         get => _equalizer;
@@ -55,6 +58,10 @@ public class EqualizerViewModel : ViewModelBase, IActivatableViewModel {
             //this.RaiseAndSetIfChanged(ref _equalizer, value);
         }
     }
+
+    #region IActivatableViewModel Members
+
+    public ViewModelActivator Activator { get; } = new();
 
     #endregion
 
@@ -82,5 +89,4 @@ public class EqualizerViewModel : ViewModelBase, IActivatableViewModel {
         }
         _isUpdating = false;
     }
-
 }
