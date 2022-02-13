@@ -17,6 +17,7 @@ using ozz.wpf.Views;
 using ReactiveUI;
 
 using Serilog;
+using Serilog.Events;
 
 using Splat;
 using Splat.Microsoft.Extensions.DependencyInjection;
@@ -36,6 +37,7 @@ namespace ozz.wpf {
 
             Log.Logger = new LoggerConfiguration()
                          .MinimumLevel.Debug()
+                         .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                          .WriteTo.Console()
                          .WriteTo.File("log-.log", rollingInterval: RollingInterval.Day)
                          .CreateBootstrapLogger();
@@ -57,15 +59,20 @@ namespace ozz.wpf {
                                    resolver.InitializeSplat();
                                    resolver.InitializeReactiveUI();
 
-                                   s.AddHttpClient("default", client => { client.BaseAddress = new Uri("http://localhost:27000"); });
+                                   // s.AddHttpClient(client => {
+                                   //     client.BaseAddress = new Uri("http://localhost:27000");
+                                   // });
+                                   //s.AddHttpClient("default", client => { client.BaseAddress = new Uri("http://localhost:27000"); });
 
-                                   s.AddSingleton<IDataService, DataService>();
+                                   //s.AddSingleton<IDataService, DataService>();
                                    s.AddSingleton<IEqualizerPresetFactory, VLCEqualizePresetFactory>();
 
                                    s.AddSingleton<MainWindowViewModel>();
                                    s.AddSingleton<DispositionViewModel>();
                                    s.AddTransient<AudioPlayerViewModel>();
                                    s.AddTransient<ModalAudioPlayerViewModel>();
+
+                                   s.AddHttpClient<IDataService, DataService>(client => client.BaseAddress = new Uri("http://localhost:27000"));
                                })
                            .ConfigureLogging(builder => {
                                builder.AddSerilog();

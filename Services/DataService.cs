@@ -19,16 +19,16 @@ namespace ozz.wpf.Services;
 public class DataService : IDataService {
 
     private readonly ILogger<DataService> _logger;
-    private readonly IHttpClientFactory   _clientFactory;
+    private readonly HttpClient          _client;
 
-    public DataService(IHttpClientFactory clientFactory, ILogger<DataService> logger) {
-        _clientFactory = clientFactory;
+    public DataService(ILogger<DataService> logger, HttpClient client) {
         _logger = logger;
+        _client = client;
     }
 
     public async Task<IEnumerable<Category>> Categories() {
 
-        var cl = _clientFactory.CreateClient("default");
+        var cl = _client;
         var req = new HttpRequestMessage(HttpMethod.Get, "/api/categories");
         using var rsp = await cl.SendAsync(req, HttpCompletionOption.ResponseHeadersRead);
         var stream = await rsp.Content.ReadAsStringAsync();
@@ -39,7 +39,7 @@ public class DataService : IDataService {
     }
 
     public async Task<IEnumerable<AudioRecording>> AudioRecordingsForCategory(int categoryId, string name) {
-        var cl = _clientFactory.CreateClient("default");
+        var cl = _client;
         var url = $"/api/audio/active/{categoryId}";
         if (!string.IsNullOrEmpty(name)) {
             url += $"?name={name}";
@@ -53,7 +53,7 @@ public class DataService : IDataService {
     }
 
     public async Task<IEnumerable<Equalizer>?> Equalizers() {
-        var cl = _clientFactory.CreateClient("default");
+        var cl = _client;
         var url = $"/api/equalizers";
 
         try {
@@ -67,7 +67,7 @@ public class DataService : IDataService {
     }
 
     public async Task<Equalizer?> Equalizer(int id) {
-        var cl = _clientFactory.CreateClient("default");
+        var cl = _client;
         var url = $"/api/equalizers/{id}";
 
         try {
@@ -81,7 +81,7 @@ public class DataService : IDataService {
     }
 
     public async Task<Equalizer?> CreateEqualizer(Equalizer eq) {
-        var cl = _clientFactory.CreateClient("default");
+        var cl = _client;
         var url = $"/api/equalizers";
 
         try {
@@ -96,7 +96,7 @@ public class DataService : IDataService {
     }
 
     public async Task DeleteEqualizer(int id) {
-        var cl = _clientFactory.CreateClient("default");
+        var cl = _client;
         var url = $"/api/equalizers/{id}";
 
         try {
@@ -108,7 +108,7 @@ public class DataService : IDataService {
     }
 
     public async Task<Equalizer?> UpdateEqualizer(int id, Equalizer eq) {
-        var cl = _clientFactory.CreateClient("default");
+        var cl = _client;
         var url = $"/api/equalizers/{id}";
 
         try {
