@@ -57,4 +57,7 @@ public static class DesignData {
     public static ModalAudioPlayerViewModel ModalAudioPlayer
         => new(NullLogger<ModalAudioPlayerViewModel>.Instance, new VLCEqualizePresetFactory(NullLogger<VLCEqualizePresetFactory>.Instance))
             { EqualizerViewModel = Equalizer, PlayerModel = AudioPlayerViewModel };
+
+    public static AudioRecordingsManagerViewModel AudioRecordingsManagerViewModel
+        => new(NullLogger<AudioRecordingsManagerViewModel>.Instance, null, null);
 }

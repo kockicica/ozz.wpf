@@ -25,7 +25,7 @@ using EqualizerModel = ozz.wpf.Models.Equalizer;
 
 namespace ozz.wpf.ViewModels;
 
-public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRoutableViewModel {
+public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRoutableViewModel, ICaption {
     private readonly IAudioRecordingsService _audioRecordingsService;
 
     private readonly IClient                                                 _client;
@@ -171,6 +171,12 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
     #region IActivatableViewModel Members
 
     public ViewModelActivator Activator { get; } = new();
+
+    #endregion
+
+    #region ICaption Members
+
+    public string Caption { get; } = "Emitovanje audio zapisa";
 
     #endregion
 

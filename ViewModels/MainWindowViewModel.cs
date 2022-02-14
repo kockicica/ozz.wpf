@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
 using ReactiveUI;
+
+using Splat;
 
 namespace ozz.wpf.ViewModels {
 
@@ -12,10 +13,6 @@ namespace ozz.wpf.ViewModels {
         private bool _overlayVisible;
 
         public MainWindowViewModel() {
-            GoNext = ReactiveCommand.CreateFromObservable(() => {
-                var vm = Disposition;
-                return Router.Navigate.Execute(vm);
-            });
 
             this.WhenActivated(d => {
                 LoginViewModel
@@ -25,6 +22,10 @@ namespace ozz.wpf.ViewModels {
                         switch (user.Level) {
                             case 1:
                                 Router.Navigate.Execute(Disposition);
+                                break;
+                            default:
+                                var vm = Locator.Current.GetService<ManagerViewModel>();
+                                Router.Navigate.Execute(vm);
                                 break;
                         }
                     })
@@ -41,10 +42,6 @@ namespace ozz.wpf.ViewModels {
             get => _overlayVisible;
             set => this.RaiseAndSetIfChanged(ref _overlayVisible, value);
         }
-
-        public ReactiveCommand<Unit, IRoutableViewModel> GoNext { get; }
-
-        public ReactiveCommand<Unit, IRoutableViewModel?> GoBack => Router.NavigateBack;
 
         #region IActivatableViewModel Members
 

@@ -1,8 +1,3 @@
-using System;
-using System.Reactive.Disposables;
-using System.Reactive.Linq;
-
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
@@ -23,9 +18,9 @@ public partial class LoginView : ReactiveUserControl<LoginViewModel> {
         _usernameBox = this.FindControl<TextBox>("UsernameBlock");
 
         this.WhenActivated(d => {
-            Observable.FromEventPattern<VisualTreeAttachmentEventArgs>(_usernameBox, "AttachedToVisualTree")
-                      .Subscribe(pattern => _usernameBox.Focus())
-                      .DisposeWith(d);
+            // Observable.FromEventPattern<VisualTreeAttachmentEventArgs>(_usernameBox, "AttachedToVisualTree")
+            //           .Subscribe(pattern => _usernameBox.Focus())
+            //           .DisposeWith(d);
         });
     }
 

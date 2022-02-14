@@ -74,6 +74,17 @@ namespace ozz.wpf {
                                s.AddTransient<ModalAudioPlayerViewModel>();
                                s.AddTransient<IViewFor<DispositionViewModel>, DispositionView>();
 
+                               s.AddTransient<AudioRecordingsManagerViewModel>();
+                               s.AddTransient<IViewFor<AudioRecordingsManagerViewModel>, AudioRecordingsManagerView>();
+
+                               s.AddTransient<ManagerViewModel>();
+                               s.AddTransient<IViewFor<ManagerViewModel>, ManagerView>();
+
+                               s.AddSingleton<RoutingState>(provider => {
+                                   var wnd = provider.GetService<MainWindowViewModel>();
+                                   return wnd.Router;
+                               });
+
                                // configure settings
                                s.AddOptions<ServerConfiguration>()
                                 .Bind(ctx.Configuration.GetSection(ServerConfiguration.Server))

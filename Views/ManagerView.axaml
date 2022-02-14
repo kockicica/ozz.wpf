@@ -1,0 +1,49 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:s="clr-namespace:Avalonia.Svg.Skia;assembly=Avalonia.Svg.Skia"
+             xmlns:rxui="clr-namespace:Avalonia.ReactiveUI;assembly=Avalonia.ReactiveUI"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ozz.wpf.Views.ManagerView">
+
+    <!-- <i:Interaction.Behaviors> -->
+    <!--     <iac:ValueChangedTriggerBehavior Binding="{Binding HasCurrentModel}"> -->
+    <!--         <ia:ChangePropertyAction TargetObject="{Binding #PART_Toolbar}" PropertyName="Background" Value="Red"></ia:ChangePropertyAction> -->
+    <!--     </iac:ValueChangedTriggerBehavior> -->
+    <!-- </i:Interaction.Behaviors> -->
+    <UserControl.Styles>
+        <Style Selector="StackPanel#PART_Toolbar">
+            <Setter Property="Margin" Value="0 0 0 10" />
+            <Setter Property="Spacing" Value="20" />
+            <Setter Property="Height" Value="48" />
+            <Setter Property="Opacity" Value="1" />
+        </Style>
+        <Style Selector="TextBlock.h1">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontStyle" Value="Italic" />
+        </Style>
+        <Style Selector="StackPanel#PART_Toolbar.NoView">
+            <Setter Property="Opacity" Value="0" />
+        </Style>
+        <Style Selector="Image#BackIcon">
+            <Setter Property="Height" Value="24" />
+        </Style>
+    </UserControl.Styles>
+    <Grid RowDefinitions="Auto, *">
+        <StackPanel x:Name="PART_Toolbar" Orientation="Horizontal" Classes.NoView="{Binding !HasCurrentModel}">
+            <Button DockPanel.Dock="Left" Command="{Binding GoBack}">
+                <Image x:Name="BackIcon" Source="{s:SvgImage /Assets/arrow-left.svg}" />
+            </Button>
+            <TextBlock Classes="h1" Text="{Binding Caption}" VerticalAlignment="Center" />
+        </StackPanel>
+        <rxui:RoutedViewHost Grid.Row="1" Router="{Binding Router}">
+            <rxui:RoutedViewHost.DefaultContent>
+                <Grid RowDefinitions="*,*" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Command="{Binding ViewAudioManager}">Audio zapisi</Button>
+                    <Button Grid.Row="1" Command="{Binding ViewDisposition}">Emitovanje zapisa</Button>
+                </Grid>
+            </rxui:RoutedViewHost.DefaultContent>
+        </rxui:RoutedViewHost>
+    </Grid>
+</UserControl>
