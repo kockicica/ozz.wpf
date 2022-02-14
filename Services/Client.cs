@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using System.Web;
 
 using Microsoft.Extensions.Logging;
 
@@ -38,17 +39,15 @@ public class Client : IClient {
 
     }
 
-    public async Task<IEnumerable<AudioRecording>> AudioRecordingsForCategory(int categoryId, string name) {
+    public async Task<PagedResults<AudioRecording>> AudioRecordings(AudioRecordingsSearchParams sp) {
         var cl = _client;
-        var url = $"/api/audio/active/{categoryId}";
-        if (!string.IsNullOrEmpty(name)) {
-            url += $"?name={name}";
-        }
+        var url = $"/api/audio{ToQueryString(sp)}";
+
         var req = new HttpRequestMessage(HttpMethod.Get, url);
         using var rsp = await cl.SendAsync(req, HttpCompletionOption.ResponseHeadersRead);
         var stream = await rsp.Content.ReadAsStringAsync();
         rsp.EnsureSuccessStatusCode();
-        var data = JsonConvert.DeserializeObject<IEnumerable<AudioRecording>>(stream);
+        var data = JsonConvert.DeserializeObject<PagedResults<AudioRecording>>(stream);
         return data;
     }
 
@@ -159,6 +158,27 @@ public class Client : IClient {
     }
 
     #endregion
+
+    private string ToQueryString(AudioRecordingsSearchParams sp) {
+        var items = new List<string>();
+        if (sp.Active.HasValue) {
+            items.Add($"active={sp.Active.Value}");
+        }
+        if (!string.IsNullOrEmpty(sp.Name)) {
+            items.Add($"name={HttpUtility.UrlEncode(sp.Name)}");
+        }
+        if (sp.CategoryId.HasValue) {
+            items.Add($"category={sp.CategoryId}");
+        }
+        if (sp.FromDate.HasValue) {
+            items.Add($"fromDate={sp.FromDate.Value:yyyy-MM-dd}");
+        }
+        if (sp.ToDate.HasValue) {
+            items.Add($"toDate={sp.ToDate.Value:yyyy-MM-dd}");
+        }
+        return $"?{string.Join("&", items)}";
+
+    }
 
     #region Nested type: EqualizerResponse
 

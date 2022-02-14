@@ -34,7 +34,10 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
     private readonly IResolver                                               _resolver;
     private          ObservableAsPropertyHelper<IEnumerable<Category>>       _categories;
     private          ObservableAsPropertyHelper<IEnumerable<AudioRecording>> _recordings;
+    private          bool?                                                   _searchActive = true;
+    private          DateTimeOffset?                                         _searchFrom;
     private          string                                                  _searchTerm;
+    private          DateTimeOffset?                                         _searchTo;
     private          Category                                                _selectedCategory;
     private          AudioRecording                                          _selectedRecording;
 
@@ -52,6 +55,17 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
 
         ProcessCategory = ReactiveCommand.Create<Category>(cat => SelectedCategory = cat, Observable.Return(true));
 
+        ClearDate = ReactiveCommand.Create<string?>(which => {
+            switch (which) {
+                case "searchFrom":
+                    SearchFrom = null;
+                    break;
+                case "searchTo":
+                    SearchTo = null;
+                    break;
+            }
+        });
+
         async void Execute(AudioRecording recording) {
             await ShowPlayer.Handle(recording);
         }
@@ -68,25 +82,35 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
                           .ToProperty(this, x => x.Categories).DisposeWith(d);
 
 
-            _recordings = Observable.Merge<object?>(
-                                        this.WhenAnyValue(model => model.SelectedCategory),
-                                        this.WhenAnyValue(model => model.SearchTerm).Throttle(TimeSpan.FromMilliseconds(300))
-                                    )
-                                    .Where(x => x != null)
-                                    .SelectMany(_ => _audioRecordingsService
-                                                     .AudioRecordingsForCategory(SelectedCategory.Id, SearchTerm).ToObservable()
-                                                     .Catch(Observable.Return(new List<AudioRecording>())))
-                                    .ToProperty(this, x => x.Recordings).DisposeWith(d);
+            _recordings = this.WhenAnyValue(
+                                  model => model.SelectedCategory,
+                                  model => model.SearchTerm,
+                                  model => model.SearchActive,
+                                  model => model.SearchFrom,
+                                  model => model.SearchTo
+                              )
+                              .Where(x => x.Item1 != null)
+                              .SelectMany(p => _audioRecordingsService
+                                               .AudioRecordings(new() {
+                                                   CategoryId = SelectedCategory.Id,
+                                                   Name = SearchTerm,
+                                                   Active = SearchActive,
+                                                   FromDate = SearchFrom?.Date,
+                                                   ToDate = SearchTo?.Date,
+                                               })
+                                               .ToObservable()
+                                               .Catch(Observable.Return(new PagedResults<AudioRecording>())))
+                              .Select(x => x.Data)
+                              .ToProperty(this, x => x.Recordings).DisposeWith(d);
 
-            _logger.LogDebug("Test log");
-
-            var interval = TimeSpan.FromSeconds(10);
-            Observable
-                .Timer(interval, interval)
-                .Subscribe(x => {
-                    /* do smth every 5m */
-                })
-                .DisposeWith(d);
+            // var interval = TimeSpan.FromSeconds(10);
+            // Observable
+            //     .Timer(interval, interval)
+            //     .Subscribe(x => {
+            //         /* do smth every 5m */
+            //         _logger.LogDebug("Event on every 10 seconds");
+            //     })
+            //     .DisposeWith(d);
 
             ShowPlayer.RegisterHandler(DoShowDialogAsync).DisposeWith(d);
         });
@@ -127,6 +151,23 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
     [NotNull]
     public Interaction<AudioRecording, Unit> ShowPlayer { get; }
 
+    public ReactiveCommand<string?, Unit> ClearDate { get; set; }
+
+    public bool? SearchActive {
+        get => _searchActive;
+        set => this.RaiseAndSetIfChanged(ref _searchActive, value);
+    }
+
+    public DateTimeOffset? SearchFrom {
+        get => _searchFrom;
+        set => this.RaiseAndSetIfChanged(ref _searchFrom, value);
+    }
+
+    public DateTimeOffset? SearchTo {
+        get => _searchTo;
+        set => this.RaiseAndSetIfChanged(ref _searchTo, value);
+    }
+
     #region IActivatableViewModel Members
 
     public ViewModelActivator Activator { get; } = new();
@@ -139,7 +180,6 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
     public IScreen HostScreen     { get; }
 
     #endregion
-
 
     private async Task DoShowDialogAsync(InteractionContext<AudioRecording, Unit> interactionContext) {
         if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {

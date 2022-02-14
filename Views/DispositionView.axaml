@@ -24,24 +24,39 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="models:Category">
                     <Button Content="{Binding Name}" Margin="5 0"
-                            Command="{Binding $parent[views:DispositionView].DataContext.ProcessCategory }" CommandParameter="{Binding .}">
-
-                    </Button>
+                            Command="{Binding $parent[views:DispositionView].DataContext.ProcessCategory }" CommandParameter="{Binding .}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
         <Grid Grid.Row="1" ColumnDefinitions="2*, 1*">
             <DockPanel Grid.Column="0">
-                <TextBox Text="{Binding SearchTerm}" VerticalAlignment="Center" Watermark="Naziv ili deo naziva" Classes="clearButton"
-                         DockPanel.Dock="Top" Margin="5">
-                </TextBox>
-                <views:AudioRecordingsListView DockPanel.Dock="Bottom"></views:AudioRecordingsListView>
+                <Grid DockPanel.Dock="Top">
+                    <StackPanel Margin="5" Spacing="5">
+                        <TextBox Text="{Binding SearchTerm}" VerticalAlignment="Center" Watermark="Naziv ili deo naziva" Classes="clearButton" />
+                        <Expander Header="Napredna pretraga">
+                            <StackPanel Orientation="Vertical" Spacing="5">
+                                <CheckBox IsThreeState="True" IsChecked="{Binding SearchActive}">Aktivni?</CheckBox>
+                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <TextBlock Text="Od:" VerticalAlignment="Center" />
+                                    <DatePicker x:Name="FromPicker" SelectedDate="{Binding SearchFrom}" VerticalAlignment="Center" />
+                                    <Button Content="Clear" VerticalAlignment="Center" Command="{Binding ClearDate}" CommandParameter="searchFrom" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <TextBlock Text="Do:" VerticalAlignment="Center" />
+                                    <DatePicker x:Name="ToPicker" SelectedDate="{Binding SearchTo}" VerticalAlignment="Center" />
+                                    <Button Content="Clear" VerticalAlignment="Center" Command="{Binding ClearDate}" CommandParameter="searchTo" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Expander>
+                    </StackPanel>
+                </Grid>
+                <views:AudioRecordingsListView DockPanel.Dock="Bottom" />
             </DockPanel>
-            <Panel Grid.Column="1" Background="Yellow"></Panel>
+            <Panel Grid.Column="1" Background="Yellow" />
         </Grid>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Button Content="{Binding SelectedCategory.Name}" Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}"></Button>
-            <TextBlock Text="{Binding SelectedRecording.Name}" VerticalAlignment="Center"></TextBlock>
+            <Button Content="{Binding SelectedCategory.Name}" Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}" />
+            <TextBlock Text="{Binding SelectedRecording.Name}" VerticalAlignment="Center" />
         </StackPanel>
     </Grid>
 </UserControl>

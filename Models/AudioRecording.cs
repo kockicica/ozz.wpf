@@ -10,5 +10,4 @@ public class AudioRecording {
     public string   Category { get; set; }
     public long     Duration { get; set; }
     public DateTime Date     { get; set; }
-
 }

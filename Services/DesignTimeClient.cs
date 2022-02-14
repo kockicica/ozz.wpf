@@ -18,8 +18,8 @@ public class DesignTimeClient : IClient {
         }.AsEnumerable());
     }
 
-    public Task<IEnumerable<AudioRecording>> AudioRecordingsForCategory(int categoryId, string name) {
-        return Task.FromResult(new List<AudioRecording>().AsEnumerable());
+    public Task<PagedResults<AudioRecording>> AudioRecordings(AudioRecordingsSearchParams sp) {
+        return Task.FromResult(new PagedResults<AudioRecording> { Count = 0, Data = System.Array.Empty<AudioRecording>().AsEnumerable() });
     }
 
     public Task<IEnumerable<Equalizer>?> Equalizers() {
@@ -58,8 +58,8 @@ public class DesignTimeAudioRecordingsService : IAudioRecordingsService {
 
     #region IAudioRecordingsService Members
 
-    public Task<IEnumerable<AudioRecording>> AudioRecordingsForCategory(int categoryId, string name) {
-        return Task.FromResult(new List<AudioRecording>().AsEnumerable());
+    public Task<PagedResults<AudioRecording>> AudioRecordings(AudioRecordingsSearchParams sp) {
+        return Task.FromResult(new PagedResults<AudioRecording>() { Count = 0, Data = System.Array.Empty<AudioRecording>().AsEnumerable() });
     }
 
     #endregion
