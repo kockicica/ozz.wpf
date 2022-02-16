@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Disposables;
+using System.Windows.Input;
 
 using Microsoft.Extensions.Logging;
 
@@ -18,7 +20,7 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
     private AudioRecordingsManagerViewModel? _audioRecordingsManagerViewModel;
 
-    private string _caption;
+    private string _caption = "Home";
 
     private IRoutableViewModel? _currentViewModel;
 
@@ -88,6 +90,11 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
     public DispositionViewModel DispositionViewModel => _dispositionViewModel ??= _resolver.GetService<DispositionViewModel>();
 
+    public IEnumerable<ManagerMenuItem> MenuItems => new ManagerMenuItem[] {
+        new() { Caption = "Emitovanje zapisa", Command = ViewDisposition, Icon = "/Assets/circle-play.svg" },
+        new() { Caption = "Upravljanje audio zapisima", Command = ViewAudioManager, Icon = "/Assets/file-audio.svg" },
+    };
+
     #region IActivatableViewModel Members
 
     public ViewModelActivator Activator { get; } = new();
@@ -107,4 +114,10 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
     #endregion
 
+}
+
+public class ManagerMenuItem {
+    public ICommand Command { get; set; }
+    public string   Caption { get; set; }
+    public string   Icon    { get; set; }
 }

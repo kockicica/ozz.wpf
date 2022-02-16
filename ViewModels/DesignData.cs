@@ -60,4 +60,6 @@ public static class DesignData {
 
     public static AudioRecordingsManagerViewModel AudioRecordingsManagerViewModel
         => new(NullLogger<AudioRecordingsManagerViewModel>.Instance, null, new DesignTimeClient(), new DesignTimeAudioRecordingsService());
+
+    public static ManagerViewModel ManagerViewModel => new(NullLogger<ManagerViewModel>.Instance, null, new LocatorBasedResolver());
 }
