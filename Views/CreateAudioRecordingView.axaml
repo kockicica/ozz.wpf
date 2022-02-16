@@ -1,0 +1,47 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ozz.wpf.Views.CreateAudioRecordingView">
+    <UserControl.DataContext>
+        <viewModels:CreateAudioRecordingViewModel />
+    </UserControl.DataContext>
+    <UserControl.Styles>
+        <Style Selector="TextBox">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0 3 6 3" />
+        </Style>
+        <Style Selector="CheckBox">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0 3 6 3" />
+        </Style>
+        <Style Selector="Label">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0 3 6 3" />
+        </Style>
+    </UserControl.Styles>
+    <ScrollViewer>
+
+
+        <Grid ColumnDefinitions="Auto,10,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,*">
+            <Label Grid.Row="0" Grid.Column="0">Naziv</Label>
+            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Name}" />
+            <Label Grid.Row="1" Grid.Column="0">Komentar</Label>
+            <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Comment}" />
+            <Label Grid.Row="2" Grid.Column="0">Klijent</Label>
+            <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding Client}" />
+            <Label Grid.Row="3" Grid.Column="0">Aktivan</Label>
+            <CheckBox Grid.Row="3" Grid.Column="2" IsChecked="{Binding Active}" />
+            <Label Grid.Row="4" Grid.Column="0">Datoteka</Label>
+            <Grid Grid.Row="4" Grid.Column="2">
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Browse" Command="{Binding BrowseForAudioFile}" />
+                    <TextBlock Text="{Binding FileName}" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+
+</UserControl>

@@ -80,6 +80,8 @@ namespace ozz.wpf {
 
                                s.AddTransient<ManagerViewModel>();
                                s.AddTransient<IViewFor<ManagerViewModel>, ManagerView>();
+                               s.AddTransient<CreateAudioRecordingViewModel>();
+                               s.AddTransient<IViewFor<CreateAudioRecordingViewModel>, CreateAudioRecordingView>();
 
                                s.AddSingleton<RoutingState>(provider => {
                                    var wnd = provider.GetService<MainWindowViewModel>();
@@ -90,6 +92,8 @@ namespace ozz.wpf {
                                    var vm = provider.GetService<MainWindowViewModel>();
                                    return vm.NotificationManager;
                                });
+
+                               s.AddSingleton<IMainWindowProvider, MainWindowProvider>();
 
                                // configure settings
                                s.AddOptions<ServerConfiguration>()

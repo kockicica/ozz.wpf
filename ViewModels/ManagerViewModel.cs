@@ -22,6 +22,8 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
     private string _caption = "Home";
 
+    private CreateAudioRecordingViewModel? _createAudioRecordingViewModel;
+
     private IRoutableViewModel? _currentViewModel;
 
     private DispositionViewModel? _dispositionViewModel;
@@ -44,6 +46,14 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
             () => {
                 //var vm = _resolver.GetService<DispositionViewModel>();
                 Router.Navigate.Execute(DispositionViewModel);
+            },
+            this.WhenAny(model => model.CurrentViewModel, x => x.Value?.UrlPathSegment != "disposition")
+        );
+
+        CreateNewAudio = ReactiveCommand.Create(
+            () => {
+                //var vm = _resolver.GetService<DispositionViewModel>();
+                Router.Navigate.Execute(CreateAudioRecordingViewModel);
             },
             this.WhenAny(model => model.CurrentViewModel, x => x.Value?.UrlPathSegment != "disposition")
         );
@@ -71,6 +81,8 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
     public ReactiveCommand<Unit, Unit> ViewDisposition { get; }
 
+    public ReactiveCommand<Unit, Unit> CreateNewAudio { get; }
+
     public string Caption {
         get => _caption;
         set => this.RaiseAndSetIfChanged(ref _caption, value);
@@ -92,8 +104,12 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
     public IEnumerable<ManagerMenuItem> MenuItems => new ManagerMenuItem[] {
         new() { Caption = "Emitovanje zapisa", Command = ViewDisposition, Icon = "/Assets/circle-play.svg" },
-        new() { Caption = "Upravljanje audio zapisima", Command = ViewAudioManager, Icon = "/Assets/file-audio.svg" },
+        new() { Caption = "Upravljanje audio zapisima", Command = ViewAudioManager, Icon = "/Assets/album-collection.svg" },
+        new() { Caption = "Novi audio zapis", Command = CreateNewAudio, Icon = "/Assets/file-audio.svg" },
     };
+
+    public CreateAudioRecordingViewModel? CreateAudioRecordingViewModel
+        => _createAudioRecordingViewModel ??= _resolver.GetService<CreateAudioRecordingViewModel>();
 
     #region IActivatableViewModel Members
 

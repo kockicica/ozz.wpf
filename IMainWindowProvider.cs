@@ -4,6 +4,5 @@ namespace ozz.wpf;
 
 public interface IMainWindowProvider {
 
-    Window GetMainWindow();
-
+    Window? GetMainWindow();
 }
