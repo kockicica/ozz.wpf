@@ -3,14 +3,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:rxui="clr-namespace:Avalonia.ReactiveUI;assembly=Avalonia.ReactiveUI"
+             xmlns:s="clr-namespace:Avalonia.Svg.Skia;assembly=Avalonia.Svg.Skia"
+             xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
+             d:DataContext="{x:Static viewModels:DesignData.ManagerViewModel}"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ozz.wpf.Views.ManagerView">
-
-    <!-- <i:Interaction.Behaviors> -->
-    <!--     <iac:ValueChangedTriggerBehavior Binding="{Binding HasCurrentModel}"> -->
-    <!--         <ia:ChangePropertyAction TargetObject="{Binding #PART_Toolbar}" PropertyName="Background" Value="Red"></ia:ChangePropertyAction> -->
-    <!--     </iac:ValueChangedTriggerBehavior> -->
-    <!-- </i:Interaction.Behaviors> -->
     <UserControl.Styles>
         <Style Selector="StackPanel#PART_Toolbar">
             <Setter Property="Margin" Value="0 0 0 10" />
@@ -33,7 +30,7 @@
             <Setter Property="Margin" Value="10" />
         </Style>
     </UserControl.Styles>
-    <SplitView x:Name="SplitView" PanePlacement="Left" DisplayMode="CompactInline" IsPaneOpen="False" CompactPaneLength="64">
+    <SplitView x:Name="SplitView" PanePlacement="Left" DisplayMode="CompactInline" IsPaneOpen="False" CompactPaneLength="58">
         <SplitView.Pane>
             <Grid RowDefinitions="Auto, Auto">
                 <ToggleButton Name="PaneOpenButton" Grid.Row="0" Margin="5" IsChecked="{Binding IsPaneOpen, ElementName=SplitView}"
@@ -54,43 +51,40 @@
                     </ToggleButton.Resources>
                     <Image Source="{StaticResource barsDrawingImage}" Height="22" />
                 </ToggleButton>
-                <StackPanel Grid.Row="1" Orientation="Vertical" Margin="5">
-                    <Button Content="Upravljanje audio zapisima" Command="{Binding ViewAudioManager}" />
-                    <Button Content="Emitovanje zapisa" Command="{Binding ViewDisposition}" />
-                    <!-- <Menu> -->
-                    <!--     <MenuItem Header="Upravljanje audio zapisima" Command="{Binding ViewAudioManager}"> -->
-                    <!--         <MenuItem.Icon> -->
-                    <!--             <Image Source="{StaticResource barsDrawingImage}"/> -->
-                    <!--         </MenuItem.Icon> -->
-                    <!--     </MenuItem> -->
-                    <!--     <MenuItem Header="Emitovanje zapisa" Command="{Binding ViewDisposition}"> -->
-                    <!--         <MenuItem.Icon> -->
-                    <!--             <Image Source="{StaticResource barsDrawingImage}"/> -->
-                    <!--         </MenuItem.Icon> -->
-                    <!--     </MenuItem> -->
-                    <!-- </Menu> -->
-                    <!-- <Button x:Name="ToggleButton" Command="{Binding ViewAudioManager}" Content="Upravljanje audio zapisima"></Button> -->
-                    <!-- <Button Grid.Row="1" Command="{Binding ViewDisposition}">Emitovanje zapisa</Button> -->
-                    <!-- <Grid RowDefinitions="*,*" HorizontalAlignment="Center" VerticalAlignment="Center"> -->
-                    <!-- </Grid> -->
-
-                </StackPanel>
+                <ItemsControl Grid.Row="1" Items="{Binding MenuItems}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Spacing="2" Orientation="Vertical" HorizontalAlignment="Stretch" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="viewModels:ManagerMenuItem">
+                            <Button HorizontalAlignment="Stretch" Height="{DynamicResource ItemHeight}" Command="{Binding Command}">
+                                <Button.Resources>
+                                    <SolidColorBrush x:Key="ButtonBackground">Transparent</SolidColorBrush>
+                                    <Thickness x:Key="ButtonPadding">0 5 0 5</Thickness>
+                                    <x:Double x:Key="ItemHeight">50</x:Double>
+                                </Button.Resources>
+                                <Grid ColumnDefinitions="48, *">
+                                    <s:Svg Grid.Column="0" Path="{Binding Icon}" Width="22" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           Margin="5 0 0 0" />
+                                    <TextBlock Grid.Column="1" Text="{Binding Caption}" VerticalAlignment="Center" Margin="8 0 0 0" />
+                                </Grid>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
         </SplitView.Pane>
         <Grid RowDefinitions="Auto, *">
             <StackPanel x:Name="PART_Toolbar" Orientation="Horizontal" Classes.NoView="{Binding !HasCurrentModel}">
                 <Button DockPanel.Dock="Left" Command="{Binding GoBack}">
-                    <!-- <Image x:Name="BackIcon" Source="{s:SvgImage /Assets/arrow-left.svg}" /> -->
                     <PathIcon Data="{StaticResource chevron_left_regular}" />
                 </Button>
                 <TextBlock Classes="h1" Text="{Binding Caption}" VerticalAlignment="Center" />
             </StackPanel>
             <rxui:RoutedViewHost Grid.Row="1" Router="{Binding Router}">
                 <rxui:RoutedViewHost.DefaultContent>
-                    <!-- <Grid RowDefinitions="*,*" HorizontalAlignment="Center" VerticalAlignment="Center"> -->
-                    <!--     <Button Command="{Binding ViewAudioManager}">Audio zapisi</Button> -->
-                    <!--     <Button Grid.Row="1" Command="{Binding ViewDisposition}">Emitovanje zapisa</Button> -->
-                    <!-- </Grid> -->
                 </rxui:RoutedViewHost.DefaultContent>
             </rxui:RoutedViewHost>
         </Grid>
