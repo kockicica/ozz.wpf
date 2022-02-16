@@ -9,6 +9,11 @@
         x:Class="ozz.wpf.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         WindowStartupLocation="CenterScreen"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="Default"
+        ExtendClientAreaTitleBarHeightHint="32"
+        TransparencyLevelHint="AcrylicBlur"
+        SystemDecorations="Full"
         Title="OZZZZZZZZZ-o-matic">
 
     <Window.Styles>
@@ -35,48 +40,43 @@
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity=".4" />
             </Grid.Background>
-
-            <!-- Add controls as needed -->
         </Grid>
-
-        <!-- Use whatever layout you need -->
-        <!-- <ContentControl x:Name="MainContent" Content="{Binding Disposition}" /> -->
-        <!-- <views:DispositionView DataContext="{Binding Disposition}"></views:DispositionView> -->
         <Grid>
-            <!-- <Grid.RowDefinitions> -->
-            <!--     <RowDefinition Height="*" /> -->
-            <!--     <RowDefinition Height="Auto" /> -->
-            <!-- </Grid.RowDefinitions> -->
-
-
             <rxui:RoutedViewHost Grid.Row="0" Router="{Binding Router}">
                 <rxui:RoutedViewHost.DefaultContent>
                     <views:LoginView DataContext="{Binding LoginViewModel}" />
-                    <!-- <TextBlock Text="Default content" -->
-                    <!--            HorizontalAlignment="Center" -->
-                    <!--            VerticalAlignment="Center" /> -->
                 </rxui:RoutedViewHost.DefaultContent>
             </rxui:RoutedViewHost>
-
-            <!-- <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="15"> -->
-            <!--     <StackPanel.Styles> -->
-            <!--         <Style Selector="StackPanel > :is(Control)"> -->
-            <!--             <Setter Property="Margin" Value="2"/> -->
-            <!--         </Style> -->
-            <!--         <Style Selector="StackPanel > TextBlock"> -->
-            <!--             <Setter Property="VerticalAlignment" Value="Center"/> -->
-            <!--         </Style> -->
-            <!--     </StackPanel.Styles> -->
-            <!--     <Button Content="Go next" Command="{Binding GoNext}" /> -->
-            <!--     <Button Content="Go back" Command="{Binding GoBack}" /> -->
-            <!--     <TextBlock Text="{Binding Router.NavigationStack.Count}" /> -->
-            <!-- </StackPanel> -->
+            <Border>
+                <!-- <Border.Background> -->
+                <!--     <SolidColorBrush Color="White" Opacity="0.7" /> -->
+                <!-- </Border.Background> -->
+                <!-- <DockPanel HorizontalAlignment="Right" VerticalAlignment="Top" Height="32"> -->
+                <!--     <Button Classes="close" DockPanel.Dock="Right" x:Name="CloseButton" Width="48" Height="32"> -->
+                <!--         <Button.Styles> -->
+                <!--             <Style Selector="Button.close /template/ ContentPresenter#PART_ContentPresenter"> -->
+                <!--                 <Setter Property="Background" Value="Transparent" /> -->
+                <!--                 <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrush}" /> -->
+                <!--                 <Setter Property="TextBlock.Foreground" Value="{DynamicResource AccentButtonForeground}" /> -->
+                <!--             </Style> -->
+                <!--             <Style Selector="Button.close:pointerover /template/ ContentPresenter#PART_ContentPresenter"> -->
+                <!--                 <Setter Property="Background" Value="Red" /> -->
+                <!--                 <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrushPointerOver}" /> -->
+                <!--                 <Setter Property="TextBlock.Foreground" Value="White" /> -->
+                <!--             </Style> -->
+                <!--             <Style Selector="Button.close:pointerover Image"> -->
+                <!--                 <Setter Property="Source" Value="{DynamicResource xmarkDrawingImageOver}"></Setter> -->
+                <!--             </Style> -->
+                <!--             <Style Selector="Button.close Image"> -->
+                <!--                 <Setter Property="Source" Value="{StaticResource xmarkDrawingImage}"></Setter> -->
+                <!--             </Style> -->
+                <!--         </Button.Styles> -->
+                <!--         <Image Width="16" Height="16"></Image> -->
+                <!--         ~1~ <Image Source="{sk:SvgImage /Assets/xmark.svg}" Width="16" Height="16"></Image> @1@ -->
+                <!--         ~1~ <sk:Svg Path="/Assets/xmark.svg" Width="16" Height="16"></sk:Svg> @1@ -->
+                <!--     </Button> -->
+                <!-- </DockPanel> -->
+            </Border>
         </Grid>
-
     </Grid>
-    <!-- <Panel> -->
-    <!--     <ContentControl Content="{Binding Disposition}" ZIndex="100"></ContentControl> -->
-    <!-- </Panel> -->
-    <!-- <views:DispositionView DataContext="{Binding Disposition}"/> -->
-
 </Window>

@@ -5,6 +5,8 @@
              x:Class="ozz.wpf.App">
     <Application.Resources>
         <services:DurationToStringConverter x:Key="DurationToStringConverter" />
+        <services:ToIdConverter x:Key="ToIdConverter" />
+        <services:BoolToStringConverter x:Key="BoolToStringConverter" />
     </Application.Resources>
     <Application.DataTemplates>
         <local:ViewLocator />
@@ -13,7 +15,7 @@
     <Application.Styles>
         <FluentTheme Mode="Light" />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
-        <StyleInclude Source="avares://Aura.UI.FluentTheme/AuraUI.xaml"></StyleInclude>
+        <StyleInclude Source="avares://Aura.UI.FluentTheme/AuraUI.xaml" />
         <StyleInclude Source="avares://ozz.wpf/Icons.axaml" />
         <StyleInclude Source="avares://ozz.wpf/Styles/PlayerSlider.axaml" />
     </Application.Styles>

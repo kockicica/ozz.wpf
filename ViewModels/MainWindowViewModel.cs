@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Reactive;
 using System.Reactive.Disposables;
-using System.Reactive.Linq;
+
+using Avalonia.Controls.Notifications;
 
 using ReactiveUI;
 
 using Splat;
+
+using Notification = Avalonia.Controls.Notifications.Notification;
 
 namespace ozz.wpf.ViewModels {
 
@@ -14,19 +18,27 @@ namespace ozz.wpf.ViewModels {
 
         public MainWindowViewModel() {
 
+            Close = ReactiveCommand.Create(() => { });
+
             this.WhenActivated(d => {
                 LoginViewModel
                     .Login
-                    .Where(x => x != null)
+                    //.Where(x => x != null)
                     .Subscribe(user => {
-                        switch (user.Level) {
-                            case 1:
-                                Router.Navigate.Execute(Disposition);
-                                break;
-                            default:
-                                var vm = Locator.Current.GetService<ManagerViewModel>();
-                                Router.Navigate.Execute(vm);
-                                break;
+                        if (user != null) {
+                            switch (user.Level) {
+                                case 1:
+                                    Router.Navigate.Execute(Disposition);
+                                    break;
+                                default:
+                                    var vm = Locator.Current.GetService<ManagerViewModel>();
+                                    Router.Navigate.Execute(vm);
+                                    break;
+                            }
+                        }
+                        else {
+                            this.NotificationManager.Show(
+                                new Notification("Greška", "Korisnik ne postoji", NotificationType.Error));
                         }
                     })
                     .DisposeWith(d);
@@ -42,6 +54,10 @@ namespace ozz.wpf.ViewModels {
             get => _overlayVisible;
             set => this.RaiseAndSetIfChanged(ref _overlayVisible, value);
         }
+
+        public INotificationManager NotificationManager { get; set; }
+
+        public ReactiveCommand<Unit, Unit> Close { get; }
 
         #region IActivatableViewModel Members
 

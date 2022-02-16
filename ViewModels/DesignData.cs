@@ -59,5 +59,5 @@ public static class DesignData {
             { EqualizerViewModel = Equalizer, PlayerModel = AudioPlayerViewModel };
 
     public static AudioRecordingsManagerViewModel AudioRecordingsManagerViewModel
-        => new(NullLogger<AudioRecordingsManagerViewModel>.Instance, null, null);
+        => new(NullLogger<AudioRecordingsManagerViewModel>.Instance, null, new DesignTimeClient(), new DesignTimeAudioRecordingsService());
 }

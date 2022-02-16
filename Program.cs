@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Avalonia;
+using Avalonia.Controls.Notifications;
 using Avalonia.ReactiveUI;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -83,6 +84,11 @@ namespace ozz.wpf {
                                s.AddSingleton<RoutingState>(provider => {
                                    var wnd = provider.GetService<MainWindowViewModel>();
                                    return wnd.Router;
+                               });
+
+                               s.AddSingleton<INotificationManager>(provider => {
+                                   var vm = provider.GetService<MainWindowViewModel>();
+                                   return vm.NotificationManager;
                                });
 
                                // configure settings

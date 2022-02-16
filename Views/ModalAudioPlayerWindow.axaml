@@ -1,7 +1,4 @@
 <Window xmlns="https://github.com/avaloniaui"
-        xmlns:i="using:Avalonia.Xaml.Interactivity"
-        xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
-        xmlns:iac="using:Avalonia.Xaml.Interactions.Custom"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -47,7 +44,8 @@
                         <views:EqualizerView DataContext="{Binding EqualizerViewModel}" />
                         <StackPanel Orientation="Vertical" Grid.Column="1">
                             <Button Command="{Binding EqualizerViewModel.ResetCommand}">Reset</Button>
-                            <ToggleButton IsChecked="{Binding EqualizerOn}" Content="Active" />
+                            <!-- <ToggleButton IsChecked="{Binding EqualizerOn}" Content="Active" /> -->
+                            <ToggleSwitch IsChecked="{Binding EqualizerOn}" />
                             <!-- <Button Classes.toggle_eq="True" Classes.on="{Binding EqualizerOn}" Command="{Binding ToggleEqualizer}">Toggle</Button> -->
                             <ComboBox Items="{Binding Equalizers}" SelectedItem="{Binding EqualizerViewModel.Equalizer}" x:Name="ComboBox">
                                 <ComboBox.ItemTemplate>

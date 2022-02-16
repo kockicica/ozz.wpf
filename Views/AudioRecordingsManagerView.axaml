@@ -3,11 +3,65 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:ozz.wpf.ViewModels"
+             xmlns:services="clr-namespace:ozz.wpf.Services"
+             xmlns:models="clr-namespace:ozz.wpf.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" d:DataContext="{x:Static vm:DesignData.AudioRecordingsManagerViewModel}"
              x:Class="ozz.wpf.Views.AudioRecordingsManagerView">
+    <!-- <i:Interaction.Behaviors> -->
+    <!--     <iac:ValueChangedTriggerBehavior Binding="{Binding Categories}"> -->
+    <!--         <ia:ChangePropertyAction TargetObject="{Binding}" PropertyName="Categories" Value="1"></ia:ChangePropertyAction> -->
+    <!--     </iac:ValueChangedTriggerBehavior> -->
+    <!-- </i:Interaction.Behaviors> -->
     <UserControl.Styles>
+        <Styles>
+            <Style Selector="Grid.SearchArea">
+                <Setter Property="Margin" Value="10" />
+            </Style>
+            <Style Selector="Grid.SearchArea > TextBlock">
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Margin" Value="0 0 5 0" />
+            </Style>
+        </Styles>
     </UserControl.Styles>
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock>Hello world</TextBlock>
+    <Grid RowDefinitions="Auto, Auto, *">
+        <Grid ColumnDefinitions="*,*,Auto">
+            <Grid Classes="SearchArea" HorizontalAlignment="Stretch" ColumnDefinitions="Auto,*">
+                <TextBlock Text="Naziv:" />
+                <TextBox Grid.Column="1" Text="{Binding SearchParams.Name}" />
+            </Grid>
+            <Grid Grid.Column="1" Classes="SearchArea" HorizontalAlignment="Stretch" ColumnDefinitions="Auto,*">
+                <TextBlock Text="Kategorija:" />
+                <!-- <TextBox Grid.Column="1" Text="{Binding SearchParams.CategoryId}"></TextBox> -->
+                <ComboBox Grid.Column="1" Items="{Binding Categories}" x:Name="CategoriesCombo"
+                          services:ExampleBehavior.Items="{Binding Categories}"
+                          SelectedItem="{Binding SearchParams.CategoryId, Mode=OneWayToSource, Converter={StaticResource ToIdConverter}}"
+                          HorizontalAlignment="Stretch">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="models:Category">
+                            <Grid>
+                                <TextBlock Text="{Binding Name}" IsVisible="{Binding ., Converter={x:Static ObjectConverters.IsNotNull}}" />
+                                <TextBlock Text="Bilo koja" IsVisible="{Binding ., Converter={x:Static ObjectConverters.IsNull}}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+            <Grid Grid.Column="2">
+                <Button Command="{Binding Search}" CommandParameter="{Binding SearchParams}">Pretraga</Button>
+            </Grid>
+        </Grid>
+        <StackPanel Grid.Row="1">
+            <TextBlock Text="{Binding SearchParams.Name}" />
+            <TextBlock Text="{Binding SearchParams.CategoryId}" />
+        </StackPanel>
+        <DataGrid Grid.Row="2" Items="{Binding Results}" AutoGenerateColumns="False" IsReadOnly="True" x:Name="Grid">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="4*" />
+                <DataGridTextColumn Header="Datum" Binding="{Binding Date, StringFormat={}{0:dd.MM.yyyy}}" Width="2*" />
+                <DataGridTextColumn Header="Kategorija" Binding="{Binding Category}" Width="2*" />
+                <DataGridTextColumn Header="Aktivna" Binding="{Binding Active, Converter={StaticResource BoolToStringConverter}}" Width="*" />
+                <DataGridTextColumn Header="Trajanje" Binding="{Binding Duration, Converter={StaticResource DurationToStringConverter}}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

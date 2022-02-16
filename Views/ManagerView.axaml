@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:s="clr-namespace:Avalonia.Svg.Skia;assembly=Avalonia.Svg.Skia"
              xmlns:rxui="clr-namespace:Avalonia.ReactiveUI;assembly=Avalonia.ReactiveUI"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ozz.wpf.Views.ManagerView">
@@ -33,7 +32,8 @@
     <Grid RowDefinitions="Auto, *">
         <StackPanel x:Name="PART_Toolbar" Orientation="Horizontal" Classes.NoView="{Binding !HasCurrentModel}">
             <Button DockPanel.Dock="Left" Command="{Binding GoBack}">
-                <Image x:Name="BackIcon" Source="{s:SvgImage /Assets/arrow-left.svg}" />
+                <!-- <Image x:Name="BackIcon" Source="{s:SvgImage /Assets/arrow-left.svg}" /> -->
+                <PathIcon Data="{StaticResource chevron_left_regular}" />
             </Button>
             <TextBlock Classes="h1" Text="{Binding Caption}" VerticalAlignment="Center" />
         </StackPanel>
