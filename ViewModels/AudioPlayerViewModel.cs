@@ -206,9 +206,18 @@ public class AudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
         Player.Volume = Volume;
         Player.SetEqualizer(FromModel(Equalizer));
 
+        if (Track == null) {
+            return;
+        }
+
         //var eq = new Equalizer();
         //Player.SetEqualizer(new Equalizer());
-        Player.Play(new Media(_libVLC, new Uri($"{_serverConfiguration.Url}/api/audio/media/{Track.Id}")));
+        if (Track.Id != 0) {
+            Player.Play(new Media(_libVLC, new Uri($"{_serverConfiguration.Url}/api/audio/media/{Track.Id}")));
+        }
+        else {
+            Player.Play(new Media(_libVLC, new Uri($"{Track.Path}")));
+        }
 
         //Player.Play(new Media(_libVLC, new Uri($"file://D:\\project\\source\\repositories\\ozzz\\ozz-ms\\artifacts\\media\\{Track.Path}")));
         //Player.Play(new Media(_libVLC, $"D:\\project\\source\\repositories\\ozzz\\ozz-ms\\artifacts\\{Track.Path}"));

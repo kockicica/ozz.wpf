@@ -109,7 +109,7 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
     };
 
     public CreateAudioRecordingViewModel? CreateAudioRecordingViewModel
-        => _createAudioRecordingViewModel ??= _resolver.GetService<CreateAudioRecordingViewModel>();
+        => _resolver.GetService<CreateAudioRecordingViewModel>();
 
     #region IActivatableViewModel Members
 

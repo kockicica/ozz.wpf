@@ -6,6 +6,7 @@
              xmlns:iac="clr-namespace:Avalonia.Xaml.Interactions.Custom;assembly=Avalonia.Xaml.Interactions"
              xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
              xmlns:models="clr-namespace:ozz.wpf.Models"
+             xmlns:views="clr-namespace:ozz.wpf.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ozz.wpf.Views.CreateAudioRecordingView">
     <UserControl.DataContext>
@@ -27,12 +28,12 @@
     </UserControl.Styles>
     <ScrollViewer>
 
-        <Grid RowDefinitions="Auto,*" Margin="10">
+        <Grid RowDefinitions="Auto,Auto,*" Margin="10">
             <Grid ColumnDefinitions="Auto,10,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*">
                 <Label Grid.Row="0" Grid.Column="0">Naziv</Label>
                 <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Name}">
                     <i:Interaction.Behaviors>
-                        <iac:FocusOnAttachedToVisualTreeBehavior/>
+                        <iac:FocusOnAttachedToVisualTreeBehavior />
                     </i:Interaction.Behaviors>
                 </TextBox>
                 <Label Grid.Row="1" Grid.Column="0">Komentar</Label>
@@ -43,14 +44,20 @@
                 <CheckBox Grid.Row="3" Grid.Column="2" IsChecked="{Binding Active}" />
                 <Label Grid.Row="4" Grid.Column="0">Datoteka</Label>
                 <Grid Grid.Row="4" Grid.Column="2">
-                    <StackPanel Orientation="Vertical">
-                        <Button Content="Browse" Command="{Binding BrowseForAudioFile}" />
-                        <TextBlock Text="{Binding FileName}" />
-                        <TextBlock Text="{Binding Duration, StringFormat='{}{0:hh\\:mm\\:ss}'}" />
-                    </StackPanel>
+                    <Grid ColumnDefinitions="*,3*">
+                        <StackPanel Orientation="Vertical">
+                            <Button Content="Browse" Command="{Binding BrowseForAudioFile}" />
+                            <TextBlock Text="{Binding FileName}" />
+                            <TextBlock Text="{Binding Duration, StringFormat='{}{0:hh\\:mm\\:ss}'}" />
+                        </StackPanel>
+                        <views:AudioPlayerView Grid.Column="1" DataContext="{Binding AudioPlayerViewModel}"
+                                               IsEnabled="{Binding Track, Converter={x:Static ObjectConverters.IsNotNull}}" />
+
+                    </Grid>
                 </Grid>
                 <Label Grid.Row="5" Grid.Column="0">Kategorija</Label>
-                <ComboBox Grid.Row="5" Grid.Column="2" Items="{Binding Categories}" SelectedItem="{Binding SelectedCategory}" HorizontalAlignment="Stretch">
+                <ComboBox Grid.Row="5" Grid.Column="2" Items="{Binding Categories}" SelectedItem="{Binding SelectedCategory}"
+                          HorizontalAlignment="Stretch">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="models:Category">
                             <TextBlock Text="{Binding Name}" />
@@ -58,7 +65,8 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </Grid>
-            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Grid Grid.Row="1" />
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="Reset" Command="{Binding ClearFields}" />
                 <Button Content="Snimi" Command="{Binding CreateAudioFile}" IsDefault="True" />
             </StackPanel>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reactive;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 
@@ -29,7 +30,8 @@ public class CreateAudioRecordingViewModel : ViewModelBase, IRoutableViewModel, 
     private readonly ILogger<CreateAudioRecordingViewModel> _logger;
     private readonly INotificationManager                   _notificationManager;
 
-    private bool _active;
+    private bool                 _active;
+    private AudioPlayerViewModel _audioPlayerViewModel;
 
     private ObservableAsPropertyHelper<IEnumerable<Category?>> _categories;
     private string                                             _client;
@@ -44,13 +46,15 @@ public class CreateAudioRecordingViewModel : ViewModelBase, IRoutableViewModel, 
     }
 
     public CreateAudioRecordingViewModel(ILogger<CreateAudioRecordingViewModel> logger, IScreen hostScreen, IClient client,
-                                         INotificationManager notificationManager, IBrowseForFile browseForFile) {
+                                         INotificationManager notificationManager, IBrowseForFile browseForFile,
+                                         AudioPlayerViewModel audioPlayerViewModel) {
 
         _logger = logger;
         _dataClient = client;
         _notificationManager = notificationManager;
         _browseForFile = browseForFile;
         HostScreen = hostScreen;
+        AudioPlayerViewModel = audioPlayerViewModel;
 
         BrowseForAudioFile = ReactiveCommand.CreateFromObservable<Unit, string?>(
             unit => _browseForFile.Browse.Handle(new BrowseForFileConfig { Title = "Pronađite audio fajl", Filters = MakeFileDialogFilters() }));
@@ -67,36 +71,40 @@ public class CreateAudioRecordingViewModel : ViewModelBase, IRoutableViewModel, 
         this.WhenActivated(d => {
 
             BrowseForAudioFile
+                .Where(s => !string.IsNullOrEmpty(s))
                 .Subscribe(fileName => {
                     FileName = fileName;
-                    if (!string.IsNullOrEmpty(fileName)) {
-                        var tfile = File.Create(fileName);
-                        Duration = tfile.Properties.Duration;
-                        Name = Path.GetFileNameWithoutExtension(fileName);
-                        Comment = tfile.Properties.Description;
-                    }
+                    var tfile = File.Create(fileName);
+                    Duration = tfile.Properties.Duration;
+                    Name = Path.GetFileNameWithoutExtension(fileName);
+                    Comment = tfile.Properties.Description;
+
+                    AudioPlayerViewModel.Track = new AudioRecording {
+                        Category = SelectedCategory?.Name,
+                        Duration = Duration.Milliseconds * 1_000_000,
+                        Name = Name,
+                        Path = FileName,
+                    };
                 })
                 .DisposeWith(d);
 
             CreateAudioFile
+                .Catch(Observable.Return<AudioRecording?>(null))
+                .Where(recording => recording != null)
                 .Subscribe(recording => {
-                    if (recording != null) {
-                        // created ok, now what?
-                        _notificationManager.Show(new Notification("Obaveštenje", "Audio zapis je uspešno kreiran", NotificationType.Success));
-                        HandleClear();
-                    }
+                    // created ok, now what?
+                    _notificationManager.Show(new Notification("Obaveštenje", "Audio zapis je uspešno kreiran", NotificationType.Success));
+                    HandleClear();
                 })
                 .DisposeWith(d);
 
             CreateAudioFile
                 .ThrownExceptions
+                .Where(exception => exception is AudioRecordingCreateException)
                 .Subscribe(exception => {
-                    if (exception is AudioRecordingCreateException req) {
-                        _notificationManager.Show(new Notification("Greška",
-                                                                   $"Problem prilikom kreiranja audio zapisa:\n{req.Message}",
-                                                                   NotificationType.Error));
-
-                    }
+                    _notificationManager.Show(new Notification("Greška",
+                                                               $"Problem prilikom kreiranja audio zapisa:\n{exception.Message}",
+                                                               NotificationType.Error));
                 })
                 .DisposeWith(d);
 
@@ -147,6 +155,11 @@ public class CreateAudioRecordingViewModel : ViewModelBase, IRoutableViewModel, 
         set => this.RaiseAndSetIfChanged(ref _selectedCategory, value);
     }
 
+    public AudioPlayerViewModel AudioPlayerViewModel {
+        get => _audioPlayerViewModel;
+        set => this.RaiseAndSetIfChanged(ref _audioPlayerViewModel, value);
+    }
+
     #region IActivatableViewModel Members
 
     public ViewModelActivator Activator { get; } = new();
@@ -192,5 +205,6 @@ public class CreateAudioRecordingViewModel : ViewModelBase, IRoutableViewModel, 
         Comment = "";
         Client = "";
         SelectedCategory = null;
+        AudioPlayerViewModel.Track = null;
     }
 }
