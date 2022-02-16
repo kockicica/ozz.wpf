@@ -23,6 +23,8 @@ public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewMo
 
     private AudioRecordingsSearchParams _searchParams = new();
 
+    private Category? _selectedCategory;
+
     public AudioRecordingsManagerViewModel(ILogger<AudioRecordingsManagerViewModel> logger, IScreen screen, IClient client,
                                            IAudioRecordingsService audioRecordingsService) {
 
@@ -41,6 +43,8 @@ public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewMo
                           .AddNull()
                           .ToProperty(this, x => x.Categories)
                           .DisposeWith(d);
+
+            this.WhenAnyValue(model => model.SelectedCategory).Subscribe(category => { SearchParams.CategoryId = category?.Id; }).DisposeWith(d);
 
             Search.Subscribe(results => Results = results.Data).DisposeWith(d);
         });
@@ -63,6 +67,11 @@ public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewMo
     }
 
     public ReactiveCommand<AudioRecordingsSearchParams, PagedResults<AudioRecording>> Search { get; set; }
+
+    public Category? SelectedCategory {
+        get => _selectedCategory;
+        set => this.RaiseAndSetIfChanged(ref _selectedCategory, value);
+    }
 
     #region IActivatableViewModel Members
 

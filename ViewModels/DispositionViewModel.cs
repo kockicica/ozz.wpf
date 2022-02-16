@@ -182,7 +182,7 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
 
     #region IRoutableViewModel Members
 
-    public string? UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
+    public string? UrlPathSegment { get; } = "disposition";
     public IScreen HostScreen     { get; }
 
     #endregion

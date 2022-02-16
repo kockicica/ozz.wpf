@@ -24,26 +24,76 @@
         </Style>
         <Style Selector="StackPanel#PART_Toolbar.NoView">
             <Setter Property="Opacity" Value="0" />
+            <Setter Property="IsEnabled" Value="False" />
         </Style>
         <Style Selector="Image#BackIcon">
             <Setter Property="Height" Value="24" />
         </Style>
+        <Style Selector="ToggleButton#ToggleButton">
+            <Setter Property="Margin" Value="10" />
+        </Style>
     </UserControl.Styles>
-    <Grid RowDefinitions="Auto, *">
-        <StackPanel x:Name="PART_Toolbar" Orientation="Horizontal" Classes.NoView="{Binding !HasCurrentModel}">
-            <Button DockPanel.Dock="Left" Command="{Binding GoBack}">
-                <!-- <Image x:Name="BackIcon" Source="{s:SvgImage /Assets/arrow-left.svg}" /> -->
-                <PathIcon Data="{StaticResource chevron_left_regular}" />
-            </Button>
-            <TextBlock Classes="h1" Text="{Binding Caption}" VerticalAlignment="Center" />
-        </StackPanel>
-        <rxui:RoutedViewHost Grid.Row="1" Router="{Binding Router}">
-            <rxui:RoutedViewHost.DefaultContent>
-                <Grid RowDefinitions="*,*" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button Command="{Binding ViewAudioManager}">Audio zapisi</Button>
-                    <Button Grid.Row="1" Command="{Binding ViewDisposition}">Emitovanje zapisa</Button>
-                </Grid>
-            </rxui:RoutedViewHost.DefaultContent>
-        </rxui:RoutedViewHost>
-    </Grid>
+    <SplitView x:Name="SplitView" PanePlacement="Left" DisplayMode="CompactInline" IsPaneOpen="False" CompactPaneLength="64">
+        <SplitView.Pane>
+            <Grid RowDefinitions="Auto, Auto">
+                <ToggleButton Name="PaneOpenButton" Grid.Row="0" Margin="5" IsChecked="{Binding IsPaneOpen, ElementName=SplitView}"
+                              Height="48" Width="48">
+                    <ToggleButton.Styles>
+                        <Styles>
+                            <Styles.Resources>
+                                <SolidColorBrush x:Key="ToggleButtonBackground">Transparent</SolidColorBrush>
+                                <SolidColorBrush x:Key="ToggleButtonBackgroundChecked">Transparent</SolidColorBrush>
+                                <SolidColorBrush x:Key="ToggleButtonBackgroundCheckedPointerOver">LightGray</SolidColorBrush>
+                                <SolidColorBrush x:Key="ToggleButtonBackgroundPointerOver">LightGray</SolidColorBrush>
+                            </Styles.Resources>
+                        </Styles>
+                    </ToggleButton.Styles>
+                    <ToggleButton.Resources>
+                        <!-- <StaticResource ResourceKey="ThemeControlHighBrush"> -->
+                        <!-- </StaticResource> -->
+                    </ToggleButton.Resources>
+                    <Image Source="{StaticResource barsDrawingImage}" Height="22" />
+                </ToggleButton>
+                <StackPanel Grid.Row="1" Orientation="Vertical" Margin="5">
+                    <Button Content="Upravljanje audio zapisima" Command="{Binding ViewAudioManager}" />
+                    <Button Content="Emitovanje zapisa" Command="{Binding ViewDisposition}" />
+                    <!-- <Menu> -->
+                    <!--     <MenuItem Header="Upravljanje audio zapisima" Command="{Binding ViewAudioManager}"> -->
+                    <!--         <MenuItem.Icon> -->
+                    <!--             <Image Source="{StaticResource barsDrawingImage}"/> -->
+                    <!--         </MenuItem.Icon> -->
+                    <!--     </MenuItem> -->
+                    <!--     <MenuItem Header="Emitovanje zapisa" Command="{Binding ViewDisposition}"> -->
+                    <!--         <MenuItem.Icon> -->
+                    <!--             <Image Source="{StaticResource barsDrawingImage}"/> -->
+                    <!--         </MenuItem.Icon> -->
+                    <!--     </MenuItem> -->
+                    <!-- </Menu> -->
+                    <!-- <Button x:Name="ToggleButton" Command="{Binding ViewAudioManager}" Content="Upravljanje audio zapisima"></Button> -->
+                    <!-- <Button Grid.Row="1" Command="{Binding ViewDisposition}">Emitovanje zapisa</Button> -->
+                    <!-- <Grid RowDefinitions="*,*" HorizontalAlignment="Center" VerticalAlignment="Center"> -->
+                    <!-- </Grid> -->
+
+                </StackPanel>
+            </Grid>
+        </SplitView.Pane>
+        <Grid RowDefinitions="Auto, *">
+            <StackPanel x:Name="PART_Toolbar" Orientation="Horizontal" Classes.NoView="{Binding !HasCurrentModel}">
+                <Button DockPanel.Dock="Left" Command="{Binding GoBack}">
+                    <!-- <Image x:Name="BackIcon" Source="{s:SvgImage /Assets/arrow-left.svg}" /> -->
+                    <PathIcon Data="{StaticResource chevron_left_regular}" />
+                </Button>
+                <TextBlock Classes="h1" Text="{Binding Caption}" VerticalAlignment="Center" />
+            </StackPanel>
+            <rxui:RoutedViewHost Grid.Row="1" Router="{Binding Router}">
+                <rxui:RoutedViewHost.DefaultContent>
+                    <!-- <Grid RowDefinitions="*,*" HorizontalAlignment="Center" VerticalAlignment="Center"> -->
+                    <!--     <Button Command="{Binding ViewAudioManager}">Audio zapisi</Button> -->
+                    <!--     <Button Grid.Row="1" Command="{Binding ViewDisposition}">Emitovanje zapisa</Button> -->
+                    <!-- </Grid> -->
+                </rxui:RoutedViewHost.DefaultContent>
+            </rxui:RoutedViewHost>
+        </Grid>
+    </SplitView>
+
 </UserControl>

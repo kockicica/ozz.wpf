@@ -28,6 +28,13 @@
                 </DrawingImage.Drawing>
             </DrawingImage>            
             <StreamGeometry x:Key="chevron_left_regular">M31.8839 8.36612C32.372 8.85427 32.372 9.64573 31.8839 10.1339L18.0178 24L31.8839 37.8661C32.372 38.3543 32.372 39.1457 31.8839 39.6339C31.3957 40.122 30.6043 40.122 30.1161 39.6339L15.3661 24.8839C14.878 24.3957 14.878 23.6043 15.3661 23.1161L30.1161 8.36612C30.6043 7.87796 31.3957 7.87796 31.8839 8.36612Z</StreamGeometry>
+            <DrawingImage x:Key="barsDrawingImage">
+                <DrawingImage.Drawing>
+                    <DrawingGroup ClipGeometry="M0,0 V512 H448 V0 H0 Z">
+                        <GeometryDrawing Brush="#FF000000" Geometry="F1 M448,512z M0,0z M0,88C0,74.75,10.75,64,24,64L424,64C437.3,64 448,74.75 448,88 448,101.3 437.3,112 424,112L24,112C10.75,112,0,101.3,0,88z M0,248C0,234.7,10.75,224,24,224L424,224C437.3,224 448,234.7 448,248 448,261.3 437.3,272 424,272L24,272C10.75,272,0,261.3,0,248z M424,432L24,432C10.75,432 0,421.3 0,408 0,394.7 10.75,384 24,384L424,384C437.3,384 448,394.7 448,408 448,421.3 437.3,432 424,432z" />
+                    </DrawingGroup>
+                </DrawingImage.Drawing>
+            </DrawingImage>            
             <!-- <Color x:Key="SystemBaseLowColor">#B8B08D</Color>             -->
             <Color x:Key="SystemBaseLowColor">#CC000000</Color>
 

@@ -34,7 +34,7 @@
                 <!-- <TextBox Grid.Column="1" Text="{Binding SearchParams.CategoryId}"></TextBox> -->
                 <ComboBox Grid.Column="1" Items="{Binding Categories}" x:Name="CategoriesCombo"
                           services:ExampleBehavior.Items="{Binding Categories}"
-                          SelectedItem="{Binding SearchParams.CategoryId, Mode=OneWayToSource, Converter={StaticResource ToIdConverter}}"
+                          SelectedItem="{Binding SelectedCategory}"
                           HorizontalAlignment="Stretch">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="models:Category">
@@ -53,6 +53,7 @@
         <StackPanel Grid.Row="1">
             <TextBlock Text="{Binding SearchParams.Name}" />
             <TextBlock Text="{Binding SearchParams.CategoryId}" />
+            <TextBlock Text="{Binding SelectedCategory.Id}" />
         </StackPanel>
         <DataGrid Grid.Row="2" Items="{Binding Results}" AutoGenerateColumns="False" IsReadOnly="True" x:Name="Grid">
             <DataGrid.Columns>

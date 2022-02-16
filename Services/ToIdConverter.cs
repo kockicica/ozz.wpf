@@ -12,7 +12,7 @@ public class ToIdConverter : IValueConverter {
     #region IValueConverter Members
 
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture) {
-        return value;
+        return null;
     }
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) {

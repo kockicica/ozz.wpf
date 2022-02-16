@@ -16,9 +16,13 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
     private readonly IResolver _resolver;
 
+    private AudioRecordingsManagerViewModel? _audioRecordingsManagerViewModel;
+
     private string _caption;
 
     private IRoutableViewModel? _currentViewModel;
+
+    private DispositionViewModel? _dispositionViewModel;
 
     public ManagerViewModel(ILogger<ManagerViewModel> logger, IScreen hostScreen, IResolver resolver) {
         _logger = logger;
@@ -26,15 +30,21 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
         //Router = routingState;
         _resolver = resolver;
 
-        ViewAudioManager = ReactiveCommand.Create(() => {
-            var vm = _resolver.GetService<AudioRecordingsManagerViewModel>();
-            Router.Navigate.Execute(vm);
-        });
+        ViewAudioManager = ReactiveCommand.Create(
+            () => {
+                //var vm = _resolver.GetService<AudioRecordingsManagerViewModel>();
+                Router.Navigate.Execute(AudioRecordingsManagerViewModel);
+            },
+            this.WhenAny(model => model.CurrentViewModel, x => x.Value?.UrlPathSegment != "audio-manager")
+        );
 
-        ViewDisposition = ReactiveCommand.Create(() => {
-            var vm = _resolver.GetService<DispositionViewModel>();
-            Router.Navigate.Execute(vm);
-        });
+        ViewDisposition = ReactiveCommand.Create(
+            () => {
+                //var vm = _resolver.GetService<DispositionViewModel>();
+                Router.Navigate.Execute(DispositionViewModel);
+            },
+            this.WhenAny(model => model.CurrentViewModel, x => x.Value?.UrlPathSegment != "disposition")
+        );
 
         GoBack = ReactiveCommand.CreateFromObservable(() => Router.NavigateBack.Execute());
 
@@ -72,6 +82,11 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
     }
 
     public bool HasCurrentModel => CurrentViewModel != null;
+
+    public AudioRecordingsManagerViewModel AudioRecordingsManagerViewModel
+        => _audioRecordingsManagerViewModel ??= _resolver.GetService<AudioRecordingsManagerViewModel>();
+
+    public DispositionViewModel DispositionViewModel => _dispositionViewModel ??= _resolver.GetService<DispositionViewModel>();
 
     #region IActivatableViewModel Members
 
