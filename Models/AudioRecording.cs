@@ -17,3 +17,13 @@ public class AudioRecording : HasId {
     #endregion
 
 }
+
+public class CreateAudioRecording {
+    public string   Name     { get; set; }
+    public string   Path     { get; set; }
+    public string   Category { get; set; }
+    public TimeSpan Duration { get; set; }
+    public bool     Active   { get; set; }
+    public DateTime Date     { get; set; }
+    public string   Comment  { get; set; }
+}

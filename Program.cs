@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 
 using ozz.wpf.Config;
 using ozz.wpf.Services;
+using ozz.wpf.Services.Interactions;
 using ozz.wpf.ViewModels;
 using ozz.wpf.Views;
 
@@ -92,6 +93,8 @@ namespace ozz.wpf {
                                    var vm = provider.GetService<MainWindowViewModel>();
                                    return vm.NotificationManager;
                                });
+
+                               s.AddSingleton<IBrowseForFile, BrowseForFile>();
 
                                s.AddSingleton<IMainWindowProvider, MainWindowProvider>();
 

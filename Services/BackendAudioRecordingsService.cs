@@ -22,6 +22,10 @@ public class BackendAudioRecordingsService : IAudioRecordingsService {
         return await _client.AudioRecordings(sp);
     }
 
+    public async Task<AudioRecording> Create(CreateAudioRecording data) {
+        throw new System.NotImplementedException();
+    }
+
     #endregion
 
 }

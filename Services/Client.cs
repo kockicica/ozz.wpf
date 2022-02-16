@@ -2,10 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Web;
+
+using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
 
@@ -49,6 +53,40 @@ public class Client : IClient {
         rsp.EnsureSuccessStatusCode();
         var data = JsonConvert.DeserializeObject<PagedResults<AudioRecording>>(stream);
         return data;
+    }
+
+    public async Task<AudioRecording> Create(CreateAudioRecording data) {
+        var cl = _client;
+        var url = $"/api/audio";
+
+        try {
+            await using var inputFile = System.IO.File.OpenRead(data.Path);
+
+            var content = new MultipartFormDataContent {
+                { new StreamContent(inputFile), "file", data.Name },
+                { new StringContent(data.Name), "name" },
+                { new StringContent(data.Category), "category" },
+                { new StringContent(data.Comment), "comment" },
+                { new StringContent(data.Active.ToString()), "active" },
+                { new StringContent(data.Duration.ToString("mm\\mss\\s")), "duration" },
+            };
+
+            using var rsp = await cl.PostAsync(url, content);
+            if (!rsp.IsSuccessStatusCode) {
+                // we have some kind of an error
+                var msg = await rsp.Content.ReadFromJsonAsync<ErrorResponse>();
+                throw new HttpRequestException(msg.Message, null, HttpStatusCode.BadRequest);
+
+            }
+            var res = await rsp.Content.ReadFromJsonAsync<AudioRecording>();
+            return res;
+
+        }
+        catch (Exception e) {
+            _logger.LogError("Error creating audio record: {@e}", e);
+            throw new AudioRecordingCreateException(e.Message);
+        }
+
     }
 
     public async Task<IEnumerable<Equalizer>?> Equalizers() {
@@ -236,4 +274,26 @@ public class Client : IClient {
 
     #endregion
 
+    #region Nested type: ErrorResponse
+
+    private class ErrorResponse {
+        public string Message { get; set; }
+    }
+
+    #endregion
+
+}
+
+public class AudioRecordingCreateException : Exception {
+    public AudioRecordingCreateException() {
+    }
+
+    protected AudioRecordingCreateException([NotNull] SerializationInfo info, StreamingContext context) : base(info, context) {
+    }
+
+    public AudioRecordingCreateException([CanBeNull] string? message) : base(message) {
+    }
+
+    public AudioRecordingCreateException([CanBeNull] string? message, [CanBeNull] Exception? innerException) : base(message, innerException) {
+    }
 }

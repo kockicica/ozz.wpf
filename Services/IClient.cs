@@ -10,6 +10,7 @@ public interface IClient {
     Task<IEnumerable<Category>> Categories();
 
     Task<PagedResults<AudioRecording>> AudioRecordings(AudioRecordingsSearchParams sp);
+    Task<AudioRecording?>              Create(CreateAudioRecording data);
 
     Task<IEnumerable<Equalizer>?> Equalizers();
     Task<Equalizer?>              Equalizer(int id);

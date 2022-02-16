@@ -55,7 +55,7 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
                 //var vm = _resolver.GetService<DispositionViewModel>();
                 Router.Navigate.Execute(CreateAudioRecordingViewModel);
             },
-            this.WhenAny(model => model.CurrentViewModel, x => x.Value?.UrlPathSegment != "disposition")
+            this.WhenAny(model => model.CurrentViewModel, x => x.Value?.UrlPathSegment != "create-record")
         );
 
         GoBack = ReactiveCommand.CreateFromObservable(() => Router.NavigateBack.Execute());

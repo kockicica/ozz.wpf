@@ -50,6 +50,10 @@ public class DesignTimeClient : IClient {
         throw new System.NotImplementedException();
     }
 
+    public async Task<AudioRecording> Create(CreateAudioRecording data) {
+        throw new System.NotImplementedException();
+    }
+
     #endregion
 
 }
@@ -60,6 +64,10 @@ public class DesignTimeAudioRecordingsService : IAudioRecordingsService {
 
     public Task<PagedResults<AudioRecording>> AudioRecordings(AudioRecordingsSearchParams sp) {
         return Task.FromResult(new PagedResults<AudioRecording>() { Count = 0, Data = System.Array.Empty<AudioRecording>().AsEnumerable() });
+    }
+
+    public Task<AudioRecording> Create(CreateAudioRecording data) {
+        return Task.FromResult(new AudioRecording());
     }
 
     #endregion
