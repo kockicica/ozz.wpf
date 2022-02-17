@@ -81,8 +81,8 @@ namespace ozz.wpf {
 
                                s.AddTransient<ManagerViewModel>();
                                s.AddTransient<IViewFor<ManagerViewModel>, ManagerView>();
-                               s.AddTransient<CreateAudioRecordingViewModel>();
-                               s.AddTransient<IViewFor<CreateAudioRecordingViewModel>, CreateAudioRecordingView>();
+                               s.AddTransient<AudioRecordingDetailsViewModel>();
+                               s.AddTransient<IViewFor<AudioRecordingDetailsViewModel>, AudioRecordingDetailsView>();
                                s.AddTransient<EditAudioRecordingViewModel>();
 
                                s.AddSingleton<RoutingState>(provider => {

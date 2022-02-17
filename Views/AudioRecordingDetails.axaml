@@ -8,9 +8,9 @@
              xmlns:models="clr-namespace:ozz.wpf.Models"
              xmlns:views="clr-namespace:ozz.wpf.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ozz.wpf.Views.CreateAudioRecordingView">
+             x:Class="ozz.wpf.Views.AudioRecordingDetailsView">
     <UserControl.DataContext>
-        <viewModels:CreateAudioRecordingViewModel />
+        <viewModels:AudioRecordingDetailsViewModel />
     </UserControl.DataContext>
     <UserControl.Styles>
         <Style Selector="TextBox">

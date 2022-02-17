@@ -5,9 +5,9 @@ using ozz.wpf.ViewModels;
 
 namespace ozz.wpf.Views;
 
-public partial class CreateAudioRecordingView : ReactiveUserControl<CreateAudioRecordingViewModel> {
+public partial class AudioRecordingDetailsView : ReactiveUserControl<AudioRecordingDetailsViewModel> {
 
-    public CreateAudioRecordingView() {
+    public AudioRecordingDetailsView() {
         InitializeComponent();
     }
 

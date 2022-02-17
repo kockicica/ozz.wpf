@@ -24,12 +24,12 @@ using Notification = Avalonia.Controls.Notifications.Notification;
 
 namespace ozz.wpf.ViewModels;
 
-public class CreateAudioRecordingViewModel : ViewModelBase, IRoutableViewModel, IActivatableViewModel, ICaption {
+public class AudioRecordingDetailsViewModel : ViewModelBase, IRoutableViewModel, IActivatableViewModel, ICaption {
     private readonly IBrowseForFile _browseForFile;
     private readonly IClient        _dataClient;
 
-    private readonly ILogger<CreateAudioRecordingViewModel> _logger;
-    private readonly INotificationManager                   _notificationManager;
+    private readonly ILogger<AudioRecordingDetailsViewModel> _logger;
+    private readonly INotificationManager                    _notificationManager;
 
     private bool                 _active;
     private AudioPlayerViewModel _audioPlayerViewModel;
@@ -46,12 +46,12 @@ public class CreateAudioRecordingViewModel : ViewModelBase, IRoutableViewModel, 
     private string    _name;
     private Category? _selectedCategory;
 
-    public CreateAudioRecordingViewModel() {
+    public AudioRecordingDetailsViewModel() {
     }
 
-    public CreateAudioRecordingViewModel(ILogger<CreateAudioRecordingViewModel> logger, IScreen hostScreen, IClient client,
-                                         INotificationManager notificationManager, IBrowseForFile browseForFile,
-                                         AudioPlayerViewModel audioPlayerViewModel) {
+    public AudioRecordingDetailsViewModel(ILogger<AudioRecordingDetailsViewModel> logger, IScreen hostScreen, IClient client,
+                                          INotificationManager notificationManager, IBrowseForFile browseForFile,
+                                          AudioPlayerViewModel audioPlayerViewModel) {
 
         _logger = logger;
         _dataClient = client;

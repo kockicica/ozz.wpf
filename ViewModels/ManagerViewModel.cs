@@ -22,7 +22,7 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
     private string _caption = "Home";
 
-    private CreateAudioRecordingViewModel? _createAudioRecordingViewModel;
+    private AudioRecordingDetailsViewModel? _createAudioRecordingViewModel;
 
     private IRoutableViewModel? _currentViewModel;
 
@@ -108,8 +108,8 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
         new() { Caption = "Novi audio zapis", Command = CreateNewAudio, Icon = "/Assets/file-audio.svg" },
     };
 
-    public CreateAudioRecordingViewModel? CreateAudioRecordingViewModel
-        => _resolver.GetService<CreateAudioRecordingViewModel>();
+    public AudioRecordingDetailsViewModel? CreateAudioRecordingViewModel
+        => _resolver.GetService<AudioRecordingDetailsViewModel>();
 
     #region IActivatableViewModel Members
 

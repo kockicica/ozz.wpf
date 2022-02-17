@@ -51,16 +51,16 @@ public class BrowseForFile : IBrowseForFile {
             var rec = context.Input;
 
             var vm = _resolver.GetService<EditAudioRecordingViewModel>();
-            vm.CreateAudioRecordingViewModel = _resolver.GetService<CreateAudioRecordingViewModel>();
-            vm.CreateAudioRecordingViewModel.Name = rec.Name;
-            vm.CreateAudioRecordingViewModel.Active = rec.Active;
-            vm.CreateAudioRecordingViewModel.Comment = rec.Comment;
-            vm.CreateAudioRecordingViewModel.Client = rec.Client;
-            vm.CreateAudioRecordingViewModel.IsUpdate = true;
-            vm.CreateAudioRecordingViewModel.CategoryName = rec.Category;
+            vm.AudioRecordingDetailsViewModel = _resolver.GetService<AudioRecordingDetailsViewModel>();
+            vm.AudioRecordingDetailsViewModel.Name = rec.Name;
+            vm.AudioRecordingDetailsViewModel.Active = rec.Active;
+            vm.AudioRecordingDetailsViewModel.Comment = rec.Comment;
+            vm.AudioRecordingDetailsViewModel.Client = rec.Client;
+            vm.AudioRecordingDetailsViewModel.IsUpdate = true;
+            vm.AudioRecordingDetailsViewModel.CategoryName = rec.Category;
             vm.Id = rec.Id;
             //vm.Category = rec.Category;
-            vm.CreateAudioRecordingViewModel.AudioPlayerViewModel.Track = rec;
+            vm.AudioRecordingDetailsViewModel.AudioPlayerViewModel.Track = rec;
 
             var modal = new EditAudioRecordingWindow {
                 DataContext = vm

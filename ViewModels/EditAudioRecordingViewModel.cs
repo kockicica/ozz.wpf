@@ -23,23 +23,23 @@ public class EditAudioRecordingViewModel : DialogViewModelBase<EditAudioRecordin
     private readonly ILogger<EditAudioRecordingViewModel> _logger;
     private readonly INotificationManager                 _notificationManager;
 
-    private CreateAudioRecordingViewModel _createAudioRecordingViewModel;
-    private int                           _id;
+    private AudioRecordingDetailsViewModel _audioRecordingDetailsViewModel;
+    private int                            _id;
 
-    public EditAudioRecordingViewModel(ILogger<EditAudioRecordingViewModel> logger, CreateAudioRecordingViewModel createAudioRecordingViewModel,
+    public EditAudioRecordingViewModel(ILogger<EditAudioRecordingViewModel> logger, AudioRecordingDetailsViewModel audioRecordingDetailsViewModel,
                                        IClient client, INotificationManager notificationManager) {
         _logger = logger;
-        CreateAudioRecordingViewModel = createAudioRecordingViewModel;
+        AudioRecordingDetailsViewModel = audioRecordingDetailsViewModel;
         _client = client;
         _notificationManager = notificationManager;
         Update = ReactiveCommand.CreateFromTask<Unit, AudioRecording?>(async unit => {
 
             var updateData = new UpdateAudioRecording {
-                Active = CreateAudioRecordingViewModel.Active,
-                Category = CreateAudioRecordingViewModel.SelectedCategory?.Name,
-                Client = CreateAudioRecordingViewModel.Client,
-                Comment = CreateAudioRecordingViewModel.Comment,
-                Name = CreateAudioRecordingViewModel.Name,
+                Active = AudioRecordingDetailsViewModel.Active,
+                Category = AudioRecordingDetailsViewModel.SelectedCategory?.Name,
+                Client = AudioRecordingDetailsViewModel.Client,
+                Comment = AudioRecordingDetailsViewModel.Comment,
+                Name = AudioRecordingDetailsViewModel.Name,
             };
             var res = await _client.UpdateAudioRecording(Id, updateData);
             return res;
@@ -60,9 +60,9 @@ public class EditAudioRecordingViewModel : DialogViewModelBase<EditAudioRecordin
         });
     }
 
-    public CreateAudioRecordingViewModel CreateAudioRecordingViewModel {
-        get => _createAudioRecordingViewModel;
-        set => this.RaiseAndSetIfChanged(ref _createAudioRecordingViewModel, value);
+    public AudioRecordingDetailsViewModel AudioRecordingDetailsViewModel {
+        get => _audioRecordingDetailsViewModel;
+        set => this.RaiseAndSetIfChanged(ref _audioRecordingDetailsViewModel, value);
     }
 
     public ReactiveCommand<Unit, AudioRecording?> Update { get; set; }
