@@ -6,7 +6,6 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
-using System.Threading.Tasks;
 
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
@@ -20,7 +19,6 @@ using ozz.wpf.Services.Interactions;
 using ReactiveUI;
 
 using File = TagLib.File;
-using Notification = Avalonia.Controls.Notifications.Notification;
 
 namespace ozz.wpf.ViewModels;
 
@@ -63,13 +61,14 @@ public class AudioRecordingDetailsViewModel : ViewModelBase, IRoutableViewModel,
         BrowseForAudioFile = ReactiveCommand.CreateFromObservable<Unit, string?>(
             unit => _browseForFile.Browse.Handle(new BrowseForFileConfig { Title = "Pronađite audio fajl", Filters = MakeFileDialogFilters() }));
 
-        var canCreateAudioFile = this.WhenAnyValue(x => x.SelectedCategory,
-                                                   x => x.Name,
-                                                   x => x.FileName,
-                                                   (category, s, filePath)
-                                                       => category != null && !string.IsNullOrEmpty(s) && !string.IsNullOrEmpty(filePath));
+        Valid = this.WhenAnyValue(x => x.SelectedCategory,
+                                  x => x.Name,
+                                  x => x.FileName,
+                                  x => x.IsUpdate,
+                                  (category, name, filename, update) => update
+                                      ? !string.IsNullOrEmpty(name) && category != null
+                                      : !string.IsNullOrEmpty(name) && category != null && !string.IsNullOrEmpty(filename));
 
-        CreateAudioFile = ReactiveCommand.CreateFromTask<Unit, AudioRecording?>(HandleCreateAudioFile, canCreateAudioFile);
         ClearFields = ReactiveCommand.Create(HandleClear);
 
         this.WhenActivated(d => {
@@ -89,26 +88,6 @@ public class AudioRecordingDetailsViewModel : ViewModelBase, IRoutableViewModel,
                         Name = Name,
                         Path = FileName,
                     };
-                })
-                .DisposeWith(d);
-
-            CreateAudioFile
-                .Catch(Observable.Return<AudioRecording?>(null))
-                .Where(recording => recording != null)
-                .Subscribe(recording => {
-                    // created ok, now what?
-                    _notificationManager.Show(new Notification("Obaveštenje", "Audio zapis je uspešno kreiran", NotificationType.Success));
-                    HandleClear();
-                })
-                .DisposeWith(d);
-
-            CreateAudioFile
-                .ThrownExceptions
-                .Where(exception => exception is AudioRecordingCreateException)
-                .Subscribe(exception => {
-                    _notificationManager.Show(new Notification("Greška",
-                                                               $"Problem prilikom kreiranja audio zapisa:\n{exception.Message}",
-                                                               NotificationType.Error));
                 })
                 .DisposeWith(d);
 
@@ -146,8 +125,6 @@ public class AudioRecordingDetailsViewModel : ViewModelBase, IRoutableViewModel,
 
     public ReactiveCommand<Unit, string?> BrowseForAudioFile { get; set; }
 
-    public ReactiveCommand<Unit, AudioRecording?> CreateAudioFile { get; set; }
-
     public ReactiveCommand<Unit, Unit> ClearFields { get; set; }
 
     public string FileName {
@@ -177,6 +154,8 @@ public class AudioRecordingDetailsViewModel : ViewModelBase, IRoutableViewModel,
         set => this.RaiseAndSetIfChanged(ref _categoryName, value);
     }
 
+    public IObservable<bool> Valid { get; }
+
     #region IActivatableViewModel Members
 
     public ViewModelActivator Activator { get; } = new();
@@ -197,18 +176,18 @@ public class AudioRecordingDetailsViewModel : ViewModelBase, IRoutableViewModel,
 
     #endregion
 
-    private Task<AudioRecording?> HandleCreateAudioFile(Unit arg) {
-        var af = new CreateAudioRecording {
-            Active = Active,
-            Comment = Comment,
-            Date = DateTime.Now,
-            Duration = Duration,
-            Name = Name,
-            Path = FileName,
-            Category = SelectedCategory!.Name,
-        };
-        return _dataClient.Create(af);
-    }
+    // private Task<AudioRecording?> HandleCreateAudioFile(Unit arg) {
+    //     var af = new CreateAudioRecording {
+    //         Active = Active,
+    //         Comment = Comment,
+    //         Date = DateTime.Now,
+    //         Duration = Duration,
+    //         Name = Name,
+    //         Path = FileName,
+    //         Category = SelectedCategory!.Name,
+    //     };
+    //     return _dataClient.Create(af);
+    // }
 
     private List<FileDialogFilter> MakeFileDialogFilters() {
         return new List<FileDialogFilter> {

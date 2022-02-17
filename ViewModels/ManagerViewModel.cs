@@ -5,6 +5,8 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Windows.Input;
 
+using Avalonia.Controls.Notifications;
+
 using Microsoft.Extensions.Logging;
 
 using ozz.wpf.Models;
@@ -13,6 +15,8 @@ using ozz.wpf.Services.Interactions;
 
 using ReactiveUI;
 
+using Notification = Avalonia.Controls.Notifications.Notification;
+
 namespace ozz.wpf.ViewModels;
 
 public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableViewModel, IScreen {
@@ -20,6 +24,8 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
     private readonly IBrowseForFile _browseForFile;
 
     private readonly ILogger<ManagerViewModel> _logger;
+
+    private readonly INotificationManager _notificationManager;
 
     private readonly IResolver _resolver;
 
@@ -33,12 +39,14 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
     private DispositionViewModel? _dispositionViewModel;
 
-    public ManagerViewModel(ILogger<ManagerViewModel> logger, IScreen hostScreen, IResolver resolver, IBrowseForFile browseForFile) {
+    public ManagerViewModel(ILogger<ManagerViewModel> logger, IScreen hostScreen, IResolver resolver, IBrowseForFile browseForFile,
+                            INotificationManager notificationManager) {
         _logger = logger;
         HostScreen = hostScreen;
         //Router = routingState;
         _resolver = resolver;
         _browseForFile = browseForFile;
+        _notificationManager = notificationManager;
 
         ViewAudioManager = ReactiveCommand.Create(
             () => {
@@ -86,8 +94,22 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
                 .Where(x => x != null)
                 .Subscribe(recording => {
                     var a = recording;
+                    _notificationManager.Show(new Notification("Obaveštenje", "Audio zapis je uspešno kreiran", NotificationType.Success));
+
                 })
                 .DisposeWith(d);
+
+            CreateNewAudio
+                .ThrownExceptions
+                .Where(exception => exception is AudioRecordingCreateException)
+                .Subscribe(exception => {
+                    _notificationManager.Show(new Notification("Greška",
+                                                               $"Problem prilikom kreiranja audio zapisa:\n{exception.Message}",
+                                                               NotificationType.Error));
+                })
+                .DisposeWith(d);
+
+
         });
 
     }
