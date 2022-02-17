@@ -62,17 +62,16 @@
                         <Grid Name="grid" Margin="{TemplateBinding Padding}" RowDefinitions="Auto, *">
                             <ContentPresenter x:Name="HeaderContentPresenter" Grid.Row="0"
                                               TextBlock.FontWeight="{DynamicResource SliderHeaderThemeFontWeight}"
-                                              TextBlock.Foreground="{DynamicResource SliderHeaderForeground}"
-                                              Margin="{DynamicResource SliderTopHeaderMargin}" />
+                                              TextBlock.Foreground="{DynamicResource SliderHeaderForeground}"/>
                             <Grid x:Name="SliderContainer" Grid.Row="1">
                                 <Grid x:Name="HorizontalTemplate" ColumnDefinitions="Auto,Auto,*"
                                       MinHeight="{DynamicResource PlayerSliderHorizontalHeight}">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="{DynamicResource PlayerSliderPreContentMargin}" />
+                                        <!-- <RowDefinition Height="{DynamicResource PlayerSliderPreContentMargin}" /> -->
                                         <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="{DynamicResource PlayerSliderPostContentMargin}" />
+                                        <!-- <RowDefinition Height="{DynamicResource PlayerSliderPostContentMargin}" /> -->
                                     </Grid.RowDefinitions>
-                                    <Track Name="PART_Track" Grid.Row="1" Grid.ColumnSpan="3"
+                                    <Track Name="PART_Track" Grid.Row="0" Grid.ColumnSpan="3"
                                            Orientation="Horizontal">
                                         <Track.DecreaseButton>
                                             <RepeatButton Name="PART_DecreaseButton" Background="{TemplateBinding Foreground}" Focusable="False"
@@ -120,10 +119,10 @@
         </Setter>
     </Style>
     <Style Selector="controls|PlayerSlider /template/ RepeatButton#PART_IncreaseButton:pressed">
-        <Setter Property="RenderTransform" Value="none"></Setter>
+        <Setter Property="RenderTransform" Value="none" />
     </Style>
     <Style Selector="controls|PlayerSlider /template/ RepeatButton#PART_DecreaseButton:pressed">
-        <Setter Property="RenderTransform" Value="none"></Setter>
+        <Setter Property="RenderTransform" Value="none" />
     </Style>
     <Style Selector="controls|PlayerSlider /template/ Track#PART_Track">
         <Setter Property="Minimum" Value="{TemplateBinding Minimum}" />
