@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -62,8 +63,10 @@ public class Client : IClient {
         try {
             await using var inputFile = System.IO.File.OpenRead(data.Path);
 
+            var fileName = Path.GetFileName(data.Path);
+
             var content = new MultipartFormDataContent {
-                { new StreamContent(inputFile), "file", data.Name },
+                { new StreamContent(inputFile), "file", fileName },
                 { new StringContent(data.Name), "name" },
                 { new StringContent(data.Category), "category" },
                 { new StringContent(data.Comment), "comment" },
