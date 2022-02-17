@@ -7,13 +7,13 @@
         xmlns:views="clr-namespace:ozz.wpf.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ozz.wpf.Views.MainWindow"
+        x:Name="MainWnd"
         Icon="/Assets/avalonia-logo.ico"
-        WindowStartupLocation="CenterScreen"
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="Default"
         ExtendClientAreaTitleBarHeightHint="32"
         TransparencyLevelHint="AcrylicBlur"
-        SystemDecorations="Full"
+        WindowStartupLocation="CenterScreen"
         Title="OZZZZZZZZZ-o-matic">
 
     <Window.Styles>
@@ -35,48 +35,62 @@
     <Design.DataContext>
         <vm:MainWindowViewModel />
     </Design.DataContext>
-    <Grid x:Name="LayoutRoot">
-        <Grid x:Name="Overlay" Panel.ZIndex="1000">
-            <Grid.Background>
-                <SolidColorBrush Color="Black" Opacity=".4" />
-            </Grid.Background>
-        </Grid>
-        <Grid>
-            <rxui:RoutedViewHost Grid.Row="0" Router="{Binding Router}">
-                <rxui:RoutedViewHost.DefaultContent>
-                    <views:LoginView DataContext="{Binding LoginViewModel}" />
-                </rxui:RoutedViewHost.DefaultContent>
-            </rxui:RoutedViewHost>
-            <Border>
-                <!-- <Border.Background> -->
-                <!--     <SolidColorBrush Color="White" Opacity="0.7" /> -->
-                <!-- </Border.Background> -->
-                <!-- <DockPanel HorizontalAlignment="Right" VerticalAlignment="Top" Height="32"> -->
-                <!--     <Button Classes="close" DockPanel.Dock="Right" x:Name="CloseButton" Width="48" Height="32"> -->
-                <!--         <Button.Styles> -->
-                <!--             <Style Selector="Button.close /template/ ContentPresenter#PART_ContentPresenter"> -->
-                <!--                 <Setter Property="Background" Value="Transparent" /> -->
-                <!--                 <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrush}" /> -->
-                <!--                 <Setter Property="TextBlock.Foreground" Value="{DynamicResource AccentButtonForeground}" /> -->
-                <!--             </Style> -->
-                <!--             <Style Selector="Button.close:pointerover /template/ ContentPresenter#PART_ContentPresenter"> -->
-                <!--                 <Setter Property="Background" Value="Red" /> -->
-                <!--                 <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrushPointerOver}" /> -->
-                <!--                 <Setter Property="TextBlock.Foreground" Value="White" /> -->
-                <!--             </Style> -->
-                <!--             <Style Selector="Button.close:pointerover Image"> -->
-                <!--                 <Setter Property="Source" Value="{DynamicResource xmarkDrawingImageOver}"></Setter> -->
-                <!--             </Style> -->
-                <!--             <Style Selector="Button.close Image"> -->
-                <!--                 <Setter Property="Source" Value="{StaticResource xmarkDrawingImage}"></Setter> -->
-                <!--             </Style> -->
-                <!--         </Button.Styles> -->
-                <!--         <Image Width="16" Height="16"></Image> -->
-                <!--         ~1~ <Image Source="{sk:SvgImage /Assets/xmark.svg}" Width="16" Height="16"></Image> @1@ -->
-                <!--         ~1~ <sk:Svg Path="/Assets/xmark.svg" Width="16" Height="16"></sk:Svg> @1@ -->
-                <!--     </Button> -->
-                <!-- </DockPanel> -->
-            </Border>
-        </Grid>
-    </Grid>
+    <Panel>
+        <Panel Margin="{Binding #MainWnd.OffScreenMargin}">
+            <Grid x:Name="LayoutRoot" Margin="{Binding #MainWnd.WindowDecorationMargin}">
+                <Grid x:Name="Overlay" Panel.ZIndex="1000">
+                    <Grid.Background>
+                        <SolidColorBrush Color="Black" Opacity=".4" />
+                    </Grid.Background>
+                </Grid>
+                <Grid>
+                    <rxui:RoutedViewHost Router="{Binding Router}">
+                        <rxui:RoutedViewHost.DefaultContent>
+                            <views:LoginView DataContext="{Binding LoginViewModel}" />
+                        </rxui:RoutedViewHost.DefaultContent>
+                    </rxui:RoutedViewHost>
+                    <!-- <Border Grid.Row="0" Margin="{Binding #MainWnd.OffScreenMargin}" > -->
+                    <!--     <Border.Background> -->
+                    <!--         <SolidColorBrush Color="White" Opacity="0.7" /> -->
+                    <!--     </Border.Background> -->
+                    <!--     <DockPanel HorizontalAlignment="Right" VerticalAlignment="Top" Height="32" Margin="{Binding #MainWnd.WindowDecorationMargin}"> -->
+                    <!--         <Button Classes="close" DockPanel.Dock="Right" x:Name="CloseButton" Width="48" Height="32"> -->
+                    <!--             <Button.Styles> -->
+                    <!--                 <Style Selector="Button.close /template/ ContentPresenter#PART_ContentPresenter"> -->
+                    <!--                     <Setter Property="Background" Value="Transparent" /> -->
+                    <!--                     <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrush}" /> -->
+                    <!--                     <Setter Property="TextBlock.Foreground" Value="{DynamicResource AccentButtonForeground}" /> -->
+                    <!--                 </Style> -->
+                    <!--                 <Style Selector="Button.close:pointerover /template/ ContentPresenter#PART_ContentPresenter"> -->
+                    <!--                     <Setter Property="Background" Value="Red" /> -->
+                    <!--                     <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrushPointerOver}" /> -->
+                    <!--                     <Setter Property="TextBlock.Foreground" Value="White" /> -->
+                    <!--                 </Style> -->
+                    <!--                 <Style Selector="Button.close:pointerover Image"> -->
+                    <!--                     <Setter Property="Source" Value="{DynamicResource xmarkDrawingImageOver}"></Setter> -->
+                    <!--                 </Style> -->
+                    <!--                 <Style Selector="Button.close Image"> -->
+                    <!--                     <Setter Property="Source" Value="{StaticResource xmarkDrawingImage}"></Setter> -->
+                    <!--                 </Style> -->
+                    <!--             </Button.Styles> -->
+                    <!--             <Image Width="16" Height="16"></Image> -->
+                    <!--             ~1~ <Image Source="{sk:SvgImage /Assets/xmark.svg}" Width="16" Height="16"></Image> @1@ -->
+                    <!--             ~1~ <sk:Svg Path="/Assets/xmark.svg" Width="16" Height="16"></sk:Svg> @1@ -->
+                    <!--         </Button> -->
+                    <!--     </DockPanel> -->
+                    <!-- </Border> -->
+                </Grid>
+            </Grid>
+        </Panel>
+        <DockPanel Height="32" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <TextBlock Text="{Binding #MainWnd.Title}" DockPanel.Dock="Left" VerticalAlignment="Center" Margin="10 0 10 0" FontWeight="Bold" />
+        </DockPanel>
+        <!-- <Border BorderThickness="1 1 1 0" CornerRadius="4 4 0 0" BorderBrush="#55000000" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="250 8 0 0"> -->
+        <!--     <Border.Background> -->
+        <!--         <SolidColorBrush Color="White" Opacity="0.7" /> -->
+        <!--     </Border.Background> -->
+        <!--     <TextBlock Margin="5 5 5 0" Text="Content In Title Bar" /> -->
+        <!-- </Border> -->
+        
+    </Panel>
 </Window>
