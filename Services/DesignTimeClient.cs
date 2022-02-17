@@ -54,6 +54,10 @@ public class DesignTimeClient : IClient {
         throw new System.NotImplementedException();
     }
 
+    public async Task<AudioRecording?> UpdateAudioRecording(int id, UpdateAudioRecording data) {
+        throw new System.NotImplementedException();
+    }
+
     #endregion
 
 }
@@ -68,6 +72,10 @@ public class DesignTimeAudioRecordingsService : IAudioRecordingsService {
 
     public Task<AudioRecording> Create(CreateAudioRecording data) {
         return Task.FromResult(new AudioRecording());
+    }
+
+    public Task<AudioRecording?> Update(int id, UpdateAudioRecording data) {
+        return Task.FromResult(new AudioRecording())!;
     }
 
     #endregion

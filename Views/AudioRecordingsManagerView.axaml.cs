@@ -32,8 +32,6 @@ public partial class AudioRecordingsManagerView : ReactiveUserControl<AudioRecor
                       .DisposeWith(d);
         });
 
-
-
     }
 
     private void InitializeComponent() {

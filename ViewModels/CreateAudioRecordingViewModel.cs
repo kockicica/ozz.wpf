@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -34,10 +35,13 @@ public class CreateAudioRecordingViewModel : ViewModelBase, IRoutableViewModel, 
     private AudioPlayerViewModel _audioPlayerViewModel;
 
     private ObservableAsPropertyHelper<IEnumerable<Category?>> _categories;
+    private string                                             _categoryName;
     private string                                             _client;
     private string                                             _comment;
     private TimeSpan                                           _duration;
     private string                                             _fileName;
+
+    private bool _isUpdate;
 
     private string    _name;
     private Category? _selectedCategory;
@@ -108,7 +112,10 @@ public class CreateAudioRecordingViewModel : ViewModelBase, IRoutableViewModel, 
                 })
                 .DisposeWith(d);
 
-            _categories = _dataClient.Categories().ToObservable().ToProperty(this, x => x.Categories).DisposeWith(d);
+            _categories = _dataClient.Categories().ToObservable().Do(categories => {
+                var selected = categories.SingleOrDefault(x => x.Name == CategoryName);
+                SelectedCategory = selected;
+            }).ToProperty(this, x => x.Categories).DisposeWith(d);
         });
     }
 
@@ -160,6 +167,16 @@ public class CreateAudioRecordingViewModel : ViewModelBase, IRoutableViewModel, 
         set => this.RaiseAndSetIfChanged(ref _audioPlayerViewModel, value);
     }
 
+    public bool IsUpdate {
+        get => _isUpdate;
+        set => this.RaiseAndSetIfChanged(ref _isUpdate, value);
+    }
+
+    public string CategoryName {
+        get => _categoryName;
+        set => this.RaiseAndSetIfChanged(ref _categoryName, value);
+    }
+
     #region IActivatableViewModel Members
 
     public ViewModelActivator Activator { get; } = new();
@@ -175,7 +192,8 @@ public class CreateAudioRecordingViewModel : ViewModelBase, IRoutableViewModel, 
     #region IRoutableViewModel Members
 
     public string? UrlPathSegment { get; } = "create-record";
-    public IScreen HostScreen     { get; }
+
+    public IScreen HostScreen { get; }
 
     #endregion
 

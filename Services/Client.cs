@@ -92,6 +92,24 @@ public class Client : IClient {
 
     }
 
+    public async Task<AudioRecording?> UpdateAudioRecording(int id, UpdateAudioRecording data) {
+        var cl = _client;
+        var url = $"/api/audio/{id}";
+        try {
+            var res = await cl.PutAsJsonAsync(url, data);
+            if (!res.IsSuccessStatusCode) {
+                var msg = await res.Content.ReadFromJsonAsync<ErrorResponse>();
+                throw new HttpRequestException(msg.Message, null, HttpStatusCode.BadRequest);
+            }
+            var ret = await res.Content.ReadFromJsonAsync<AudioRecording>();
+            return ret;
+        }
+        catch (Exception e) {
+            _logger.LogError("Error updating audio record: {@e}", e);
+            throw new AudioRecordingUpdateException(e.Message);
+        }
+    }
+
     public async Task<IEnumerable<Equalizer>?> Equalizers() {
         var cl = _client;
         var url = $"/api/equalizers";
@@ -287,7 +305,36 @@ public class Client : IClient {
 
 }
 
-public class AudioRecordingCreateException : Exception {
+public class OzzzzException : Exception {
+    public OzzzzException() {
+    }
+
+    protected OzzzzException([NotNull] SerializationInfo info, StreamingContext context) : base(info, context) {
+    }
+
+    public OzzzzException([CanBeNull] string? message) : base(message) {
+    }
+
+    public OzzzzException([CanBeNull] string? message, [CanBeNull] Exception? innerException) : base(message, innerException) {
+    }
+}
+
+public class DatabaseException : OzzzzException {
+    public DatabaseException() {
+    }
+
+    protected DatabaseException([NotNull] SerializationInfo info, StreamingContext context) : base(info, context) {
+    }
+
+    public DatabaseException([CanBeNull] string? message) : base(message) {
+    }
+
+    public DatabaseException([CanBeNull] string? message, [CanBeNull] Exception? innerException) : base(message, innerException) {
+    }
+}
+
+public class AudioRecordingCreateException : DatabaseException {
+
     public AudioRecordingCreateException() {
     }
 
@@ -298,5 +345,19 @@ public class AudioRecordingCreateException : Exception {
     }
 
     public AudioRecordingCreateException([CanBeNull] string? message, [CanBeNull] Exception? innerException) : base(message, innerException) {
+    }
+}
+
+public class AudioRecordingUpdateException : DatabaseException {
+    public AudioRecordingUpdateException() {
+    }
+
+    protected AudioRecordingUpdateException([NotNull] SerializationInfo info, StreamingContext context) : base(info, context) {
+    }
+
+    public AudioRecordingUpdateException([CanBeNull] string? message) : base(message) {
+    }
+
+    public AudioRecordingUpdateException([CanBeNull] string? message, [CanBeNull] Exception? innerException) : base(message, innerException) {
     }
 }

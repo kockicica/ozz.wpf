@@ -55,7 +55,8 @@
             <TextBlock Text="{Binding SearchParams.CategoryId}" />
             <TextBlock Text="{Binding SelectedCategory.Id}" />
         </StackPanel>
-        <DataGrid Grid.Row="2" Items="{Binding Results}" AutoGenerateColumns="False" IsReadOnly="True" x:Name="Grid">
+        <DataGrid Grid.Row="2" Items="{Binding Results}" AutoGenerateColumns="False" IsReadOnly="True" x:Name="Grid"
+                  SelectedItem="{Binding SelectedRecording}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="4*" />
                 <DataGridTextColumn Header="Datum" Binding="{Binding Date, StringFormat={}{0:dd.MM.yyyy}}" Width="2*" />
@@ -63,6 +64,12 @@
                 <DataGridTextColumn Header="Aktivna" Binding="{Binding Active, Converter={StaticResource BoolToStringConverter}}" Width="*" />
                 <DataGridTextColumn Header="Trajanje" Binding="{Binding Duration, Converter={StaticResource DurationToStringConverter}}" Width="*" />
             </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Izmena" Command="{Binding EditRecording}" CommandParameter="{Binding SelectedRecording}"
+                              IsEnabled="{Binding SelectedRecording, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
     </Grid>
 </UserControl>

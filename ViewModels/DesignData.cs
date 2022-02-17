@@ -59,7 +59,7 @@ public static class DesignData {
             { EqualizerViewModel = Equalizer, PlayerModel = AudioPlayerViewModel };
 
     public static AudioRecordingsManagerViewModel AudioRecordingsManagerViewModel
-        => new(NullLogger<AudioRecordingsManagerViewModel>.Instance, null, new DesignTimeClient(), new DesignTimeAudioRecordingsService());
+        => new(NullLogger<AudioRecordingsManagerViewModel>.Instance, null, new DesignTimeClient(), new DesignTimeAudioRecordingsService(), null);
 
     public static ManagerViewModel ManagerViewModel => new(NullLogger<ManagerViewModel>.Instance, null, new LocatorBasedResolver());
 }

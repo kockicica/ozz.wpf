@@ -45,14 +45,13 @@
                 <Label Grid.Row="4" Grid.Column="0">Datoteka</Label>
                 <Grid Grid.Row="4" Grid.Column="2">
                     <Grid ColumnDefinitions="*,3*">
-                        <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Vertical" IsVisible="{Binding !IsUpdate}">
                             <Button Content="Browse" Command="{Binding BrowseForAudioFile}" />
                             <TextBlock Text="{Binding FileName}" />
                             <TextBlock Text="{Binding Duration, StringFormat='{}{0:hh\\:mm\\:ss}'}" />
                         </StackPanel>
                         <views:AudioPlayerView Grid.Column="1" DataContext="{Binding AudioPlayerViewModel}"
                                                IsEnabled="{Binding Track, Converter={x:Static ObjectConverters.IsNotNull}}" />
-
                     </Grid>
                 </Grid>
                 <Label Grid.Row="5" Grid.Column="0">Kategorija</Label>

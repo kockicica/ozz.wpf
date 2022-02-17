@@ -9,6 +9,8 @@ public class AudioRecording : HasId {
     public long     Duration { get; set; }
     public DateTime Date     { get; set; }
     public bool     Active   { get; set; }
+    public string   Client   { get; set; }
+    public string   Comment  { get; set; }
 
     #region HasId Members
 
@@ -26,4 +28,13 @@ public class CreateAudioRecording {
     public bool     Active   { get; set; }
     public DateTime Date     { get; set; }
     public string   Comment  { get; set; }
+    public string   Client   { get; set; }
+}
+
+public class UpdateAudioRecording {
+    public string Name     { get; set; }
+    public string Category { get; set; }
+    public string Client   { get; set; }
+    public string Comment  { get; set; }
+    public bool   Active   { get; set; }
 }
