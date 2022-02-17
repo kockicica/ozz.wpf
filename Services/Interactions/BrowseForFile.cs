@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Reactive;
 
 using Avalonia.Controls;
 
@@ -21,8 +22,9 @@ public class BrowseForFileConfig {
 
 public interface IBrowseForFile {
 
-    Interaction<BrowseForFileConfig, string>     Browse             { get; }
-    Interaction<AudioRecording, AudioRecording?> EditAudioRecording { get; }
+    Interaction<BrowseForFileConfig, string>     Browse               { get; }
+    Interaction<AudioRecording, AudioRecording?> EditAudioRecording   { get; }
+    Interaction<Unit, AudioRecording?>           CreateAudioRecording { get; }
 }
 
 public class BrowseForFile : IBrowseForFile {
@@ -61,22 +63,37 @@ public class BrowseForFile : IBrowseForFile {
             vm.Id = rec.Id;
             //vm.Category = rec.Category;
             vm.AudioRecordingDetailsViewModel.AudioPlayerViewModel.Track = rec;
+            vm.IsUpdate = true;
 
             var modal = new EditAudioRecordingWindow {
                 DataContext = vm
             };
+            modal.Title = "Izmena podataka audio zapisa";
 
             var res = await modal.ShowDialog<EditAudioRecordingsResult>(_mainWindowProvider.GetMainWindow());
             context.SetOutput(res?.Recording);
 
         });
 
+        CreateAudioRecording.RegisterHandler(async context => {
+            var vm = _resolver.GetService<EditAudioRecordingViewModel>();
+            vm.AudioRecordingDetailsViewModel = _resolver.GetService<AudioRecordingDetailsViewModel>();
+            var modal = new EditAudioRecordingWindow {
+                DataContext = vm
+            };
+            modal.Title = "Kreiranje novog audio zapisa";
+
+            var res = await modal.ShowDialog<EditAudioRecordingsResult>(_mainWindowProvider.GetMainWindow());
+            context.SetOutput(res?.Recording);
+        });
+
     }
 
     #region IBrowseForFile Members
 
-    public Interaction<BrowseForFileConfig, string>     Browse             { get; } = new();
-    public Interaction<AudioRecording, AudioRecording?> EditAudioRecording { get; } = new();
+    public Interaction<BrowseForFileConfig, string>     Browse               { get; } = new();
+    public Interaction<AudioRecording, AudioRecording?> EditAudioRecording   { get; } = new();
+    public Interaction<Unit, AudioRecording?>           CreateAudioRecording { get; } = new();
 
     #endregion
 

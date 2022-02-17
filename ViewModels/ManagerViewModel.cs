@@ -2,17 +2,22 @@ using System;
 using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Windows.Input;
 
 using Microsoft.Extensions.Logging;
 
+using ozz.wpf.Models;
 using ozz.wpf.Services;
+using ozz.wpf.Services.Interactions;
 
 using ReactiveUI;
 
 namespace ozz.wpf.ViewModels;
 
 public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableViewModel, IScreen {
+
+    private readonly IBrowseForFile _browseForFile;
 
     private readonly ILogger<ManagerViewModel> _logger;
 
@@ -28,11 +33,12 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
     private DispositionViewModel? _dispositionViewModel;
 
-    public ManagerViewModel(ILogger<ManagerViewModel> logger, IScreen hostScreen, IResolver resolver) {
+    public ManagerViewModel(ILogger<ManagerViewModel> logger, IScreen hostScreen, IResolver resolver, IBrowseForFile browseForFile) {
         _logger = logger;
         HostScreen = hostScreen;
         //Router = routingState;
         _resolver = resolver;
+        _browseForFile = browseForFile;
 
         ViewAudioManager = ReactiveCommand.Create(
             () => {
@@ -50,13 +56,15 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
             this.WhenAny(model => model.CurrentViewModel, x => x.Value?.UrlPathSegment != "disposition")
         );
 
-        CreateNewAudio = ReactiveCommand.Create(
-            () => {
-                //var vm = _resolver.GetService<DispositionViewModel>();
-                Router.Navigate.Execute(CreateAudioRecordingViewModel);
-            },
-            this.WhenAny(model => model.CurrentViewModel, x => x.Value?.UrlPathSegment != "create-record")
-        );
+        // CreateNewAudio = ReactiveCommand.Create(
+        //     () => {
+        //         //var vm = _resolver.GetService<DispositionViewModel>();
+        //         Router.Navigate.Execute(CreateAudioRecordingViewModel);
+        //     },
+        //     this.WhenAny(model => model.CurrentViewModel, x => x.Value?.UrlPathSegment != "create-record")
+        // );
+        CreateNewAudio =
+            ReactiveCommand.CreateFromTask<Unit, AudioRecording?>(async unit => await _browseForFile.CreateAudioRecording.Handle(Unit.Default));
 
         GoBack = ReactiveCommand.CreateFromObservable(() => Router.NavigateBack.Execute());
 
@@ -73,6 +81,13 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
                       this.RaisePropertyChanged(nameof(HasCurrentModel));
                   })
                   .DisposeWith(d);
+
+            CreateNewAudio
+                .Where(x => x != null)
+                .Subscribe(recording => {
+                    var a = recording;
+                })
+                .DisposeWith(d);
         });
 
     }
@@ -81,7 +96,7 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
     public ReactiveCommand<Unit, Unit> ViewDisposition { get; }
 
-    public ReactiveCommand<Unit, Unit> CreateNewAudio { get; }
+    public ReactiveCommand<Unit, AudioRecording?> CreateNewAudio { get; }
 
     public string Caption {
         get => _caption;

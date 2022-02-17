@@ -28,7 +28,7 @@
     </UserControl.Styles>
     <ScrollViewer>
 
-        <Grid RowDefinitions="Auto,Auto,*" Margin="10">
+        <Grid RowDefinitions="Auto" Margin="10">
             <Grid ColumnDefinitions="Auto,10,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*">
                 <Label Grid.Row="0" Grid.Column="0">Naziv</Label>
                 <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Name}">
@@ -64,11 +64,10 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </Grid>
-            <Grid Grid.Row="1" />
-            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Reset" Command="{Binding ClearFields}" />
-                <Button Content="Snimi" Command="{Binding CreateAudioFile}" IsDefault="True" />
-            </StackPanel>
+            <!-- <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right"> -->
+            <!--     <Button Content="Reset" Command="{Binding ClearFields}" /> -->
+            <!--     <Button Content="Snimi" Command="{Binding CreateAudioFile}" IsDefault="True" /> -->
+            <!-- </StackPanel> -->
         </Grid>
 
     </ScrollViewer>

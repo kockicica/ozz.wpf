@@ -18,31 +18,51 @@ using Notification = Avalonia.Controls.Notifications.Notification;
 namespace ozz.wpf.ViewModels;
 
 public class EditAudioRecordingViewModel : DialogViewModelBase<EditAudioRecordingsResult> {
-    private readonly IClient _client;
+
+    private readonly IAudioRecordingsService _audioRecordingsService;
 
     private readonly ILogger<EditAudioRecordingViewModel> _logger;
     private readonly INotificationManager                 _notificationManager;
 
     private AudioRecordingDetailsViewModel _audioRecordingDetailsViewModel;
     private int                            _id;
+    private bool                           _isUpdate;
 
     public EditAudioRecordingViewModel(ILogger<EditAudioRecordingViewModel> logger, AudioRecordingDetailsViewModel audioRecordingDetailsViewModel,
-                                       IClient client, INotificationManager notificationManager) {
+                                       INotificationManager notificationManager, IAudioRecordingsService audioRecordingsService) {
         _logger = logger;
         AudioRecordingDetailsViewModel = audioRecordingDetailsViewModel;
-        _client = client;
         _notificationManager = notificationManager;
+        _audioRecordingsService = audioRecordingsService;
         Update = ReactiveCommand.CreateFromTask<Unit, AudioRecording?>(async unit => {
 
-            var updateData = new UpdateAudioRecording {
-                Active = AudioRecordingDetailsViewModel.Active,
-                Category = AudioRecordingDetailsViewModel.SelectedCategory?.Name,
-                Client = AudioRecordingDetailsViewModel.Client,
-                Comment = AudioRecordingDetailsViewModel.Comment,
-                Name = AudioRecordingDetailsViewModel.Name,
-            };
-            var res = await _client.UpdateAudioRecording(Id, updateData);
-            return res;
+            if (IsUpdate) {
+                // perform update
+                var updateData = new UpdateAudioRecording {
+                    Active = AudioRecordingDetailsViewModel.Active,
+                    Category = AudioRecordingDetailsViewModel.SelectedCategory?.Name,
+                    Client = AudioRecordingDetailsViewModel.Client,
+                    Comment = AudioRecordingDetailsViewModel.Comment,
+                    Name = AudioRecordingDetailsViewModel.Name,
+                };
+                var res = await _audioRecordingsService.Update(Id, updateData);
+                return res;
+            }
+            else {
+                // create new
+                var createData = new CreateAudioRecording {
+                    Active = AudioRecordingDetailsViewModel.Active,
+                    Category = AudioRecordingDetailsViewModel.SelectedCategory!.Name,
+                    Client = AudioRecordingDetailsViewModel.Client,
+                    Comment = AudioRecordingDetailsViewModel.Comment,
+                    Date = DateTime.Now,
+                    Duration = AudioRecordingDetailsViewModel.Duration,
+                    Name = AudioRecordingDetailsViewModel.Name,
+                    Path = AudioRecordingDetailsViewModel.FileName,
+                };
+                var res = await _audioRecordingsService.Create(createData);
+                return res;
+            }
         });
 
         this.WhenActivated(d => {
@@ -70,5 +90,10 @@ public class EditAudioRecordingViewModel : DialogViewModelBase<EditAudioRecordin
     public int Id {
         get => _id;
         set => this.RaiseAndSetIfChanged(ref _id, value);
+    }
+
+    public bool IsUpdate {
+        get => _isUpdate;
+        set => this.RaiseAndSetIfChanged(ref _isUpdate, value);
     }
 }
