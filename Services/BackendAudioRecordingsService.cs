@@ -30,6 +30,10 @@ public class BackendAudioRecordingsService : IAudioRecordingsService {
         return await _client.UpdateAudioRecording(id, data);
     }
 
+    public async Task Delete(int id) {
+        await _client.DeleteAudioRecording(id);
+    }
+
     #endregion
 
 }

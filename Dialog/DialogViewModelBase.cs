@@ -3,11 +3,6 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Windows.Input;
 
-using Avalonia.Controls;
-using Avalonia.ReactiveUI;
-
-using JetBrains.Annotations;
-
 using ozz.wpf.ViewModels;
 
 using ReactiveUI;
@@ -20,11 +15,19 @@ public class DialogViewModelBase<TResult> : ViewModelBase, IActivatableViewModel
 
     protected readonly Subject<TResult> _closeRequested = new();
 
-    public ICommand CloseCommand { get; }
-
     protected DialogViewModelBase() {
         CloseCommand = ReactiveCommand.Create(Close);
     }
+
+    public ICommand CloseCommand { get; }
+
+    public IObservable<TResult> CloseRequested => _closeRequested.AsObservable();
+
+    #region IActivatableViewModel Members
+
+    public ViewModelActivator Activator { get; } = new();
+
+    #endregion
 
     protected void Close() => Close(default);
 
@@ -32,10 +35,6 @@ public class DialogViewModelBase<TResult> : ViewModelBase, IActivatableViewModel
         _closeRequested.OnNext(result);
         _closeRequested.OnCompleted();
     }
-
-    public IObservable<TResult> CloseRequested => _closeRequested.AsObservable();
-    public ViewModelActivator   Activator      { get; } = new();
-
 }
 
 // public static class EventExtensions {
@@ -51,4 +50,5 @@ public class DialogViewModelBase<TResult> : ViewModelBase, IActivatableViewModel
 //
 // }
 
-public class DialogViewModelBase : DialogViewModelBase<DialogResultBase> { }
+public class DialogViewModelBase : DialogViewModelBase<DialogResultBase> {
+}

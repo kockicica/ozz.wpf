@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
@@ -56,6 +55,11 @@ public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewMo
 
         EditRecording = ReactiveCommand.CreateFromTask<AudioRecording, AudioRecording?>(HandleEditRecording);
 
+        DeleteRecording = ReactiveCommand.CreateFromTask<AudioRecording, ConfirmMessageResult>(
+            async recording => await _browseForFile.Confirm.Handle(new ConfirmMessageConfig {
+                Message = $"Da li ste sigurni da želite da izbrišete {recording.Name}?", Title = "Pitanje"
+            }));
+
 
         this.WhenActivated(d => {
             _categories = _client
@@ -70,14 +74,15 @@ public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewMo
 
             EditRecording
                 .Where(recording => recording != null)
-                .Subscribe(recording => {
-                    var rec = Results.SingleOrDefault(x => x.Id == recording!.Id);
-                    if (rec != null) {
-                        rec.Name = recording!.Name;
-                        //Results = new ObservableCollection<AudioRecording>(Results);
-                        this.RaisePropertyChanged(nameof(Results));
-                    }
-                })
+                .SelectMany(_ => Search.Execute(SearchParams))
+                .Subscribe()
+                .DisposeWith(d);
+
+            DeleteRecording
+                .Where(x => x == ConfirmMessageResult.Yes)
+                .SelectMany(_ => _audioRecordingsService.Delete(SelectedRecording!.Id).ToObservable())
+                .SelectMany(_ => Search.Execute(SearchParams))
+                .Subscribe()
                 .DisposeWith(d);
         });
     }
@@ -101,6 +106,8 @@ public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewMo
     public ReactiveCommand<AudioRecordingsSearchParams, PagedResults<AudioRecording>> Search { get; set; }
 
     public ReactiveCommand<AudioRecording, AudioRecording?> EditRecording { get; set; }
+
+    public ReactiveCommand<AudioRecording, ConfirmMessageResult> DeleteRecording { get; set; }
 
     public Category? SelectedCategory {
         get => _selectedCategory;

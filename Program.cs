@@ -12,6 +12,7 @@ using ozz.wpf.Config;
 using ozz.wpf.Services;
 using ozz.wpf.Services.Interactions;
 using ozz.wpf.ViewModels;
+using ozz.wpf.ViewModels.Dialogs;
 using ozz.wpf.Views;
 
 using ReactiveUI;
@@ -84,6 +85,7 @@ namespace ozz.wpf {
                                s.AddTransient<AudioRecordingDetailsViewModel>();
                                s.AddTransient<IViewFor<AudioRecordingDetailsViewModel>, AudioRecordingDetailsView>();
                                s.AddTransient<EditAudioRecordingViewModel>();
+                               s.AddTransient<ConfirmDialogViewModel>();
 
                                s.AddSingleton<RoutingState>(provider => {
                                    var wnd = provider.GetService<MainWindowViewModel>();

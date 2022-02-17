@@ -7,7 +7,9 @@ using Microsoft.Extensions.Logging;
 
 using ozz.wpf.Models;
 using ozz.wpf.ViewModels;
+using ozz.wpf.ViewModels.Dialogs;
 using ozz.wpf.Views;
+using ozz.wpf.Views.Dialogs;
 
 using ReactiveUI;
 
@@ -20,11 +22,23 @@ public class BrowseForFileConfig {
     public List<FileDialogFilter> Filters       { get; set; }
 }
 
+public class ConfirmMessageConfig {
+    public string Title   { get; set; }
+    public string Message { get; set; }
+}
+
+public enum ConfirmMessageResult {
+    Yes,
+    No,
+    Cancel,
+}
+
 public interface IBrowseForFile {
 
-    Interaction<BrowseForFileConfig, string>     Browse               { get; }
-    Interaction<AudioRecording, AudioRecording?> EditAudioRecording   { get; }
-    Interaction<Unit, AudioRecording?>           CreateAudioRecording { get; }
+    Interaction<BrowseForFileConfig, string>                Browse               { get; }
+    Interaction<AudioRecording, AudioRecording?>            EditAudioRecording   { get; }
+    Interaction<Unit, AudioRecording?>                      CreateAudioRecording { get; }
+    Interaction<ConfirmMessageConfig, ConfirmMessageResult> Confirm              { get; }
 }
 
 public class BrowseForFile : IBrowseForFile {
@@ -87,13 +101,26 @@ public class BrowseForFile : IBrowseForFile {
             context.SetOutput(res?.Recording);
         });
 
+        Confirm.RegisterHandler(async context => {
+            var cfg = context.Input;
+            var vm = _resolver.GetService<ConfirmDialogViewModel>();
+            vm.Message = cfg.Message;
+            var modal = new ConfirmDialogWindow { DataContext = vm };
+            modal.Title = "Potvrda";
+            var res = await modal.ShowDialog<ConfirmDialogResult?>(_mainWindowProvider.GetMainWindow());
+            res ??= new ConfirmDialogResult { Result = ConfirmMessageResult.Cancel };
+
+            context.SetOutput(res.Result);
+        });
+
     }
 
     #region IBrowseForFile Members
 
-    public Interaction<BrowseForFileConfig, string>     Browse               { get; } = new();
-    public Interaction<AudioRecording, AudioRecording?> EditAudioRecording   { get; } = new();
-    public Interaction<Unit, AudioRecording?>           CreateAudioRecording { get; } = new();
+    public Interaction<BrowseForFileConfig, string>                Browse               { get; } = new();
+    public Interaction<AudioRecording, AudioRecording?>            EditAudioRecording   { get; } = new();
+    public Interaction<Unit, AudioRecording?>                      CreateAudioRecording { get; } = new();
+    public Interaction<ConfirmMessageConfig, ConfirmMessageResult> Confirm              { get; } = new();
 
     #endregion
 

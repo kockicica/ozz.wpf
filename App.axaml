@@ -18,5 +18,6 @@
         <StyleInclude Source="avares://Aura.UI.FluentTheme/AuraUI.xaml" />
         <StyleInclude Source="avares://ozz.wpf/Icons.axaml" />
         <StyleInclude Source="avares://ozz.wpf/Styles/PlayerSlider.axaml" />
+        <StyleInclude Source="avares://ozz.wpf/Styles/CustomButtons.axaml" />
     </Application.Styles>
 </Application>

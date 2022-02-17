@@ -12,6 +12,7 @@ public interface IClient {
     Task<PagedResults<AudioRecording>> AudioRecordings(AudioRecordingsSearchParams sp);
     Task<AudioRecording?>              Create(CreateAudioRecording data);
     Task<AudioRecording?>              UpdateAudioRecording(int id, UpdateAudioRecording data);
+    Task                               DeleteAudioRecording(int id);
 
     Task<IEnumerable<Equalizer>?> Equalizers();
     Task<Equalizer?>              Equalizer(int id);

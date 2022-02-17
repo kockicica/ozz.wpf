@@ -68,6 +68,8 @@
                 <ContextMenu>
                     <MenuItem Header="Izmena" Command="{Binding EditRecording}" CommandParameter="{Binding SelectedRecording}"
                               IsEnabled="{Binding SelectedRecording, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                    <MenuItem Header="Brisanje" Command="{Binding DeleteRecording}" CommandParameter="{Binding SelectedRecording}"
+                              IsEnabled="{Binding SelectedRecording, Converter={x:Static ObjectConverters.IsNotNull}}" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>

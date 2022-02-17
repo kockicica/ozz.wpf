@@ -110,6 +110,22 @@ public class Client : IClient {
         }
     }
 
+    public async Task DeleteAudioRecording(int id) {
+        var cl = _client;
+        var url = $"/api/audio/{id}";
+        try {
+            var res = await cl.DeleteAsync(url);
+            if (!res.IsSuccessStatusCode) {
+                var msg = await res.Content.ReadFromJsonAsync<ErrorResponse>();
+                throw new HttpRequestException(msg.Message, null, HttpStatusCode.InternalServerError);
+            }
+        }
+        catch (Exception e) {
+            _logger.LogError("Error updating audio record: {@e}", e);
+            throw new AudioRecordingDeleteException(e.Message);
+        }
+    }
+
     public async Task<IEnumerable<Equalizer>?> Equalizers() {
         var cl = _client;
         var url = $"/api/equalizers";
@@ -359,5 +375,19 @@ public class AudioRecordingUpdateException : DatabaseException {
     }
 
     public AudioRecordingUpdateException([CanBeNull] string? message, [CanBeNull] Exception? innerException) : base(message, innerException) {
+    }
+}
+
+public class AudioRecordingDeleteException : DatabaseException {
+    public AudioRecordingDeleteException() {
+    }
+
+    protected AudioRecordingDeleteException([NotNull] SerializationInfo info, StreamingContext context) : base(info, context) {
+    }
+
+    public AudioRecordingDeleteException([CanBeNull] string? message) : base(message) {
+    }
+
+    public AudioRecordingDeleteException([CanBeNull] string? message, [CanBeNull] Exception? innerException) : base(message, innerException) {
     }
 }

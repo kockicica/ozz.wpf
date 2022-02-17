@@ -1,0 +1,76 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+    
+    <Styles.Resources>
+        <SolidColorBrush x:Key="ButtonYesBackground" Color="Green" />
+        <SolidColorBrush x:Key="ButtonYesBackgroundPointerOver" Color="LightGreen" />
+        <SolidColorBrush x:Key="ButtonYesBackgroundPressed" Color="LightGreen" />
+
+        <SolidColorBrush x:Key="ButtonYesForeground" Color="White" />
+        <SolidColorBrush x:Key="ButtonYesForegroundPointerOver" Color="Black" />
+        <SolidColorBrush x:Key="ButtonYesForegroundPressed" Color="Black" />
+
+        <SolidColorBrush x:Key="ButtonNoBackground" Color="Red" />
+        <SolidColorBrush x:Key="ButtonNoBackgroundPointerOver" Color="IndianRed" />
+        <SolidColorBrush x:Key="ButtonNoBackgroundPressed" Color="IndianRed" />
+
+        <SolidColorBrush x:Key="ButtonNoForeground" Color="White" />
+        <SolidColorBrush x:Key="ButtonNoForegroundPointerOver" Color="White" />
+        <SolidColorBrush x:Key="ButtonNoForegroundPressed" Color="White" />
+    </Styles.Resources>
+    
+    <Style Selector="Button">
+        <Style.Resources>
+            <Thickness x:Key="ButtonPadding">30 5 30 6</Thickness>
+        </Style.Resources>
+    </Style>
+
+    <Style Selector="Button.yes-button">
+        <Setter Property="Background" Value="{DynamicResource ButtonYesBackground}" />
+    </Style>
+    
+    <Style Selector="Button.yes-button /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource ButtonYesForeground}" />
+    </Style>
+    
+    <Style Selector="Button.yes-button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource ButtonYesBackgroundPointerOver}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource ButtonYesForegroundPointerOver}" />
+    </Style>
+    
+    <Style Selector="Button.yes-button:pressed  /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource ButtonYesBackgroundPressed}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPressed}" />
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource ButtonYesForegroundPressed}" />
+    </Style>
+    
+    
+    <Style Selector="Button.no-button">
+        <Setter Property="Background" Value="{DynamicResource ButtonNoBackground}" />
+    </Style>
+    
+    <Style Selector="Button.no-button /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource ButtonNoForeground}" />
+    </Style>
+    
+    <Style Selector="Button.no-button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource ButtonNoBackgroundPointerOver}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource ButtonNoForegroundPointerOver}" />
+    </Style>
+
+    <Style Selector="Button.no-button:pressed  /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource ButtonNoBackgroundPressed}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPressed}" />
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource ButtonNoForegroundPressed}" />
+    </Style>
+    
+
+    <!-- Add Styles Here -->
+</Styles>
