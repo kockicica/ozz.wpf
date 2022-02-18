@@ -19,17 +19,6 @@
         <Style Selector="Button.cmd_button:pointerover PathIcon">
             <Setter Property="Foreground" Value="DarkGray" />
         </Style>
-        <!-- <Style Selector="Button#PlayOrPauseButton.play_or_pause_button"> -->
-        <!--     <Setter Property="Content"> -->
-        <!--         <Setter.Value> -->
-        <!--             <Template> -->
-        <!--                 ~1~ <PathIcon Data="{StaticResource pause_regular}"/> @1@ -->
-        <!--                 ~1~ <PathIcon Data="{StaticResource play_regular}"/> @1@ -->
-        <!--             </Template> -->
-        <!--         </Setter.Value> -->
-        <!--     </Setter> -->
-        <!-- </Style> -->
-
         <Style Selector="TextBlock.name">
             <Setter Property="FontWeight" Value="Light" />
             <Setter Property="FontSize" Value="26" />
@@ -73,49 +62,21 @@
         <Grid ColumnDefinitions="Auto, *" Grid.Row="1" Margin="0 20 0 0 ">
             <StackPanel Orientation="Horizontal" Grid.Column="0" Spacing="10">
                 <Button Classes="cmd_button" Command="{Binding Stop}" IsEnabled="{Binding !IsStopped}">
-                    <!-- <Image Source="{s:SvgImage /Assets/stop.svg}"></Image> -->
-                    <!-- <Button.Resources> -->
-                    <!--     <SolidColorBrush x:Key="ButtonBackground" Color="Transparent" /> -->
-                    <!--     <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Transparent" /> -->
-                    <!--     <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="Transparent" /> -->
-                    <!--     <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" /> -->
-                    <!--     <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="Transparent" /> -->
-                    <!--     <Thickness x:Key="ButtonPadding">5</Thickness> -->
-                    <!-- </Button.Resources> -->
                     <PathIcon Data="{DynamicResource circle_stop}" />
                 </Button>
                 <Button Classes="cmd_button" x:Name="PlayOrPauseButton" Command="{Binding PlayOrPause}">
-                    <!-- <Button.Resources> -->
-                    <!--     <SolidColorBrush x:Key="ButtonBackground" Color="Transparent" /> -->
-                    <!--     <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Transparent" /> -->
-                    <!--     <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="Transparent" /> -->
-                    <!--     <Thickness x:Key="ButtonPadding">5</Thickness> -->
-                    <!-- </Button.Resources> -->
                     <Panel>
                         <PathIcon Data="{DynamicResource circle_pause}" IsVisible="{Binding !IsPaused}" />
                         <PathIcon Data="{DynamicResource circle_play}" IsVisible="{Binding IsPaused}" />
-                        <!-- <Image Source="{s:SvgImage /Assets/play.svg}" IsVisible="{Binding IsPaused}"></Image> -->
-                        <!-- <Image Source="{s:SvgImage /Assets/pause.svg}" IsVisible="{Binding !IsPaused}"></Image> -->
                     </Panel>
 
                 </Button>
             </StackPanel>
             <DockPanel Grid.Column="1" Margin="10 0" VerticalAlignment="Center">
                 <controls:PlayerSlider x:Name="PlayerSlider" Grid.Row="3" Orientation="Horizontal" Minimum="0" Maximum="{Binding MediaLength}"
-                                       OutsideValue="{Binding MediaPosition}">
-                    <!-- <controls:PlayerSlider.Resources> -->
-                    <!--     <x:Double x:Key="PlayerSliderHorizontalHeight">20</x:Double> -->
-                    <!--     <x:Double x:Key="PlayerSliderHorizontalThumbWidth">16</x:Double> -->
-                    <!--     <x:Double x:Key="PlayerSliderHorizontalThumbHeight">30</x:Double> -->
-                    <!-- </controls:PlayerSlider.Resources> -->
-                </controls:PlayerSlider>
+                                       OutsideValue="{Binding MediaPosition}" />
             </DockPanel>
         </Grid>
-        <!-- <StackPanel Orientation="Horizontal" Grid.Row="2"> -->
-        <!--     <TextBlock Text="{Binding MediaLength}"></TextBlock> -->
-        <!--     <Button Content="Skip" Command="{Binding ToggleSkip}"></Button> -->
-        <!-- </StackPanel> -->
-        <!-- <avalonia:VideoView x:Name="VideoView" MediaPlayer="{Binding Player}" DockPanel.Dock="Bottom"></avalonia:VideoView> -->
         <DockPanel Grid.Row="2" LastChildFill="True">
             <Slider Value="{Binding Volume}" Minimum="0" Maximum="100" TickFrequency="10" TickPlacement="Outside" />
         </DockPanel>
