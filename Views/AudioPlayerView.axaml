@@ -4,7 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
              xmlns:controls="clr-namespace:ozz.wpf.Controls"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" d:DataContext="{x:Static viewModels:DesignData.AudioPlayerViewModel}"
+             xmlns:views="clr-namespace:ozz.wpf.Views" DataContext="{x:Static viewModels:DesignData.AudioPlayerViewModel}"
+             x:Name="AudioPlayer"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" 
              x:Class="ozz.wpf.Views.AudioPlayerView">
     <UserControl.Styles>
         <StyleInclude Source="avares://ozz.wpf/AudioPlayer.axaml" />
@@ -31,6 +33,7 @@
         <Style Selector="TextBlock.current_time">
             <Setter Property="FontSize" Value="16" />
             <Setter Property="FontWeight" Value="Medium" />
+            <Setter Property="IsVisible" Value="{Binding $parent[views:AudioPlayerView].IsEnabled}" />
         </Style>
         <Styles>
             <Styles.Resources>
@@ -50,14 +53,15 @@
         </Styles>
     </UserControl.Styles>
     <Grid RowDefinitions="Auto, Auto, *" Margin="5">
-        <Grid Grid.Row="0" ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto">
-            <TextBlock Classes="name" Text="{Binding Track.Name}" Grid.Row="0" Grid.Column="0" />
-            <TextBlock Classes="duration" Text="{Binding Track.Duration, Converter={StaticResource DurationToStringConverter}}" Grid.Row="1" />
+        <Grid Grid.Row="0" ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto">
+            <TextBlock Classes="name" Text="{Binding Track.Name}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+            <TextBlock Classes="duration" Text="{Binding Track.Duration, Converter={StaticResource DurationToStringConverter}}" Grid.Row="1"
+                       Grid.Column="1" />
             <TextBlock
                 Classes="current_time"
-                Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
-                HorizontalAlignment="Right" VerticalAlignment="Center"
-                Text="{Binding CurrentPlayerTime, StringFormat='{}{0:hh\\:mm\\:ss}'}" DockPanel.Dock="Left" />
+                Grid.Row="1" Grid.Column="0"
+                HorizontalAlignment="Left" VerticalAlignment="Center"
+                Text="{Binding CurrentPlayerTime, StringFormat='{}{0:hh\\:mm\\:ss}'}" />
         </Grid>
         <Grid ColumnDefinitions="Auto, *" Grid.Row="1" Margin="0 20 0 0 ">
             <StackPanel Orientation="Horizontal" Grid.Column="0" Spacing="10">
@@ -74,7 +78,7 @@
             </StackPanel>
             <DockPanel Grid.Column="1" Margin="10 0" VerticalAlignment="Center">
                 <controls:PlayerSlider x:Name="PlayerSlider" Grid.Row="3" Orientation="Horizontal" Minimum="0" Maximum="{Binding MediaLength}"
-                                       OutsideValue="{Binding MediaPosition}" IsTabStop="False"/>
+                                       OutsideValue="{Binding MediaPosition}" IsTabStop="False" />
             </DockPanel>
         </Grid>
         <DockPanel Grid.Row="2" LastChildFill="True">
