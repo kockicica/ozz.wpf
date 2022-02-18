@@ -6,12 +6,30 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         WindowStartupLocation="CenterOwner" MinWidth="800" ShowInTaskbar="False" SizeToContent="WidthAndHeight"
         x:Class="ozz.wpf.Views.EditAudioRecordingWindow"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="32"
+        x:Name="EditAudioRecording"
         Title="Izmena audio zapisa">
-    <Grid RowDefinitions="*, Auto">
-        <views:AudioRecordingDetailsView Grid.Row="0" DataContext="{Binding AudioRecordingDetailsViewModel}"/>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" Spacing="10" Margin="0 0 10 10">
-            <Button Command="{Binding CloseCommand}">Prekid</Button>
-            <Button Command="{Binding Update}">OK</Button>
-        </StackPanel>
-    </Grid>
+    <Window.Styles>
+        <Styles>
+            <Style Selector="Window">
+                <Setter Property="Background" Value="{DynamicResource WindowChromeBackground}" />
+            </Style>
+        </Styles>
+    </Window.Styles>
+    <Panel>
+        <Panel Margin="{Binding #EditAudioRecording.OffScreenMargin}">
+            <Grid RowDefinitions="*, Auto" Background="White" Margin="{Binding #EditAudioRecording.WindowDecorationMargin}" >
+                <views:AudioRecordingDetailsView Grid.Row="0" DataContext="{Binding AudioRecordingDetailsViewModel}"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" Spacing="10" Margin="0 0 10 10">
+                    <Button Command="{Binding CloseCommand}">Prekid</Button>
+                    <Button Command="{Binding Update}">OK</Button>
+                </StackPanel>
+            </Grid>
+        </Panel>
+        <Panel VerticalAlignment="Top" HorizontalAlignment="Left" Height="32">
+            <TextBlock Text="{Binding #EditAudioRecording.Title}" VerticalAlignment="Center" FontWeight="Heavy" Margin="10 0 10 0" />
+        </Panel>
+    </Panel>
 </Window>

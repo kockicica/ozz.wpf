@@ -207,10 +207,10 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
                 var modal = new ModalAudioPlayerWindow {
                     DataContext = vm
                 };
-                wnd.ShowOverlay();
+                //wnd.ShowOverlay();
                 await modal.ShowDialog(wnd);
                 //await Task.Delay(1000);
-                wnd.HideOverlay();
+                //wnd.HideOverlay();
 
             }
 

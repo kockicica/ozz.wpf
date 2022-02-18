@@ -22,14 +22,18 @@
         <SolidColorBrush x:Key="AlertButtonForeground" Color="White" />
         <SolidColorBrush x:Key="AlertButtonForegroundPointerOver" Color="White" />
         <SolidColorBrush x:Key="AlertButtonForegroundPressed" Color="White" />
+
+        <SolidColorBrush x:Key="CloseWindowButtonBackground" Color="Transparent" />
+        <SolidColorBrush x:Key="CloseWindowButtonBackgroundPointerOver" Color="DarkRed" />
+        <SolidColorBrush x:Key="CloseWindowButtonBackgroundPressed" Color="DarkRed" />
+        
+        <SolidColorBrush x:Key="CloseWindowButtonForeground" Color="Black" />
+        <SolidColorBrush x:Key="CloseWindowButtonForegroundPointerOver" Color="White" />
+        <SolidColorBrush x:Key="CloseWindowButtonForegroundPressed" Color="White" />
+        
+        
     </Styles.Resources>
     
-    <Style Selector="Button">
-        <Style.Resources>
-            <Thickness x:Key="ButtonPadding">30 5 30 6</Thickness>
-        </Style.Resources>
-    </Style>
-
     <Style Selector="Button.success">
         <Setter Property="Background" Value="{DynamicResource SuccessButtonBackground}" />
     </Style>
@@ -72,5 +76,37 @@
     </Style>
     
 
-    <!-- Add Styles Here -->
+    <!-- Close windows button template -->
+    <Style Selector="Button.window-close">
+        <Setter Property="Background" Value="{DynamicResource CloseWindowButtonBackground}" />
+    </Style>
+    
+    <Style Selector="Button.window-close /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource CloseWindowButtonForeground}" />
+    </Style>
+
+    <Style Selector="Button.window-close PathIcon">
+        <Setter Property="Foreground" Value="{DynamicResource CloseWindowButtonForeground}" />
+    </Style>
+
+    <Style Selector="Button.window-close:pointerover PathIcon">
+        <Setter Property="Foreground" Value="{DynamicResource CloseWindowButtonForegroundPointerOver}" />
+    </Style>
+
+    <Style Selector="Button.window-close:pressed PathIcon">
+        <Setter Property="Foreground" Value="{DynamicResource CloseWindowButtonForegroundPointerOver}" />
+    </Style>
+    
+    <Style Selector="Button.window-close:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource CloseWindowButtonBackgroundPointerOver}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource CloseWindowButtonForegroundPointerOver}" />
+    </Style>
+    
+    <Style Selector="Button.window-close:pressed  /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource CloseWindowButtonBackgroundPressed}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPressed}" />
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource CloseWindowButtonForegroundPressed}" />
+    </Style>
+    
 </Styles>
