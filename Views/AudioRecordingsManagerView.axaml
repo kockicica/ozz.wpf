@@ -23,7 +23,7 @@
             </Style>
         </Styles>
     </UserControl.Styles>
-    <Grid RowDefinitions="Auto, Auto, *">
+    <Grid RowDefinitions="Auto, Auto, *" Margin="5">
         <Grid ColumnDefinitions="*,*,Auto">
             <Grid Classes="SearchArea" HorizontalAlignment="Stretch" ColumnDefinitions="Auto,*">
                 <TextBlock Text="Naziv:" />
