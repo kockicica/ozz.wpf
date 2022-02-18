@@ -1,0 +1,74 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:ozz.wpf.Controls">
+    <Design.PreviewWith>
+        <Panel Width="600">
+            <Panel VerticalAlignment="Top" HorizontalAlignment="Right" Height="32">
+                <controls:CloseButton Height="32" Width="40" VerticalAlignment="Top" />
+            </Panel>
+        </Panel>
+    </Design.PreviewWith>
+
+    <Styles.Resources>
+        <SolidColorBrush x:Key="CloseButtonBackground" Color="Transparent" />
+        <SolidColorBrush x:Key="CloseButtonBackgroundPointerOver" Color="IndianRed" />
+        <SolidColorBrush x:Key="CloseButtonBackgroundPressed" Color="IndianRed" />
+
+        <SolidColorBrush x:Key="CloseButtonForeground" Color="Black" />
+        <SolidColorBrush x:Key="CloseButtonForegroundPointerOver" Color="White" />
+        <SolidColorBrush x:Key="CloseButtonForegroundPressed" Color="White" />
+    </Styles.Resources>
+
+    <Style Selector="controls|CloseButton">
+        <!-- Set Defaults -->
+        <Setter Property="Background" Value="{DynamicResource CloseButtonBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource CloseButtonForeground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource CloseButtonBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ButtonBorderThemeThickness}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+        <Setter Property="Padding" Value="5" />
+        <!-- <Setter Property="HorizontalAlignment" Value="Left" /> -->
+        <!-- <Setter Property="VerticalAlignment" Value="Center" /> -->
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                    <PathIcon x:Name="PART_PathIcon" Data="{DynamicResource xmark}" Width="10" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="controls|CloseButton:pointerover /template/ Border">
+        <Setter Property="Background" Value="{DynamicResource CloseButtonBackgroundPointerOver}" />
+    </Style>
+
+    <Style Selector="controls|CloseButton:pointerover /template/ PathIcon#PART_PathIcon">
+        <Setter Property="Foreground" Value="{DynamicResource CloseButtonForegroundPointerOver}" />
+    </Style>
+
+    <Style Selector="controls|CloseButton:pressed /template/ Border">
+        <Setter Property="Background" Value="{DynamicResource CloseButtonBackgroundPointerOver}" />
+    </Style>
+
+    <Style Selector="controls|CloseButton:pressed /template/ PathIcon#PART_PathIcon">
+        <Setter Property="Foreground" Value="{DynamicResource CloseButtonForegroundPointerOver}" />
+    </Style>
+
+    <!-- <Style Selector="controls|CloseButton"> -->
+    <!--     <Setter Property="RenderTransform" Value="none" /> -->
+    <!--     <Setter Property="Transitions"> -->
+    <!--         <Transitions> -->
+    <!--             <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" /> -->
+    <!--         </Transitions> -->
+    <!--     </Setter> -->
+    <!-- </Style> -->
+    <!-- -->
+    <!-- <Style Selector="controls|CloseButton:pressed"> -->
+    <!--     <Setter Property="RenderTransform" Value="scale(0.98)" />     -->
+    <!-- </Style> -->
+
+
+</Styles>
