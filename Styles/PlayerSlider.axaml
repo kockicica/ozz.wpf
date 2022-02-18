@@ -5,8 +5,8 @@
         <Border Margin="20" Width="200" Height="200">
             <DockPanel LastChildFill="True">
                 <StackPanel Spacing="10" DockPanel.Dock="Top">
-                    <controls:PlayerSlider Value="50" />
-                    <controls:PlayerSlider IsEnabled="False" Value="50" />
+                    <controls:PlayerSlider Value="50"/>
+                    <controls:PlayerSlider IsEnabled="False" Value="50"/>
                 </StackPanel>
             </DockPanel>
         </Border>
@@ -62,17 +62,14 @@
                         <Grid Name="grid" Margin="{TemplateBinding Padding}" RowDefinitions="Auto, *">
                             <ContentPresenter x:Name="HeaderContentPresenter" Grid.Row="0"
                                               TextBlock.FontWeight="{DynamicResource SliderHeaderThemeFontWeight}"
-                                              TextBlock.Foreground="{DynamicResource SliderHeaderForeground}"/>
+                                              TextBlock.Foreground="{DynamicResource SliderHeaderForeground}" />
                             <Grid x:Name="SliderContainer" Grid.Row="1">
                                 <Grid x:Name="HorizontalTemplate" ColumnDefinitions="Auto,Auto,*"
                                       MinHeight="{DynamicResource PlayerSliderHorizontalHeight}">
                                     <Grid.RowDefinitions>
-                                        <!-- <RowDefinition Height="{DynamicResource PlayerSliderPreContentMargin}" /> -->
                                         <RowDefinition Height="Auto" />
-                                        <!-- <RowDefinition Height="{DynamicResource PlayerSliderPostContentMargin}" /> -->
                                     </Grid.RowDefinitions>
-                                    <Track Name="PART_Track" Grid.Row="0" Grid.ColumnSpan="3"
-                                           Orientation="Horizontal">
+                                    <Track Name="PART_Track" Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal">
                                         <Track.DecreaseButton>
                                             <RepeatButton Name="PART_DecreaseButton" Background="{TemplateBinding Foreground}" Focusable="False"
                                                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -124,6 +121,14 @@
     <Style Selector="controls|PlayerSlider /template/ RepeatButton#PART_DecreaseButton:pressed">
         <Setter Property="RenderTransform" Value="none" />
     </Style>
+
+    <Style Selector="controls|PlayerSlider /template/ RepeatButton#PART_IncreaseButton:disabled">
+        <Setter Property="Background" Value="{DynamicResource SystemControlDisabledBaseMediumLowBrush}" />
+    </Style>
+    <Style Selector="controls|PlayerSlider /template/ RepeatButton#PART_DecreaseButton:disabled">
+        <Setter Property="Background" Value="{DynamicResource SystemControlDisabledBaseMediumLowBrush}" />
+    </Style>
+    
     <Style Selector="controls|PlayerSlider /template/ Track#PART_Track">
         <Setter Property="Minimum" Value="{TemplateBinding Minimum}" />
         <Setter Property="Maximum" Value="{TemplateBinding Maximum}" />
@@ -132,6 +137,10 @@
 
     <Style Selector="controls|PlayerSlider /template/ Thumb.PlayerSliderThumbStyle">
         <Setter Property="Background" Value="{DynamicResource PlayerSliderThumbBackground}" />
+    </Style>
+
+    <Style Selector="controls|PlayerSlider /template/ Thumb.PlayerSliderThumbStyle:disabled">
+        <Setter Property="Background" Value="{DynamicResource SystemControlDisabledBaseMediumLowBrush}" />
     </Style>
 
     <Style Selector="controls|PlayerSlider /template/ Grid#PlayerSliderContainer">
