@@ -2,11 +2,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+        xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
         xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
         mc:Ignorable="d" d:DesignWidth="120" d:DesignHeight="850"
         xmlns:views="clr-namespace:ozz.wpf.Views"
         xmlns:models="clr-namespace:ozz.wpf.Models"
         xmlns:controls="clr-namespace:ozz.wpf.Controls"
+        xmlns:behaviors="clr-namespace:ozz.wpf.Behaviors"
         x:Class="ozz.wpf.Views.ModalAudioPlayerWindow"
         d:DataContext="{x:Static viewModels:DesignData.ModalAudioPlayer}"
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False" SizeToContent="WidthAndHeight"
@@ -16,13 +19,21 @@
         ExtendClientAreaTitleBarHeightHint="32"
         x:Name="ModalAudioPlayer"
         Title="Preslušavanje snimka">
+    <i:Interaction.Behaviors>
+        <behaviors:OnKeyDownTappedTriggerBehavior Key="Escape" TargetControl="{Binding #ModalAudioPlayer}">
+            <ia:CallMethodAction TargetObject="{Binding #ModalAudioPlayer}" MethodName="Close" />
+        </behaviors:OnKeyDownTappedTriggerBehavior>
+        <behaviors:OnKeyDownTappedTriggerBehavior Key="Space" TargetControl="{Binding #ModalAudioPlayer}">
+            <ia:InvokeCommandAction Command="{Binding PlayerModel.PlayOrPause}" />
+        </behaviors:OnKeyDownTappedTriggerBehavior>
+    </i:Interaction.Behaviors>
     <Window.Styles>
         <!-- <Styles> -->
         <!--     <Style Selector="Window"> -->
         <!--         <Setter Property="Background" Value="{DynamicResource WindowChromeBackground}" /> -->
         <!--     </Style> -->
         <!-- </Styles> -->
-        
+
     </Window.Styles>
     <Panel>
         <Panel Margin="{Binding #ModalAudioPlayer.OffScreenMargin}">
@@ -55,10 +66,11 @@
             </DockPanel>
         </Panel>
         <Panel VerticalAlignment="Top" HorizontalAlignment="Left" Height="32">
-            <TextBlock x:Name="WindowCaption" Text="{Binding #ModalAudioPlayer.Title}" VerticalAlignment="Center" FontWeight="Heavy" Margin="10 0 10 0" />
+            <TextBlock x:Name="WindowCaption" Text="{Binding #ModalAudioPlayer.Title}" VerticalAlignment="Center" FontWeight="Heavy"
+                       Margin="10 0 10 0" />
         </Panel>
         <Panel VerticalAlignment="Top" HorizontalAlignment="Right" Height="32">
-            <controls:CloseButton Command="{Binding CloseCommand}" Height="32" Width="40" VerticalAlignment="Top"/>
+            <controls:CloseButton Command="{Binding CloseCommand}" Height="32" Width="40" VerticalAlignment="Top" />
         </Panel>
     </Panel>
 
