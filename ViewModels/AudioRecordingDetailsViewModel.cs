@@ -84,7 +84,7 @@ public class AudioRecordingDetailsViewModel : ViewModelBase, IRoutableViewModel,
 
                     AudioPlayerViewModel.Track = new AudioRecording {
                         Category = SelectedCategory?.Name,
-                        Duration = Duration.Milliseconds * 1_000_000,
+                        Duration = (long)Duration.TotalMilliseconds * 1_000_000,
                         Name = Name,
                         Path = FileName,
                     };
