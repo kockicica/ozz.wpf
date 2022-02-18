@@ -14,11 +14,11 @@
     <Window.DataContext>
         <dialogs:ConfirmDialogViewModel />
     </Window.DataContext>
-    <Window.Styles>
-            <Style Selector="Window">
-                <Setter Property="Background" Value="{DynamicResource WindowChromeBackground}" />
-            </Style>
-    </Window.Styles>
+    <!-- <Window.Styles> -->
+    <!--         <Style Selector="Window"> -->
+    <!--             <Setter Property="Background" Value="{DynamicResource WindowChromeBackground}" /> -->
+    <!--         </Style> -->
+    <!-- </Window.Styles> -->
     <Panel>
         <Panel Margin="{Binding #ConfirmDialog.OffScreenMargin}">
             <Grid RowDefinitions="*, Auto" Margin="{Binding #ConfirmDialog.WindowDecorationMargin}" Background="White">
@@ -35,7 +35,7 @@
             </Grid>
         </Panel>
         <Panel VerticalAlignment="Top" HorizontalAlignment="Left" Height="32">
-            <TextBlock Text="{Binding #ConfirmDialog.Title}" VerticalAlignment="Center" FontWeight="Heavy" Margin="10 0 10 0" />
+            <TextBlock x:Name="WindowCaption" Text="{Binding #ConfirmDialog.Title}" VerticalAlignment="Center" FontWeight="Heavy" Margin="10 0 10 0" />
         </Panel>
     </Panel>
 </Window>

@@ -7,6 +7,14 @@
         </Border>
     </Design.PreviewWith>
 
+    <Style Selector="Window">
+        <Setter Property="Background" Value="{DynamicResource WindowChromeBackground}" />
+    </Style>
+    <Style Selector="TextBlock#WindowCaption">
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Margin" Value="10 0 10 0" />
+    </Style>
+
     <!-- Add Styles Here -->
     <Style>
         <Style.Resources>
@@ -52,6 +60,12 @@
             <Color x:Key="ThemeAccentColor2">#99119EDA</Color>
             <Color x:Key="ThemeAccentColor3">#66119EDA</Color>
             <Color x:Key="ThemeAccentColor4">#33119EDA</Color>
+            
+            <Color x:Key="ThemeMatchingColor">#CC119EDA</Color>
+            <Color x:Key="ThemeMatchingColor1">#384955</Color>
+            <Color x:Key="ThemeMatchingColor2">#9CADBC</Color>
+            <Color x:Key="ThemeMatchingColor3">#BD8A4D</Color>
+            <Color x:Key="ThemeMatchingColor4">#84591D</Color>
 
             <Color x:Key="ThemeBackgroundColor">#FFFFFFFF</Color>
             <Color x:Key="ThemeBorderLowColor">#FFAAAAAA</Color>
@@ -73,6 +87,7 @@
             <!-- window chrome colors -->
             
             <SolidColorBrush x:Key="WindowChromeBackground" Color="{DynamicResource ThemeAccentColor3}" />
+            <SolidColorBrush x:Key="MainWindowChromeBackground" Color="#F2FBFF" />
 
             <SolidColorBrush x:Key="ThemeBackgroundBrush" Color="{DynamicResource ThemeBackgroundColor}" />
             <SolidColorBrush x:Key="ThemeBorderLowBrush" Color="{DynamicResource ThemeBorderLowColor}" />

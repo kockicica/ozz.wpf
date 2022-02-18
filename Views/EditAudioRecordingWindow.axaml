@@ -13,9 +13,13 @@
         Title="Izmena audio zapisa">
     <Window.Styles>
         <Styles>
-            <Style Selector="Window">
-                <Setter Property="Background" Value="{DynamicResource WindowChromeBackground}" />
-            </Style>
+            <!-- <Style Selector="Window"> -->
+            <!--     <Setter Property="Background" Value="{DynamicResource WindowChromeBackground}" /> -->
+            <!-- </Style> -->
+            <!-- <Style Selector="TextBlock#WindowCaption"> -->
+            <!--     <Setter Property="FontWeight" Value="Heavy"></Setter> -->
+            <!--     <Setter Property="Margin" Value="10 0 10 0"></Setter> -->
+            <!-- </Style> -->
         </Styles>
     </Window.Styles>
     <Panel>
@@ -29,7 +33,7 @@
             </Grid>
         </Panel>
         <Panel VerticalAlignment="Top" HorizontalAlignment="Left" Height="32">
-            <TextBlock Text="{Binding #EditAudioRecording.Title}" VerticalAlignment="Center" FontWeight="Heavy" Margin="10 0 10 0" />
+            <TextBlock x:Name="WindowCaption" Text="{Binding #EditAudioRecording.Title}" VerticalAlignment="Center" />
         </Panel>
     </Panel>
 </Window>

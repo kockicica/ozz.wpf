@@ -77,7 +77,7 @@
                 </ItemsControl>
             </Grid>
         </SplitView.Pane>
-        <Grid RowDefinitions="Auto, *">
+        <Grid RowDefinitions="Auto, *" Background="{DynamicResource ThemeBackgroundColor}">
             <StackPanel x:Name="PART_Toolbar" Orientation="Horizontal">
                 <!-- <Button DockPanel.Dock="Left" Command="{Binding GoBack}"> -->
                 <!--     <PathIcon Data="{StaticResource chevron_left_regular}" /> -->

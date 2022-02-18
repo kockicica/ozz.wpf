@@ -17,11 +17,11 @@
         x:Name="ModalAudioPlayer"
         Title="Preslušavanje snimka">
     <Window.Styles>
-        <Styles>
-            <Style Selector="Window">
-                <Setter Property="Background" Value="{DynamicResource WindowChromeBackground}" />
-            </Style>
-        </Styles>
+        <!-- <Styles> -->
+        <!--     <Style Selector="Window"> -->
+        <!--         <Setter Property="Background" Value="{DynamicResource WindowChromeBackground}" /> -->
+        <!--     </Style> -->
+        <!-- </Styles> -->
         
     </Window.Styles>
     <Panel>
@@ -55,7 +55,7 @@
             </DockPanel>
         </Panel>
         <Panel VerticalAlignment="Top" HorizontalAlignment="Left" Height="32">
-            <TextBlock Text="{Binding #ModalAudioPlayer.Title}" VerticalAlignment="Center" FontWeight="Heavy" Margin="10 0 10 0" />
+            <TextBlock x:Name="WindowCaption" Text="{Binding #ModalAudioPlayer.Title}" VerticalAlignment="Center" FontWeight="Heavy" Margin="10 0 10 0" />
         </Panel>
         <Panel VerticalAlignment="Top" HorizontalAlignment="Right" Height="32">
             <controls:CloseButton Command="{Binding CloseCommand}" Height="32" Width="40" VerticalAlignment="Top"/>
