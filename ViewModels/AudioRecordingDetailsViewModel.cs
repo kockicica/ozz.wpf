@@ -23,11 +23,11 @@ using File = TagLib.File;
 namespace ozz.wpf.ViewModels;
 
 public class AudioRecordingDetailsViewModel : ViewModelBase, IRoutableViewModel, IActivatableViewModel, ICaption {
-    private readonly IBrowseForFile _browseForFile;
-    private readonly IClient        _dataClient;
+    private readonly IClient _dataClient;
 
     private readonly ILogger<AudioRecordingDetailsViewModel> _logger;
     private readonly INotificationManager                    _notificationManager;
+    private readonly IOzzInteractions                        _ozzInteractions;
 
     private bool                 _active;
     private AudioPlayerViewModel _audioPlayerViewModel;
@@ -48,18 +48,18 @@ public class AudioRecordingDetailsViewModel : ViewModelBase, IRoutableViewModel,
     }
 
     public AudioRecordingDetailsViewModel(ILogger<AudioRecordingDetailsViewModel> logger, IScreen hostScreen, IClient client,
-                                          INotificationManager notificationManager, IBrowseForFile browseForFile,
+                                          INotificationManager notificationManager, IOzzInteractions ozzInteractions,
                                           AudioPlayerViewModel audioPlayerViewModel) {
 
         _logger = logger;
         _dataClient = client;
         _notificationManager = notificationManager;
-        _browseForFile = browseForFile;
+        _ozzInteractions = ozzInteractions;
         HostScreen = hostScreen;
         AudioPlayerViewModel = audioPlayerViewModel;
 
         BrowseForAudioFile = ReactiveCommand.CreateFromObservable<Unit, string?>(
-            unit => _browseForFile.Browse.Handle(new BrowseForFileConfig { Title = "Pronađite audio fajl", Filters = MakeFileDialogFilters() }));
+            unit => _ozzInteractions.Browse.Handle(new BrowseForFileConfig { Title = "Pronađite audio fajl", Filters = MakeFileDialogFilters() }));
 
         Valid = this.WhenAnyValue(x => x.SelectedCategory,
                                   x => x.Name,

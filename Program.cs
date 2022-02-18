@@ -97,7 +97,7 @@ namespace ozz.wpf {
                                    return vm.NotificationManager;
                                });
 
-                               s.AddSingleton<IBrowseForFile, BrowseForFile>();
+                               s.AddSingleton<IOzzInteractions, OzzInteractions>();
 
                                s.AddSingleton<IMainWindowProvider, MainWindowProvider>();
 

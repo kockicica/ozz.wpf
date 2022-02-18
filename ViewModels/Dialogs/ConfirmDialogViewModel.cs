@@ -1,7 +1,7 @@
 using System.Windows.Input;
 
 using ozz.wpf.Dialog;
-using ozz.wpf.Services.Interactions;
+using ozz.wpf.Services.Interactions.Confirm;
 
 using ReactiveUI;
 

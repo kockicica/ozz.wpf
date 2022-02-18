@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Reactive;
 
 using Avalonia.Controls;
@@ -6,6 +5,7 @@ using Avalonia.Controls;
 using Microsoft.Extensions.Logging;
 
 using ozz.wpf.Models;
+using ozz.wpf.Services.Interactions.Confirm;
 using ozz.wpf.ViewModels;
 using ozz.wpf.ViewModels.Dialogs;
 using ozz.wpf.Views;
@@ -15,45 +15,32 @@ using ReactiveUI;
 
 namespace ozz.wpf.Services.Interactions;
 
-public class BrowseForFileConfig {
-    public string                 Title         { get; set; }
-    public string?                Directory     { get; set; }
-    public bool                   AllowMultiple { get; set; }
-    public List<FileDialogFilter> Filters       { get; set; }
-}
+public class OzzInteractions : IOzzInteractions {
 
-public class ConfirmMessageConfig {
-    public string Title   { get; set; }
-    public string Message { get; set; }
-}
+    private readonly ILogger<OzzInteractions> _logger;
+    private readonly IMainWindowProvider      _mainWindowProvider;
+    private readonly IResolver                _resolver;
 
-public enum ConfirmMessageResult {
-    Yes,
-    No,
-    Cancel,
-}
-
-public interface IBrowseForFile {
-
-    Interaction<BrowseForFileConfig, string>                Browse               { get; }
-    Interaction<AudioRecording, AudioRecording?>            EditAudioRecording   { get; }
-    Interaction<Unit, AudioRecording?>                      CreateAudioRecording { get; }
-    Interaction<ConfirmMessageConfig, ConfirmMessageResult> Confirm              { get; }
-}
-
-public class BrowseForFile : IBrowseForFile {
-    private readonly IAudioRecordingsService _audioRecordingsService;
-
-    private readonly ILogger<BrowseForFile> _logger;
-    private readonly IMainWindowProvider    _mainWindowProvider;
-    private readonly IResolver              _resolver;
-
-    public BrowseForFile(ILogger<BrowseForFile> logger, IMainWindowProvider mainWindowProvider, IAudioRecordingsService audioRecordingsService,
-                         IResolver resolver) {
+    public OzzInteractions(ILogger<OzzInteractions> logger, IMainWindowProvider mainWindowProvider, IResolver resolver) {
         _logger = logger;
         _mainWindowProvider = mainWindowProvider;
-        _audioRecordingsService = audioRecordingsService;
         _resolver = resolver;
+
+        RegisterHandlers();
+
+
+    }
+
+    #region IOzzInteractions Members
+
+    public Interaction<BrowseForFileConfig, string>                Browse               { get; } = new();
+    public Interaction<AudioRecording, AudioRecording?>            EditAudioRecording   { get; } = new();
+    public Interaction<Unit, AudioRecording?>                      CreateAudioRecording { get; } = new();
+    public Interaction<ConfirmMessageConfig, ConfirmMessageResult> Confirm              { get; } = new();
+
+    #endregion
+
+    private void RegisterHandlers() {
 
         Browse.RegisterHandler(async context => {
             var cfg = context.Input;
@@ -114,14 +101,4 @@ public class BrowseForFile : IBrowseForFile {
         });
 
     }
-
-    #region IBrowseForFile Members
-
-    public Interaction<BrowseForFileConfig, string>                Browse               { get; } = new();
-    public Interaction<AudioRecording, AudioRecording?>            EditAudioRecording   { get; } = new();
-    public Interaction<Unit, AudioRecording?>                      CreateAudioRecording { get; } = new();
-    public Interaction<ConfirmMessageConfig, ConfirmMessageResult> Confirm              { get; } = new();
-
-    #endregion
-
 }

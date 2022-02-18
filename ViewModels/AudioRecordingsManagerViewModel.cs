@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using ozz.wpf.Models;
 using ozz.wpf.Services;
 using ozz.wpf.Services.Interactions;
+using ozz.wpf.Services.Interactions.Confirm;
 
 using ReactiveUI;
 
@@ -19,10 +20,10 @@ namespace ozz.wpf.ViewModels;
 public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableViewModel, ICaption {
 
     private readonly IAudioRecordingsService _audioRecordingsService;
-    private readonly IBrowseForFile          _browseForFile;
     private readonly IClient                 _client;
 
     private readonly ILogger<AudioRecordingsManagerViewModel> _logger;
+    private readonly IOzzInteractions                         _ozzInteractions;
 
     private ObservableAsPropertyHelper<IEnumerable<Category?>> _categories;
 
@@ -37,26 +38,26 @@ public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewMo
 
 
     public AudioRecordingsManagerViewModel(ILogger<AudioRecordingsManagerViewModel> logger, IScreen screen, IClient client,
-                                           IAudioRecordingsService audioRecordingsService, IBrowseForFile browseForFile) {
+                                           IAudioRecordingsService audioRecordingsService, IOzzInteractions ozzInteractions) {
 
         _logger = logger;
         HostScreen = screen;
         _client = client;
         _audioRecordingsService = audioRecordingsService;
-        _browseForFile = browseForFile;
+        _ozzInteractions = ozzInteractions;
 
         Search = ReactiveCommand.CreateFromTask<AudioRecordingsSearchParams, PagedResults<AudioRecording>>(
             sp => _audioRecordingsService.AudioRecordings(sp));
 
         async Task<AudioRecording?> HandleEditRecording(AudioRecording recording) {
-            var res = await _browseForFile.EditAudioRecording.Handle(recording);
+            var res = await _ozzInteractions.EditAudioRecording.Handle(recording);
             return res;
         }
 
         EditRecording = ReactiveCommand.CreateFromTask<AudioRecording, AudioRecording?>(HandleEditRecording);
 
         DeleteRecording = ReactiveCommand.CreateFromTask<AudioRecording, ConfirmMessageResult>(
-            async recording => await _browseForFile.Confirm.Handle(new ConfirmMessageConfig {
+            async recording => await _ozzInteractions.Confirm.Handle(new ConfirmMessageConfig {
                 Message = $"Da li ste sigurni da želite da izbrišete {recording.Name}?", Title = "Pitanje"
             }));
 

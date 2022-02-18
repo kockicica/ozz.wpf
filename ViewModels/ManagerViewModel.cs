@@ -21,11 +21,11 @@ namespace ozz.wpf.ViewModels;
 
 public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableViewModel, IScreen {
 
-    private readonly IBrowseForFile _browseForFile;
-
     private readonly ILogger<ManagerViewModel> _logger;
 
     private readonly INotificationManager _notificationManager;
+
+    private readonly IOzzInteractions _ozzInteractions;
 
     private readonly IResolver _resolver;
 
@@ -39,13 +39,13 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
     private DispositionViewModel? _dispositionViewModel;
 
-    public ManagerViewModel(ILogger<ManagerViewModel> logger, IScreen hostScreen, IResolver resolver, IBrowseForFile browseForFile,
+    public ManagerViewModel(ILogger<ManagerViewModel> logger, IScreen hostScreen, IResolver resolver, IOzzInteractions ozzInteractions,
                             INotificationManager notificationManager) {
         _logger = logger;
         HostScreen = hostScreen;
         //Router = routingState;
         _resolver = resolver;
-        _browseForFile = browseForFile;
+        _ozzInteractions = ozzInteractions;
         _notificationManager = notificationManager;
 
         ViewAudioManager = ReactiveCommand.Create(
@@ -72,7 +72,7 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
         //     this.WhenAny(model => model.CurrentViewModel, x => x.Value?.UrlPathSegment != "create-record")
         // );
         CreateNewAudio =
-            ReactiveCommand.CreateFromTask<Unit, AudioRecording?>(async unit => await _browseForFile.CreateAudioRecording.Handle(Unit.Default));
+            ReactiveCommand.CreateFromTask<Unit, AudioRecording?>(async unit => await _ozzInteractions.CreateAudioRecording.Handle(Unit.Default));
 
         GoBack = ReactiveCommand.CreateFromObservable(() => Router.NavigateBack.Execute());
 
