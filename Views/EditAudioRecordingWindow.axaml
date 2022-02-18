@@ -3,6 +3,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:ozz.wpf.Views"
+        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+        xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+        xmlns:behaviors="clr-namespace:ozz.wpf.Behaviors"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         WindowStartupLocation="CenterOwner" MinWidth="800" ShowInTaskbar="False" SizeToContent="WidthAndHeight"
         x:Class="ozz.wpf.Views.EditAudioRecordingWindow"
@@ -11,6 +14,12 @@
         ExtendClientAreaTitleBarHeightHint="32"
         x:Name="EditAudioRecording"
         Title="Izmena audio zapisa">
+    <i:Interaction.Behaviors>
+        <behaviors:OnKeyDownTappedTriggerBehavior Key="Escape" TargetControl="{Binding #EditAudioRecording}">
+            <ia:CallMethodAction TargetObject="{Binding #EditAudioRecording}" MethodName="Close" />
+        </behaviors:OnKeyDownTappedTriggerBehavior>
+    </i:Interaction.Behaviors>
+    
     <Window.Styles>
         <Styles>
             <!-- <Style Selector="Window"> -->

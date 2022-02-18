@@ -2,20 +2,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             xmlns:iac="clr-namespace:Avalonia.Xaml.Interactions.Custom;assembly=Avalonia.Xaml.Interactions"
              xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
              xmlns:models="clr-namespace:ozz.wpf.Models"
              xmlns:views="clr-namespace:ozz.wpf.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" d:DataContext="{x:Static viewModels:DesignData.DispositionViewModel}"
              x:Class="ozz.wpf.Views.DispositionView">
-
     <UserControl.Styles>
-        <Style Selector="Button:focus /template/ ContentPresenter">
-            <Setter Property="TextBlock.FontWeight" Value="Heavy" />
+        <Style Selector="DataGrid:focus DataGridCell:current /template/ Grid#FocusVisual">
+            <Setter Property="IsVisible" Value="False" />
         </Style>
     </UserControl.Styles>
-
     <Grid RowDefinitions="Auto,*, Auto">
-        <ItemsControl Items="{Binding Categories}">
+        <ItemsControl Items="{Binding Categories}" IsTabStop="False" KeyboardNavigation.TabNavigation="None">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel Margin="10" />
@@ -31,9 +32,9 @@
         <Grid Grid.Row="1" ColumnDefinitions="2*, 1*">
             <DockPanel Grid.Column="0">
                 <Grid DockPanel.Dock="Top">
-                    <StackPanel Margin="5" Spacing="5">
+                    <StackPanel Margin="5" Spacing="5" KeyboardNavigation.TabNavigation="None">
                         <TextBox Text="{Binding SearchTerm}" VerticalAlignment="Center" Watermark="Naziv ili deo naziva" Classes="clearButton" />
-                        <Expander Header="Napredna pretraga">
+                        <Expander Header="Napredna pretraga" IsTabStop="False">
                             <StackPanel Orientation="Vertical" Spacing="5">
                                 <CheckBox IsThreeState="True" IsChecked="{Binding SearchActive}">Aktivni?</CheckBox>
                                 <StackPanel Orientation="Horizontal" Spacing="5">
@@ -50,11 +51,41 @@
                         </Expander>
                     </StackPanel>
                 </Grid>
-                <views:AudioRecordingsListView DockPanel.Dock="Bottom" />
+                <DataGrid Name="RecordingGrid" Items="{Binding Recordings}" AutoGenerateColumns="False" x:DataType="models:AudioRecording"
+                          IsReadOnly="True"
+                          IsTabStop="True" Focusable="True"
+                          CanUserResizeColumns="True" SelectionMode="Single" SelectedItem="{Binding SelectedRecording}">
+                    <i:Interaction.Behaviors>
+                        <iac:FocusOnAttachedToVisualTreeBehavior />
+                        <ia:EventTriggerBehavior EventName="DoubleTapped" SourceObject="{Binding #RecordingGrid}">
+                            <ia:InvokeCommandAction Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}" />
+                        </ia:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+
+                    <!-- Focusable="True" TabIndex="0" IsTabStop="True" -->
+                    <DataGrid.KeyBindings>
+                        <KeyBinding Gesture="Enter" Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}" />
+                        <KeyBinding Gesture="Space" Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}" />
+                    </DataGrid.KeyBindings>
+                    <DataGrid.Columns>
+                        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                        <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="4*" />
+                        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                        <DataGridTextColumn Header="Datum" Binding="{Binding Date, StringFormat={}{0:dd.MM.yyyy}}" Width="2*" />
+                        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                        <DataGridTextColumn Header="Trajanje" Binding="{Binding Duration, Converter={StaticResource DurationToStringConverter}}"
+                                            Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- <views:AudioRecordingsListView x:Name="RecordingsListView"> -->
+                <!-- </views:AudioRecordingsListView> -->
             </DockPanel>
-            <Panel Grid.Column="1" Background="Yellow" />
+            <Panel Grid.Column="1" Background="Yellow">
+                <Button Content="Hello" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Panel>
         </Grid>
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" IsTabStop="False" KeyboardNavigation.TabNavigation="None">
             <Button Content="{Binding SelectedCategory.Name}" Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}" />
             <TextBlock Text="{Binding SelectedRecording.Name}" VerticalAlignment="Center" />
         </StackPanel>

@@ -2,16 +2,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              xmlns:vm="clr-namespace:ozz.wpf.ViewModels"
              xmlns:services="clr-namespace:ozz.wpf.Services"
              xmlns:models="clr-namespace:ozz.wpf.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" d:DataContext="{x:Static vm:DesignData.AudioRecordingsManagerViewModel}"
              x:Class="ozz.wpf.Views.AudioRecordingsManagerView">
-    <!-- <i:Interaction.Behaviors> -->
-    <!--     <iac:ValueChangedTriggerBehavior Binding="{Binding Categories}"> -->
-    <!--         <ia:ChangePropertyAction TargetObject="{Binding}" PropertyName="Categories" Value="1"></ia:ChangePropertyAction> -->
-    <!--     </iac:ValueChangedTriggerBehavior> -->
-    <!-- </i:Interaction.Behaviors> -->
+    <i:Interaction.Behaviors>
+        <ia:EventTriggerBehavior SourceObject="{Binding #Grid}" EventName="DoubleTapped">
+            <ia:InvokeCommandAction Command="{Binding EditRecording}" CommandParameter="{Binding SelectedRecording}" />
+        </ia:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
     <UserControl.Styles>
         <Styles>
             <Style Selector="Grid.SearchArea">
@@ -55,8 +57,12 @@
             <TextBlock Text="{Binding SearchParams.CategoryId}" />
             <TextBlock Text="{Binding SelectedCategory.Id}" />
         </StackPanel>
-        <DataGrid Grid.Row="2" Items="{Binding Results}" AutoGenerateColumns="False" IsReadOnly="True" x:Name="Grid"
+        <DataGrid Grid.Row="2" Items="{Binding Results}" AutoGenerateColumns="False" IsReadOnly="True" x:Name="Grid" IsTabStop="True" Focusable="True"
                   SelectedItem="{Binding SelectedRecording}">
+            <DataGrid.KeyBindings>
+                <KeyBinding Gesture="Enter" Command="{Binding EditRecording}" CommandParameter="{Binding SelectedRecording}" />
+                <KeyBinding Gesture="Space" Command="{Binding EditRecording}" CommandParameter="{Binding SelectedRecording}" />
+            </DataGrid.KeyBindings>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="4*" />
                 <DataGridTextColumn Header="Datum" Binding="{Binding Date, StringFormat={}{0:dd.MM.yyyy}}" Width="2*" />

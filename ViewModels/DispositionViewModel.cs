@@ -39,7 +39,7 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
     private          string                                                  _searchTerm;
     private          DateTimeOffset?                                         _searchTo;
     private          Category                                                _selectedCategory;
-    private          AudioRecording                                          _selectedRecording;
+    private          AudioRecording?                                         _selectedRecording;
 
     public DispositionViewModel(IClient client, ILogger<DialogWindowViewModel> logger, IEqualizerPresetFactory equalizerPresetFactory,
                                 IResolver resolver, IAudioRecordingsService audioRecordingsService, IScreen screen) {
@@ -113,6 +113,12 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
             //     .DisposeWith(d);
 
             ShowPlayer.RegisterHandler(DoShowDialogAsync).DisposeWith(d);
+
+            // select first item on any recordings list update
+            this.WhenAnyValue(model => model.Recordings)
+                .Where(recordings => recordings != null)
+                .Subscribe(recordings => SelectedRecording = recordings.FirstOrDefault())
+                .DisposeWith(d);
         });
 
     }
@@ -138,8 +144,7 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
         set => this.RaiseAndSetIfChanged(ref _searchTerm, value);
     }
 
-    [NotNull]
-    public AudioRecording SelectedRecording {
+    public AudioRecording? SelectedRecording {
         get => _selectedRecording;
         set => this.RaiseAndSetIfChanged(ref _selectedRecording, value);
     }

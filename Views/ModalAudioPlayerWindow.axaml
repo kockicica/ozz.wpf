@@ -27,21 +27,9 @@
             <ia:InvokeCommandAction Command="{Binding PlayerModel.PlayOrPause}" />
         </behaviors:OnKeyDownTappedTriggerBehavior>
     </i:Interaction.Behaviors>
-    <Window.Styles>
-        <!-- <Styles> -->
-        <!--     <Style Selector="Window"> -->
-        <!--         <Setter Property="Background" Value="{DynamicResource WindowChromeBackground}" /> -->
-        <!--     </Style> -->
-        <!-- </Styles> -->
-
-    </Window.Styles>
     <Panel>
         <Panel Margin="{Binding #ModalAudioPlayer.OffScreenMargin}">
             <DockPanel LastChildFill="True" Margin="{Binding #ModalAudioPlayer.WindowDecorationMargin}" Background="White">
-                <!-- <DockPanel DockPanel.Dock="Top" Background="Red"> -->
-                <!--     <Button Classes="accent" Command="{Binding CloseCommand}" DockPanel.Dock="Right" Margin="3">Close</Button> -->
-                <!--     <TextBlock /> -->
-                <!-- </DockPanel> -->
                 <Border Padding="5">
                     <Grid RowDefinitions="*, *">
                         <views:AudioPlayerView DataContext="{Binding PlayerModel}" />
@@ -49,9 +37,7 @@
                             <views:EqualizerView DataContext="{Binding EqualizerViewModel}" />
                             <StackPanel Orientation="Vertical" Grid.Column="1">
                                 <Button Command="{Binding EqualizerViewModel.ResetCommand}">Reset</Button>
-                                <!-- <ToggleButton IsChecked="{Binding EqualizerOn}" Content="Active" /> -->
                                 <ToggleSwitch IsChecked="{Binding EqualizerOn}" />
-                                <!-- <Button Classes.toggle_eq="True" Classes.on="{Binding EqualizerOn}" Command="{Binding ToggleEqualizer}">Toggle</Button> -->
                                 <ComboBox Items="{Binding Equalizers}" SelectedItem="{Binding EqualizerViewModel.Equalizer}" x:Name="ComboBox">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate x:DataType="models:Equalizer">
@@ -73,19 +59,4 @@
             <controls:CloseButton Command="{Binding CloseCommand}" Height="32" Width="40" VerticalAlignment="Top" />
         </Panel>
     </Panel>
-
-    <!-- <Border> -->
-    <!--     <DockPanel MinWidth="1000" MinHeight="500"> -->
-    <!--         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal"> -->
-    <!--             <TextBlock Text="{Binding Track.Name}"></TextBlock> -->
-    <!--             <Button Command="{Binding CloseCommand}">Close</Button> -->
-    <!--             <Button Command="{Binding Play}">Play</Button> -->
-    <!--             <Button Command="{Binding Pause}">Pause</Button> -->
-    <!--             <Button Command="{Binding Stop}">Stop</Button> -->
-    <!--             <Button Command="{Binding Rotate}">Rotate</Button> -->
-    <!--             <TextBlock Text="{Binding PlayerState}"></TextBlock> -->
-    <!--         </StackPanel> -->
-    <!--         <vlc:VideoView x:Name="VideoView" MediaPlayer="{Binding Player}" DockPanel.Dock="Bottom"></vlc:VideoView> -->
-    <!--     </DockPanel> -->
-    <!-- </Border> -->
 </Window>

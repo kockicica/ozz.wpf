@@ -33,13 +33,18 @@
         </Style>
         <Style Selector="DataGrid:focus DataGridCell:current /template/ Grid#FocusVisual">
             <Setter Property="IsVisible" Value="False" />
-        </Style>        
+        </Style>
     </UserControl.Styles>
     <DataGrid Name="RecordingGrid" Items="{Binding Recordings}" AutoGenerateColumns="False" x:DataType="models:AudioRecording" IsReadOnly="True"
+              IsTabStop="True" Focusable="True" 
               CanUserResizeColumns="True" SelectionMode="Single" SelectedItem="{Binding SelectedRecording}">
+              <!-- Focusable="True" TabIndex="0" IsTabStop="True" -->
+        <DataGrid.KeyBindings>
+            <KeyBinding Gesture="Enter" Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}" />
+            <KeyBinding Gesture="Space" Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}" />
+        </DataGrid.KeyBindings>
         <i:Interaction.Behaviors>
             <ia:EventTriggerBehavior EventName="DoubleTapped" SourceObject="{Binding #RecordingGrid}">
-                <!-- <ia:ChangePropertyAction TargetObject="{Binding}" PropertyName="SelectedRecording" Value="Red"></ia:ChangePropertyAction> -->
                 <ia:InvokeCommandAction Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}" />
             </ia:EventTriggerBehavior>
         </i:Interaction.Behaviors>
