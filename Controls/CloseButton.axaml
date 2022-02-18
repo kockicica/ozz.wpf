@@ -31,6 +31,7 @@
         <!-- <Setter Property="VerticalAlignment" Value="Center" /> -->
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}"
