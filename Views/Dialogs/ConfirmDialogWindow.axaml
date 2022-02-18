@@ -18,8 +18,8 @@
             <TextBlock Grid.Column="1" Text="{Binding Message}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="20 0 0 0" />
         </Grid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 10" Spacing="10">
-            <Button x:Name="YesButton" Classes="yes-button" Command="{Binding CommandYes}" Content="Da" />
-            <Button x:Name="NoButton" Classes="no-button" Command="{Binding CommandNo}" Content="Ne" />
+            <Button x:Name="YesButton" Classes="alert" Command="{Binding CommandYes}" Content="Da" />
+            <Button x:Name="NoButton" Command="{Binding CommandNo}" Content="Ne" />
         </StackPanel>
     </Grid>
 </Window>

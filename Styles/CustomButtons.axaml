@@ -7,21 +7,21 @@
     </Design.PreviewWith>
     
     <Styles.Resources>
-        <SolidColorBrush x:Key="ButtonYesBackground" Color="Green" />
-        <SolidColorBrush x:Key="ButtonYesBackgroundPointerOver" Color="LightGreen" />
-        <SolidColorBrush x:Key="ButtonYesBackgroundPressed" Color="LightGreen" />
+        <SolidColorBrush x:Key="SuccessButtonBackground" Color="Green" />
+        <SolidColorBrush x:Key="SuccessButtonBackgroundPointerOver" Color="LightGreen" />
+        <SolidColorBrush x:Key="SuccessButtonBackgroundPressed" Color="LightGreen" />
 
-        <SolidColorBrush x:Key="ButtonYesForeground" Color="White" />
-        <SolidColorBrush x:Key="ButtonYesForegroundPointerOver" Color="Black" />
-        <SolidColorBrush x:Key="ButtonYesForegroundPressed" Color="Black" />
+        <SolidColorBrush x:Key="SuccessButtonForeground" Color="White" />
+        <SolidColorBrush x:Key="SuccessButtonForegroundPointerOver" Color="Black" />
+        <SolidColorBrush x:Key="SuccessButtonForegroundPressed" Color="Black" />
 
-        <SolidColorBrush x:Key="ButtonNoBackground" Color="Red" />
-        <SolidColorBrush x:Key="ButtonNoBackgroundPointerOver" Color="IndianRed" />
-        <SolidColorBrush x:Key="ButtonNoBackgroundPressed" Color="IndianRed" />
+        <SolidColorBrush x:Key="AlertButtonBackground" Color="Red" />
+        <SolidColorBrush x:Key="AlertButtonBackgroundPointerOver" Color="IndianRed" />
+        <SolidColorBrush x:Key="AlertButtonBackgroundPressed" Color="IndianRed" />
 
-        <SolidColorBrush x:Key="ButtonNoForeground" Color="White" />
-        <SolidColorBrush x:Key="ButtonNoForegroundPointerOver" Color="White" />
-        <SolidColorBrush x:Key="ButtonNoForegroundPressed" Color="White" />
+        <SolidColorBrush x:Key="AlertButtonForeground" Color="White" />
+        <SolidColorBrush x:Key="AlertButtonForegroundPointerOver" Color="White" />
+        <SolidColorBrush x:Key="AlertButtonForegroundPressed" Color="White" />
     </Styles.Resources>
     
     <Style Selector="Button">
@@ -30,45 +30,45 @@
         </Style.Resources>
     </Style>
 
-    <Style Selector="Button.yes-button">
-        <Setter Property="Background" Value="{DynamicResource ButtonYesBackground}" />
+    <Style Selector="Button.success">
+        <Setter Property="Background" Value="{DynamicResource SuccessButtonBackground}" />
     </Style>
     
-    <Style Selector="Button.yes-button /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="TextBlock.Foreground" Value="{DynamicResource ButtonYesForeground}" />
+    <Style Selector="Button.success /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource SuccessButtonForeground}" />
     </Style>
     
-    <Style Selector="Button.yes-button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource ButtonYesBackgroundPointerOver}" />
+    <Style Selector="Button.success:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource SuccessButtonBackgroundPointerOver}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
-        <Setter Property="TextBlock.Foreground" Value="{DynamicResource ButtonYesForegroundPointerOver}" />
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource SuccessButtonForegroundPointerOver}" />
     </Style>
     
-    <Style Selector="Button.yes-button:pressed  /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource ButtonYesBackgroundPressed}" />
+    <Style Selector="Button.success:pressed  /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource SuccessButtonBackgroundPressed}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPressed}" />
-        <Setter Property="TextBlock.Foreground" Value="{DynamicResource ButtonYesForegroundPressed}" />
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource SuccessButtonForegroundPressed}" />
     </Style>
     
     
-    <Style Selector="Button.no-button">
-        <Setter Property="Background" Value="{DynamicResource ButtonNoBackground}" />
+    <Style Selector="Button.alert">
+        <Setter Property="Background" Value="{DynamicResource AlertButtonBackground}" />
     </Style>
     
-    <Style Selector="Button.no-button /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="TextBlock.Foreground" Value="{DynamicResource ButtonNoForeground}" />
+    <Style Selector="Button.alert /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource AlertButtonForeground}" />
     </Style>
     
-    <Style Selector="Button.no-button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource ButtonNoBackgroundPointerOver}" />
+    <Style Selector="Button.alert:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource AlertButtonBackgroundPointerOver}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
-        <Setter Property="TextBlock.Foreground" Value="{DynamicResource ButtonNoForegroundPointerOver}" />
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource AlertButtonForegroundPointerOver}" />
     </Style>
 
-    <Style Selector="Button.no-button:pressed  /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource ButtonNoBackgroundPressed}" />
+    <Style Selector="Button.alert:pressed  /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource AlertButtonBackgroundPressed}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPressed}" />
-        <Setter Property="TextBlock.Foreground" Value="{DynamicResource ButtonNoForegroundPressed}" />
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource AlertButtonForegroundPressed}" />
     </Style>
     
 
