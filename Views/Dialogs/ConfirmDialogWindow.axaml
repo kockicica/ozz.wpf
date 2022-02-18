@@ -7,19 +7,35 @@
         x:Class="ozz.wpf.Views.Dialogs.ConfirmDialogWindow"
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False" SizeToContent="WidthAndHeight"
         MinWidth="400" MinHeight="150"
-        Title="ConfirmDialogWindow">
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="32"
+        Title="ConfirmDialogWindow" x:Name="ConfirmDialog">
     <Window.DataContext>
         <dialogs:ConfirmDialogViewModel />
     </Window.DataContext>
-    <Grid RowDefinitions="*, Auto">
-        <Grid Grid.Row="0" ColumnDefinitions="Auto, *" VerticalAlignment="Center" Margin="20 0 20 0">
-            <!-- <Image Height="64" Width="64" Source="{StaticResource xmarkDrawingImage}"></Image> -->
-            <PathIcon Height="48" Width="48" Data="{StaticResource circle_question}" Foreground="{DynamicResource ThemeAccentColor2}" Margin="16" />
-            <TextBlock Grid.Column="1" Text="{Binding Message}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="20 0 0 0" />
-        </Grid>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 10" Spacing="10">
-            <Button x:Name="YesButton" Command="{Binding CommandYes}" Content="Da" />
-            <Button x:Name="NoButton" Command="{Binding CommandNo}" Content="Ne" />
-        </StackPanel>
-    </Grid>
+    <Window.Styles>
+            <Style Selector="Window">
+                <Setter Property="Background" Value="{DynamicResource WindowChromeBackground}" />
+            </Style>
+    </Window.Styles>
+    <Panel>
+        <Panel Margin="{Binding #ConfirmDialog.OffScreenMargin}">
+            <Grid RowDefinitions="*, Auto" Margin="{Binding #ConfirmDialog.WindowDecorationMargin}" Background="White">
+                <Grid Grid.Row="0" ColumnDefinitions="Auto, *" VerticalAlignment="Center" Margin="20 0 20 0">
+                    <!-- <Image Height="64" Width="64" Source="{StaticResource xmarkDrawingImage}"></Image> -->
+                    <PathIcon Height="48" Width="48" Data="{StaticResource circle_question}" Foreground="{DynamicResource ThemeAccentColor2}"
+                              Margin="16" />
+                    <TextBlock Grid.Column="1" Text="{Binding Message}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="20 0 0 0" />
+                </Grid>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 10" Spacing="10">
+                    <Button x:Name="YesButton" Command="{Binding CommandYes}" Content="Da" />
+                    <Button x:Name="NoButton" Command="{Binding CommandNo}" Content="Ne" />
+                </StackPanel>
+            </Grid>
+        </Panel>
+        <Panel VerticalAlignment="Top" HorizontalAlignment="Left" Height="32">
+            <TextBlock Text="{Binding #ConfirmDialog.Title}" VerticalAlignment="Center" FontWeight="Heavy" Margin="10 0 10 0" />
+        </Panel>
+    </Panel>
 </Window>

@@ -67,6 +67,10 @@
             <Color x:Key="HighlightColor">#FF086F9E</Color>
             <Color x:Key="ErrorColor">#FFFF0000</Color>
             <Color x:Key="ErrorLowColor">#10FF0000</Color>
+            
+            <!-- window chrome colors -->
+            
+            <SolidColorBrush x:Key="WindowChromeBackground" Color="{DynamicResource ThemeAccentColor3}" />
 
             <SolidColorBrush x:Key="ThemeBackgroundBrush" Color="{DynamicResource ThemeBackgroundColor}" />
             <SolidColorBrush x:Key="ThemeBorderLowBrush" Color="{DynamicResource ThemeBorderLowColor}" />
