@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Reactive;
 
 using Avalonia.Controls;
@@ -92,8 +93,13 @@ public class OzzInteractions : IOzzInteractions {
             var cfg = context.Input;
             var vm = _resolver.GetService<ConfirmDialogViewModel>();
             vm.Message = cfg.Message;
-            var modal = new ConfirmDialogWindow { DataContext = vm };
-            modal.Title = "Potvrda";
+            vm.ButtonTypes = new List<ConfirmButtonType> {
+                new() { Button = ConfirmMessageResult.Yes, Class = "alert" },
+            };
+            var modal = new ConfirmDialogWindow {
+                DataContext = vm,
+                Title = "Potvrda",
+            };
             var res = await modal.ShowDialog<ConfirmDialogResult?>(_mainWindowProvider.GetMainWindow());
             res ??= new ConfirmDialogResult { Result = ConfirmMessageResult.Cancel };
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Windows.Input;
 
 using ozz.wpf.Dialog;
@@ -13,11 +14,11 @@ public class ConfirmDialogResult : DialogResultBase {
 
 public class ConfirmDialogViewModel : DialogViewModelBase<ConfirmDialogResult> {
 
+    private List<ConfirmButtonType> _buttonTypes = new();
+
     private string _message;
 
     public ConfirmDialogViewModel() {
-        // CommandYes = ReactiveCommand.Create(() => Close(new ConfirmDialogResult { Result = ConfirmMessageResult.Yes }), Observable.Return(true));
-        // CommandNo = ReactiveCommand.Create(() => Close(new ConfirmDialogResult { Result = ConfirmMessageResult.No }), Observable.Return(true));
         CommandYes = ReactiveCommand.Create(() => Close(new ConfirmDialogResult { Result = ConfirmMessageResult.Yes }));
         CommandNo = ReactiveCommand.Create(() => Close(new ConfirmDialogResult { Result = ConfirmMessageResult.No }));
     }
@@ -29,4 +30,12 @@ public class ConfirmDialogViewModel : DialogViewModelBase<ConfirmDialogResult> {
 
     public ICommand CommandYes { get; }
     public ICommand CommandNo  { get; }
+
+    public List<ConfirmButtonType> ButtonTypes {
+        get => _buttonTypes;
+        set => this.RaiseAndSetIfChanged(ref _buttonTypes, value);
+    }
+
+    // public string[] YesButtonClasses => new string[] { ButtonTypes.SingleOrDefault(type => type.Button == ConfirmMessageResult.Yes)?.Class };
+    // public string[] NoButtonClasses  => new string[] { ButtonTypes.SingleOrDefault(type => type.Button == ConfirmMessageResult.No)?.Class };
 }
