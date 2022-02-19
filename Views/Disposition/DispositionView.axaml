@@ -7,6 +7,7 @@
              xmlns:iac="clr-namespace:Avalonia.Xaml.Interactions.Custom;assembly=Avalonia.Xaml.Interactions"
              xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
              xmlns:models="clr-namespace:ozz.wpf.Models"
+             xmlns:controls="clr-namespace:ozz.wpf.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" d:DataContext="{x:Static viewModels:DesignData.DispositionViewModel}"
              x:Class="ozz.wpf.Views.Disposition.DispositionView">
     <UserControl.Styles>
@@ -27,7 +28,7 @@
                 <Grid DockPanel.Dock="Top">
                     <StackPanel Margin="5" Spacing="5" KeyboardNavigation.TabNavigation="None">
                         <TextBox Text="{Binding SearchTerm}" VerticalAlignment="Center" Watermark="Naziv ili deo naziva" Classes="clearButton" />
-                        <Expander Header="Napredna pretraga" IsTabStop="False">
+                        <controls:CustomExpander Header="Napredna pretraga" IsTabStop="False">
                             <StackPanel Orientation="Vertical" Spacing="5">
                                 <CheckBox IsThreeState="True" IsChecked="{Binding SearchActive}">Aktivni?</CheckBox>
                                 <StackPanel Orientation="Horizontal" Spacing="5">
@@ -41,7 +42,7 @@
                                     <Button Content="Clear" VerticalAlignment="Center" Command="{Binding ClearDate}" CommandParameter="searchTo" />
                                 </StackPanel>
                             </StackPanel>
-                        </Expander>
+                        </controls:CustomExpander>
                     </StackPanel>
                 </Grid>
                 <DataGrid Name="RecordingGrid" Items="{Binding Recordings}" AutoGenerateColumns="False" x:DataType="models:AudioRecording"
