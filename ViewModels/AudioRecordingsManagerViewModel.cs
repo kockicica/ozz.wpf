@@ -47,7 +47,7 @@ public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewMo
         _ozzInteractions = ozzInteractions;
 
         Search = ReactiveCommand.CreateFromTask<AudioRecordingsSearchParams, PagedResults<AudioRecording>>(
-            sp => _audioRecordingsService.AudioRecordings(sp));
+            (sp, token) => _audioRecordingsService.AudioRecordings(sp, token));
 
         async Task<AudioRecording?> HandleEditRecording(AudioRecording recording) {
             var res = await _ozzInteractions.EditAudioRecording.Handle(recording);

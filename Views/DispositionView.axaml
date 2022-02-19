@@ -7,7 +7,6 @@
              xmlns:iac="clr-namespace:Avalonia.Xaml.Interactions.Custom;assembly=Avalonia.Xaml.Interactions"
              xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
              xmlns:models="clr-namespace:ozz.wpf.Models"
-             xmlns:views="clr-namespace:ozz.wpf.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" d:DataContext="{x:Static viewModels:DesignData.DispositionViewModel}"
              x:Class="ozz.wpf.Views.DispositionView">
     <UserControl.Styles>
@@ -16,19 +15,13 @@
         </Style>
     </UserControl.Styles>
     <Grid RowDefinitions="Auto,*, Auto">
-        <ItemsControl Items="{Binding Categories}" IsTabStop="False" KeyboardNavigation.TabNavigation="None">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Margin="10" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
+        <TabStrip Items="{Binding Categories}" SelectedItem="{Binding SelectedCategory}" KeyboardNavigation.TabNavigation="None">
+            <TabStrip.ItemTemplate>
                 <DataTemplate x:DataType="models:Category">
-                    <Button Content="{Binding Name}" Margin="5 0"
-                            Command="{Binding $parent[views:DispositionView].DataContext.ProcessCategory }" CommandParameter="{Binding .}" />
+                    <TextBlock Text="{Binding Name}" />
                 </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+            </TabStrip.ItemTemplate>            
+        </TabStrip>
         <Grid Grid.Row="1" ColumnDefinitions="2*, 1*">
             <DockPanel Grid.Column="0">
                 <Grid DockPanel.Dock="Top">

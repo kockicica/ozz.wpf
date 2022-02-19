@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -18,8 +19,8 @@ public class BackendAudioRecordingsService : IAudioRecordingsService {
 
     #region IAudioRecordingsService Members
 
-    public async Task<PagedResults<AudioRecording>> AudioRecordings(AudioRecordingsSearchParams sp) {
-        return await _client.AudioRecordings(sp);
+    public async Task<PagedResults<AudioRecording>> AudioRecordings(AudioRecordingsSearchParams sp, CancellationToken token) {
+        return await _client.AudioRecordings(sp, token);
     }
 
     public async Task<AudioRecording?> Create(CreateAudioRecording data) {

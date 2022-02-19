@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using ozz.wpf.Models;
@@ -18,7 +19,7 @@ public class DesignTimeClient : IClient {
         }.AsEnumerable());
     }
 
-    public Task<PagedResults<AudioRecording>> AudioRecordings(AudioRecordingsSearchParams sp) {
+    public Task<PagedResults<AudioRecording>> AudioRecordings(AudioRecordingsSearchParams sp, CancellationToken token) {
         return Task.FromResult(new PagedResults<AudioRecording> { Count = 0, Data = System.Array.Empty<AudioRecording>().AsEnumerable() });
     }
 
@@ -70,7 +71,7 @@ public class DesignTimeAudioRecordingsService : IAudioRecordingsService {
 
     #region IAudioRecordingsService Members
 
-    public Task<PagedResults<AudioRecording>> AudioRecordings(AudioRecordingsSearchParams sp) {
+    public Task<PagedResults<AudioRecording>> AudioRecordings(AudioRecordingsSearchParams sp, CancellationToken token) {
         return Task.FromResult(new PagedResults<AudioRecording>() { Count = 0, Data = System.Array.Empty<AudioRecording>().AsEnumerable() });
     }
 

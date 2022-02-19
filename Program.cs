@@ -36,7 +36,7 @@ namespace ozz.wpf {
 
             Log.Logger = new LoggerConfiguration()
                          .MinimumLevel.Debug()
-                         .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                         .MinimumLevel.Override("Microsoft", LogEventLevel.Debug)
                          .WriteTo.Console()
                          .WriteTo.File("log-.log", rollingInterval: RollingInterval.Day)
                          .CreateBootstrapLogger();

@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Runtime.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -44,13 +45,13 @@ public class Client : IClient {
 
     }
 
-    public async Task<PagedResults<AudioRecording>> AudioRecordings(AudioRecordingsSearchParams sp) {
+    public async Task<PagedResults<AudioRecording>> AudioRecordings(AudioRecordingsSearchParams sp, CancellationToken token) {
         var cl = _client;
         var url = $"/api/audio{ToQueryString(sp)}";
 
         var req = new HttpRequestMessage(HttpMethod.Get, url);
-        using var rsp = await cl.SendAsync(req, HttpCompletionOption.ResponseHeadersRead);
-        var stream = await rsp.Content.ReadAsStringAsync();
+        using var rsp = await cl.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, token);
+        var stream = await rsp.Content.ReadAsStringAsync(token);
         rsp.EnsureSuccessStatusCode();
         var data = JsonConvert.DeserializeObject<PagedResults<AudioRecording>>(stream);
         return data;
