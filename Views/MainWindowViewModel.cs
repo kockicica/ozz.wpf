@@ -4,6 +4,7 @@ using System.Reactive.Disposables;
 
 using Avalonia.Controls.Notifications;
 
+using ozz.wpf.ViewModels;
 using ozz.wpf.Views.Manager;
 
 using ReactiveUI;
@@ -12,7 +13,7 @@ using Splat;
 
 using Notification = Avalonia.Controls.Notifications.Notification;
 
-namespace ozz.wpf.ViewModels {
+namespace ozz.wpf.Views {
 
     public class MainWindowViewModel : ViewModelBase, IScreen, IActivatableViewModel {
 

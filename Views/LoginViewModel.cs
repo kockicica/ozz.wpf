@@ -4,10 +4,11 @@ using Microsoft.Extensions.Logging;
 
 using ozz.wpf.Models;
 using ozz.wpf.Services;
+using ozz.wpf.ViewModels;
 
 using ReactiveUI;
 
-namespace ozz.wpf.ViewModels;
+namespace ozz.wpf.Views;
 
 public class LoginViewModel : ViewModelBase, IActivatableViewModel, IRoutableViewModel {
     private readonly IClient _client;
