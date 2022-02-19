@@ -14,23 +14,30 @@
         ExtendClientAreaTitleBarHeightHint="32"
         WindowStartupLocation="CenterScreen"
         Title="OZZZZZZZZZ-o-matic">
-
     <Window.Styles>
         <Style Selector="Grid#Overlay">
             <Setter Property="IsVisible" Value="{Binding OverlayVisible}" />
+        </Style>
+        <Style Selector="Grid#RoutedView">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush Source="/Assets/music_library.png" AlignmentX="Right" AlignmentY="Bottom" Opacity="0.1" Stretch="Uniform" />
+                </Setter.Value>
+            </Setter>
         </Style>
         <Style Selector="Window">
             <Setter Property="Background" Value="{DynamicResource MainWindowChromeBackground}" />
         </Style>
         <Style Selector="views|LoginView">
-            <Setter Property="Background">
-                <Setter.Value>
-                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
-                        <GradientStop Offset="0" Color="#ebf4f5" />
-                        <GradientStop Offset="1" Color="#b5c6e0" />
-                    </LinearGradientBrush>
-                </Setter.Value>
-            </Setter>
+            <!-- <Setter Property="Opacity" Value="1"></Setter> -->
+            <!-- <Setter Property="Background" Value="Red"></Setter> -->
+        </Style>
+        <Style Selector="Border#LoginViewBorder">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Padding" Value="0 80" />
+            <Setter Property="Opacity" Value="0.5" />
+            <Setter Property="Background" Value="LightGray" />
+
         </Style>
     </Window.Styles>
 
@@ -45,47 +52,24 @@
                         <SolidColorBrush Color="Black" Opacity=".4" />
                     </Grid.Background>
                 </Grid>
-                <Grid>
+                <Grid x:Name="RoutedView">
+                    <!-- <Image Source="{DynamicResource music_libraryDrawingImage}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Opacity="1" -->
+                    <!--        Height="600"> -->
+                    <!-- </Image> -->
                     <rxui:RoutedViewHost Router="{Binding Router}">
                         <rxui:RoutedViewHost.DefaultContent>
-                            <views:LoginView DataContext="{Binding LoginViewModel}" />
+                            <Panel>
+                                <Border x:Name="LoginViewBorder" />
+                                <views:LoginView DataContext="{Binding LoginViewModel}" />
+                            </Panel>
                         </rxui:RoutedViewHost.DefaultContent>
                     </rxui:RoutedViewHost>
-                    <!-- <Border Grid.Row="0" Margin="{Binding #MainWnd.OffScreenMargin}" > -->
-                    <!--     <Border.Background> -->
-                    <!--         <SolidColorBrush Color="White" Opacity="0.7" /> -->
-                    <!--     </Border.Background> -->
-                    <!--     <DockPanel HorizontalAlignment="Right" VerticalAlignment="Top" Height="32" Margin="{Binding #MainWnd.WindowDecorationMargin}"> -->
-                    <!--         <Button Classes="close" DockPanel.Dock="Right" x:Name="CloseButton" Width="48" Height="32"> -->
-                    <!--             <Button.Styles> -->
-                    <!--                 <Style Selector="Button.close /template/ ContentPresenter#PART_ContentPresenter"> -->
-                    <!--                     <Setter Property="Background" Value="Transparent" /> -->
-                    <!--                     <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrush}" /> -->
-                    <!--                     <Setter Property="TextBlock.Foreground" Value="{DynamicResource AccentButtonForeground}" /> -->
-                    <!--                 </Style> -->
-                    <!--                 <Style Selector="Button.close:pointerover /template/ ContentPresenter#PART_ContentPresenter"> -->
-                    <!--                     <Setter Property="Background" Value="Red" /> -->
-                    <!--                     <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrushPointerOver}" /> -->
-                    <!--                     <Setter Property="TextBlock.Foreground" Value="White" /> -->
-                    <!--                 </Style> -->
-                    <!--                 <Style Selector="Button.close:pointerover Image"> -->
-                    <!--                     <Setter Property="Source" Value="{DynamicResource xmarkDrawingImageOver}"></Setter> -->
-                    <!--                 </Style> -->
-                    <!--                 <Style Selector="Button.close Image"> -->
-                    <!--                     <Setter Property="Source" Value="{StaticResource xmarkDrawingImage}"></Setter> -->
-                    <!--                 </Style> -->
-                    <!--             </Button.Styles> -->
-                    <!--             <Image Width="16" Height="16"></Image> -->
-                    <!--             ~1~ <Image Source="{sk:SvgImage /Assets/xmark.svg}" Width="16" Height="16"></Image> @1@ -->
-                    <!--             ~1~ <sk:Svg Path="/Assets/xmark.svg" Width="16" Height="16"></sk:Svg> @1@ -->
-                    <!--         </Button> -->
-                    <!--     </DockPanel> -->
-                    <!-- </Border> -->
                 </Grid>
             </Grid>
         </Panel>
         <DockPanel Height="32" VerticalAlignment="Top" HorizontalAlignment="Left">
-            <TextBlock x:Name="WindowCaption" Text="{Binding #MainWnd.Title}" DockPanel.Dock="Left" VerticalAlignment="Center" Margin="10 0 10 0" FontWeight="Bold" />
+            <TextBlock x:Name="WindowCaption" Text="{Binding #MainWnd.Title}" DockPanel.Dock="Left" VerticalAlignment="Center" Margin="10 0 10 0"
+                       FontWeight="Bold" />
         </DockPanel>
         <!-- <Border BorderThickness="1 1 1 0" CornerRadius="4 4 0 0" BorderBrush="#55000000" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="250 8 0 0"> -->
         <!--     <Border.Background> -->
@@ -93,6 +77,6 @@
         <!--     </Border.Background> -->
         <!--     <TextBlock Margin="5 5 5 0" Text="Content In Title Bar" /> -->
         <!-- </Border> -->
-        
+
     </Panel>
 </Window>

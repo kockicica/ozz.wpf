@@ -7,9 +7,9 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ozz.wpf.Views.LoginView">
     <Grid>
-        <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Width="400" Height="300">
-            <Border Margin="40, 90">
-                <Grid RowDefinitions="*,*" ColumnDefinitions="*,2*">
+        <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Width="400">
+            <Border>
+                <Grid RowDefinitions="Auto, 20, Auto" ColumnDefinitions="*,2*">
                     <TextBlock Text="Korisničko ime:" VerticalAlignment="Center" IsTabStop="True" TabIndex="0" />
                     <TextBox x:Name="UsernameBlock" Grid.Column="1" Grid.Row="0" Text="{Binding Username}" HorizontalAlignment="Stretch"
                              VerticalAlignment="Center">
@@ -17,7 +17,7 @@
                             <iac:FocusOnAttachedToVisualTreeBehavior/>
                         </i:Interaction.Behaviors>
                     </TextBox>
-                    <Button x:Name="LoginBtn" Opacity="1" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Content="Prijava" HorizontalAlignment="Stretch"
+                    <Button x:Name="LoginBtn" Opacity="1" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Content="Prijava" HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Center" Command="{Binding Login}" CommandParameter="{Binding Username}" IsDefault="True" />
                 </Grid>
             </Border>
