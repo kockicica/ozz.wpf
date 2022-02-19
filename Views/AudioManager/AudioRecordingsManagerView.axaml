@@ -8,7 +8,7 @@
              xmlns:services="clr-namespace:ozz.wpf.Services"
              xmlns:models="clr-namespace:ozz.wpf.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" d:DataContext="{x:Static vm:DesignData.AudioRecordingsManagerViewModel}"
-             x:Class="ozz.wpf.Views.AudioRecordingsManagerView">
+             x:Class="ozz.wpf.Views.AudioManager.AudioRecordingsManagerView">
     <i:Interaction.Behaviors>
         <ia:EventTriggerBehavior SourceObject="{Binding #Grid}" EventName="DoubleTapped">
             <ia:InvokeCommandAction Command="{Binding EditRecording}" CommandParameter="{Binding SelectedRecording}" />

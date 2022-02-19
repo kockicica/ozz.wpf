@@ -4,13 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:iac="clr-namespace:Avalonia.Xaml.Interactions.Custom;assembly=Avalonia.Xaml.Interactions"
-             xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
              xmlns:models="clr-namespace:ozz.wpf.Models"
-             xmlns:views="clr-namespace:ozz.wpf.Views"
+             xmlns:player="clr-namespace:ozz.wpf.Views.Player"
+             xmlns:audioManager="clr-namespace:ozz.wpf.Views.AudioManager"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ozz.wpf.Views.AudioRecordingDetailsView">
+             x:Class="ozz.wpf.Views.AudioManager.AudioRecordingDetailsView">
     <UserControl.DataContext>
-        <viewModels:AudioRecordingDetailsViewModel />
+        <audioManager:AudioRecordingDetailsViewModel />
     </UserControl.DataContext>
     <UserControl.Styles>
         <Style Selector="TextBox">
@@ -55,7 +55,7 @@
                 <Grid Grid.Row="5" Grid.Column="2">
                     <Grid RowDefinitions="Auto, Auto" Margin="0 20 0 0">
                         <Button Content="Pronađi" Command="{Binding BrowseForAudioFile}" IsVisible="{Binding !IsUpdate}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
-                        <views:AudioPlayerView Grid.Row="1" DataContext="{Binding AudioPlayerViewModel}"
+                        <player:AudioPlayerView Grid.Row="1" DataContext="{Binding AudioPlayerViewModel}"
                                                IsEnabled="{Binding Track, Converter={x:Static ObjectConverters.IsNotNull}}" />
                     </Grid>
                 </Grid>

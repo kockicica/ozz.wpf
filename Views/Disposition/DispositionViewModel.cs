@@ -17,13 +17,15 @@ using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
 
+using ozz.wpf.Dialog;
 using ozz.wpf.Models;
 using ozz.wpf.Services;
 using ozz.wpf.Views;
+using ozz.wpf.Views.Dialogs;
+using ozz.wpf.Views.Equalizer;
+using ozz.wpf.Views.Player;
 
 using ReactiveUI;
-
-using EqualizerModel = ozz.wpf.Models.Equalizer;
 
 namespace ozz.wpf.ViewModels;
 
@@ -207,7 +209,7 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
                 vm.EqualizerViewModel = new EqualizerViewModel {
                     //Equalizer = (await _equalizerPresetFactory.GetPresets()).FirstOrDefault()
                 };
-                vm.Equalizers = new ObservableCollection<EqualizerModel>(await _equalizerPresetFactory.GetPresets());
+                vm.Equalizers = new ObservableCollection<Equalizer>(await _equalizerPresetFactory.GetPresets());
                 vm.EqualizerViewModel.Equalizer = await _equalizerPresetFactory.GetDefaultPreset();
 
                 var modal = new ModalAudioPlayerWindow {

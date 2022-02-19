@@ -1,12 +1,11 @@
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 
-using ozz.wpf.ViewModels;
+namespace ozz.wpf.Views.AudioManager;
 
-namespace ozz.wpf.Views;
+public partial class AudioRecordingDetailsView : ReactiveUserControl<AudioRecordingDetailsViewModel> {
 
-public partial class ManagerView : ReactiveUserControl<ManagerViewModel> {
-    public ManagerView() {
+    public AudioRecordingDetailsView() {
         InitializeComponent();
     }
 

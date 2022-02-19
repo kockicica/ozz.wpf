@@ -2,25 +2,19 @@ using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Data;
-using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 
 using ozz.wpf.Controls;
-using ozz.wpf.Models;
-using ozz.wpf.ViewModels;
 
 using ReactiveUI;
 
-namespace ozz.wpf.Views;
+namespace ozz.wpf.Views.Player;
 
 public partial class AudioPlayerView : ReactiveUserControl<AudioPlayerViewModel> {
 
-    //public Slider MS => this.FindControl<Slider>("Slider");
-    public PlayerSlider MS => this.FindControl<PlayerSlider>("PlayerSlider");
+    private Models.Equalizer _equalizer;
 
     // public static readonly DirectProperty<AudioPlayerView, Equalizer> EqualizerProperty =
     //     AvaloniaProperty.RegisterDirect<AudioPlayerView, Equalizer>(
@@ -45,10 +39,10 @@ public partial class AudioPlayerView : ReactiveUserControl<AudioPlayerViewModel>
         });
     }
 
+    //public Slider MS => this.FindControl<Slider>("Slider");
+    public PlayerSlider MS => this.FindControl<PlayerSlider>("PlayerSlider");
+
     private void InitializeComponent() {
         AvaloniaXamlLoader.Load(this);
     }
-
-    private Equalizer _equalizer;
-
 }

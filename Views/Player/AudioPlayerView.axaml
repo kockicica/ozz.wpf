@@ -4,10 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
              xmlns:controls="clr-namespace:ozz.wpf.Controls"
-             xmlns:views="clr-namespace:ozz.wpf.Views" DataContext="{x:Static viewModels:DesignData.AudioPlayerViewModel}"
+             xmlns:player="clr-namespace:ozz.wpf.Views.Player"
+             DataContext="{x:Static viewModels:DesignData.AudioPlayerViewModel}"
              x:Name="AudioPlayer"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" 
-             x:Class="ozz.wpf.Views.AudioPlayerView">
+             x:Class="ozz.wpf.Views.Player.AudioPlayerView">
     <UserControl.Styles>
         <StyleInclude Source="avares://ozz.wpf/AudioPlayer.axaml" />
         <Style Selector="Button.cmd_button PathIcon">
@@ -33,7 +34,7 @@
         <Style Selector="TextBlock.current_time">
             <Setter Property="FontSize" Value="16" />
             <Setter Property="FontWeight" Value="Medium" />
-            <Setter Property="IsVisible" Value="{Binding $parent[views:AudioPlayerView].IsEnabled}" />
+            <Setter Property="IsVisible" Value="{Binding $parent[player:AudioPlayerView].IsEnabled}" />
         </Style>
         <Styles>
             <Styles.Resources>

@@ -8,7 +8,7 @@
              xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
              xmlns:models="clr-namespace:ozz.wpf.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" d:DataContext="{x:Static viewModels:DesignData.DispositionViewModel}"
-             x:Class="ozz.wpf.Views.DispositionView">
+             x:Class="ozz.wpf.Views.Disposition.DispositionView">
     <UserControl.Styles>
         <Style Selector="DataGrid:focus DataGridCell:current /template/ Grid#FocusVisual">
             <Setter Property="IsVisible" Value="False" />

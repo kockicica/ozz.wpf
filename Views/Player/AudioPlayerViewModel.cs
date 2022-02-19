@@ -14,10 +14,9 @@ using ozz.wpf.Models;
 
 using ReactiveUI;
 
-using Equalizer = LibVLCSharp.Shared.Equalizer;
 using EqualizerModel = ozz.wpf.Models.Equalizer;
 
-namespace ozz.wpf.ViewModels;
+namespace ozz.wpf.Views.Player;
 
 public class AudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
 
@@ -231,8 +230,8 @@ public class AudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
         Player.Stop();
     }
 
-    private Equalizer FromModel(EqualizerModel mdl) {
-        var eq = new Equalizer();
+    private LibVLCSharp.Shared.Equalizer FromModel(EqualizerModel mdl) {
+        var eq = new LibVLCSharp.Shared.Equalizer();
         eq.SetPreamp((float)mdl.PreAmp);
         foreach (var equalizerBand in mdl.Bands) {
             eq.SetAmp((float)equalizerBand.Amp, (uint)equalizerBand.Number);

@@ -1,14 +1,20 @@
+using System;
+
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 
 using ozz.wpf.ViewModels;
 
-namespace ozz.wpf.Views;
+namespace ozz.wpf.Views.Disposition;
 
-public partial class AudioRecordingDetailsView : ReactiveUserControl<AudioRecordingDetailsViewModel> {
+public partial class DispositionView : ReactiveUserControl<DispositionViewModel> {
 
-    public AudioRecordingDetailsView() {
+    private IDisposable d;
+
+
+    public DispositionView() {
         InitializeComponent();
+
     }
 
     private void InitializeComponent() {

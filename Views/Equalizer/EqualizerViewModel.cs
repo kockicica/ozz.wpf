@@ -9,12 +9,13 @@ using DynamicData;
 using DynamicData.Binding;
 
 using ozz.wpf.Models;
+using ozz.wpf.ViewModels;
 
 using ReactiveUI;
 
 using EqualizerModel = ozz.wpf.Models.Equalizer;
 
-namespace ozz.wpf.ViewModels;
+namespace ozz.wpf.Views.Equalizer;
 
 public class EqualizerViewModel : ViewModelBase, IActivatableViewModel {
 

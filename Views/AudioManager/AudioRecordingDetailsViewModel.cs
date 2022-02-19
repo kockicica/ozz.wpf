@@ -15,12 +15,14 @@ using Microsoft.Extensions.Logging;
 using ozz.wpf.Models;
 using ozz.wpf.Services;
 using ozz.wpf.Services.Interactions;
+using ozz.wpf.ViewModels;
+using ozz.wpf.Views.Player;
 
 using ReactiveUI;
 
 using File = TagLib.File;
 
-namespace ozz.wpf.ViewModels;
+namespace ozz.wpf.Views.AudioManager;
 
 public class AudioRecordingDetailsViewModel : ViewModelBase, IRoutableViewModel, IActivatableViewModel, ICaption {
     private readonly IClient _dataClient;

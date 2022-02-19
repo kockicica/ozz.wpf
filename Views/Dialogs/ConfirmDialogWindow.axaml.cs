@@ -6,7 +6,6 @@ using Avalonia.Markup.Xaml;
 
 using ozz.wpf.Dialog;
 using ozz.wpf.Services.Interactions.Confirm;
-using ozz.wpf.ViewModels.Dialogs;
 
 using ReactiveUI;
 

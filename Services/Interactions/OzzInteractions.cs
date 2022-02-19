@@ -7,9 +7,7 @@ using Microsoft.Extensions.Logging;
 
 using ozz.wpf.Models;
 using ozz.wpf.Services.Interactions.Confirm;
-using ozz.wpf.ViewModels;
-using ozz.wpf.ViewModels.Dialogs;
-using ozz.wpf.Views;
+using ozz.wpf.Views.AudioManager;
 using ozz.wpf.Views.Dialogs;
 
 using ReactiveUI;

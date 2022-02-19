@@ -1,11 +1,7 @@
-using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 
-using ozz.wpf.ViewModels;
-
-namespace ozz.wpf.Views;
+namespace ozz.wpf.Views.Equalizer;
 
 public partial class EqualizerView : ReactiveUserControl<EqualizerViewModel> {
 

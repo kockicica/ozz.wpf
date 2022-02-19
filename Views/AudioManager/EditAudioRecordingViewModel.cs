@@ -16,7 +16,7 @@ using ReactiveUI;
 
 using Notification = Avalonia.Controls.Notifications.Notification;
 
-namespace ozz.wpf.ViewModels;
+namespace ozz.wpf.Views.AudioManager;
 
 public class EditAudioRecordingViewModel : DialogViewModelBase<EditAudioRecordingsResult> {
 

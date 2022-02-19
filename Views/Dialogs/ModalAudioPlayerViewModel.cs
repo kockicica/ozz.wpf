@@ -8,22 +8,23 @@ using System.Reactive.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 using ozz.wpf.Dialog;
-using ozz.wpf.Models;
 using ozz.wpf.Services;
+using ozz.wpf.Views.Equalizer;
+using ozz.wpf.Views.Player;
 
 using ReactiveUI;
 
-namespace ozz.wpf.ViewModels;
+namespace ozz.wpf.Views.Dialogs;
 
 public class ModalAudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
 
+    private readonly IEqualizerPresetFactory _equalizerPresetFactory;
+
     private bool _equalizerOn = true;
 
-    private ObservableCollection<Equalizer> _equalizers;
+    private ObservableCollection<Models.Equalizer> _equalizers;
 
     private ILogger<ModalAudioPlayerViewModel> _logger;
-
-    private readonly IEqualizerPresetFactory _equalizerPresetFactory;
 
     public ModalAudioPlayerViewModel(ILogger<ModalAudioPlayerViewModel> logger, IEqualizerPresetFactory equalizerPresetFactory) {
 
@@ -34,7 +35,7 @@ public class ModalAudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
 
         this.WhenActivated(d => {
             this.WhenAnyValue(x => x.EqualizerOn)
-                .Subscribe(b => { PlayerModel!.Equalizer = b ? EqualizerViewModel!.Equalizer : Equalizer.Default; })
+                .Subscribe(b => { PlayerModel!.Equalizer = b ? EqualizerViewModel!.Equalizer : Models.Equalizer.Default; })
                 .DisposeWith(d);
 
             EqualizerViewModel!
@@ -61,7 +62,7 @@ public class ModalAudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
 
     public EqualizerViewModel EqualizerViewModel { get; set; }
 
-    public ObservableCollection<Equalizer> Equalizers {
+    public ObservableCollection<Models.Equalizer> Equalizers {
         get => _equalizers;
         set => this.RaiseAndSetIfChanged(ref _equalizers, value);
     }

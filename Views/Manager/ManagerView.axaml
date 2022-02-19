@@ -5,9 +5,10 @@
              xmlns:rxui="clr-namespace:Avalonia.ReactiveUI;assembly=Avalonia.ReactiveUI"
              xmlns:s="clr-namespace:Avalonia.Svg.Skia;assembly=Avalonia.Svg.Skia"
              xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
+             xmlns:manager="clr-namespace:ozz.wpf.Views.Manager"
              d:DataContext="{x:Static viewModels:DesignData.ManagerViewModel}"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ozz.wpf.Views.ManagerView">
+             x:Class="ozz.wpf.Views.Manager.ManagerView">
     <UserControl.Styles>
         <Style Selector="StackPanel#PART_Toolbar">
             <Setter Property="Margin" Value="0 0 0 10" />
@@ -59,7 +60,7 @@
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="viewModels:ManagerMenuItem">
+                        <DataTemplate x:DataType="manager:ManagerMenuItem">
                             <Button HorizontalAlignment="Stretch" Height="{DynamicResource ItemHeight}" Command="{Binding Command}">
                                 <Button.Resources>
                                     <SolidColorBrush x:Key="ButtonBackground">Transparent</SolidColorBrush>

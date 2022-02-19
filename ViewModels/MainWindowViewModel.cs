@@ -4,6 +4,8 @@ using System.Reactive.Disposables;
 
 using Avalonia.Controls.Notifications;
 
+using ozz.wpf.Views.Manager;
+
 using ReactiveUI;
 
 using Splat;

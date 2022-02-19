@@ -1,7 +1,7 @@
 using ozz.wpf.Dialog;
 using ozz.wpf.Models;
 
-namespace ozz.wpf.ViewModels;
+namespace ozz.wpf.Views.AudioManager;
 
 public class EditAudioRecordingsResult : DialogResultBase {
 

@@ -6,11 +6,12 @@
         xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
         xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
         mc:Ignorable="d" d:DesignWidth="120" d:DesignHeight="850"
-        xmlns:views="clr-namespace:ozz.wpf.Views"
         xmlns:models="clr-namespace:ozz.wpf.Models"
         xmlns:controls="clr-namespace:ozz.wpf.Controls"
         xmlns:behaviors="clr-namespace:ozz.wpf.Behaviors"
-        x:Class="ozz.wpf.Views.ModalAudioPlayerWindow"
+        xmlns:player="clr-namespace:ozz.wpf.Views.Player"
+        xmlns:equalizer="clr-namespace:ozz.wpf.Views.Equalizer"
+        x:Class="ozz.wpf.Views.Dialogs.ModalAudioPlayerWindow"
         d:DataContext="{x:Static viewModels:DesignData.ModalAudioPlayer}"
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False" SizeToContent="WidthAndHeight"
         MinHeight="500" MinWidth="800"
@@ -32,9 +33,9 @@
             <DockPanel LastChildFill="True" Margin="{Binding #ModalAudioPlayer.WindowDecorationMargin}" Background="White">
                 <Border Padding="5">
                     <Grid RowDefinitions="*, *">
-                        <views:AudioPlayerView DataContext="{Binding PlayerModel}" />
+                        <player:AudioPlayerView DataContext="{Binding PlayerModel}" />
                         <Grid Grid.Row="1" ColumnDefinitions="*, Auto">
-                            <views:EqualizerView DataContext="{Binding EqualizerViewModel}" />
+                            <equalizer:EqualizerView DataContext="{Binding EqualizerViewModel}" />
                             <StackPanel Orientation="Vertical" Grid.Column="1">
                                 <Button Command="{Binding EqualizerViewModel.ResetCommand}">Reset</Button>
                                 <ToggleSwitch IsChecked="{Binding EqualizerOn}" />

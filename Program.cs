@@ -12,8 +12,11 @@ using ozz.wpf.Config;
 using ozz.wpf.Services;
 using ozz.wpf.Services.Interactions;
 using ozz.wpf.ViewModels;
-using ozz.wpf.ViewModels.Dialogs;
-using ozz.wpf.Views;
+using ozz.wpf.Views.AudioManager;
+using ozz.wpf.Views.Dialogs;
+using ozz.wpf.Views.Disposition;
+using ozz.wpf.Views.Manager;
+using ozz.wpf.Views.Player;
 
 using ReactiveUI;
 

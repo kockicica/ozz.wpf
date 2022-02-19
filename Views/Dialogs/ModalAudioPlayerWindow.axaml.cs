@@ -1,15 +1,11 @@
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-using LibVLCSharp.Avalonia;
-
 using ozz.wpf.Dialog;
-using ozz.wpf.ViewModels;
 
 using ReactiveUI;
 
-namespace ozz.wpf.Views;
+namespace ozz.wpf.Views.Dialogs;
 
 public partial class ModalAudioPlayerWindow : DialogWindowBase<DialogResultBase> {
 
@@ -31,6 +27,4 @@ public partial class ModalAudioPlayerWindow : DialogWindowBase<DialogResultBase>
     private void InitializeComponent() {
         AvaloniaXamlLoader.Load(this);
     }
-
-
 }

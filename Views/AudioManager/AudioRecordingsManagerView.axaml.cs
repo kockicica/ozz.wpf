@@ -10,7 +10,7 @@ using ozz.wpf.ViewModels;
 
 using ReactiveUI;
 
-namespace ozz.wpf.Views;
+namespace ozz.wpf.Views.AudioManager;
 
 public partial class AudioRecordingsManagerView : ReactiveUserControl<AudioRecordingsManagerViewModel> {
 

@@ -6,7 +6,7 @@ using ozz.wpf.Services.Interactions.Confirm;
 
 using ReactiveUI;
 
-namespace ozz.wpf.ViewModels.Dialogs;
+namespace ozz.wpf.Views.Dialogs;
 
 public class ConfirmDialogResult : DialogResultBase {
     public ConfirmMessageResult Result { get; set; }

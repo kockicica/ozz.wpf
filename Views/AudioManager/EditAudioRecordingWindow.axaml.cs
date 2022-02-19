@@ -2,9 +2,8 @@ using Avalonia;
 using Avalonia.Markup.Xaml;
 
 using ozz.wpf.Dialog;
-using ozz.wpf.ViewModels;
 
-namespace ozz.wpf.Views;
+namespace ozz.wpf.Views.AudioManager;
 
 public partial class EditAudioRecordingWindow : DialogWindowBase<EditAudioRecordingsResult> {
 

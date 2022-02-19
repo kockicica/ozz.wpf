@@ -4,8 +4,13 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 
 using ozz.wpf.Config;
+using ozz.wpf.Dialog;
 using ozz.wpf.Models;
 using ozz.wpf.Services;
+using ozz.wpf.Views.Dialogs;
+using ozz.wpf.Views.Equalizer;
+using ozz.wpf.Views.Manager;
+using ozz.wpf.Views.Player;
 
 namespace ozz.wpf.ViewModels;
 

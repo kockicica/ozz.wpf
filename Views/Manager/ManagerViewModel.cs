@@ -12,12 +12,14 @@ using Microsoft.Extensions.Logging;
 using ozz.wpf.Models;
 using ozz.wpf.Services;
 using ozz.wpf.Services.Interactions;
+using ozz.wpf.ViewModels;
+using ozz.wpf.Views.AudioManager;
 
 using ReactiveUI;
 
 using Notification = Avalonia.Controls.Notifications.Notification;
 
-namespace ozz.wpf.ViewModels;
+namespace ozz.wpf.Views.Manager;
 
 public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableViewModel, IScreen {
 
