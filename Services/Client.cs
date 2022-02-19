@@ -78,7 +78,7 @@ public class Client : IClient {
             using var rsp = await cl.PostAsync(url, content);
             if (!rsp.IsSuccessStatusCode) {
                 // we have some kind of an error
-                var msg = await rsp.Content.ReadFromJsonAsync<ErrorResponse>();
+                var msg = await rsp.Content.ReadFromJsonAsync<ServerErrorResponse>();
                 throw new HttpRequestException(msg.Message, null, HttpStatusCode.BadRequest);
 
             }
@@ -99,7 +99,7 @@ public class Client : IClient {
         try {
             var res = await cl.PutAsJsonAsync(url, data);
             if (!res.IsSuccessStatusCode) {
-                var msg = await res.Content.ReadFromJsonAsync<ErrorResponse>();
+                var msg = await res.Content.ReadFromJsonAsync<ServerErrorResponse>();
                 throw new HttpRequestException(msg.Message, null, HttpStatusCode.BadRequest);
             }
             var ret = await res.Content.ReadFromJsonAsync<AudioRecording>();
@@ -117,7 +117,7 @@ public class Client : IClient {
         try {
             var res = await cl.DeleteAsync(url);
             if (!res.IsSuccessStatusCode) {
-                var msg = await res.Content.ReadFromJsonAsync<ErrorResponse>();
+                var msg = await res.Content.ReadFromJsonAsync<ServerErrorResponse>();
                 throw new HttpRequestException(msg.Message, null, HttpStatusCode.InternalServerError);
             }
         }
@@ -252,7 +252,16 @@ public class Client : IClient {
         if (sp.ToDate.HasValue) {
             items.Add($"toDate={sp.ToDate.Value:yyyy-MM-dd}");
         }
-        return $"?{string.Join("&", items)}";
+        if (sp.Count.HasValue) {
+            items.Add($"count={sp.Count}");
+        }
+        if (sp.Skip.HasValue) {
+            items.Add($"skip={sp.Skip}");
+        }
+        if (!string.IsNullOrEmpty(sp.Sort)) {
+            items.Add($"sort={HttpUtility.UrlEncode(sp.Sort)}");
+        }
+        return items.Any() ? $"?{string.Join("&", items)}" : string.Empty;
 
     }
 
@@ -308,14 +317,6 @@ public class Client : IClient {
             }
             return rsp;
         }
-    }
-
-    #endregion
-
-    #region Nested type: ErrorResponse
-
-    private class ErrorResponse {
-        public string Message { get; set; }
     }
 
     #endregion

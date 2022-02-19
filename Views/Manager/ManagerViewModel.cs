@@ -14,6 +14,7 @@ using ozz.wpf.Services;
 using ozz.wpf.Services.Interactions;
 using ozz.wpf.ViewModels;
 using ozz.wpf.Views.AudioManager;
+using ozz.wpf.Views.ScheduleManager;
 
 using ReactiveUI;
 
@@ -41,6 +42,8 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
     private DispositionViewModel? _dispositionViewModel;
 
+    private ScheduleManagerViewModel? _scheduleManagerViewModel;
+
     public ManagerViewModel(ILogger<ManagerViewModel> logger, IScreen hostScreen, IResolver resolver, IOzzInteractions ozzInteractions,
                             INotificationManager notificationManager) {
         _logger = logger;
@@ -64,6 +67,10 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
                 Router.Navigate.Execute(DispositionViewModel);
             },
             this.WhenAny(model => model.CurrentViewModel, x => x.Value?.UrlPathSegment != "disposition")
+        );
+
+        ViewScheduleManager = ReactiveCommand.Create(
+            () => { Router.Navigate.Execute(ScheduleManagerViewModel); }
         );
 
         // CreateNewAudio = ReactiveCommand.Create(
@@ -122,6 +129,8 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
     public ReactiveCommand<Unit, AudioRecording?> CreateNewAudio { get; }
 
+    public ReactiveCommand<Unit, Unit> ViewScheduleManager { get; }
+
     public string Caption {
         get => _caption;
         set => this.RaiseAndSetIfChanged(ref _caption, value);
@@ -145,10 +154,15 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
         new() { Caption = "Emitovanje zapisa", Command = ViewDisposition, Icon = "/Assets/circle-play.svg" },
         new() { Caption = "Upravljanje audio zapisima", Command = ViewAudioManager, Icon = "/Assets/album-collection.svg" },
         new() { Caption = "Novi audio zapis", Command = CreateNewAudio, Icon = "/Assets/file-audio.svg" },
+        new() { Caption = "Upravljanje rasporedom", Command = ViewScheduleManager, Icon = "/Assets/file-audio.svg" },
     };
 
     public AudioRecordingDetailsViewModel? CreateAudioRecordingViewModel
         => _resolver.GetService<AudioRecordingDetailsViewModel>();
+
+    public ScheduleManagerViewModel? ScheduleManagerViewModel {
+        get => _scheduleManagerViewModel ??= _resolver.GetService<ScheduleManagerViewModel>();
+    }
 
     #region IActivatableViewModel Members
 

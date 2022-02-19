@@ -1,3 +1,5 @@
+using System.Reactive;
+
 using Avalonia;
 using Avalonia.Markup.Xaml;
 
@@ -18,7 +20,7 @@ public partial class ModalAudioPlayerWindow : DialogWindowBase<DialogResultBase>
         this.WhenActivated(d => {
             if (DataContext is ModalAudioPlayerViewModel vm) {
                 if (vm.AutoPlay) {
-                    vm.PlayerModel.Play.Execute(null);
+                    vm.PlayerModel.Play.Execute(Unit.Default);
                 }
             }
         });

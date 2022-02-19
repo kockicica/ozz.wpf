@@ -1,0 +1,85 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:ozz.wpf.Models"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ozz.wpf.Views.ScheduleManager.ScheduleManagerView">
+    <!-- d:DataContext="{x:Type scheduleManager:ScheduleManagerViewModel}" -->
+    <UserControl.Styles>
+        <Style Selector="Grid#SearchGrid Label">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style Selector="Grid#SearchGrid CalendarDatePicker">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+    </UserControl.Styles>
+    <Grid RowDefinitions="Auto, Auto, *">
+        <Grid Grid.Row="0" ColumnDefinitions="*, Auto" x:Name="SearchGrid" Margin="10">
+            <Grid RowDefinitions="Auto, 10, Auto" ColumnDefinitions="Auto,10,*,10,Auto,10,*,10">
+                <Label Content="Audio snimak" Grid.Row="0" Grid.Column="0" />
+                <AutoCompleteBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="5" AsyncPopulator="{Binding PopulateAsync}" FilterMode="None"
+                                 SelectedItem="{Binding SelectedRecording}" ValueMemberBinding="{Binding Name}"
+                                 MinimumPopulateDelay="{Binding AutoCompleteThrottleTime}">
+                    <AutoCompleteBox.ItemTemplate>
+                        <DataTemplate x:DataType="models:AudioRecording">
+                            <Grid ColumnDefinitions="4*, 2*, *, 2*">
+                                <TextBlock Text="{Binding Name}" />
+                                <TextBlock Grid.Column="1" Text="{Binding Category}" />
+                                <TextBlock Grid.Column="2" Text="{Binding Duration, Converter={StaticResource DurationToStringConverter}}" />
+                                <TextBlock Grid.Column="3" Text="{Binding Date, StringFormat={}{0:dd.MM.yyyy}}" />
+                            </Grid>
+                        </DataTemplate>
+                    </AutoCompleteBox.ItemTemplate>
+                </AutoCompleteBox>
+                <Label Content="Od" Grid.Row="2" Grid.Column="0" />
+                <CalendarDatePicker Grid.Row="2" Grid.Column="2" Text="{Binding FromDate, Mode=TwoWay}" />
+                <Label Content="Do" Grid.Row="2" Grid.Column="4" />
+                <CalendarDatePicker Grid.Row="2" Grid.Column="6" Text="{Binding ToDate, Mode=TwoWay}" />
+            </Grid>
+            <Button Grid.Column="1" Content="Pretraživanje" VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                    Command="{Binding Search}"
+                    HorizontalContentAlignment="Center" />
+        </Grid>
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <TextBlock Text="{Binding FromDate}" />
+                <TextBlock Text="{Binding ToDate}" />
+                <TextBlock Text="{Binding SelectedRecording.Name}" />
+            </StackPanel>
+        </StackPanel>
+        <DataGrid Grid.Row="2" AutoGenerateColumns="False" Items="{Binding Schedules}" x:DataType="models:Schedule" CanUserReorderColumns="True"
+                  CanUserResizeColumns="True" CanUserSortColumns="True" GridLinesVisibility="All" AlternatingRowBackground="Yellow" >
+            <DataGrid.Styles>
+                <Style Selector="NumericUpDown">
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+            </DataGrid.Styles>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Naziv" Binding="{Binding Recording.Name}" Width="4*" IsReadOnly="True" />
+                <DataGridTextColumn Header="Kategorija" Binding="{Binding Recording.Category}" Width="*" IsReadOnly="True" />
+                <DataGridTextColumn Header="Datum" Binding="{Binding Date, StringFormat={}{0:dd.MM.yyyy}, Mode=OneWay}" Width="*" IsReadOnly="True" />
+                <DataGridTextColumn Header="Trajanje"
+                                    Binding="{Binding Recording.Duration, Converter={StaticResource DurationToStringConverter}, Mode=OneWay}"
+                                    IsReadOnly="True"
+                                    Width="*" />
+                <!-- <DataGridTemplateColumn Header="Smena 4"> -->
+                <!--     <DataGridTemplateColumn.CellTemplate> -->
+                <!--         <DataTemplate x:DataType="models:Schedule"> -->
+                <!--             <TextBlock Text="{Binding Shift4}"></TextBlock> -->
+                <!--         </DataTemplate> -->
+                <!--     </DataGridTemplateColumn.CellTemplate> -->
+                <!--     <DataGridTemplateColumn.CellEditingTemplate> -->
+                <!--         <DataTemplate x:DataType="models:Schedule"> -->
+                <!--             <NumericUpDown Value="{Binding Shift4}" FormatString="N0" Minimum="0" Maximum="100" /> -->
+                <!--         </DataTemplate> -->
+                <!--     </DataGridTemplateColumn.CellEditingTemplate> -->
+                <!-- </DataGridTemplateColumn> -->
+                <DataGridTextColumn Header="Smena 4" Binding="{Binding Shift4}" Width="*" />
+                <DataGridTextColumn Header="Smena 1" Binding="{Binding Shift1}" Width="*" />
+                <DataGridTextColumn Header="Smena 2" Binding="{Binding Shift2}" Width="*" />
+                <DataGridTextColumn Header="Smena 3" Binding="{Binding Shift3}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

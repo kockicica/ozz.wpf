@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 using Avalonia;
 using Avalonia.Controls.Notifications;
@@ -17,6 +18,7 @@ using ozz.wpf.Views.AudioManager;
 using ozz.wpf.Views.Dialogs;
 using ozz.wpf.Views.Manager;
 using ozz.wpf.Views.Player;
+using ozz.wpf.Views.ScheduleManager;
 
 using ReactiveUI;
 
@@ -94,6 +96,8 @@ namespace ozz.wpf {
                                s.AddTransient<IViewFor<AudioRecordingDetailsViewModel>, AudioRecordingDetailsView>();
                                s.AddTransient<EditAudioRecordingViewModel>();
                                s.AddTransient<ConfirmDialogViewModel>();
+                               s.AddTransient<ScheduleManagerViewModel>();
+                               s.AddTransient<IViewFor<ScheduleManagerViewModel>, ScheduleManagerView>();
 
                                s.AddSingleton<RoutingState>(provider => {
                                    var wnd = provider.GetService<MainWindowViewModel>();
@@ -134,6 +138,15 @@ namespace ozz.wpf {
                                    client.BaseAddress = new Uri(config.Value.Url);
 
                                });
+
+                               s.AddHttpClient<IScheduleClient, ScheduleClient>((services, client) => {
+                                   var config = services.GetService<IOptions<ServerConfiguration>>();
+                                   client.BaseAddress = new Uri(config.Value.Url);
+
+                               });
+
+                               // add automapper
+                               s.AddAutoMapper(expression => expression.AddMaps(Assembly.GetExecutingAssembly()));
 
                            })
                            .ConfigureLogging(builder => {
