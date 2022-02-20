@@ -9,6 +9,9 @@
              d:DataContext="{x:Static viewModels:DesignData.ManagerViewModel}"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ozz.wpf.Views.Manager.ManagerView">
+    <UserControl.Resources>
+        <x:Double x:Key="ItemHeight">50</x:Double>
+    </UserControl.Resources>
     <UserControl.Styles>
         <Style Selector="StackPanel#PART_Toolbar">
             <Setter Property="Margin" Value="0 0 0 10" />
@@ -25,18 +28,24 @@
             <Setter Property="Opacity" Value="0" />
             <Setter Property="IsEnabled" Value="False" />
         </Style>
-        <Style Selector="Image#BackIcon">
-            <Setter Property="Height" Value="24" />
+        <Style Selector="PathIcon">
+            <!-- <Setter Property="Width" Value="32" /> -->
+            <!-- <Setter Property="HorizontalAlignment" Value="Center"></Setter> -->
+            <!-- <Setter Property="Margin" Value="0 5 0 0" /> -->
         </Style>
-        <Style Selector="ToggleButton#ToggleButton">
-            <Setter Property="Margin" Value="10" />
+        <Style Selector="ToggleButton">
+            <!-- <Setter Property="HorizontalAlignment" Value="Center"></Setter> -->
+            <!-- <Setter Property="VerticalAlignment" Value="Center"></Setter> -->
+            <Setter Property="Margin" Value="3 10 0 0" />
+            <Setter Property="Width" Value="{DynamicResource ItemHeight}" />
+            <Setter Property="Height" Value="{DynamicResource ItemHeight}"/>
+            <Setter Property="Padding" Value="0"/>
         </Style>
     </UserControl.Styles>
     <SplitView x:Name="SplitView" PanePlacement="Left" DisplayMode="CompactInline" IsPaneOpen="False" CompactPaneLength="58">
         <SplitView.Pane>
             <Grid RowDefinitions="Auto, Auto">
-                <ToggleButton Name="PaneOpenButton" Grid.Row="0" Margin="5" IsChecked="{Binding IsPaneOpen, ElementName=SplitView}"
-                              Height="48" Width="48">
+                <ToggleButton Name="PaneOpenButton" Grid.Row="0" IsChecked="{Binding IsPaneOpen, ElementName=SplitView}">
                     <ToggleButton.Styles>
                         <Styles>
                             <Styles.Resources>
@@ -51,7 +60,8 @@
                         <!-- <StaticResource ResourceKey="ThemeControlHighBrush"> -->
                         <!-- </StaticResource> -->
                     </ToggleButton.Resources>
-                    <Image Source="{StaticResource barsDrawingImage}" Height="22" />
+                    <PathIcon Data="{DynamicResource bars}" />
+                    <!-- <Image Source="{DynamicResource bars}" Height="22" /> -->
                 </ToggleButton>
                 <ItemsControl Grid.Row="1" Items="{Binding MenuItems}">
                     <ItemsControl.ItemsPanel>
@@ -65,7 +75,6 @@
                                 <Button.Resources>
                                     <SolidColorBrush x:Key="ButtonBackground">Transparent</SolidColorBrush>
                                     <Thickness x:Key="ButtonPadding">0 5 0 5</Thickness>
-                                    <x:Double x:Key="ItemHeight">50</x:Double>
                                 </Button.Resources>
                                 <Grid ColumnDefinitions="48, *">
                                     <s:Svg Grid.Column="0" Path="{Binding Icon}" Width="22" HorizontalAlignment="Center" VerticalAlignment="Center"
