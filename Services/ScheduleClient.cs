@@ -82,7 +82,15 @@ public class ScheduleClient : IScheduleClient {
     public async Task<Schedule> Update(int id, Schedule data, CancellationToken token = default) {
         try {
             var url = $"/api/schedules/{id}";
-            var rsp = await _client.PostAsJsonAsync(url, data, token);
+            var update = new CreateScheduleData {
+                Date = data.Date.ToString("yyyy-MM-dd"),
+                Recording = data.Recording.Id,
+                Shift1 = data.Shift1,
+                Shift2 = data.Shift2,
+                Shift3 = data.Shift3,
+                Shift4 = data.Shift4
+            };
+            var rsp = await _client.PutAsJsonAsync(url, update, token);
             if (!rsp.IsSuccessStatusCode) {
                 var msg = await rsp.Content.ReadFromJsonAsync<ServerErrorResponse>(cancellationToken: token);
                 throw new DatabaseException(msg?.Message);
@@ -95,9 +103,19 @@ public class ScheduleClient : IScheduleClient {
         }
     }
 
-    public async Task Delete(int id, CancellationToken? token = null) {
-        //throw new NotImplementedException();
-        return;
+    public async Task Delete(int id, CancellationToken token = default) {
+        try {
+            var url = $"/api/schedules/{id}";
+            var rsp = await _client.DeleteAsync(url, token);
+            if (!rsp.IsSuccessStatusCode) {
+                var msg = await rsp.Content.ReadFromJsonAsync<ServerErrorResponse>(cancellationToken: token);
+                throw new DatabaseException(msg?.Message);
+            }
+        }
+        catch (Exception e) {
+            _logger.LogError("Error deleting schedule: {@e}", e);
+            throw;
+        }
     }
 
     public async Task<IEnumerable<Schedule>> Find(ScheduleSearchParams sp, CancellationToken token = default) {

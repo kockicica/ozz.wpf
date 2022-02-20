@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
@@ -8,7 +7,10 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Avalonia.Collections;
 using Avalonia.Controls.Notifications;
+
+using DynamicData;
 
 using Microsoft.Extensions.Logging;
 
@@ -33,10 +35,12 @@ public class ScheduleManagerViewModel : ViewModelBase, IActivatableViewModel, IR
 
     private readonly IScheduleClient _scheduleClient;
     private          DateTime?       _fromDate;
+    private          bool            _isInEdit;
 
-    private ObservableCollection<Schedule> _schedules = new();
-    private AudioRecording?                _selectedRecording;
-    private DateTime?                      _toDate;
+    private DataGridCollectionView _schedules      = new(Array.Empty<Schedule>());
+    private SourceList<Schedule>   _scheduleSource = new();
+    private AudioRecording?        _selectedRecording;
+    private DateTime?              _toDate;
 
     public ScheduleManagerViewModel(ILogger<ScheduleManagerViewModel> logger, IScreen hostScreen, IScheduleClient scheduleClient,
                                     IAudioRecordingsService audioRecordingsService, AudioPlayerViewModel playerViewModel,
@@ -48,6 +52,7 @@ public class ScheduleManagerViewModel : ViewModelBase, IActivatableViewModel, IR
         _playerViewModel = playerViewModel;
         _notificationManager = notificationManager;
 
+
         PlaySample = ReactiveCommand.Create<AudioRecording>(recording => {
             var rec = recording;
         });
@@ -57,11 +62,19 @@ public class ScheduleManagerViewModel : ViewModelBase, IActivatableViewModel, IR
             return await _scheduleClient.Find(sp, token);
         });
 
+        HandleEnterKey = ReactiveCommand.Create(() => { });
 
         this.WhenActivated(d => {
             Search
-                .Catch(Observable.Return(new Schedule[] { }))
-                .Subscribe(schedules => { Schedules = new ObservableCollection<Schedule>(schedules); })
+                .Catch(Observable.Return(Array.Empty<Schedule>()))
+                .Subscribe(schedules => {
+                    var items = schedules.ToList();
+                    Schedules = new DataGridCollectionView(items);
+                    _scheduleSource.Edit(list => {
+                        list.Clear();
+                        list.AddRange(items);
+                    });
+                })
                 .DisposeWith(d);
 
             Search
@@ -71,11 +84,32 @@ public class ScheduleManagerViewModel : ViewModelBase, IActivatableViewModel, IR
                     _notificationManager.Show(new Notification("Greška", $"Greška prilikom pretrage:\n{exception.Message}", NotificationType.Error));
                 })
                 .DisposeWith(d);
+
+            this.WhenAnyValue(model => model.Schedules).Subscribe(view => {
+                    var a = view;
+                })
+                .DisposeWith(d);
+
+            //_scheduleSource.Connect().WhenAnyPropertyChanged().Subscribe(HandleChangedSchedule).DisposeWith(d);
+            _scheduleSource
+                .Connect()
+                .WhenAnyPropertyChanged()
+                .SelectMany(s => Observable.FromAsync(token => UpdateSchedule(s, token), RxApp.MainThreadScheduler))
+                .Catch<Schedule?, Exception>(exception => {
+                    _notificationManager.Show(new Notification("Greška", $"Greška prilikom promene:\n{exception.Message}", NotificationType.Error));
+                    return Observable.Return<Schedule?>(null);
+                })
+                .Repeat()
+                .Subscribe(schedule => {
+                    var saved = schedule;
+                })
+                .DisposeWith(d);
+
         });
 
     }
 
-    public ObservableCollection<Schedule> Schedules {
+    public DataGridCollectionView Schedules {
         get => _schedules;
         set => this.RaiseAndSetIfChanged(ref _schedules, value);
     }
@@ -102,6 +136,13 @@ public class ScheduleManagerViewModel : ViewModelBase, IActivatableViewModel, IR
 
     public ReactiveCommand<Unit, IEnumerable<Schedule>> Search { get; }
 
+    public ReactiveCommand<Unit, Unit> HandleEnterKey { get; }
+
+    public bool IsInEdit {
+        get => _isInEdit;
+        set => this.RaiseAndSetIfChanged(ref _isInEdit, value);
+    }
+
     #region IActivatableViewModel Members
 
     public ViewModelActivator Activator { get; } = new();
@@ -123,5 +164,16 @@ public class ScheduleManagerViewModel : ViewModelBase, IActivatableViewModel, IR
         };
         var res = await _audioRecordingsService.AudioRecordings(sp, token);
         return res.Data.AsEnumerable();
+    }
+
+    private void HandleChangedSchedule(Schedule? schedule) {
+        var a = schedule;
+    }
+
+    private async Task<Schedule?> UpdateSchedule(Schedule? schedule, CancellationToken token) {
+        if (schedule != null) {
+            return await _scheduleClient.Update(schedule.Id, schedule);
+        }
+        return schedule;
     }
 }

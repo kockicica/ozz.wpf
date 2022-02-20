@@ -154,7 +154,7 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
         new() { Caption = "Emitovanje zapisa", Command = ViewDisposition, Icon = "/Assets/circle-play.svg" },
         new() { Caption = "Upravljanje audio zapisima", Command = ViewAudioManager, Icon = "/Assets/album-collection.svg" },
         new() { Caption = "Novi audio zapis", Command = CreateNewAudio, Icon = "/Assets/file-audio.svg" },
-        new() { Caption = "Upravljanje rasporedom", Command = ViewScheduleManager, Icon = "/Assets/file-audio.svg" },
+        new() { Caption = "Upravljanje rasporedom", Command = ViewScheduleManager, Icon = "/Assets/calendar-day.svg" },
     };
 
     public AudioRecordingDetailsViewModel? CreateAudioRecordingViewModel

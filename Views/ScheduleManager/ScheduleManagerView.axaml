@@ -46,15 +46,23 @@
                 <TextBlock Text="{Binding FromDate}" />
                 <TextBlock Text="{Binding ToDate}" />
                 <TextBlock Text="{Binding SelectedRecording.Name}" />
+                <TextBlock Text="{Binding Schedules.PageIndex, StringFormat=PageIndex:{0}}" />
+                <TextBlock Text="{Binding Schedules.PageSize}" />
+                <TextBlock Text="{Binding Schedules.IsEditingItem, StringFormat=IsEditingItem:{0}}" />
+                <TextBlock Text="{Binding Schedules.NeedsRefresh, StringFormat=NeedsRefresh:{0}}" />
+                <TextBlock Text="{Binding IsInEdit, StringFormat=IsInEdit:{0}}" />
             </StackPanel>
         </StackPanel>
         <DataGrid Grid.Row="2" AutoGenerateColumns="False" Items="{Binding Schedules}" x:DataType="models:Schedule" CanUserReorderColumns="True"
-                  CanUserResizeColumns="True" CanUserSortColumns="True" GridLinesVisibility="All" AlternatingRowBackground="Yellow" >
+                  CanUserResizeColumns="True" CanUserSortColumns="True" GridLinesVisibility="All" x:Name="SchedulesGrid">
             <DataGrid.Styles>
                 <Style Selector="NumericUpDown">
                     <Setter Property="VerticalAlignment" Value="Center" />
                 </Style>
             </DataGrid.Styles>
+            <DataGrid.KeyBindings>
+                <KeyBinding Gesture="Enter" Command="{Binding HandleEnterKey}" />
+            </DataGrid.KeyBindings>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Naziv" Binding="{Binding Recording.Name}" Width="4*" IsReadOnly="True" />
                 <DataGridTextColumn Header="Kategorija" Binding="{Binding Recording.Category}" Width="*" IsReadOnly="True" />
@@ -63,18 +71,6 @@
                                     Binding="{Binding Recording.Duration, Converter={StaticResource DurationToStringConverter}, Mode=OneWay}"
                                     IsReadOnly="True"
                                     Width="*" />
-                <!-- <DataGridTemplateColumn Header="Smena 4"> -->
-                <!--     <DataGridTemplateColumn.CellTemplate> -->
-                <!--         <DataTemplate x:DataType="models:Schedule"> -->
-                <!--             <TextBlock Text="{Binding Shift4}"></TextBlock> -->
-                <!--         </DataTemplate> -->
-                <!--     </DataGridTemplateColumn.CellTemplate> -->
-                <!--     <DataGridTemplateColumn.CellEditingTemplate> -->
-                <!--         <DataTemplate x:DataType="models:Schedule"> -->
-                <!--             <NumericUpDown Value="{Binding Shift4}" FormatString="N0" Minimum="0" Maximum="100" /> -->
-                <!--         </DataTemplate> -->
-                <!--     </DataGridTemplateColumn.CellEditingTemplate> -->
-                <!-- </DataGridTemplateColumn> -->
                 <DataGridTextColumn Header="Smena 4" Binding="{Binding Shift4}" Width="*" />
                 <DataGridTextColumn Header="Smena 1" Binding="{Binding Shift1}" Width="*" />
                 <DataGridTextColumn Header="Smena 2" Binding="{Binding Shift2}" Width="*" />

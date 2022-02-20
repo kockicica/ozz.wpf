@@ -12,6 +12,6 @@ public interface IScheduleClient {
     Task<IEnumerable<Schedule>> CreateMultiple(IEnumerable<CreateScheduleData> data, CancellationToken token = default);
     Task<Schedule>              Get(int id, CancellationToken token = default);
     Task<Schedule>              Update(int id, Schedule data, CancellationToken token = default);
-    Task                        Delete(int id, CancellationToken? token = null);
+    Task                        Delete(int id, CancellationToken token = default);
     Task<IEnumerable<Schedule>> Find(ScheduleSearchParams sp, CancellationToken token = default);
 }
