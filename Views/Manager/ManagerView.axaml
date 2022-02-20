@@ -28,12 +28,12 @@
             <Setter Property="Opacity" Value="0" />
             <Setter Property="IsEnabled" Value="False" />
         </Style>
-        <Style Selector="PathIcon">
+        <Style Selector="PathIcon#ToggleIcon">
             <!-- <Setter Property="Width" Value="32" /> -->
             <!-- <Setter Property="HorizontalAlignment" Value="Center"></Setter> -->
             <!-- <Setter Property="Margin" Value="0 5 0 0" /> -->
         </Style>
-        <Style Selector="ToggleButton">
+        <Style Selector="ToggleButton#PaneOpenButton">
             <!-- <Setter Property="HorizontalAlignment" Value="Center"></Setter> -->
             <!-- <Setter Property="VerticalAlignment" Value="Center"></Setter> -->
             <Setter Property="Margin" Value="3 10 0 0" />
@@ -60,7 +60,7 @@
                         <!-- <StaticResource ResourceKey="ThemeControlHighBrush"> -->
                         <!-- </StaticResource> -->
                     </ToggleButton.Resources>
-                    <PathIcon Data="{DynamicResource bars}" />
+                    <PathIcon Data="{DynamicResource bars}" x:Name="ToggleIcon"/>
                     <!-- <Image Source="{DynamicResource bars}" Height="22" /> -->
                 </ToggleButton>
                 <ItemsControl Grid.Row="1" Items="{Binding MenuItems}">
