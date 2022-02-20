@@ -1,5 +1,7 @@
 using System.Collections.ObjectModel;
 
+using AutoMapper;
+
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 
@@ -55,7 +57,12 @@ public static class DesignData {
             { EqualizerViewModel = Equalizer, PlayerModel = AudioPlayerViewModel };
 
     public static AudioRecordingsManagerViewModel AudioRecordingsManagerViewModel
-        => new(NullLogger<AudioRecordingsManagerViewModel>.Instance, null, new DesignTimeClient(), new DesignTimeAudioRecordingsService(), null);
+        => new(NullLogger<AudioRecordingsManagerViewModel>.Instance,
+               null,
+               new DesignTimeClient(),
+               new DesignTimeAudioRecordingsService(),
+               null,
+               new Mapper(new MapperConfiguration(expression => { })));
 
     public static ManagerViewModel ManagerViewModel => new(NullLogger<ManagerViewModel>.Instance, null, new LocatorBasedResolver(), null, null);
 }

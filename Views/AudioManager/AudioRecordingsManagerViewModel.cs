@@ -1,10 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
+
+using AutoMapper;
+
+using Avalonia.Collections;
 
 using Microsoft.Extensions.Logging;
 
@@ -19,32 +23,29 @@ namespace ozz.wpf.ViewModels;
 
 public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableViewModel, ICaption {
 
-    private readonly IAudioRecordingsService _audioRecordingsService;
-    private readonly IClient                 _client;
-
+    private readonly IAudioRecordingsService                  _audioRecordingsService;
+    private readonly IClient                                  _client;
     private readonly ILogger<AudioRecordingsManagerViewModel> _logger;
+    private readonly IMapper                                  _mapper;
     private readonly IOzzInteractions                         _ozzInteractions;
 
     private ObservableAsPropertyHelper<IEnumerable<Category?>> _categories;
-
-    private bool                                 _isUpdate;
-    private ObservableCollection<AudioRecording> _results;
-
-    private AudioRecordingsSearchParams _searchParams = new();
-
-    private Category? _selectedCategory;
-
-    private AudioRecording? _selectedRecording;
+    private bool                                               _isUpdate;
+    private DataGridCollectionView                             _results      = new(Array.Empty<AudioRecording>());
+    private AudioRecordingsSearchParams                        _searchParams = new();
+    private Category?                                          _selectedCategory;
+    private AudioRecording?                                    _selectedRecording;
 
 
     public AudioRecordingsManagerViewModel(ILogger<AudioRecordingsManagerViewModel> logger, IScreen screen, IClient client,
-                                           IAudioRecordingsService audioRecordingsService, IOzzInteractions ozzInteractions) {
+                                           IAudioRecordingsService audioRecordingsService, IOzzInteractions ozzInteractions, IMapper mapper) {
 
         _logger = logger;
         HostScreen = screen;
         _client = client;
         _audioRecordingsService = audioRecordingsService;
         _ozzInteractions = ozzInteractions;
+        _mapper = mapper;
 
         Search = ReactiveCommand.CreateFromTask<AudioRecordingsSearchParams, PagedResults<AudioRecording>>(
             (sp, token) => _audioRecordingsService.AudioRecordings(sp, token));
@@ -71,12 +72,19 @@ public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewMo
 
             this.WhenAnyValue(model => model.SelectedCategory).Subscribe(category => { SearchParams.CategoryId = category?.Id; }).DisposeWith(d);
 
-            Search.Subscribe(results => Results = new ObservableCollection<AudioRecording>(results.Data)).DisposeWith(d);
+            Search.Subscribe(results => { Results = new DataGridCollectionView(results.Data); }).DisposeWith(d);
 
             EditRecording
                 .Where(recording => recording != null)
-                .SelectMany(_ => Search.Execute(SearchParams))
-                .Subscribe()
+                //.SelectMany(_ => Search.Execute(SearchParams))
+                .Subscribe(recording => {
+                    //Results.SourceCollection.AsQueryable().SingleOrDefault<AudioRecording>(r => r.Id == recording!.Id);
+                    if (Results.SourceCollection.Cast<AudioRecording>().SingleOrDefault(rec => rec.Id == recording.Id) is { } fnd) {
+                        //Results.EditItem(fnd);
+                        _mapper.Map(recording, fnd);
+                        //Results.CommitEdit();
+                    }
+                })
                 .DisposeWith(d);
 
             DeleteRecording
@@ -99,7 +107,7 @@ public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewMo
         }
     }
 
-    public ObservableCollection<AudioRecording> Results {
+    public DataGridCollectionView Results {
         get => _results;
         set => this.RaiseAndSetIfChanged(ref _results, value);
     }
