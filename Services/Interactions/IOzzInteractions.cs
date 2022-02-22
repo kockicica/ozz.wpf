@@ -13,4 +13,5 @@ public interface IOzzInteractions {
     Interaction<AudioRecording, AudioRecording?>            EditAudioRecording   { get; }
     Interaction<Unit, AudioRecording?>                      CreateAudioRecording { get; }
     Interaction<ConfirmMessageConfig, ConfirmMessageResult> Confirm              { get; }
+    Interaction<AudioRecording, Unit>                       ShowPlayer           { get; }
 }

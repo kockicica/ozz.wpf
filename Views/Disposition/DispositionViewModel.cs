@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
@@ -10,32 +9,22 @@ using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
-
-using JetBrains.Annotations;
-
 using Microsoft.Extensions.Logging;
 
 using ozz.wpf.Dialog;
 using ozz.wpf.Models;
 using ozz.wpf.Services;
-using ozz.wpf.Views;
-using ozz.wpf.Views.Dialogs;
-using ozz.wpf.Views.Equalizer;
-using ozz.wpf.Views.Player;
+using ozz.wpf.Services.Interactions;
 
 using ReactiveUI;
 
 namespace ozz.wpf.ViewModels;
 
 public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRoutableViewModel, ICaption {
-    private readonly IAudioRecordingsService _audioRecordingsService;
 
-    private readonly IClient                                                 _client;
-    private readonly IEqualizerPresetFactory                                 _equalizerPresetFactory;
+    private readonly IAudioRecordingsService                                 _audioRecordingsService;
     private readonly ILogger<DialogWindowViewModel>                          _logger;
-    private readonly IResolver                                               _resolver;
+    private readonly IOzzInteractions                                        _ozzInteractions;
     private          ObservableAsPropertyHelper<IEnumerable<Category>>       _categories;
     private          ObservableAsPropertyHelper<IEnumerable<AudioRecording>> _recordings;
     private          bool?                                                   _searchActive = true;
@@ -46,17 +35,13 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
     private          Category?                                               _selectedCategory;
     private          AudioRecording?                                         _selectedRecording;
 
-    public DispositionViewModel(IClient client, ILogger<DialogWindowViewModel> logger, IEqualizerPresetFactory equalizerPresetFactory,
-                                IResolver resolver, IAudioRecordingsService audioRecordingsService, IScreen screen) {
+    public DispositionViewModel(IClient client, ILogger<DialogWindowViewModel> logger, IAudioRecordingsService audioRecordingsService, IScreen screen,
+                                IOzzInteractions ozzInteractions) {
 
-        _client = client;
         _logger = logger;
-        _equalizerPresetFactory = equalizerPresetFactory;
-        _resolver = resolver;
         _audioRecordingsService = audioRecordingsService;
         HostScreen = screen;
-
-        ShowPlayer = new Interaction<AudioRecording, Unit>();
+        _ozzInteractions = ozzInteractions;
 
         ProcessCategory = ReactiveCommand.Create<Category>(cat => SelectedCategory = cat, Observable.Return(true));
 
@@ -100,8 +85,6 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
                           .Select(x => x.Data)
                           .ToProperty(this, x => x.Recordings).DisposeWith(d);
 
-            ShowPlayer.RegisterHandler(DoShowDialogAsync).DisposeWith(d);
-
             // select first item on any recordings list update
             this.WhenAnyValue(model => model.Recordings)
                 .Where(recordings => recordings != null)
@@ -125,7 +108,6 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
         set => this.RaiseAndSetIfChanged(ref _selectedCategory, value);
     }
 
-    [NotNull]
     public string SearchTerm {
         get => _searchTerm;
         set => this.RaiseAndSetIfChanged(ref _searchTerm, value);
@@ -139,9 +121,6 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
     public ReactiveCommand<Category, Unit> ProcessCategory { get; }
 
     public ReactiveCommand<AudioRecording, Unit> ViewPlayerCommand { get; set; }
-
-    [NotNull]
-    public Interaction<AudioRecording, Unit> ShowPlayer { get; }
 
     public ReactiveCommand<string?, Unit> ClearDate { get; set; }
 
@@ -180,7 +159,7 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
     #endregion
 
     private async void ExecuteShowPlayerInteraction(AudioRecording recording) {
-        await ShowPlayer.Handle(recording);
+        await _ozzInteractions.ShowPlayer.Handle(recording);
     }
 
     private Task<PagedResults<AudioRecording>> ExecuteAsyncSearch(CancellationToken token) {
@@ -193,38 +172,5 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
             ToDate = SearchTo?.Date,
         };
         return _audioRecordingsService.AudioRecordings(sp, token);
-    }
-
-    private async Task DoShowDialogAsync(InteractionContext<AudioRecording, Unit> interactionContext) {
-        if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
-            if (desktop.MainWindow is MainWindow wnd) {
-
-                var vm = _resolver.GetService<ModalAudioPlayerViewModel>();
-                var pl = _resolver.GetService<AudioPlayerViewModel>();
-
-                pl.Track = interactionContext.Input;
-
-                vm.PlayerModel = pl;
-                vm.AutoPlay = true;
-                vm.EqualizerViewModel = new EqualizerViewModel {
-                    //Equalizer = (await _equalizerPresetFactory.GetPresets()).FirstOrDefault()
-                };
-                vm.Equalizers = new ObservableCollection<Equalizer>(await _equalizerPresetFactory.GetPresets());
-                vm.EqualizerViewModel.Equalizer = await _equalizerPresetFactory.GetDefaultPreset();
-
-                var modal = new ModalAudioPlayerWindow {
-                    DataContext = vm
-                };
-                //wnd.ShowOverlay();
-                await modal.ShowDialog(wnd);
-                //await Task.Delay(1000);
-                //wnd.HideOverlay();
-
-            }
-
-        }
-
-        interactionContext.SetOutput(Unit.Default);
-
     }
 }

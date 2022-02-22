@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Reactive;
+using System.Threading.Tasks;
 
 using Avalonia.Controls;
 
@@ -9,21 +11,26 @@ using ozz.wpf.Models;
 using ozz.wpf.Services.Interactions.Confirm;
 using ozz.wpf.Views.AudioManager;
 using ozz.wpf.Views.Dialogs;
+using ozz.wpf.Views.Equalizer;
+using ozz.wpf.Views.Player;
 
 using ReactiveUI;
 
 namespace ozz.wpf.Services.Interactions;
 
 public class OzzInteractions : IOzzInteractions {
+    private readonly IEqualizerPresetFactory _equalizerPresetFactory;
 
     private readonly ILogger<OzzInteractions> _logger;
     private readonly IMainWindowProvider      _mainWindowProvider;
     private readonly IResolver                _resolver;
 
-    public OzzInteractions(ILogger<OzzInteractions> logger, IMainWindowProvider mainWindowProvider, IResolver resolver) {
+    public OzzInteractions(ILogger<OzzInteractions> logger, IMainWindowProvider mainWindowProvider, IResolver resolver,
+                           IEqualizerPresetFactory equalizerPresetFactory) {
         _logger = logger;
         _mainWindowProvider = mainWindowProvider;
         _resolver = resolver;
+        _equalizerPresetFactory = equalizerPresetFactory;
 
         RegisterHandlers();
 
@@ -36,6 +43,7 @@ public class OzzInteractions : IOzzInteractions {
     public Interaction<AudioRecording, AudioRecording?>            EditAudioRecording   { get; } = new();
     public Interaction<Unit, AudioRecording?>                      CreateAudioRecording { get; } = new();
     public Interaction<ConfirmMessageConfig, ConfirmMessageResult> Confirm              { get; } = new();
+    public Interaction<AudioRecording, Unit>                       ShowPlayer           { get; } = new();
 
     #endregion
 
@@ -103,6 +111,34 @@ public class OzzInteractions : IOzzInteractions {
 
             context.SetOutput(res.Result);
         });
+
+        ShowPlayer.RegisterHandler(HandleShowPlayer);
+
+    }
+
+    private async Task HandleShowPlayer(InteractionContext<AudioRecording, Unit> context) {
+
+        var rec = context.Input;
+
+        var vm = _resolver.GetService<ModalAudioPlayerViewModel>();
+        var pl = _resolver.GetService<AudioPlayerViewModel>();
+
+        pl.Track = rec;
+
+        vm.PlayerModel = pl;
+        vm.AutoPlay = true;
+        vm.EqualizerViewModel = new EqualizerViewModel {
+            //Equalizer = (await _equalizerPresetFactory.GetPresets()).FirstOrDefault()
+        };
+        vm.Equalizers = new ObservableCollection<Equalizer>(await _equalizerPresetFactory.GetPresets());
+        vm.EqualizerViewModel.Equalizer = await _equalizerPresetFactory.GetDefaultPreset();
+
+        var modal = new ModalAudioPlayerWindow {
+            DataContext = vm
+        };
+        await modal.ShowDialog(_mainWindowProvider.GetMainWindow());
+
+        context.SetOutput(Unit.Default);
 
     }
 }

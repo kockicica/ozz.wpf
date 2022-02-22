@@ -21,9 +21,8 @@ public static class DesignData {
     public static DispositionViewModel DispositionViewModel
         => new(new DesignTimeClient(),
                NullLogger<DialogWindowViewModel>.Instance,
-               new VLCEqualizePresetFactory(NullLogger<VLCEqualizePresetFactory>.Instance),
-               new LocatorBasedResolver(),
                new DesignTimeAudioRecordingsService(),
+               null,
                null);
 
     public static AudioPlayerViewModel AudioPlayerViewModel
