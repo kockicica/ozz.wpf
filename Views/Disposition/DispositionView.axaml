@@ -30,17 +30,20 @@
                         <TextBox Text="{Binding SearchTerm}" VerticalAlignment="Center" Watermark="Naziv ili deo naziva" Classes="clearButton" />
                         <controls:CustomExpander Header="Napredna pretraga" IsTabStop="False">
                             <StackPanel Orientation="Vertical" Spacing="5">
-                                <CheckBox IsThreeState="True" IsChecked="{Binding SearchActive}">Aktivni?</CheckBox>
                                 <StackPanel Orientation="Horizontal" Spacing="5">
                                     <TextBlock Text="Od:" VerticalAlignment="Center" />
-                                    <DatePicker x:Name="FromPicker" SelectedDate="{Binding SearchFrom}" VerticalAlignment="Center" />
-                                    <Button Content="Clear" VerticalAlignment="Center" Command="{Binding ClearDate}" CommandParameter="searchFrom" />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <!-- <DatePicker x:Name="FromPicker" SelectedDate="{Binding SearchFrom}" VerticalAlignment="Center" /> -->
+                                    <CalendarDatePicker x:Name="FromPicker" SelectedDate="{Binding SearchFrom, Mode=TwoWay}"/>
                                     <TextBlock Text="Do:" VerticalAlignment="Center" />
-                                    <DatePicker x:Name="ToPicker" SelectedDate="{Binding SearchTo}" VerticalAlignment="Center" />
-                                    <Button Content="Clear" VerticalAlignment="Center" Command="{Binding ClearDate}" CommandParameter="searchTo" />
+                                    <CalendarDatePicker x:Name="ToPicker" SelectedDate="{Binding SearchTo, Mode=TwoWay}"/>
+                                    <CheckBox IsThreeState="True" IsChecked="{Binding SearchActive}">Aktivni?</CheckBox>
+                                    <!-- <Button Content="Clear" VerticalAlignment="Center" Command="{Binding ClearDate}" CommandParameter="searchFrom" /> -->
                                 </StackPanel>
+                                <!-- <StackPanel Orientation="Horizontal" Spacing="5"> -->
+                                <!--     <TextBlock Text="Do:" VerticalAlignment="Center" /> -->
+                                <!--     <DatePicker x:Name="ToPicker" SelectedDate="{Binding SearchTo}" VerticalAlignment="Center" /> -->
+                                <!--     <Button Content="Clear" VerticalAlignment="Center" Command="{Binding ClearDate}" CommandParameter="searchTo" /> -->
+                                <!-- </StackPanel> -->
                             </StackPanel>
                         </controls:CustomExpander>
                     </StackPanel>

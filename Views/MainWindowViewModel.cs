@@ -30,13 +30,16 @@ namespace ozz.wpf.Views {
                     .Subscribe(user => {
                         if (user != null) {
                             switch (user.Level) {
-                                case 1:
-                                    Router.Navigate.Execute(Disposition);
+                                case 1: {
+                                    var vm = Locator.Current.GetService<DispositionViewModel>();
+                                    Router.Navigate.Execute(vm);
                                     break;
-                                default:
+                                }
+                                default: {
                                     var vm = Locator.Current.GetService<ManagerViewModel>();
                                     Router.Navigate.Execute(vm);
                                     break;
+                                }
                             }
                         }
                         else {
@@ -49,7 +52,7 @@ namespace ozz.wpf.Views {
 
         }
 
-        public DispositionViewModel Disposition { get; set; }
+        //public DispositionViewModel Disposition { get; set; }
 
         public LoginViewModel LoginViewModel { get; set; }
 

@@ -25,13 +25,13 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
     private readonly IAudioRecordingsService                                 _audioRecordingsService;
     private readonly ILogger<DialogWindowViewModel>                          _logger;
     private readonly IOzzInteractions                                        _ozzInteractions;
-    private          ObservableAsPropertyHelper<IEnumerable<Category>>       _categories;
+    private          ObservableAsPropertyHelper<IEnumerable<Category>?>      _categories;
     private          ObservableAsPropertyHelper<IEnumerable<AudioRecording>> _recordings;
     private          bool?                                                   _searchActive = true;
-    private          DateTimeOffset?                                         _searchFrom;
+    private          DateTime?                                               _searchFrom;
     private          Subject<bool>                                           _searchSubject = new();
     private          string                                                  _searchTerm;
-    private          DateTimeOffset?                                         _searchTo;
+    private          DateTime?                                               _searchTo;
     private          Category?                                               _selectedCategory;
     private          AudioRecording?                                         _selectedRecording;
 
@@ -73,9 +73,9 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
                               this.WhenAnyValue(model => model.SelectedCategory)
                                   .Throttle(TimeSpan.FromMilliseconds(100))
                                   .Where(x => x != null)
-                                  .Select(_ => true),
-                              this.WhenAnyValue(x => x.SearchTerm).Throttle(TimeSpan.FromMilliseconds(500)).Select(_ => true),
-                              this.WhenAnyValue(x => x.SearchActive, x => x.SearchFrom, x => x.SearchTo).Select(_ => true)
+                                  .Select(x => true),
+                              this.WhenAnyValue(x => x.SearchTerm).Throttle(TimeSpan.FromMilliseconds(500)).Skip(1).Select(_ => true),
+                              this.WhenAnyValue(x => x.SearchActive, x => x.SearchFrom, x => x.SearchTo).Skip(1).Select(_ => true)
                           )
                           .SelectMany(
                               Observable
@@ -95,8 +95,8 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
     }
 
 
-    public IEnumerable<Category> Categories {
-        get => _categories?.Value ?? new Category[] { new() { Id = 1, Name = "test", Order = 1 } };
+    public IEnumerable<Category>? Categories {
+        get => _categories?.Value;
     }
 
     public IEnumerable<AudioRecording> Recordings {
@@ -129,12 +129,12 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
         set => this.RaiseAndSetIfChanged(ref _searchActive, value);
     }
 
-    public DateTimeOffset? SearchFrom {
+    public DateTime? SearchFrom {
         get => _searchFrom;
         set => this.RaiseAndSetIfChanged(ref _searchFrom, value);
     }
 
-    public DateTimeOffset? SearchTo {
+    public DateTime? SearchTo {
         get => _searchTo;
         set => this.RaiseAndSetIfChanged(ref _searchTo, value);
     }
@@ -165,7 +165,7 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
     private Task<PagedResults<AudioRecording>> ExecuteAsyncSearch(CancellationToken token) {
 
         var sp = new AudioRecordingsSearchParams {
-            CategoryId = SelectedCategory.Id,
+            CategoryId = SelectedCategory?.Id,
             Name = SearchTerm,
             Active = SearchActive,
             FromDate = SearchFrom?.Date,

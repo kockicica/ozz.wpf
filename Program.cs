@@ -16,6 +16,7 @@ using ozz.wpf.ViewModels;
 using ozz.wpf.Views;
 using ozz.wpf.Views.AudioManager;
 using ozz.wpf.Views.Dialogs;
+using ozz.wpf.Views.Disposition;
 using ozz.wpf.Views.Manager;
 using ozz.wpf.Views.Player;
 using ozz.wpf.Views.ScheduleManager;
@@ -28,11 +29,6 @@ using Serilog.Events;
 using Splat;
 using Splat.Microsoft.Extensions.DependencyInjection;
 using Splat.Microsoft.Extensions.Logging;
-
-using AudioRecordingDetailsView = ozz.wpf.Views.AudioManager.AudioRecordingDetailsView;
-using AudioRecordingsManagerView = ozz.wpf.Views.AudioManager.AudioRecordingsManagerView;
-using DispositionView = ozz.wpf.Views.Disposition.DispositionView;
-using ManagerView = ozz.wpf.Views.Manager.ManagerView;
 
 namespace ozz.wpf {
 
@@ -49,8 +45,8 @@ namespace ozz.wpf {
                          .MinimumLevel.Override("Microsoft", LogEventLevel.Debug)
                          .WriteTo.Console()
                          .WriteTo.File("log-.log", rollingInterval: RollingInterval.Day)
-                         .CreateBootstrapLogger();
-            //.CreateLogger();
+                         //.CreateBootstrapLogger();
+                         .CreateLogger();
 
 
             AppDomain.CurrentDomain.UnhandledException += (sender, eventArgs) => { Log.Logger.Error("exc: {@e}", eventArgs.ExceptionObject); };
