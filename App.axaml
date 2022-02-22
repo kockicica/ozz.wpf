@@ -22,5 +22,6 @@
         <StyleInclude Source="avares://ozz.wpf/Styles/CustomCalendarDatePicker.axaml" />
         <StyleInclude Source="avares://ozz.wpf/Controls/CloseButton.axaml" />
         <StyleInclude Source="avares://ozz.wpf/Controls/TablePaging.axaml" />
+        <StyleInclude Source="avares://ozz.wpf/Controls/CustomExpander.axaml" />
     </Application.Styles>
 </Application>
