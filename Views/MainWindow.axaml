@@ -24,8 +24,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style Selector="Window">
-            <Setter Property="Background" Value="{DynamicResource MainWindowChromeBackground}" />
+        <Style Selector="Window#MainWnd">
+            <!-- <Setter Property="Background" Value="{DynamicResource MainWindowChromeBackground}" /> -->
         </Style>
         <Style Selector="views|LoginView">
             <!-- <Setter Property="Opacity" Value="1"></Setter> -->

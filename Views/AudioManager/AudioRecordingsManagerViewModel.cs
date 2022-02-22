@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
@@ -30,11 +31,15 @@ public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewMo
     private readonly IOzzInteractions                         _ozzInteractions;
 
     private ObservableAsPropertyHelper<IEnumerable<Category?>> _categories;
+    private int                                                _currentPage;
     private bool                                               _isUpdate;
+    private PagedResults<AudioRecording>?                      _pagedResults;
+    private int                                                _pageSize     = 20;
     private DataGridCollectionView                             _results      = new(Array.Empty<AudioRecording>());
     private AudioRecordingsSearchParams                        _searchParams = new();
     private Category?                                          _selectedCategory;
     private AudioRecording?                                    _selectedRecording;
+    private int                                                _totalRecords;
 
 
     public AudioRecordingsManagerViewModel(ILogger<AudioRecordingsManagerViewModel> logger, IScreen screen, IClient client,
@@ -47,8 +52,12 @@ public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewMo
         _ozzInteractions = ozzInteractions;
         _mapper = mapper;
 
-        Search = ReactiveCommand.CreateFromTask<AudioRecordingsSearchParams, PagedResults<AudioRecording>>(
-            (sp, token) => _audioRecordingsService.AudioRecordings(sp, token));
+        Search = ReactiveCommand.CreateFromTask<Unit, PagedResults<AudioRecording>>(
+            (unit, token) => {
+                SearchParams.Count = PageSize;
+                SearchParams.Skip = (CurrentPage - 1) * PageSize;
+                return _audioRecordingsService.AudioRecordings(SearchParams, token);
+            });
 
         async Task<AudioRecording?> HandleEditRecording(AudioRecording recording) {
             var res = await _ozzInteractions.EditAudioRecording.Handle(recording);
@@ -72,7 +81,14 @@ public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewMo
 
             this.WhenAnyValue(model => model.SelectedCategory).Subscribe(category => { SearchParams.CategoryId = category?.Id; }).DisposeWith(d);
 
-            Search.Subscribe(results => { Results = new DataGridCollectionView(results.Data); }).DisposeWith(d);
+            Search
+                .Subscribe(results => {
+                    _pagedResults = results;
+                    Results = new DataGridCollectionView(_pagedResults.Data);
+                    //TotalRecords = Results.Count;
+                    this.RaisePropertyChanged(nameof(TotalRecords));
+                })
+                .DisposeWith(d);
 
             EditRecording
                 .Where(recording => recording != null)
@@ -90,9 +106,16 @@ public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewMo
             DeleteRecording
                 .Where(x => x == ConfirmMessageResult.Yes)
                 .SelectMany(_ => _audioRecordingsService.Delete(SelectedRecording!.Id).ToObservable())
-                .SelectMany(_ => Search.Execute(SearchParams))
+                .SelectMany(_ => Search.Execute())
                 .Subscribe()
                 .DisposeWith(d);
+
+            this.WhenAnyValue(x => x.CurrentPage, x => x.PageSize)
+                .Skip(1)
+                .SelectMany(_ => Search.Execute())
+                .Subscribe()
+                .DisposeWith(d);
+
         });
     }
 
@@ -112,7 +135,7 @@ public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewMo
         set => this.RaiseAndSetIfChanged(ref _results, value);
     }
 
-    public ReactiveCommand<AudioRecordingsSearchParams, PagedResults<AudioRecording>> Search { get; set; }
+    public ReactiveCommand<Unit, PagedResults<AudioRecording>> Search { get; set; }
 
     public ReactiveCommand<AudioRecording, AudioRecording?> EditRecording { get; set; }
 
@@ -132,6 +155,23 @@ public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewMo
         get => _isUpdate;
         set => this.RaiseAndSetIfChanged(ref _isUpdate, value);
     }
+
+    public int CurrentPage {
+        get => _currentPage;
+        set => this.RaiseAndSetIfChanged(ref _currentPage, value);
+    }
+
+    public int PageSize {
+        get => _pageSize;
+        set => this.RaiseAndSetIfChanged(ref _pageSize, value);
+    }
+
+    // public int TotalRecords {
+    //     get => _totalRecords;
+    //     set => this.RaiseAndSetIfChanged(ref _totalRecords, value);
+    // }
+
+    public int TotalRecords => _pagedResults?.Count ?? 0;
 
     #region IActivatableViewModel Members
 
