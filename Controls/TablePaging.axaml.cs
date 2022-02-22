@@ -13,11 +13,11 @@ namespace ozz.wpf.Controls;
 
 public class TablePaging : TemplatedControl {
 
-    public static readonly DirectProperty<TablePaging, int> CountProperty =
-        AvaloniaProperty.RegisterDirect<TablePaging, int>(nameof(Count), paging => paging.Count, (paging, i) => paging.Count = i);
+    public static readonly StyledProperty<int> CountProperty =
+        AvaloniaProperty.Register<TablePaging, int>(nameof(Count), 0, defaultBindingMode: BindingMode.OneWay);
 
     public static readonly StyledProperty<int> CurrentPageProperty =
-        AvaloniaProperty.Register<TablePaging, int>(nameof(CurrentPage), 1, true, defaultBindingMode: BindingMode.OneWayToSource);
+        AvaloniaProperty.Register<TablePaging, int>(nameof(CurrentPage), 1, true, defaultBindingMode: BindingMode.TwoWay);
 
     public static readonly DirectProperty<TablePaging, int> TotalPagesProperty =
         AvaloniaProperty.RegisterDirect<TablePaging, int>(nameof(TotalPages), paging => paging.TotalPages, (paging, i) => paging.TotalPages = i);
@@ -33,17 +33,10 @@ public class TablePaging : TemplatedControl {
     public static readonly RoutedEvent<RoutedEventArgs> CurrentPageChangedEvent =
         RoutedEvent.Register<TablePaging, RoutedEventArgs>(nameof(CurrentPageChanged), RoutingStrategies.Bubble);
 
-    private int _count;
-
-    private int _currentPage;
-
-    private IDisposable _disposable;
 
     private Button? _firstPage;
     private Button? _lastPage;
     private Button? _nextPage;
-
-    private int _pageSize;
 
     private IEnumerable _pageSizes;
     private Button?     _prevPage;
@@ -65,13 +58,13 @@ public class TablePaging : TemplatedControl {
         PageSizes = ps;
         //PageSize = 20;
         //CurrentPage = 1;
-        TotalPages = 0;
+        //TotalPages = 0;
 
     }
 
     public int Count {
-        get => _count;
-        set => SetAndRaise(CountProperty, ref _count, value);
+        get => GetValue(CountProperty);
+        set => SetValue(CountProperty, value);
     }
 
     public int CurrentPage {
@@ -175,11 +168,18 @@ public class TablePaging : TemplatedControl {
     private void HandlePropertyChanged(AvaloniaPropertyChangedEventArgs args) {
         var a = args;
         TotalPages = GetTotalPages();
-        SetupButtons();
         if (args.Property.Name == nameof(CurrentPageProperty)) {
             var eventArgs = new RoutedEventArgs(CurrentPageChangedEvent);
             RaiseEvent(eventArgs);
         }
+        if (args.Property.Name == nameof(CountProperty)) {
+            CurrentPage = 1;
+        }
+        if (args.Property.Name == nameof(PageSizeProperty)) {
+            //CurrentPage = 1;
+            RaisePropertyChanged(CurrentPageProperty, Optional<int>.Empty, 1);
+        }
+        SetupButtons();
     }
 
     private int GetTotalPages() {

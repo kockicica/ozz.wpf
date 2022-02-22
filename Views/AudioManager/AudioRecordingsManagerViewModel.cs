@@ -31,7 +31,7 @@ public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewMo
     private readonly IOzzInteractions                         _ozzInteractions;
 
     private ObservableAsPropertyHelper<IEnumerable<Category?>> _categories;
-    private int                                                _currentPage;
+    private int?                                               _currentPage;
     private bool                                               _isUpdate;
     private PagedResults<AudioRecording>?                      _pagedResults;
     private int                                                _pageSize     = 20;
@@ -85,20 +85,15 @@ public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewMo
                 .Subscribe(results => {
                     _pagedResults = results;
                     Results = new DataGridCollectionView(_pagedResults.Data);
-                    //TotalRecords = Results.Count;
                     this.RaisePropertyChanged(nameof(TotalRecords));
                 })
                 .DisposeWith(d);
 
             EditRecording
                 .Where(recording => recording != null)
-                //.SelectMany(_ => Search.Execute(SearchParams))
                 .Subscribe(recording => {
-                    //Results.SourceCollection.AsQueryable().SingleOrDefault<AudioRecording>(r => r.Id == recording!.Id);
                     if (Results.SourceCollection.Cast<AudioRecording>().SingleOrDefault(rec => rec.Id == recording.Id) is { } fnd) {
-                        //Results.EditItem(fnd);
                         _mapper.Map(recording, fnd);
-                        //Results.CommitEdit();
                     }
                 })
                 .DisposeWith(d);
@@ -110,7 +105,12 @@ public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewMo
                 .Subscribe()
                 .DisposeWith(d);
 
-            this.WhenAnyValue(x => x.CurrentPage, x => x.PageSize)
+            this.WhenAnyValue(x => x.PageSize)
+                .Skip(1)
+                .Subscribe(i => CurrentPage = 1)
+                .DisposeWith(d);
+
+            this.WhenAnyValue(x => x.CurrentPage)
                 .Skip(1)
                 .SelectMany(_ => Search.Execute())
                 .Subscribe()
@@ -156,7 +156,7 @@ public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewMo
         set => this.RaiseAndSetIfChanged(ref _isUpdate, value);
     }
 
-    public int CurrentPage {
+    public int? CurrentPage {
         get => _currentPage;
         set => this.RaiseAndSetIfChanged(ref _currentPage, value);
     }
