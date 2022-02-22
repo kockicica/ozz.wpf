@@ -170,6 +170,9 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
             Active = SearchActive,
             FromDate = SearchFrom?.Date,
             ToDate = SearchTo?.Date,
+            Skip = 0,
+            Count = 1000,
+            Sort = "-Date"
         };
         return _audioRecordingsService.AudioRecordings(sp, token);
     }
