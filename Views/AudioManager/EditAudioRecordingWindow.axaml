@@ -6,9 +6,11 @@
         xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
         xmlns:behaviors="clr-namespace:ozz.wpf.Behaviors"
         xmlns:audioManager="clr-namespace:ozz.wpf.Views.AudioManager"
+        xmlns:controls="clr-namespace:ozz.wpf.Controls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         WindowStartupLocation="CenterOwner" MinWidth="800" ShowInTaskbar="False" SizeToContent="WidthAndHeight"
         x:Class="ozz.wpf.Views.AudioManager.EditAudioRecordingWindow"
+        Classes="ModalWindow"
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaTitleBarHeightHint="32"
@@ -43,6 +45,9 @@
         </Panel>
         <Panel VerticalAlignment="Top" HorizontalAlignment="Left" Height="32">
             <TextBlock x:Name="WindowCaption" Text="{Binding #EditAudioRecording.Title}" VerticalAlignment="Center" />
+        </Panel>
+        <Panel VerticalAlignment="Top" HorizontalAlignment="Right" Height="32">
+            <controls:CloseButton Command="{Binding CloseCommand}" Height="32" Width="40" VerticalAlignment="Top" />
         </Panel>
     </Panel>
 </Window>

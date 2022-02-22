@@ -13,6 +13,9 @@
     <Style Selector="Window#MainWnd">
         <Setter Property="Background" Value="{DynamicResource MainWindowChromeBackground}" />
     </Style>
+    <Style Selector="Window.ModalWindow">
+        <Setter Property="Background" Value="{DynamicResource MainWindowChromeBackground}" />
+    </Style>
     <Style Selector="TextBlock#WindowCaption">
         <Setter Property="FontWeight" Value="Medium" />
         <Setter Property="Margin" Value="10 0 10 0" />

@@ -18,7 +18,7 @@
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaTitleBarHeightHint="32"
-        x:Name="ModalAudioPlayer"
+        x:Name="ModalAudioPlayer" Classes="ModalWindow"
         Title="Preslušavanje snimka">
     <i:Interaction.Behaviors>
         <behaviors:OnKeyDownTappedTriggerBehavior Key="Escape" TargetControl="{Binding #ModalAudioPlayer}">
