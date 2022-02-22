@@ -86,6 +86,7 @@ public class OzzInteractions : IOzzInteractions {
         CreateAudioRecording.RegisterHandler(async context => {
             var vm = _resolver.GetService<EditAudioRecordingViewModel>();
             vm.AudioRecordingDetailsViewModel = _resolver.GetService<AudioRecordingDetailsViewModel>();
+            vm.AudioRecordingDetailsViewModel.Active = true;
             var modal = new EditAudioRecordingWindow {
                 DataContext = vm
             };
