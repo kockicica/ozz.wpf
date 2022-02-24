@@ -162,7 +162,7 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
         new() { Caption = "Upravljanje audio zapisima", Command = ViewAudioManager, Icon = "/Assets/album-collection.svg" },
         new() { Caption = "Novi audio zapis", Command = CreateNewAudio, Icon = "/Assets/file-audio.svg" },
         new() { Caption = "Upravljanje rasporedom", Command = ViewScheduleManager, Icon = "/Assets/calendar-day.svg" },
-        new() { Caption = "Novi raspored", Command = CreateSchedulePage, Icon = "/Assets/calendar-day.svg" },
+        new() { Caption = "Novi raspored", Command = CreateSchedulePage, Icon = "/Assets/calendar-circle-plus.svg" },
     };
 
     public AudioRecordingDetailsViewModel? CreateAudioRecordingViewModel

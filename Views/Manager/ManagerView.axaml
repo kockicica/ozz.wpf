@@ -81,6 +81,9 @@
                                            Margin="5 0 0 0" />
                                     <TextBlock Grid.Column="1" Text="{Binding Caption}" VerticalAlignment="Center" Margin="8 0 0 0" />
                                 </Grid>
+                                <ToolTip.Tip>
+                                    <TextBlock Text="{Binding Caption}" />
+                                </ToolTip.Tip>
                             </Button>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
