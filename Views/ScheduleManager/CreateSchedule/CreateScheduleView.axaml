@@ -1,0 +1,66 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:iac="clr-namespace:Avalonia.Xaml.Interactions.Custom;assembly=Avalonia.Xaml.Interactions"
+             xmlns:reactiveUi="http://reactiveui.net"
+             xmlns:models="clr-namespace:ozz.wpf.Models"
+             xmlns:player="clr-namespace:ozz.wpf.Views.Player"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Name="CreateSchedule"
+             x:Class="ozz.wpf.Views.ScheduleManager.CreateSchedule.CreateScheduleView">
+    <UserControl.Styles>
+        <Style Selector="Grid#WizardButtons Button">
+            <Setter Property="Margin" Value="0 0 5 0" />
+        </Style>
+        <Style Selector="Grid#WizardButtons">
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style Selector="Grid#ScheduleRecordingGrid Label">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </UserControl.Styles>
+    <Grid RowDefinitions="*, Auto">
+        <reactiveUi:RoutedViewHost Grid.Row="0" Router="{Binding Router}" x:Name="ViewHost" Margin="10">
+            <reactiveUi:RoutedViewHost.DefaultContent>
+                <Grid RowDefinitions="Auto,Auto" Focusable="True">
+                    <Grid Grid.Row="0" RowDefinitions="Auto,Auto,10,Auto, 10, Auto" ColumnDefinitions="Auto,10,*,10,Auto,10,*" Focusable="True"
+                          x:Name="ScheduleRecordingGrid">
+                        <Label Grid.Row="0" Grid.Column="0">Snimak</Label>
+                        <AutoCompleteBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="5" AsyncPopulator="{Binding PopulateAsync}" FilterMode="None"
+                                         SelectedItem="{Binding SelectedRecording}" ValueMemberBinding="{Binding Name}"
+                                         MinimumPopulateDelay="{Binding AutoCompleteThrottleTime}" x:Name="RecordAutoComplete">
+                            <i:Interaction.Behaviors>
+                                <iac:FocusOnAttachedToVisualTreeBehavior/>
+                            </i:Interaction.Behaviors>
+                            <AutoCompleteBox.ItemTemplate>
+                                <DataTemplate x:DataType="models:AudioRecording">
+                                    <Grid ColumnDefinitions="4*, 2*, *, 2*">
+                                        <TextBlock Text="{Binding Name}" />
+                                        <TextBlock Grid.Column="1" Text="{Binding Category}" />
+                                        <TextBlock Grid.Column="2" Text="{Binding Duration, Converter={StaticResource DurationToStringConverter}}" />
+                                        <TextBlock Grid.Column="3" Text="{Binding Date, StringFormat={}{0:dd.MM.yyyy}}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </AutoCompleteBox.ItemTemplate>
+                        </AutoCompleteBox>
+                        <player:AudioPlayerView Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="5" DataContext="{Binding PlayerViewModel}"
+                                                IsEnabled="{Binding Track, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                        <Label Grid.Row="3" Grid.Column="0">Početni datum</Label>
+                        <CalendarDatePicker Grid.Row="3" Grid.Column="2" SelectedDate="{Binding StartDate}" HorizontalAlignment="Stretch" />
+                        <Label Grid.Row="3" Grid.Column="4">Broj dana</Label>
+                        <NumericUpDown Grid.Row="3" Grid.Column="6" Value="{Binding NumberOfDays}" Minimum="1" Maximum="366" />
+                    </Grid>
+                </Grid>
+            </reactiveUi:RoutedViewHost.DefaultContent>
+        </reactiveUi:RoutedViewHost>
+        <Grid Grid.Row="1" ColumnDefinitions="*,Auto,Auto" x:Name="WizardButtons">
+            <Button Grid.Column="1" Content="Nazad" x:Name="BackButton" IsVisible="{Binding CanBackToGeneralData^}"
+                    Command="{Binding BackToGeneralData}" />
+            <Button Grid.Column="2" Content="Dalje" x:Name="NextButton" IsEnabled="{Binding CanEditScheduleTable^}"
+                    IsVisible="{Binding !CanBackToGeneralData^}" Command="{Binding EditScheduleTable}" />
+            <!-- <Button Grid.Column="2" Content="Kreiranje" x:Name="FinishButton" IsVisible="{Binding CanBackToGeneralData^}"  Command="{Binding Create}"/> -->
+        </Grid>
+    </Grid>
+</UserControl>

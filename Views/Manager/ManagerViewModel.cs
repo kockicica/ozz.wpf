@@ -15,6 +15,7 @@ using ozz.wpf.Services.Interactions;
 using ozz.wpf.ViewModels;
 using ozz.wpf.Views.AudioManager;
 using ozz.wpf.Views.ScheduleManager;
+using ozz.wpf.Views.ScheduleManager.CreateSchedule;
 
 using ReactiveUI;
 
@@ -37,6 +38,8 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
     private string _caption = "Home";
 
     private AudioRecordingDetailsViewModel? _createAudioRecordingViewModel;
+
+    private CreateScheduleViewModel? _createScheduleViewModel;
 
     private IRoutableViewModel? _currentViewModel;
 
@@ -73,13 +76,13 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
             () => { Router.Navigate.Execute(ScheduleManagerViewModel); }
         );
 
-        // CreateNewAudio = ReactiveCommand.Create(
-        //     () => {
-        //         //var vm = _resolver.GetService<DispositionViewModel>();
-        //         Router.Navigate.Execute(CreateAudioRecordingViewModel);
-        //     },
-        //     this.WhenAny(model => model.CurrentViewModel, x => x.Value?.UrlPathSegment != "create-record")
+        // CreateSchedulePage = ReactiveCommand.Create(
+        //     () => { Router.NavigateAndReset.Execute(CreateScheduleViewModel); }
         // );
+        CreateSchedulePage =
+            ReactiveCommand.CreateFromTask<Unit, IEnumerable<Schedule>?>(async (unit, token)
+                                                                             => await _ozzInteractions.CreateSchedules.Handle(Unit.Default));
+
         CreateNewAudio =
             ReactiveCommand.CreateFromTask<Unit, AudioRecording?>(async unit => await _ozzInteractions.CreateAudioRecording.Handle(Unit.Default));
 
@@ -131,6 +134,10 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
     public ReactiveCommand<Unit, Unit> ViewScheduleManager { get; }
 
+
+    //public ReactiveCommand<Unit, Unit> CreateSchedulePage { get; }
+    public ReactiveCommand<Unit, IEnumerable<Schedule>?> CreateSchedulePage { get; }
+
     public string Caption {
         get => _caption;
         set => this.RaiseAndSetIfChanged(ref _caption, value);
@@ -155,6 +162,7 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
         new() { Caption = "Upravljanje audio zapisima", Command = ViewAudioManager, Icon = "/Assets/album-collection.svg" },
         new() { Caption = "Novi audio zapis", Command = CreateNewAudio, Icon = "/Assets/file-audio.svg" },
         new() { Caption = "Upravljanje rasporedom", Command = ViewScheduleManager, Icon = "/Assets/calendar-day.svg" },
+        new() { Caption = "Novi raspored", Command = CreateSchedulePage, Icon = "/Assets/calendar-day.svg" },
     };
 
     public AudioRecordingDetailsViewModel? CreateAudioRecordingViewModel
@@ -162,6 +170,10 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
     public ScheduleManagerViewModel? ScheduleManagerViewModel {
         get => _scheduleManagerViewModel ??= _resolver.GetService<ScheduleManagerViewModel>();
+    }
+
+    public CreateScheduleViewModel? CreateScheduleViewModel {
+        get => _createScheduleViewModel ??= _resolver.GetService<CreateScheduleViewModel>();
     }
 
     #region IActivatableViewModel Members

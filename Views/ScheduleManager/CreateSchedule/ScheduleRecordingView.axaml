@@ -1,0 +1,50 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:ozz.wpf.Models"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ozz.wpf.Views.ScheduleManager.CreateSchedule.ScheduleRecordingView">
+    <UserControl.Styles>
+        <Style Selector="TextBlock.item">
+            <Setter Property="FontWeight" Value="Heavy" />
+        </Style>
+    </UserControl.Styles>
+    <Grid RowDefinitions="Auto, *">
+        <Grid Grid.Row="0" RowDefinitions="Auto,10,Auto,10,Auto" ColumnDefinitions="Auto, 10, *">
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Naziv" />
+            <TextBlock Grid.Row="0" Grid.Column="3" Classes="item" Text="{Binding Recording.Name}" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Kategorija" />
+            <TextBlock Grid.Row="2" Grid.Column="3" Classes="item" Text="{Binding Recording.Category}" />
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Dužina" />
+            <TextBlock Grid.Row="4" Grid.Column="3" Classes="item"
+                       Text="{Binding Recording.Duration, Converter={StaticResource DurationToStringConverter}}" />
+        </Grid>
+        <DataGrid Grid.Row="1" AutoGenerateColumns="False" Items="{Binding Schedules}" x:DataType="models:Schedule" CanUserReorderColumns="True"
+                  CanUserResizeColumns="True" CanUserSortColumns="True" GridLinesVisibility="All" x:Name="SchedulesGrid">
+            <DataGrid.Styles>
+                <Style Selector="NumericUpDown">
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+            </DataGrid.Styles>
+            <DataGrid.KeyBindings>
+                <KeyBinding Gesture="Enter" Command="{Binding HandleEnterKey}" />
+            </DataGrid.KeyBindings>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Dan" Binding="{Binding Date, StringFormat={}{0:dddd}, Mode=OneWay}" Width="2*" IsReadOnly="True" />
+                <DataGridTextColumn Header="Datum" Binding="{Binding Date, StringFormat={}{0:dd.MM.yyyy}, Mode=OneWay}" Width="*" IsReadOnly="True" />
+                <!-- <DataGridTextColumn Header="Naziv" Binding="{Binding Recording.Name}" Width="4*" IsReadOnly="True" /> -->
+                <!-- <DataGridTextColumn Header="Kategorija" Binding="{Binding Recording.Category}" Width="*" IsReadOnly="True" /> -->
+                <!-- <DataGridTextColumn Header="Trajanje" -->
+                <!--                     Binding="{Binding Recording.Duration, Converter={StaticResource DurationToStringConverter}, Mode=OneWay}" -->
+                <!--                     IsReadOnly="True" -->
+                <!--                     Width="*" /> -->
+                <DataGridTextColumn Header="Smena 4" Binding="{Binding Shift4}" Width="*" />
+                <DataGridTextColumn Header="Smena 1" Binding="{Binding Shift1}" Width="*" />
+                <DataGridTextColumn Header="Smena 2" Binding="{Binding Shift2}" Width="*" />
+                <DataGridTextColumn Header="Smena 3" Binding="{Binding Shift3}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</UserControl>

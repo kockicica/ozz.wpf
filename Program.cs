@@ -20,6 +20,7 @@ using ozz.wpf.Views.Disposition;
 using ozz.wpf.Views.Manager;
 using ozz.wpf.Views.Player;
 using ozz.wpf.Views.ScheduleManager;
+using ozz.wpf.Views.ScheduleManager.CreateSchedule;
 
 using ReactiveUI;
 
@@ -94,6 +95,13 @@ namespace ozz.wpf {
                                s.AddTransient<ConfirmDialogViewModel>();
                                s.AddTransient<ScheduleManagerViewModel>();
                                s.AddTransient<IViewFor<ScheduleManagerViewModel>, ScheduleManagerView>();
+                               s.AddTransient<CreateScheduleViewModel>();
+                               s.AddTransient<IViewFor<CreateScheduleViewModel>, CreateScheduleView>();
+                               s.AddTransient<CreateSchedulePageViewModel>();
+                               s.AddTransient<IViewFor<CreateSchedulePageViewModel>, CreateSchedulePage>();
+                               s.AddTransient<ScheduleRecordingViewModel>();
+                               s.AddTransient<IViewFor<ScheduleRecordingViewModel>, ScheduleRecordingView>();
+                               s.AddTransient<CreateScheduleWindowViewModel>();
 
                                s.AddSingleton<RoutingState>(provider => {
                                    var wnd = provider.GetService<MainWindowViewModel>();

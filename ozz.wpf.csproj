@@ -92,6 +92,10 @@
       <DependentUpon>ManagerView.axaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\ScheduleManager\CreateSchedule\CreateScheduleView.axaml.cs">
+      <DependentUpon>CreateScheduleView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <UpToDateCheckInput Remove="Assets\ResourceDictionary\Playlists.xaml"/>

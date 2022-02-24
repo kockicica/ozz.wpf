@@ -13,6 +13,7 @@ using ozz.wpf.Views.AudioManager;
 using ozz.wpf.Views.Dialogs;
 using ozz.wpf.Views.Equalizer;
 using ozz.wpf.Views.Player;
+using ozz.wpf.Views.ScheduleManager.CreateSchedule;
 
 using ReactiveUI;
 
@@ -44,6 +45,7 @@ public class OzzInteractions : IOzzInteractions {
     public Interaction<Unit, AudioRecording?>                      CreateAudioRecording { get; } = new();
     public Interaction<ConfirmMessageConfig, ConfirmMessageResult> Confirm              { get; } = new();
     public Interaction<AudioRecording, Unit>                       ShowPlayer           { get; } = new();
+    public Interaction<Unit, IEnumerable<Schedule>?>               CreateSchedules      { get; } = new();
 
     #endregion
 
@@ -115,6 +117,22 @@ public class OzzInteractions : IOzzInteractions {
 
         ShowPlayer.RegisterHandler(HandleShowPlayer);
 
+        CreateSchedules.RegisterHandler(HandleCreateSchedules);
+
+    }
+
+    private async Task HandleCreateSchedules(InteractionContext<Unit, IEnumerable<Schedule>?> context) {
+
+        var vm = _resolver.GetService<CreateScheduleWindowViewModel>();
+        var modal = new CreateScheduleWindow {
+            DataContext = vm,
+        };
+
+        var res = await modal.ShowDialog<CreateScheduleWindowResult>(_mainWindowProvider.GetMainWindow());
+        res ??= new CreateScheduleWindowResult(null);
+
+
+        context.SetOutput(res.Schedules);
     }
 
     private async Task HandleShowPlayer(InteractionContext<AudioRecording, Unit> context) {

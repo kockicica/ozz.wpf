@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Reactive;
 
 using ozz.wpf.Models;
@@ -14,4 +15,5 @@ public interface IOzzInteractions {
     Interaction<Unit, AudioRecording?>                      CreateAudioRecording { get; }
     Interaction<ConfirmMessageConfig, ConfirmMessageResult> Confirm              { get; }
     Interaction<AudioRecording, Unit>                       ShowPlayer           { get; }
+    Interaction<Unit, IEnumerable<Schedule>>                CreateSchedules      { get; }
 }
