@@ -24,11 +24,11 @@
     <Grid RowDefinitions="*, Auto">
         <reactiveUi:RoutedViewHost Grid.Row="0" Router="{Binding Router}" x:Name="ViewHost" Margin="10">
             <reactiveUi:RoutedViewHost.DefaultContent>
-                <Grid RowDefinitions="Auto,Auto" Focusable="True">
-                    <Grid Grid.Row="0" RowDefinitions="Auto,Auto,10,Auto, 10, Auto" ColumnDefinitions="Auto,10,*,10,Auto,10,*" Focusable="True"
-                          x:Name="ScheduleRecordingGrid">
+                <Grid RowDefinitions="Auto,Auto">
+                    <Grid Grid.Row="0" RowDefinitions="Auto,Auto,10,Auto, 10, Auto" ColumnDefinitions="Auto,10,*,10,Auto,10,*" x:Name="ScheduleRecordingGrid">
                         <Label Grid.Row="0" Grid.Column="0">Snimak</Label>
                         <AutoCompleteBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="5" AsyncPopulator="{Binding PopulateAsync}" FilterMode="None"
+                                         TabIndex="0"
                                          SelectedItem="{Binding SelectedRecording}" ValueMemberBinding="{Binding Name}"
                                          MinimumPopulateDelay="{Binding AutoCompleteThrottleTime}" x:Name="RecordAutoComplete">
                             <i:Interaction.Behaviors>

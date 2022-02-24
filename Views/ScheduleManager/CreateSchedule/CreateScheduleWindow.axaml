@@ -2,6 +2,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+        xmlns:iac="clr-namespace:Avalonia.Xaml.Interactions.Custom;assembly=Avalonia.Xaml.Interactions"
         xmlns:controls="clr-namespace:ozz.wpf.Controls"
         xmlns:createSchedule="clr-namespace:ozz.wpf.Views.ScheduleManager.CreateSchedule"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -16,7 +18,11 @@
     <Panel>
         <Panel Margin="{Binding #CreateSchedule.OffScreenMargin}">
             <Grid RowDefinitions="*, Auto" Margin="{Binding #CreateSchedule.WindowDecorationMargin}" Background="White">
-                <createSchedule:CreateScheduleView DataContext="{Binding ScheduleViewModel}" />
+                <createSchedule:CreateScheduleView DataContext="{Binding ScheduleViewModel}">
+                    <i:Interaction.Behaviors>
+                        <iac:FocusOnAttachedToVisualTreeBehavior />
+                    </i:Interaction.Behaviors>
+                </createSchedule:CreateScheduleView>
                 <Grid Grid.Row="1" Margin="0 0 10 10" ColumnDefinitions="*,Auto,Auto">
                     <Button Command="{Binding CloseCommand}" Content="Prekid" />
                     <Button Grid.Column="1" Content="Nazad" x:Name="BackButton" IsVisible="{Binding ScheduleViewModel.CanBackToGeneralData^}"
