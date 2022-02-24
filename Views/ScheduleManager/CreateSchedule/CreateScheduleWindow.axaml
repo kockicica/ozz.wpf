@@ -23,7 +23,7 @@
                         <iac:FocusOnAttachedToVisualTreeBehavior />
                     </i:Interaction.Behaviors>
                 </createSchedule:CreateScheduleView>
-                <Grid Grid.Row="1" Margin="0 0 10 10" ColumnDefinitions="*,Auto,Auto">
+                <Grid Grid.Row="1" Margin="10 0 10 10" ColumnDefinitions="*,Auto,Auto">
                     <Button Command="{Binding CloseCommand}" Content="Prekid" />
                     <Button Grid.Column="1" Content="Nazad" x:Name="BackButton" IsVisible="{Binding ScheduleViewModel.CanBackToGeneralData^}"
                             Command="{Binding ScheduleViewModel.BackToGeneralData}" />
