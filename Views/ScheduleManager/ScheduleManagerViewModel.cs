@@ -28,7 +28,7 @@ using Notification = Avalonia.Controls.Notifications.Notification;
 
 namespace ozz.wpf.Views.ScheduleManager;
 
-public class ScheduleManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableViewModel {
+public class ScheduleManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableViewModel, ICaption {
     private readonly IAudioRecordingsService _audioRecordingsService;
 
     private readonly ILogger<ScheduleManagerViewModel> _logger;
@@ -190,6 +190,12 @@ public class ScheduleManagerViewModel : ViewModelBase, IActivatableViewModel, IR
     #region IActivatableViewModel Members
 
     public ViewModelActivator Activator { get; } = new();
+
+    #endregion
+
+    #region ICaption Members
+
+    public string Caption { get; } = "Održavanje rasporeda";
 
     #endregion
 
