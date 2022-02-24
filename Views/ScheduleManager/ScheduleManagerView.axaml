@@ -33,9 +33,9 @@
                     </AutoCompleteBox.ItemTemplate>
                 </AutoCompleteBox>
                 <Label Content="Od" Grid.Row="2" Grid.Column="0" Target="FromCalendarPicker" />
-                <CalendarDatePicker Grid.Row="2" Grid.Column="2" SelectedDate="{Binding FromDate, Mode=TwoWay}" x:Name="FromCalendarPicker"/>
-                <Label Content="Do" Grid.Row="2" Grid.Column="4" Target="ToCalendarPicker"/>
-                <CalendarDatePicker Grid.Row="2" Grid.Column="6" SelectedDate="{Binding ToDate, Mode=TwoWay}" x:Name="ToCalendarPicker"/>
+                <CalendarDatePicker Grid.Row="2" Grid.Column="2" SelectedDate="{Binding FromDate, Mode=TwoWay}" x:Name="FromCalendarPicker" />
+                <Label Content="Do" Grid.Row="2" Grid.Column="4" Target="ToCalendarPicker" />
+                <CalendarDatePicker Grid.Row="2" Grid.Column="6" SelectedDate="{Binding ToDate, Mode=TwoWay}" x:Name="ToCalendarPicker" />
             </Grid>
             <Button Grid.Column="1" Content="Pretraživanje" VerticalAlignment="Center" HorizontalAlignment="Stretch"
                     Command="{Binding Search}"
@@ -54,7 +54,8 @@
             </StackPanel>
         </StackPanel>
         <DataGrid Grid.Row="2" AutoGenerateColumns="False" Items="{Binding Schedules}" x:DataType="models:Schedule" CanUserReorderColumns="True"
-                  CanUserResizeColumns="True" CanUserSortColumns="True" GridLinesVisibility="All" x:Name="SchedulesGrid">
+                  CanUserResizeColumns="True" CanUserSortColumns="True" GridLinesVisibility="All" x:Name="SchedulesGrid"
+                  SelectionChanged="SchedulesGrid_OnSelectionChanged">
             <DataGrid.Styles>
                 <Style Selector="NumericUpDown">
                     <Setter Property="VerticalAlignment" Value="Center" />
@@ -66,7 +67,8 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Naziv" Binding="{Binding Recording.Name}" Width="4*" IsReadOnly="True" />
                 <DataGridTextColumn Header="Kategorija" Binding="{Binding Recording.Category}" Width="*" IsReadOnly="True" />
-                <DataGridTextColumn Header="Datum" Binding="{Binding Date, StringFormat={}{0:dd.MM.yyyy}, Mode=OneWay}" Width="*" IsReadOnly="True" />
+                <DataGridTextColumn Header="Datum" Binding="{Binding Date, StringFormat={}{0:dddd dd.MM.yyyy}, Mode=OneWay}" Width="*"
+                                    IsReadOnly="True" />
                 <DataGridTextColumn Header="Trajanje"
                                     Binding="{Binding Recording.Duration, Converter={StaticResource DurationToStringConverter}, Mode=OneWay}"
                                     IsReadOnly="True"
@@ -76,6 +78,14 @@
                 <DataGridTextColumn Header="Smena 2" Binding="{Binding Shift2}" Width="*" />
                 <DataGridTextColumn Header="Smena 3" Binding="{Binding Shift3}" Width="*" />
             </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Brisanje izabranih" Command="{Binding DeleteSchedules}"
+                              CommandParameter="{Binding #SchedulesGrid.SelectedItems}"
+                              IsEnabled="{Binding #SchedulesGrid.SelectedItems, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+
         </DataGrid>
     </Grid>
 </UserControl>

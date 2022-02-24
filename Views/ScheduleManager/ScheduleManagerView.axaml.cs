@@ -69,4 +69,10 @@ public partial class ScheduleManagerView : ReactiveUserControl<ScheduleManagerVi
     private void InitializeComponent() {
         AvaloniaXamlLoader.Load(this);
     }
+
+    private void SchedulesGrid_OnSelectionChanged(object? sender, SelectionChangedEventArgs e) {
+        // if (sender is DataGrid dg) {
+        //     ViewModel!.SelectedSchedules = dg.SelectedItems.Cast<Schedule>();
+        // }
+    }
 }

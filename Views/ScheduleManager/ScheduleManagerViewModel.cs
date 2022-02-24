@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
@@ -16,6 +17,8 @@ using Microsoft.Extensions.Logging;
 
 using ozz.wpf.Models;
 using ozz.wpf.Services;
+using ozz.wpf.Services.Interactions;
+using ozz.wpf.Services.Interactions.Confirm;
 using ozz.wpf.ViewModels;
 using ozz.wpf.Views.Player;
 
@@ -30,27 +33,28 @@ public class ScheduleManagerViewModel : ViewModelBase, IActivatableViewModel, IR
 
     private readonly ILogger<ScheduleManagerViewModel> _logger;
     private readonly INotificationManager              _notificationManager;
+    private readonly IOzzInteractions                  _ozzInteractions;
+    private readonly AudioPlayerViewModel              _playerViewModel;
+    private readonly IScheduleClient                   _scheduleClient;
 
-    private readonly AudioPlayerViewModel _playerViewModel;
-
-    private readonly IScheduleClient _scheduleClient;
-    private          DateTime?       _fromDate;
-    private          bool            _isInEdit;
-
+    private DateTime?              _fromDate;
+    private bool                   _isInEdit;
     private DataGridCollectionView _schedules      = new(Array.Empty<Schedule>());
     private SourceList<Schedule>   _scheduleSource = new();
     private AudioRecording?        _selectedRecording;
+    private IList                  _selectedSchedules;
     private DateTime?              _toDate;
 
     public ScheduleManagerViewModel(ILogger<ScheduleManagerViewModel> logger, IScreen hostScreen, IScheduleClient scheduleClient,
                                     IAudioRecordingsService audioRecordingsService, AudioPlayerViewModel playerViewModel,
-                                    INotificationManager notificationManager) {
+                                    INotificationManager notificationManager, IOzzInteractions ozzInteractions) {
         _logger = logger;
         HostScreen = hostScreen;
         _scheduleClient = scheduleClient;
         _audioRecordingsService = audioRecordingsService;
         _playerViewModel = playerViewModel;
         _notificationManager = notificationManager;
+        _ozzInteractions = ozzInteractions;
 
 
         PlaySample = ReactiveCommand.Create<AudioRecording>(recording => {
@@ -63,6 +67,24 @@ public class ScheduleManagerViewModel : ViewModelBase, IActivatableViewModel, IR
         });
 
         HandleEnterKey = ReactiveCommand.Create(() => { });
+
+        DeleteSchedules = ReactiveCommand.CreateFromTask<IList, IEnumerable<Schedule>?>(async (list, token) => {
+            var msg = new ConfirmMessageConfig {
+                Message = $"Da li ste sigurni da želite brisanje {list.Count} rasporeda?",
+                ButtonTypes = new List<ConfirmButtonType> {
+                    new() { Button = ConfirmMessageResult.Yes, Class = "danger" },
+                    new() { Button = ConfirmMessageResult.No },
+                }
+            };
+            var res = await _ozzInteractions.Confirm.Handle(msg);
+            if (res != ConfirmMessageResult.Yes) return null;
+
+            var schedules = list.Cast<Schedule>().ToList();
+            foreach (var schedule in schedules) {
+                await _scheduleClient.Delete(schedule.Id, token);
+            }
+            return schedules;
+        });
 
         this.WhenActivated(d => {
             Search
@@ -105,6 +127,21 @@ public class ScheduleManagerViewModel : ViewModelBase, IActivatableViewModel, IR
                 })
                 .DisposeWith(d);
 
+            DeleteSchedules
+                .Catch<IEnumerable<Schedule>?, Exception>(exception => {
+                    _notificationManager.Show(new Notification("Greška", $"Greška prilikom brisanja:\n{exception.Message}", NotificationType.Error));
+                    return Observable.Return<IEnumerable<Schedule>?>(null);
+                })
+                .Where(x => x != null)
+                //.SelectMany(_ => Search.Execute())
+                .Subscribe(schedules => {
+                    foreach (var schedule in schedules) {
+                        if (Schedules.Contains(schedule)) {
+                            Schedules.Remove(schedule);
+                        }
+                    }
+                })
+                .DisposeWith(d);
         });
 
     }
@@ -138,9 +175,16 @@ public class ScheduleManagerViewModel : ViewModelBase, IActivatableViewModel, IR
 
     public ReactiveCommand<Unit, Unit> HandleEnterKey { get; }
 
+    public ReactiveCommand<IList, IEnumerable<Schedule>?> DeleteSchedules { get; }
+
     public bool IsInEdit {
         get => _isInEdit;
         set => this.RaiseAndSetIfChanged(ref _isInEdit, value);
+    }
+
+    public IList SelectedSchedules {
+        get => _selectedSchedules;
+        set => this.RaiseAndSetIfChanged(ref _selectedSchedules, value);
     }
 
     #region IActivatableViewModel Members
