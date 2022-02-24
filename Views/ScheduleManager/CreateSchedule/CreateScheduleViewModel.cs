@@ -131,7 +131,7 @@ public class CreateScheduleViewModel : ViewModelBase, IRoutableViewModel, IScree
     private IObservable<bool> CanBackToGeneralData
         => Observable.Return(false).Merge(Router.CurrentViewModel.Select(x => x != null));
 
-    private ScheduleRecordingViewModel? ScheduleRecordingViewModel
+    public ScheduleRecordingViewModel? ScheduleRecordingViewModel
         => _scheduleRecordingViewModel ??= _resolver.GetService<ScheduleRecordingViewModel>();
 
     #region IActivatableViewModel Members

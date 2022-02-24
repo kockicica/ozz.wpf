@@ -55,12 +55,12 @@
                 </Grid>
             </reactiveUi:RoutedViewHost.DefaultContent>
         </reactiveUi:RoutedViewHost>
-        <Grid Grid.Row="1" ColumnDefinitions="*,Auto,Auto" x:Name="WizardButtons">
-            <Button Grid.Column="1" Content="Nazad" x:Name="BackButton" IsVisible="{Binding CanBackToGeneralData^}"
-                    Command="{Binding BackToGeneralData}" />
-            <Button Grid.Column="2" Content="Dalje" x:Name="NextButton" IsEnabled="{Binding CanEditScheduleTable^}"
-                    IsVisible="{Binding !CanBackToGeneralData^}" Command="{Binding EditScheduleTable}" />
-            <!-- <Button Grid.Column="2" Content="Kreiranje" x:Name="FinishButton" IsVisible="{Binding CanBackToGeneralData^}"  Command="{Binding Create}"/> -->
-        </Grid>
+        <!-- <Grid Grid.Row="1" ColumnDefinitions="*,Auto,Auto" x:Name="WizardButtons"> -->
+        <!--     <Button Grid.Column="1" Content="Nazad" x:Name="BackButton" IsVisible="{Binding CanBackToGeneralData^}" -->
+        <!--             Command="{Binding BackToGeneralData}" /> -->
+        <!--     <Button Grid.Column="2" Content="Dalje" x:Name="NextButton" IsEnabled="{Binding CanEditScheduleTable^}" -->
+        <!--             IsVisible="{Binding !CanBackToGeneralData^}" Command="{Binding EditScheduleTable}" /> -->
+        <!--     ~1~ <Button Grid.Column="2" Content="Kreiranje" x:Name="FinishButton" IsVisible="{Binding CanBackToGeneralData^}"  Command="{Binding Create}"/> @1@ -->
+        <!-- </Grid> -->
     </Grid>
 </UserControl>

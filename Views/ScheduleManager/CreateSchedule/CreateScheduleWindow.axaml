@@ -16,11 +16,16 @@
     <Panel>
         <Panel Margin="{Binding #CreateSchedule.OffScreenMargin}">
             <Grid RowDefinitions="*, Auto" Margin="{Binding #CreateSchedule.WindowDecorationMargin}" Background="White">
-                <createSchedule:CreateScheduleView DataContext="{Binding ScheduleViewModel}"/>
-                <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" Spacing="10" Margin="0 0 10 10">
-                    <Button Command="{Binding CloseCommand}">Prekid</Button>
-                    <Button>OK</Button>
-                </StackPanel>
+                <createSchedule:CreateScheduleView DataContext="{Binding ScheduleViewModel}" />
+                <Grid Grid.Row="1" Margin="0 0 10 10" ColumnDefinitions="*,Auto,Auto">
+                    <Button Command="{Binding CloseCommand}" Content="Prekid" />
+                    <Button Grid.Column="1" Content="Nazad" x:Name="BackButton" IsVisible="{Binding ScheduleViewModel.CanBackToGeneralData^}"
+                            Command="{Binding ScheduleViewModel.BackToGeneralData}" />
+                    <Button Grid.Column="2" Content="Dalje" x:Name="NextButton" IsEnabled="{Binding ScheduleViewModel.CanEditScheduleTable^}"
+                            IsVisible="{Binding !ScheduleViewModel.CanBackToGeneralData^}" Command="{Binding ScheduleViewModel.EditScheduleTable}" />
+                    <Button Grid.Column="2" Content="Kreiranje" x:Name="CreateButton" IsVisible="{Binding ScheduleViewModel.CanBackToGeneralData^}"
+                            Command="{Binding Create}" />
+                </Grid>
 
             </Grid>
         </Panel>
