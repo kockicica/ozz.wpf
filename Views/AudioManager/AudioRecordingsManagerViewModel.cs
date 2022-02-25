@@ -100,9 +100,20 @@ public class AudioRecordingsManagerViewModel : ViewModelBase, IActivatableViewMo
 
             DeleteRecording
                 .Where(x => x == ConfirmMessageResult.Yes)
-                .SelectMany(_ => _audioRecordingsService.Delete(SelectedRecording!.Id).ToObservable())
+                .SelectMany(_ => _audioRecordingsService
+                                 .Delete(SelectedRecording!.Id)
+                                 .ToObservable()
+                                 .Catch(Observable.Empty<Unit>())
+                )
                 .SelectMany(_ => Search.Execute())
                 .Subscribe()
+                .DisposeWith(d);
+
+            DeleteRecording
+                .ThrownExceptions
+                .Subscribe(exception => {
+                    var a = exception;
+                })
                 .DisposeWith(d);
 
             this.WhenAnyValue(x => x.PageSize)
