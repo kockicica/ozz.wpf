@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -52,13 +51,12 @@ public class Schedule : ReactiveObject, HasId {
         set => this.RaiseAndSetIfChanged(ref _shift4, value);
     }
 
-    public int Shift1Played   { get; set; }
-    public int Shift2Played   { get; set; }
-    public int Shift3Played   { get; set; }
-    public int Shift4Played   { get; set; }
-    public int TotalPlayCount { get; set; }
-
-    public IEnumerable<Disposition> Dispositions { get; set; }
+    public int  Shift1Played    { get; set; }
+    public int  Shift2Played    { get; set; }
+    public int  Shift3Played    { get; set; }
+    public int  Shift4Played    { get; set; }
+    public int  TotalPlayCount  { get; set; }
+    public bool HasDispositions { get; set; }
 
     #region HasId Members
 
@@ -66,14 +64,15 @@ public class Schedule : ReactiveObject, HasId {
 
     #endregion
 
+    //public IEnumerable<Disposition> Dispositions { get; set; }
 }
 
-public class Disposition : AudioRecording {
-    public int Shift            { get; set; }
-    public int PlayCountNeeded  { get; set; }
-    public int PlayCountCurrent { get; set; }
-    public int RecordingId      { get; set; }
-}
+// public class Disposition : AudioRecording {
+//     public int Shift            { get; set; }
+//     public int PlayCountNeeded  { get; set; }
+//     public int PlayCountCurrent { get; set; }
+//     public int RecordingId      { get; set; }
+// }
 
 public class ScheduleSearchParams {
     public int?      Recording { get; set; }
