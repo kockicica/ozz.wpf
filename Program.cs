@@ -103,6 +103,7 @@ namespace ozz.wpf {
                                s.AddTransient<IViewFor<ScheduleRecordingViewModel>, ScheduleRecordingView>();
                                s.AddTransient<CreateScheduleWindowViewModel>();
                                s.AddTransient<CreateDispositionViewModel>();
+                               s.AddTransient<DispositionSelectViewModel>();
 
                                s.AddSingleton<RoutingState>(provider => {
                                    var wnd = provider.GetService<MainWindowViewModel>();

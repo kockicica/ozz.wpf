@@ -58,6 +58,11 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
 
         ViewPlayerCommand = ReactiveCommand.Create<AudioRecording>(ExecuteShowPlayerInteraction);
 
+        SelectDisposition = ReactiveCommand.CreateFromTask<Unit, DispositionSelectItem>(async unit => {
+            var res = await _ozzInteractions.SelectDisposition.Handle(Unit.Default);
+            return res;
+        });
+
         this.WhenActivated(d => {
 
             _categories = client
@@ -123,6 +128,8 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
     public ReactiveCommand<AudioRecording, Unit> ViewPlayerCommand { get; set; }
 
     public ReactiveCommand<string?, Unit> ClearDate { get; set; }
+
+    public ReactiveCommand<Unit, DispositionSelectItem> SelectDisposition { get; }
 
     public bool? SearchActive {
         get => _searchActive;

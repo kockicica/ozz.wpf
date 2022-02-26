@@ -17,4 +17,5 @@ public interface IOzzInteractions {
     Interaction<AudioRecording, Unit>                       ShowPlayer           { get; }
     Interaction<Unit, IEnumerable<Schedule>>                CreateSchedules      { get; }
     Interaction<Unit, Unit>                                 CreateDispositions   { get; }
+    Interaction<Unit, DispositionSelectItem>                SelectDisposition    { get; }
 }

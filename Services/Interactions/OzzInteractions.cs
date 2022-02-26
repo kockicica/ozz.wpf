@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 
@@ -11,6 +13,7 @@ using ozz.wpf.Models;
 using ozz.wpf.Services.Interactions.Confirm;
 using ozz.wpf.Views.AudioManager;
 using ozz.wpf.Views.Dialogs;
+using ozz.wpf.Views.Disposition;
 using ozz.wpf.Views.Equalizer;
 using ozz.wpf.Views.Player;
 using ozz.wpf.Views.ScheduleManager.CreateSchedule;
@@ -47,6 +50,7 @@ public class OzzInteractions : IOzzInteractions {
     public Interaction<AudioRecording, Unit>                       ShowPlayer           { get; } = new();
     public Interaction<Unit, IEnumerable<Schedule>?>               CreateSchedules      { get; } = new();
     public Interaction<Unit, Unit>                                 CreateDispositions   { get; } = new();
+    public Interaction<Unit, DispositionSelectItem?>               SelectDisposition    { get; } = new();
 
     #endregion
 
@@ -128,6 +132,33 @@ public class OzzInteractions : IOzzInteractions {
 
             await modal.ShowDialog(_mainWindowProvider.GetMainWindow());
             context.SetOutput(Unit.Default);
+        });
+
+        SelectDisposition.RegisterHandler(async context => {
+            var vm = _resolver.GetService<DispositionSelectViewModel>();
+
+            var items = Enumerable
+                        .Range(0, 14)
+                        .Select(d => Enumerable
+                                     .Range(1, 4)
+                                     .Select(i => new DispositionSelectItem {
+                                         Date = DateTime.Now.AddDays(d),
+                                         Shift = i
+                                     })
+                        )
+                        .SelectMany(enumerable => enumerable)
+                        .ToList();
+
+            vm.Items = new ObservableCollection<DispositionSelectItem>(items);
+            vm.SelectedIndex = 0;
+
+            var modal = new DispositionSelectWindow {
+                DataContext = vm,
+            };
+            var res = await modal.ShowDialog<DispositionSelectResult>(_mainWindowProvider.GetMainWindow());
+            res ??= new DispositionSelectResult(null);
+            context.SetOutput(res.Item);
+
         });
 
     }

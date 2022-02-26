@@ -1,3 +1,4 @@
+using System;
 using System.Collections.ObjectModel;
 
 using AutoMapper;
@@ -10,6 +11,7 @@ using ozz.wpf.Dialog;
 using ozz.wpf.Models;
 using ozz.wpf.Services;
 using ozz.wpf.Views.Dialogs;
+using ozz.wpf.Views.Disposition;
 using ozz.wpf.Views.Equalizer;
 using ozz.wpf.Views.Manager;
 using ozz.wpf.Views.Player;
@@ -64,4 +66,17 @@ public static class DesignData {
                new Mapper(new MapperConfiguration(expression => { })));
 
     public static ManagerViewModel ManagerViewModel => new(NullLogger<ManagerViewModel>.Instance, null, new LocatorBasedResolver(), null, null);
+
+    public static DispositionSelectViewModel DispositionSelectViewModel {
+        get {
+            var mdl = new DispositionSelectViewModel(NullLogger<DispositionSelectViewModel>.Instance);
+            mdl.Items = new ObservableCollection<DispositionSelectItem>();
+            for (int i = 0; i < 14; i++) {
+                for (int j = 1; j <= 4; j++) {
+                    mdl.Items.Add(new DispositionSelectItem { Date = DateTime.Now.AddDays(i), Shift = j });
+                }
+            }
+            return mdl;
+        }
+    }
 }

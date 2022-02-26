@@ -63,6 +63,7 @@
                     <DataGrid.KeyBindings>
                         <KeyBinding Gesture="Enter" Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}" />
                         <KeyBinding Gesture="Space" Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}" />
+                        <KeyBinding Gesture="F2" Command="{Binding SelectDisposition}" />
                     </DataGrid.KeyBindings>
                     <DataGrid.Columns>
                         <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->

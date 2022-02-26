@@ -1,0 +1,64 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:ozz.wpf.Controls"
+        xmlns:models="clr-namespace:ozz.wpf.Models"
+        xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False" SizeToContent="Width"
+        MinWidth="400" MinHeight="150" MaxHeight="400"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="32"
+        Classes="ModalWindow"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" d:DataContext="{x:Static viewModels:DesignData.DispositionSelectViewModel}"
+        x:Class="ozz.wpf.Views.Disposition.DispositionSelectWindow"
+        x:Name="DispositionSelect"
+        Title="Izbor dispozicije">
+    <Panel>
+        <Panel Margin="{Binding #DispositionSelect.OffScreenMargin}">
+            <Border Background="{DynamicResource ThemeBackgroundBrush}" Margin="{Binding #DispositionSelect.WindowDecorationMargin}">
+                <Grid RowDefinitions="*, Auto">
+                    <ListBox Grid.Row="0" Items="{Binding Items}" SelectionMode="Single" SelectedIndex="{Binding SelectedIndex}" x:Name="ListBox">
+                        <ListBox.Styles>
+                            <Style Selector="TextBlock">
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                            </Style>
+                        </ListBox.Styles>
+                        <!-- <ListBox.ItemsPanel> -->
+                        <!--     <ItemsPanelTemplate> -->
+                        <!--         <StackPanel x:Name="StackPanel" Orientation="Vertical"> -->
+                        <!--             <i:Interaction.Behaviors> -->
+                        <!--                 <icu:FocusOnAttachedToVisualTreeBehavior/> -->
+                        <!--             </i:Interaction.Behaviors> -->
+                        <!--         </StackPanel> -->
+                        <!--     </ItemsPanelTemplate> -->
+                        <!-- </ListBox.ItemsPanel> -->
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="models:DispositionSelectItem">
+                                <Border Margin="1" Focusable="True" IsTabStop="True">
+                                    <StackPanel Orientation="Horizontal" Spacing="5" x:Name="StackPanel">
+                                        <TextBlock Text="{Binding Date, StringFormat={}{0:dd.MM.yyyy\, dddd}}" />
+                                        <TextBlock Text="{Binding Shift, StringFormat=Smena {0}}" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 10" Spacing="10">
+                        <Button x:Name="YesButton" Command="{Binding SelectDisposition}" Content="Izbor" Classes="success" IsDefault="True" />
+                        <Button x:Name="NoButton" Command="{Binding CloseCommand}" Content="Izlaz" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Panel>
+        <Panel VerticalAlignment="Top" HorizontalAlignment="Left" Height="32">
+            <TextBlock x:Name="WindowCaption" Text="{Binding #DispositionSelect.Title}" VerticalAlignment="Center" FontWeight="Heavy"
+                       Margin="10 0 10 0" />
+        </Panel>
+        <Panel VerticalAlignment="Top" HorizontalAlignment="Right" Height="32">
+            <controls:CloseButton Command="{Binding CloseCommand}" Height="32" Width="40" VerticalAlignment="Top" />
+        </Panel>
+    </Panel>
+
+</Window>
