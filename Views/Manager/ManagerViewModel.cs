@@ -169,10 +169,10 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
     public IEnumerable<ManagerMenuItem> MenuItems => new ManagerMenuItem[] {
         new() { Caption = "Emitovanje zapisa", Command = ViewDisposition, Icon = "/Assets/circle-play.svg" },
         new() { Caption = "Upravljanje audio zapisima", Command = ViewAudioManager, Icon = "/Assets/album-collection.svg" },
-        new() { Caption = "Novi audio zapis", Command = CreateNewAudio, Icon = "/Assets/file-audio.svg" },
-        new() { Caption = "Upravljanje rasporedom", Command = ViewScheduleManager, Icon = "/Assets/calendar-day.svg" },
-        new() { Caption = "Novi raspored", Command = CreateSchedulePage, Icon = "/Assets/calendar-circle-plus.svg" },
-        new() { Caption = "Kreiranje dispozicija", Command = CreateDispositions, Icon = "/Assets/calendar-circle-plus.svg" },
+        new() { Caption = "Novi audio zapis", Command = CreateNewAudio, Icon = "/Assets/album-collection-circle-plus.svg" },
+        new() { Caption = "Upravljanje rasporedom", Command = ViewScheduleManager, Icon = "/Assets/calendar-pen.svg" },
+        new() { Caption = "Novi raspored", Command = CreateSchedulePage, Icon = "/Assets/calendar-plus.svg" },
+        new() { Caption = "Kreiranje dispozicija", Command = CreateDispositions, Icon = "/Assets/person-ski-jumping.svg" },
     };
 
     public AudioRecordingDetailsViewModel? CreateAudioRecordingViewModel
