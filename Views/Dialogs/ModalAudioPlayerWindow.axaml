@@ -30,27 +30,29 @@
     </i:Interaction.Behaviors>
     <Panel>
         <Panel Margin="{Binding #ModalAudioPlayer.OffScreenMargin}">
-            <DockPanel LastChildFill="True" Margin="{Binding #ModalAudioPlayer.WindowDecorationMargin}" Background="White">
-                <Border Padding="5">
-                    <Grid RowDefinitions="*, *">
-                        <player:AudioPlayerView DataContext="{Binding PlayerModel}" />
-                        <Grid Grid.Row="1" ColumnDefinitions="*, Auto">
-                            <equalizer:EqualizerView DataContext="{Binding EqualizerViewModel}" />
-                            <StackPanel Orientation="Vertical" Grid.Column="1">
-                                <Button Command="{Binding EqualizerViewModel.ResetCommand}">Reset</Button>
-                                <ToggleSwitch IsChecked="{Binding EqualizerOn}" />
-                                <ComboBox Items="{Binding Equalizers}" SelectedItem="{Binding EqualizerViewModel.Equalizer}" x:Name="ComboBox">
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate x:DataType="models:Equalizer">
-                                            <TextBlock Text="{Binding Name}" />
-                                        </DataTemplate>
-                                    </ComboBox.ItemTemplate>
-                                </ComboBox>
-                            </StackPanel>
+            <Border Background="{DynamicResource ThemeBackgroundBrush}" Margin="{Binding #ModalAudioPlayer.WindowDecorationMargin}">
+                <DockPanel LastChildFill="True">
+                    <Border Padding="5">
+                        <Grid RowDefinitions="*, *">
+                            <player:AudioPlayerView DataContext="{Binding PlayerModel}" />
+                            <Grid Grid.Row="1" ColumnDefinitions="*, Auto">
+                                <equalizer:EqualizerView DataContext="{Binding EqualizerViewModel}" />
+                                <StackPanel Orientation="Vertical" Grid.Column="1">
+                                    <Button Command="{Binding EqualizerViewModel.ResetCommand}">Reset</Button>
+                                    <ToggleSwitch IsChecked="{Binding EqualizerOn}" />
+                                    <ComboBox Items="{Binding Equalizers}" SelectedItem="{Binding EqualizerViewModel.Equalizer}" x:Name="ComboBox">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate x:DataType="models:Equalizer">
+                                                <TextBlock Text="{Binding Name}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </StackPanel>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </Border>
-            </DockPanel>
+                    </Border>
+                </DockPanel>
+            </Border>
         </Panel>
         <Panel VerticalAlignment="Top" HorizontalAlignment="Left" Height="32">
             <TextBlock x:Name="WindowCaption" Text="{Binding #ModalAudioPlayer.Title}" VerticalAlignment="Center" FontWeight="Heavy"

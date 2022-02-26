@@ -22,7 +22,8 @@
     <!-- </Window.Styles> -->
     <Panel>
         <Panel Margin="{Binding #ConfirmDialog.OffScreenMargin}">
-            <Grid RowDefinitions="*, Auto" Margin="{Binding #ConfirmDialog.WindowDecorationMargin}" Background="White">
+            <Border Background="{DynamicResource ThemeBackgroundBrush}" Margin="{Binding #ConfirmDialog.WindowDecorationMargin}">
+            <Grid RowDefinitions="*, Auto">
                 <Grid Grid.Row="0" ColumnDefinitions="Auto, *" VerticalAlignment="Center" Margin="20 0 20 0">
                     <!-- <Image Height="64" Width="64" Source="{StaticResource xmarkDrawingImage}"></Image> -->
                     <PathIcon Height="48" Width="48" Data="{StaticResource circle_question}" Foreground="{DynamicResource ThemeAccentColor2}"
@@ -34,6 +35,7 @@
                     <Button x:Name="NoButton" Command="{Binding CommandNo}" Content="Ne" />
                 </StackPanel>
             </Grid>
+                </Border>
         </Panel>
         <Panel VerticalAlignment="Top" HorizontalAlignment="Left" Height="32">
             <TextBlock x:Name="WindowCaption" Text="{Binding #ConfirmDialog.Title}" VerticalAlignment="Center" FontWeight="Heavy" Margin="10 0 10 0" />

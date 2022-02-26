@@ -17,23 +17,27 @@
         Title="Novi raspored">
     <Panel>
         <Panel Margin="{Binding #CreateSchedule.OffScreenMargin}">
-            <Grid RowDefinitions="*, Auto" Margin="{Binding #CreateSchedule.WindowDecorationMargin}" Background="White">
-                <createSchedule:CreateScheduleView DataContext="{Binding ScheduleViewModel}">
-                    <i:Interaction.Behaviors>
-                        <iac:FocusOnAttachedToVisualTreeBehavior />
-                    </i:Interaction.Behaviors>
-                </createSchedule:CreateScheduleView>
-                <Grid Grid.Row="1" Margin="10 0 10 10" ColumnDefinitions="*,Auto,Auto">
-                    <Button Command="{Binding CloseCommand}" Content="Prekid" />
-                    <Button Grid.Column="1" Content="Nazad" x:Name="BackButton" IsVisible="{Binding ScheduleViewModel.CanBackToGeneralData^}"
-                            Command="{Binding ScheduleViewModel.BackToGeneralData}" />
-                    <Button Grid.Column="2" Content="Dalje" x:Name="NextButton" IsEnabled="{Binding ScheduleViewModel.CanEditScheduleTable^}"
-                            IsVisible="{Binding !ScheduleViewModel.CanBackToGeneralData^}" Command="{Binding ScheduleViewModel.EditScheduleTable}" />
-                    <Button Grid.Column="2" Content="Kreiranje" x:Name="CreateButton" IsVisible="{Binding ScheduleViewModel.CanBackToGeneralData^}"
-                            Command="{Binding Create}" />
-                </Grid>
+            <Border Background="{DynamicResource ThemeBackgroundBrush}" Margin="{Binding #CreateSchedule.WindowDecorationMargin}">
+                <Grid RowDefinitions="*, Auto">
+                    <createSchedule:CreateScheduleView DataContext="{Binding ScheduleViewModel}">
+                        <i:Interaction.Behaviors>
+                            <iac:FocusOnAttachedToVisualTreeBehavior />
+                        </i:Interaction.Behaviors>
+                    </createSchedule:CreateScheduleView>
+                    <Grid Grid.Row="1" Margin="10 0 10 10" ColumnDefinitions="*,Auto,Auto">
+                        <Button Command="{Binding CloseCommand}" Content="Prekid" />
+                        <Button Grid.Column="1" Content="Nazad" x:Name="BackButton" IsVisible="{Binding ScheduleViewModel.CanBackToGeneralData^}"
+                                Command="{Binding ScheduleViewModel.BackToGeneralData}" />
+                        <Button Grid.Column="2" Content="Dalje" x:Name="NextButton" IsEnabled="{Binding ScheduleViewModel.CanEditScheduleTable^}"
+                                IsVisible="{Binding !ScheduleViewModel.CanBackToGeneralData^}"
+                                Command="{Binding ScheduleViewModel.EditScheduleTable}" />
+                        <Button Grid.Column="2" Content="Kreiranje" x:Name="CreateButton"
+                                IsVisible="{Binding ScheduleViewModel.CanBackToGeneralData^}"
+                                Command="{Binding Create}" />
+                    </Grid>
 
-            </Grid>
+                </Grid>
+            </Border>
         </Panel>
         <Panel VerticalAlignment="Top" HorizontalAlignment="Left" Height="32">
             <TextBlock x:Name="WindowCaption" Text="{Binding #CreateSchedule.Title}" VerticalAlignment="Center" FontWeight="Heavy"
