@@ -3,7 +3,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:rxui="clr-namespace:Avalonia.ReactiveUI;assembly=Avalonia.ReactiveUI"
-             xmlns:s="clr-namespace:Avalonia.Svg.Skia;assembly=Avalonia.Svg.Skia"
              xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
              xmlns:manager="clr-namespace:ozz.wpf.Views.Manager"
              d:DataContext="{x:Static viewModels:DesignData.ManagerViewModel}"
@@ -38,8 +37,8 @@
             <!-- <Setter Property="VerticalAlignment" Value="Center"></Setter> -->
             <Setter Property="Margin" Value="3 10 0 0" />
             <Setter Property="Width" Value="{DynamicResource ItemHeight}" />
-            <Setter Property="Height" Value="{DynamicResource ItemHeight}"/>
-            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Height" Value="{DynamicResource ItemHeight}" />
+            <Setter Property="Padding" Value="0" />
         </Style>
     </UserControl.Styles>
     <SplitView x:Name="SplitView" PanePlacement="Left" DisplayMode="CompactInline" IsPaneOpen="False" CompactPaneLength="58">
@@ -51,8 +50,8 @@
                             <Styles.Resources>
                                 <SolidColorBrush x:Key="ToggleButtonBackground">Transparent</SolidColorBrush>
                                 <SolidColorBrush x:Key="ToggleButtonBackgroundChecked">Transparent</SolidColorBrush>
-                                <SolidColorBrush x:Key="ToggleButtonBackgroundCheckedPointerOver">LightGray</SolidColorBrush>
-                                <SolidColorBrush x:Key="ToggleButtonBackgroundPointerOver">LightGray</SolidColorBrush>
+                                <!-- <SolidColorBrush x:Key="ToggleButtonBackgroundCheckedPointerOver">LightGray</SolidColorBrush> -->
+                                <!-- <SolidColorBrush x:Key="ToggleButtonBackgroundPointerOver">LightGray</SolidColorBrush> -->
                             </Styles.Resources>
                         </Styles>
                     </ToggleButton.Styles>
@@ -60,7 +59,7 @@
                         <!-- <StaticResource ResourceKey="ThemeControlHighBrush"> -->
                         <!-- </StaticResource> -->
                     </ToggleButton.Resources>
-                    <PathIcon Data="{DynamicResource bars}" x:Name="ToggleIcon"/>
+                    <PathIcon Data="{DynamicResource bars}" x:Name="ToggleIcon" />
                     <!-- <Image Source="{DynamicResource bars}" Height="22" /> -->
                 </ToggleButton>
                 <ItemsControl Grid.Row="1" Items="{Binding MenuItems}">
@@ -77,8 +76,10 @@
                                     <Thickness x:Key="ButtonPadding">0 5 0 5</Thickness>
                                 </Button.Resources>
                                 <Grid ColumnDefinitions="48, *">
-                                    <s:Svg Grid.Column="0" Path="{Binding Icon}" Width="22" HorizontalAlignment="Center" VerticalAlignment="Center"
-                                           Margin="5 0 0 0" />
+                                    <!-- <s:Svg Grid.Column="0" Path="{Binding Icon}" Width="22" HorizontalAlignment="Center" VerticalAlignment="Center" -->
+                                    <!--        Margin="5 0 0 0" /> -->
+                                    <PathIcon Grid.Column="0" Width="22" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                              Data="{Binding Geometry}" Margin="5 0 0 0" />
                                     <TextBlock Grid.Column="1" Text="{Binding Caption}" VerticalAlignment="Center" Margin="8 0 0 0" />
                                 </Grid>
                                 <ToolTip.Tip>
@@ -95,7 +96,7 @@
                 <!-- <Button DockPanel.Dock="Left" Command="{Binding GoBack}"> -->
                 <!--     <PathIcon Data="{StaticResource chevron_left_regular}" /> -->
                 <!-- </Button> -->
-                <TextBlock Classes="h1" Text="{Binding Caption}" VerticalAlignment="Center" Margin="10 0 0 0"/>
+                <TextBlock Classes="h1" Text="{Binding Caption}" VerticalAlignment="Center" Margin="10 0 0 0" />
             </StackPanel>
             <rxui:RoutedViewHost Grid.Row="1" Router="{Binding Router}">
                 <rxui:RoutedViewHost.DefaultContent>

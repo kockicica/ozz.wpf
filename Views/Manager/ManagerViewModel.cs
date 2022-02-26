@@ -5,7 +5,9 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Windows.Input;
 
+using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
+using Avalonia.Media;
 
 using Microsoft.Extensions.Logging;
 
@@ -167,12 +169,12 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
     public DispositionViewModel DispositionViewModel => _dispositionViewModel ??= _resolver.GetService<DispositionViewModel>();
 
     public IEnumerable<ManagerMenuItem> MenuItems => new ManagerMenuItem[] {
-        new() { Caption = "Emitovanje zapisa", Command = ViewDisposition, Icon = "/Assets/circle-play.svg" },
-        new() { Caption = "Upravljanje audio zapisima", Command = ViewAudioManager, Icon = "/Assets/album-collection.svg" },
-        new() { Caption = "Novi audio zapis", Command = CreateNewAudio, Icon = "/Assets/album-collection-circle-plus.svg" },
-        new() { Caption = "Upravljanje rasporedom", Command = ViewScheduleManager, Icon = "/Assets/calendar-pen.svg" },
-        new() { Caption = "Novi raspored", Command = CreateSchedulePage, Icon = "/Assets/calendar-plus.svg" },
-        new() { Caption = "Kreiranje dispozicija", Command = CreateDispositions, Icon = "/Assets/person-ski-jumping.svg" },
+        new() { Caption = "Emitovanje zapisa", Command = ViewDisposition, Icon = "circle_play" },
+        new() { Caption = "Upravljanje audio zapisima", Command = ViewAudioManager, Icon = "album_collection" },
+        new() { Caption = "Novi audio zapis", Command = CreateNewAudio, Icon = "album_collection_circle_plus" },
+        new() { Caption = "Upravljanje rasporedom", Command = ViewScheduleManager, Icon = "calendar_pen" },
+        new() { Caption = "Novi raspored", Command = CreateSchedulePage, Icon = "calendar_plus" },
+        new() { Caption = "Kreiranje dispozicija", Command = CreateDispositions, Icon = "person_ski_jumping" },
     };
 
     public AudioRecordingDetailsViewModel? CreateAudioRecordingViewModel
@@ -211,4 +213,15 @@ public class ManagerMenuItem {
     public ICommand Command { get; set; }
     public string   Caption { get; set; }
     public string   Icon    { get; set; }
+
+    public Geometry Geometry {
+        get {
+            if (App.Current.TryFindResource(Icon, out object? g)) {
+                if (g is Geometry gg) {
+                    return gg;
+                }
+            }
+            return null;
+        }
+    }
 }
