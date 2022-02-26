@@ -16,4 +16,5 @@ public interface IOzzInteractions {
     Interaction<ConfirmMessageConfig, ConfirmMessageResult> Confirm              { get; }
     Interaction<AudioRecording, Unit>                       ShowPlayer           { get; }
     Interaction<Unit, IEnumerable<Schedule>>                CreateSchedules      { get; }
+    Interaction<Unit, Unit>                                 CreateDispositions   { get; }
 }

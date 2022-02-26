@@ -14,4 +14,5 @@ public interface IScheduleClient {
     Task<Schedule>              Update(int id, Schedule data, CancellationToken token = default);
     Task                        Delete(int id, CancellationToken token = default);
     Task<IEnumerable<Schedule>> Find(ScheduleSearchParams sp, CancellationToken token = default);
+    Task<IEnumerable<Schedule>> CreateDispositions(CreateDispositionParams data, CancellationToken token = default);
 }

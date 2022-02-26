@@ -88,6 +88,8 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
         GoBack = ReactiveCommand.CreateFromObservable(() => Router.NavigateBack.Execute());
 
+        CreateDispositions = ReactiveCommand.CreateFromTask(async () => { await _ozzInteractions.CreateDispositions.Handle(Unit.Default); });
+
         this.WhenActivated(d => {
             Router.CurrentViewModel
                   .Subscribe(model => {
@@ -121,6 +123,10 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
                 })
                 .DisposeWith(d);
 
+            CreateDispositions
+                .Subscribe(unit => { })
+                .DisposeWith(d);
+
 
         });
 
@@ -133,6 +139,9 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
     public ReactiveCommand<Unit, AudioRecording?> CreateNewAudio { get; }
 
     public ReactiveCommand<Unit, Unit> ViewScheduleManager { get; }
+
+    public ReactiveCommand<Unit, Unit> CreateDispositions { get; }
+
 
 
     //public ReactiveCommand<Unit, Unit> CreateSchedulePage { get; }
@@ -163,6 +172,7 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
         new() { Caption = "Novi audio zapis", Command = CreateNewAudio, Icon = "/Assets/file-audio.svg" },
         new() { Caption = "Upravljanje rasporedom", Command = ViewScheduleManager, Icon = "/Assets/calendar-day.svg" },
         new() { Caption = "Novi raspored", Command = CreateSchedulePage, Icon = "/Assets/calendar-circle-plus.svg" },
+        new() { Caption = "Kreiranje dispozicija", Command = CreateDispositions, Icon = "/Assets/calendar-circle-plus.svg" },
     };
 
     public AudioRecordingDetailsViewModel? CreateAudioRecordingViewModel

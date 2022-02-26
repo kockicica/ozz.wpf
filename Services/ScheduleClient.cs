@@ -135,6 +135,22 @@ public class ScheduleClient : IScheduleClient {
         }
     }
 
+    public async Task<IEnumerable<Schedule>> CreateDispositions(CreateDispositionParams data, CancellationToken token = default) {
+        try {
+            var url = $"/api/dispositions/create";
+            var rsp = await _client.PostAsJsonAsync(url, data, token);
+            if (!rsp.IsSuccessStatusCode) {
+                var msg = await rsp.Content.ReadFromJsonAsync<ServerErrorResponse>(cancellationToken: token);
+                throw new DatabaseException(msg?.Message);
+            }
+            return (await rsp.Content.ReadFromJsonAsync<IEnumerable<Schedule>>(cancellationToken: token))!;
+        }
+        catch (Exception e) {
+            _logger.LogError("Error creating dispositions: {@e}", e);
+            throw;
+        }
+    }
+
     #endregion
 
 }

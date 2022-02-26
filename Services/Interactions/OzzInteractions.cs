@@ -46,6 +46,7 @@ public class OzzInteractions : IOzzInteractions {
     public Interaction<ConfirmMessageConfig, ConfirmMessageResult> Confirm              { get; } = new();
     public Interaction<AudioRecording, Unit>                       ShowPlayer           { get; } = new();
     public Interaction<Unit, IEnumerable<Schedule>?>               CreateSchedules      { get; } = new();
+    public Interaction<Unit, Unit>                                 CreateDispositions   { get; } = new();
 
     #endregion
 
@@ -118,6 +119,16 @@ public class OzzInteractions : IOzzInteractions {
         ShowPlayer.RegisterHandler(HandleShowPlayer);
 
         CreateSchedules.RegisterHandler(HandleCreateSchedules);
+
+        CreateDispositions.RegisterHandler(async context => {
+            var vm = _resolver.GetService<CreateDispositionViewModel>();
+            var modal = new CreateDispositionsWindow {
+                DataContext = vm,
+            };
+
+            await modal.ShowDialog(_mainWindowProvider.GetMainWindow());
+            context.SetOutput(Unit.Default);
+        });
 
     }
 
