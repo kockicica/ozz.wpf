@@ -17,7 +17,7 @@
             <Setter Property="Spacing" Value="20" />
             <Setter Property="Height" Value="48" />
             <Setter Property="Opacity" Value="1" />
-            <Setter Property="Background" Value="WhiteSmoke" />
+            <!-- <Setter Property="Background" Value="WhiteSmoke" /> -->
         </Style>
         <Style Selector="TextBlock.h1">
             <Setter Property="FontSize" Value="18" />
@@ -50,8 +50,8 @@
                             <Styles.Resources>
                                 <SolidColorBrush x:Key="ToggleButtonBackground">Transparent</SolidColorBrush>
                                 <SolidColorBrush x:Key="ToggleButtonBackgroundChecked">Transparent</SolidColorBrush>
-                                <!-- <SolidColorBrush x:Key="ToggleButtonBackgroundCheckedPointerOver">LightGray</SolidColorBrush> -->
-                                <!-- <SolidColorBrush x:Key="ToggleButtonBackgroundPointerOver">LightGray</SolidColorBrush> -->
+                                <SolidColorBrush x:Key="ToggleButtonBackgroundCheckedPointerOver" Color="{StaticResource SystemBaseHighColor}" Opacity="0.1" />
+                                <SolidColorBrush x:Key="ToggleButtonBackgroundPointerOver" Color="{StaticResource SystemBaseHighColor}" Opacity="0.1" />
                             </Styles.Resources>
                         </Styles>
                     </ToggleButton.Styles>
