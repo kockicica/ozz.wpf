@@ -2,8 +2,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-        xmlns:iac="clr-namespace:Avalonia.Xaml.Interactions.Custom;assembly=Avalonia.Xaml.Interactions"
         xmlns:controls="clr-namespace:ozz.wpf.Controls"
         xmlns:createSchedule="clr-namespace:ozz.wpf.Views.ScheduleManager.CreateSchedule"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -19,10 +17,10 @@
         <Panel Margin="{Binding #CreateSchedule.OffScreenMargin}">
             <Border Background="{DynamicResource ThemeBackgroundBrush}" Margin="{Binding #CreateSchedule.WindowDecorationMargin}">
                 <Grid RowDefinitions="*, Auto">
-                    <createSchedule:CreateScheduleView DataContext="{Binding ScheduleViewModel}">
-                        <i:Interaction.Behaviors>
-                            <iac:FocusOnAttachedToVisualTreeBehavior />
-                        </i:Interaction.Behaviors>
+                    <createSchedule:CreateScheduleView DataContext="{Binding ScheduleViewModel}" x:Name="CreateScheduleView">
+                        <!-- <i:Interaction.Behaviors> -->
+                        <!--     <iac:FocusOnAttachedToVisualTreeBehavior /> -->
+                        <!-- </i:Interaction.Behaviors> -->
                     </createSchedule:CreateScheduleView>
                     <Grid Grid.Row="1" Margin="10 0 10 10" ColumnDefinitions="*,Auto,Auto">
                         <Button Command="{Binding CloseCommand}" Content="Prekid" />

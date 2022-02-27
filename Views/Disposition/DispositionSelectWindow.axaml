@@ -2,9 +2,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+        xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
         xmlns:controls="clr-namespace:ozz.wpf.Controls"
         xmlns:models="clr-namespace:ozz.wpf.Models"
         xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
+        xmlns:behaviors="clr-namespace:ozz.wpf.Behaviors"
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False" SizeToContent="Width"
         MinWidth="400" MinHeight="150" MaxHeight="400"
         ExtendClientAreaToDecorationsHint="True"
@@ -15,6 +18,12 @@
         x:Class="ozz.wpf.Views.Disposition.DispositionSelectWindow"
         x:Name="DispositionSelect"
         Title="Izbor dispozicije">
+    <i:Interaction.Behaviors>
+        <behaviors:OnKeyDownTappedTriggerBehavior Key="Escape" TargetControl="{Binding #DispositionSelect}">
+            <ia:CallMethodAction TargetObject="{Binding #DispositionSelect}" MethodName="Close" />
+        </behaviors:OnKeyDownTappedTriggerBehavior>
+    </i:Interaction.Behaviors>
+    
     <Panel>
         <Panel Margin="{Binding #DispositionSelect.OffScreenMargin}">
             <Border Background="{DynamicResource ThemeBackgroundBrush}" Margin="{Binding #DispositionSelect.WindowDecorationMargin}">

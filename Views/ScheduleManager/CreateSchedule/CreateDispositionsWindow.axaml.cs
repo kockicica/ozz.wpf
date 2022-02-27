@@ -1,19 +1,16 @@
 using System;
 
 using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
+using Avalonia.Input;
+using Avalonia.Input.Raw;
 using Avalonia.Markup.Xaml;
 
 using ozz.wpf.Dialog;
-
-using ReactiveUI;
 
 namespace ozz.wpf.Views.ScheduleManager.CreateSchedule;
 
 public partial class CreateDispositionsWindow : DialogWindowBase<DialogResultBase> {
 
-    CalendarDatePicker dp;
 
     public CreateDispositionsWindow() {
         InitializeComponent();
@@ -21,24 +18,19 @@ public partial class CreateDispositionsWindow : DialogWindowBase<DialogResultBas
         this.AttachDevTools();
 #endif
 
-        dp = this.FindControl<CalendarDatePicker>("DatePicker");
-
-        this.WhenActivated(d => { dp.Focus(); });
 
 
-    }
 
-    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e) {
-        base.OnAttachedToVisualTree(e);
     }
 
     protected override void OnOpened(EventArgs e) {
         base.OnOpened(e);
-        dp.Focus();
-    }
-
-    protected override void OnTemplateApplied(TemplateAppliedEventArgs e) {
-        base.OnTemplateApplied(e);
+        InputManager.Instance.ProcessInput(new RawKeyEventArgs(KeyboardDevice.Instance,
+                                                               0,
+                                                               this,
+                                                               RawKeyEventType.KeyDown,
+                                                               Key.Tab,
+                                                               RawInputModifiers.None));
     }
 
     private void InitializeComponent() {

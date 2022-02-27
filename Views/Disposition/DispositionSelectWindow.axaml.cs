@@ -5,6 +5,8 @@ using System.Reactive.Linq;
 
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Input.Raw;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 
@@ -38,6 +40,16 @@ public partial class DispositionSelectWindow : DialogWindowBase<DispositionSelec
                 .Subscribe()
                 .DisposeWith(d);
         });
+    }
+
+    protected override void OnOpened(EventArgs e) {
+        base.OnOpened(e);
+        InputManager.Instance.ProcessInput(new RawKeyEventArgs(KeyboardDevice.Instance,
+                                                               0,
+                                                               this,
+                                                               RawKeyEventType.KeyDown,
+                                                               Key.Tab,
+                                                               RawInputModifiers.None));
     }
 
     private void InitializeComponent() {

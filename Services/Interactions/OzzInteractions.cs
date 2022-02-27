@@ -134,32 +134,26 @@ public class OzzInteractions : IOzzInteractions {
             context.SetOutput(Unit.Default);
         });
 
-        SelectDisposition.RegisterHandler(async context => {
-            var vm = _resolver.GetService<DispositionSelectViewModel>();
+        SelectDisposition.RegisterHandler(HandleSelectDisposition);
 
-            var items = Enumerable
-                        .Range(0, 14)
-                        .Select(d => Enumerable
-                                     .Range(1, 4)
-                                     .Select(i => new DispositionSelectItem {
-                                         Date = DateTime.Now.AddDays(d),
-                                         Shift = i
-                                     })
-                        )
-                        .SelectMany(enumerable => enumerable)
-                        .ToList();
+    }
 
-            vm.Items = new ObservableCollection<DispositionSelectItem>(items);
-            vm.SelectedIndex = 0;
+    private async Task HandleSelectDisposition(InteractionContext<Unit, DispositionSelectItem?> context) {
+        var vm = _resolver.GetService<DispositionSelectViewModel>();
 
-            var modal = new DispositionSelectWindow {
-                DataContext = vm,
-            };
-            var res = await modal.ShowDialog<DispositionSelectResult>(_mainWindowProvider.GetMainWindow());
-            res ??= new DispositionSelectResult(null);
-            context.SetOutput(res.Item);
+        var items = Enumerable.Range(0, 14)
+                              .Select(d => Enumerable.Range(1, 4)
+                                                     .Select(i => new DispositionSelectItem { Date = DateTime.Now.AddDays(d), Shift = i }))
+                              .SelectMany(enumerable => enumerable)
+                              .ToList();
 
-        });
+        vm.Items = new ObservableCollection<DispositionSelectItem>(items);
+        vm.SelectedIndex = 0;
+
+        var modal = new DispositionSelectWindow { DataContext = vm, };
+        var res = await modal.ShowDialog<DispositionSelectResult>(_mainWindowProvider.GetMainWindow());
+        res ??= new DispositionSelectResult(null);
+        context.SetOutput(res.Item);
 
     }
 
