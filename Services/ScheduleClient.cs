@@ -151,6 +151,22 @@ public class ScheduleClient : IScheduleClient {
         }
     }
 
+    public async Task<IEnumerable<Disposition>> FindDispositions(DispositionSearchParams sp, CancellationToken token = default) {
+        try {
+            var url = $"/api/dispositions{sp.ToQueryString()}";
+            var rsp = await _client.GetAsync(url, token);
+            if (!rsp.IsSuccessStatusCode) {
+                var msg = await rsp.Content.ReadFromJsonAsync<ServerErrorResponse>(cancellationToken: token);
+                throw new DatabaseException(msg?.Message);
+            }
+            return (await rsp.Content.ReadFromJsonAsync<IEnumerable<Disposition>>(cancellationToken: token))!;
+        }
+        catch (Exception e) {
+            _logger.LogError("Error finding dispositions: {@e}", e);
+            throw;
+        }
+    }
+
     #endregion
 
 }

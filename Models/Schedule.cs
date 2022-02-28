@@ -95,8 +95,3 @@ public class TimeSpanDurationJsonConverter : JsonConverter<TimeSpan> {
         writer.WriteNumberValue(value.TotalMilliseconds * 1_000_000);
     }
 }
-
-public class CreateDispositionParams {
-    public string From { get; set; }
-    public int    Days { get; set; }
-}

@@ -2,11 +2,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:ozz.wpf"
              xmlns:services="clr-namespace:ozz.wpf.Services"
+             xmlns:disposition="clr-namespace:ozz.wpf.Views.Disposition"
              x:Class="ozz.wpf.App">
     <Application.Resources>
         <services:DurationToStringConverter x:Key="DurationToStringConverter" />
         <services:ToIdConverter x:Key="ToIdConverter" />
         <services:BoolToStringConverter x:Key="BoolToStringConverter" />
+        <disposition:DispositionToShortDataConverter x:Key="DispositionToShortDataConverter" />
     </Application.Resources>
     <Application.DataTemplates>
         <local:ViewLocator />

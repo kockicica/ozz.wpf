@@ -14,14 +14,18 @@ public class DispositionSelectViewModel : DialogViewModelBase<DispositionSelectR
 
     private readonly ILogger<DispositionSelectViewModel> _logger;
 
-    private DispositionSelectItem? _selected;
+    //private DispositionSelectItem? _selected;
 
     private int? _selectedIndex;
 
     public DispositionSelectViewModel(ILogger<DispositionSelectViewModel> logger) {
         _logger = logger;
 
-        SelectDisposition = ReactiveCommand.Create(() => { Close(new DispositionSelectResult(Selected)); });
+        SelectDisposition = ReactiveCommand.Create(() => {
+            if (SelectedIndex != null) {
+                Close(new(Items![(int)SelectedIndex]));
+            }
+        });
 
     }
 
@@ -29,10 +33,10 @@ public class DispositionSelectViewModel : DialogViewModelBase<DispositionSelectR
 
     public ReactiveCommand<Unit, Unit> SelectDisposition { get; }
 
-    public DispositionSelectItem? Selected {
-        get => _selected;
-        set => this.RaiseAndSetIfChanged(ref _selected, value);
-    }
+    // public DispositionSelectItem? Selected {
+    //     get => _selected;
+    //     set => this.RaiseAndSetIfChanged(ref _selected, value);
+    // }
 
     public int? SelectedIndex {
         get => _selectedIndex;

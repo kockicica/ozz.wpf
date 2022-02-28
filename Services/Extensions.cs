@@ -20,4 +20,11 @@ public static class Extensions {
 
         return $"?{string.Join("&", items)}";
     }
+
+    public static string ToQueryString(this DispositionSearchParams sp) {
+        var items = new List<string>();
+        items.Add($"date={sp.Date:yyyy-MM-dd}");
+        items.Add($"shift={sp.Shift}");
+        return $"?{string.Join("&", items)}";
+    }
 }

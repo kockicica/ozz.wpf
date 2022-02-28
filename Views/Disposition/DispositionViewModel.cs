@@ -9,39 +9,55 @@ using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Avalonia.Collections;
+using Avalonia.Controls.Notifications;
+
 using Microsoft.Extensions.Logging;
 
 using ozz.wpf.Dialog;
 using ozz.wpf.Models;
 using ozz.wpf.Services;
 using ozz.wpf.Services.Interactions;
+using ozz.wpf.Views.Disposition;
 
 using ReactiveUI;
+
+using Notification = Avalonia.Controls.Notifications.Notification;
 
 namespace ozz.wpf.ViewModels;
 
 public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRoutableViewModel, ICaption {
 
-    private readonly IAudioRecordingsService                                 _audioRecordingsService;
-    private readonly ILogger<DialogWindowViewModel>                          _logger;
-    private readonly IOzzInteractions                                        _ozzInteractions;
-    private          ObservableAsPropertyHelper<IEnumerable<Category>?>      _categories;
-    private          ObservableAsPropertyHelper<IEnumerable<AudioRecording>> _recordings;
-    private          bool?                                                   _searchActive = true;
-    private          DateTime?                                               _searchFrom;
-    private          Subject<bool>                                           _searchSubject = new();
-    private          string                                                  _searchTerm;
-    private          DateTime?                                               _searchTo;
-    private          Category?                                               _selectedCategory;
-    private          AudioRecording?                                         _selectedRecording;
+    private readonly IAudioRecordingsService        _audioRecordingsService;
+    private readonly ILogger<DialogWindowViewModel> _logger;
+    private readonly INotificationManager           _notificationManager;
+    private readonly IOzzInteractions               _ozzInteractions;
+    private readonly IScheduleClient                _scheduleClient;
+
+    private ObservableAsPropertyHelper<IEnumerable<Category>?>      _categories;
+    private DispositionSelectItem                                   _currentDisposition;
+    private DispositionBlock                                        _dispositionBlock;
+    private DataGridCollectionView                                  _dispositions;
+    private ObservableAsPropertyHelper<IEnumerable<AudioRecording>> _recordings;
+    private bool?                                                   _searchActive = true;
+    private DateTime?                                               _searchFrom;
+    private Subject<bool>                                           _searchSubject = new();
+    private string                                                  _searchTerm;
+    private DateTime?                                               _searchTo;
+    private Category?                                               _selectedCategory;
+    private Disposition?                                            _selectedDisposition;
+    private AudioRecording?                                         _selectedRecording;
 
     public DispositionViewModel(IClient client, ILogger<DialogWindowViewModel> logger, IAudioRecordingsService audioRecordingsService, IScreen screen,
-                                IOzzInteractions ozzInteractions) {
+                                IOzzInteractions ozzInteractions, IScheduleClient scheduleClient, INotificationManager notificationManager) {
 
         _logger = logger;
         _audioRecordingsService = audioRecordingsService;
         HostScreen = screen;
         _ozzInteractions = ozzInteractions;
+        _scheduleClient = scheduleClient;
+        _notificationManager = notificationManager;
+        _dispositionBlock = new DispositionBlock();
 
         ProcessCategory = ReactiveCommand.Create<Category>(cat => SelectedCategory = cat, Observable.Return(true));
 
@@ -58,9 +74,23 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
 
         ViewPlayerCommand = ReactiveCommand.Create<AudioRecording>(ExecuteShowPlayerInteraction);
 
-        SelectDisposition = ReactiveCommand.CreateFromTask<Unit, DispositionSelectItem>(async unit => {
+        SelectDisposition = ReactiveCommand.CreateFromTask<Unit, DispositionSelectItem?>(async unit => {
             var res = await _ozzInteractions.SelectDisposition.Handle(Unit.Default);
             return res;
+        });
+
+        SortDispositionsByRemaining = ReactiveCommand.Create(() => {
+            Dispositions?.SortDescriptions.Clear();
+            Dispositions?.SortDescriptions.Add(DataGridSortDescription.FromPath(nameof(Disposition.PlayCountRemaining)).SwitchSortDirection());
+            Dispositions?.Refresh();
+        });
+
+        HandleSelectedDisposition = ReactiveCommand.Create(() => {
+            if (SelectedDisposition != null) {
+                DispositionBlock.HandleDisposition(SelectedDisposition);
+                this.RaisePropertyChanged(nameof(CurrentBlockCount));
+                this.RaisePropertyChanged(nameof(CurrentBlockDuration));
+            }
         });
 
         this.WhenActivated(d => {
@@ -95,6 +125,28 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
                 .Where(recordings => recordings != null)
                 .Subscribe(recordings => SelectedRecording = recordings.FirstOrDefault())
                 .DisposeWith(d);
+
+            SelectDisposition
+                .Where(x => x != null)
+                .Do(x => CurrentDisposition = x)
+                .SelectMany(item => _scheduleClient.FindDispositions(new DispositionSearchParams { Date = item.Date, Shift = item.Shift })
+                                                   .ToObservable(RxApp.MainThreadScheduler)
+                                                   .Catch<IEnumerable<Disposition>, Exception>(err => {
+                                                       var msg = new Notification("Greška",
+                                                                                  $"Greška prilikom preterage dispozicija:\r\n{err.Message}",
+                                                                                  NotificationType.Error);
+                                                       _notificationManager.Show(msg);
+                                                       return Observable.Never<IEnumerable<Disposition>?>()!;
+                                                   })
+                )
+                .Subscribe(dispositions => {
+                    Dispositions = new DataGridCollectionView(dispositions, false, false);
+                    DispositionBlock.Clear();
+                    this.RaisePropertyChanged(nameof(CurrentBlockCount));
+                    this.RaisePropertyChanged(nameof(CurrentBlockDuration));
+                })
+                .DisposeWith(d);
+
         });
 
     }
@@ -129,7 +181,11 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
 
     public ReactiveCommand<string?, Unit> ClearDate { get; set; }
 
-    public ReactiveCommand<Unit, DispositionSelectItem> SelectDisposition { get; }
+    public ReactiveCommand<Unit, DispositionSelectItem?> SelectDisposition { get; }
+
+    public ReactiveCommand<Unit, Unit> SortDispositionsByRemaining { get; }
+
+    public ReactiveCommand<Unit, Unit> HandleSelectedDisposition { get; }
 
     public bool? SearchActive {
         get => _searchActive;
@@ -145,6 +201,30 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
         get => _searchTo;
         set => this.RaiseAndSetIfChanged(ref _searchTo, value);
     }
+
+    public DispositionSelectItem CurrentDisposition {
+        get => _currentDisposition;
+        set => this.RaiseAndSetIfChanged(ref _currentDisposition, value);
+    }
+
+    public DataGridCollectionView Dispositions {
+        get => _dispositions;
+        set => this.RaiseAndSetIfChanged(ref _dispositions, value);
+    }
+
+    public Disposition? SelectedDisposition {
+        get => _selectedDisposition;
+        set => this.RaiseAndSetIfChanged(ref _selectedDisposition, value);
+    }
+
+    public DispositionBlock DispositionBlock {
+        get => _dispositionBlock;
+        set => this.RaiseAndSetIfChanged(ref _dispositionBlock, value);
+    }
+
+    public TimeSpan CurrentBlockDuration => DispositionBlock.TotalDuration;
+
+    public int CurrentBlockCount => DispositionBlock.TotalCount;
 
     #region IActivatableViewModel Members
 

@@ -25,6 +25,8 @@ public static class DesignData {
                NullLogger<DialogWindowViewModel>.Instance,
                new DesignTimeAudioRecordingsService(),
                null,
+               null,
+               null,
                null);
 
     public static AudioPlayerViewModel AudioPlayerViewModel
