@@ -14,7 +14,7 @@
         <SolidColorBrush x:Key="CloseButtonBackgroundPointerOver" Color="IndianRed" />
         <SolidColorBrush x:Key="CloseButtonBackgroundPressed" Color="IndianRed" />
 
-        <SolidColorBrush x:Key="CloseButtonForeground" Color="Black" />
+        <SolidColorBrush x:Key="CloseButtonForeground" Color="White" />
         <SolidColorBrush x:Key="CloseButtonForegroundPointerOver" Color="White" />
         <SolidColorBrush x:Key="CloseButtonForegroundPressed" Color="White" />
     </Styles.Resources>
@@ -36,7 +36,7 @@
             <ControlTemplate>
                 <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
-                    <PathIcon x:Name="PART_PathIcon" Data="{DynamicResource xmark}" Width="10" />
+                    <PathIcon x:Name="PART_PathIcon" Data="{DynamicResource xmark}" Width="10" Foreground="{TemplateBinding Foreground}"/>
                 </Border>
             </ControlTemplate>
         </Setter>

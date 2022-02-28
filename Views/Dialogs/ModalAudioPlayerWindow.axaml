@@ -30,7 +30,7 @@
     </i:Interaction.Behaviors>
     <Panel>
         <Panel Margin="{Binding #ModalAudioPlayer.OffScreenMargin}">
-            <Border Background="{DynamicResource ThemeBackgroundBrush}" Margin="{Binding #ModalAudioPlayer.WindowDecorationMargin}">
+            <Border Background="{DynamicResource ThemeBackgroundColor}" Margin="{Binding #ModalAudioPlayer.WindowDecorationMargin}">
                 <DockPanel LastChildFill="True">
                     <Border Padding="5">
                         <Grid RowDefinitions="*, *">

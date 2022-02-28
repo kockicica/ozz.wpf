@@ -26,7 +26,7 @@
     
     <Panel>
         <Panel Margin="{Binding #DispositionSelect.OffScreenMargin}">
-            <Border Background="{DynamicResource ThemeBackgroundBrush}" Margin="{Binding #DispositionSelect.WindowDecorationMargin}">
+            <Border Background="{DynamicResource ThemeBackgroundColor}" Margin="{Binding #DispositionSelect.WindowDecorationMargin}">
                 <Grid RowDefinitions="*, Auto">
                     <ListBox Grid.Row="0" Items="{Binding Items}" SelectionMode="Single" SelectedIndex="{Binding SelectedIndex}" x:Name="ListBox">
                         <ListBox.Styles>

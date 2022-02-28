@@ -1,0 +1,68 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+    
+    <!-- Add Styles Here -->
+    <Style Selector="DataGridCell">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid x:Name="PART_CellRoot"
+                      ColumnDefinitions="*,Auto"
+                      Background="{TemplateBinding Background}">
+
+                    <Rectangle x:Name="CurrencyVisual"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Stretch"
+                               Fill="Transparent"
+                               IsHitTestVisible="False"
+                               Stroke="{DynamicResource DataGridCurrencyVisualPrimaryBrush}"
+                               StrokeThickness="1" />
+                    <Grid x:Name="FocusVisual"
+                          IsHitTestVisible="False">
+                        <Rectangle HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Stretch"
+                                   Fill="Transparent"
+                                   IsHitTestVisible="False"
+                                   Stroke="{DynamicResource DataGridCellFocusVisualPrimaryBrush}"
+                                   StrokeJoin="Round"
+                                   StrokeLineCap="Round"
+                                   StrokeThickness="1" />
+                        <!-- <Rectangle Margin="2" -->
+                        <!--            HorizontalAlignment="Stretch" -->
+                        <!--            VerticalAlignment="Stretch" -->
+                        <!--            Fill="Transparent" -->
+                        <!--            IsHitTestVisible="False" -->
+                        <!--            Stroke="{DynamicResource DataGridCellFocusVisualSecondaryBrush}" -->
+                        <!--            StrokeThickness="1" /> -->
+                    </Grid>
+
+                    <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Content="{TemplateBinding Content}"
+                                      Margin="{TemplateBinding Padding}"
+                                      TextBlock.Foreground="{TemplateBinding Foreground}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+                    <Rectangle x:Name="InvalidVisualElement"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Stretch"
+                               IsHitTestVisible="False"
+                               Stroke="{DynamicResource DataGridCellInvalidBrush}"
+                               StrokeThickness="1" />
+
+                    <Rectangle Name="PART_RightGridLine"
+                               Grid.Column="1"
+                               VerticalAlignment="Stretch"
+                               Width="1"
+                               Fill="{DynamicResource DataGridFillerColumnGridLinesBrush}" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+
+    </Style>
+
+</Styles>

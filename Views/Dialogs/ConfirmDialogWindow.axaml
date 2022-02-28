@@ -22,7 +22,7 @@
     <!-- </Window.Styles> -->
     <Panel>
         <Panel Margin="{Binding #ConfirmDialog.OffScreenMargin}">
-            <Border Background="{DynamicResource ThemeBackgroundBrush}" Margin="{Binding #ConfirmDialog.WindowDecorationMargin}">
+            <Border Background="{DynamicResource ThemeBackgroundColor}" Margin="{Binding #ConfirmDialog.WindowDecorationMargin}">
             <Grid RowDefinitions="*, Auto">
                 <Grid Grid.Row="0" ColumnDefinitions="Auto, *" VerticalAlignment="Center" Margin="20 0 20 0">
                     <!-- <Image Height="64" Width="64" Source="{StaticResource xmarkDrawingImage}"></Image> -->

@@ -28,7 +28,7 @@
     
     <Panel>
         <Panel Margin="{Binding #CreateDisposition.OffScreenMargin}">
-            <Border Background="{DynamicResource ThemeBackgroundBrush}" Margin="{Binding #CreateDisposition.WindowDecorationMargin}">
+            <Border Background="{DynamicResource ThemeBackgroundColor}" Margin="{Binding #CreateDisposition.WindowDecorationMargin}">
                 <Grid RowDefinitions="*, Auto">
                     <Border HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Grid Grid.Row="0" ColumnDefinitions="Auto,10,150" RowDefinitions="Auto,10,Auto" x:Name="FormGrid" Margin="20"

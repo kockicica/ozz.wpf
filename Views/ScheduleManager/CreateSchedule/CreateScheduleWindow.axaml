@@ -15,7 +15,7 @@
         Title="Novi raspored">
     <Panel>
         <Panel Margin="{Binding #CreateSchedule.OffScreenMargin}">
-            <Border Background="{DynamicResource ThemeBackgroundBrush}" Margin="{Binding #CreateSchedule.WindowDecorationMargin}">
+            <Border Background="{DynamicResource ThemeBackgroundColor}" Margin="{Binding #CreateSchedule.WindowDecorationMargin}">
                 <Grid RowDefinitions="*, Auto">
                     <createSchedule:CreateScheduleView DataContext="{Binding ScheduleViewModel}" x:Name="CreateScheduleView">
                         <!-- <i:Interaction.Behaviors> -->
