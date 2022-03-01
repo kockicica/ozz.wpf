@@ -27,7 +27,9 @@ public static class DesignData {
                null,
                null,
                null,
-               null);
+               null) {
+            CurrentDisposition = new DispositionSelectItem { Date = DateTime.Now, Shift = 1 },
+        };
 
     public static AudioPlayerViewModel AudioPlayerViewModel
         => new(NullLogger<AudioPlayerViewModel>.Instance,

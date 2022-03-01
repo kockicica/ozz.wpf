@@ -20,6 +20,24 @@
             <Setter Property="FontWeight" Value="Heavy" />
             <Setter Property="FontSize" Value="16" />
         </Style>
+        <Style Selector="Grid#DispositionShiftGrid">
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <!-- <Setter Property="Background" Value="red"></Setter> -->
+            <Setter Property="Margin" Value="0 0 0 0" />
+            <!-- <Setter Property="ShowGridLines" Value="True"></Setter> -->
+        </Style>
+        <Style Selector="Grid#DispositionShiftGrid TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style Selector="TextBlock.selected_disposition_date">
+            <Setter Property="FontWeight" Value="Heavy" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Foreground" Value="{DynamicResource SystemAccentColorLight1}" />
+        </Style>
+        <Style Selector="TextBlock.selected_disposition_shift">
+            <Setter Property="FontWeight" Value="Heavy" />
+        </Style>
     </UserControl.Styles>
     <Grid RowDefinitions="Auto,*, Auto">
         <TabStrip Items="{Binding Categories}" SelectedItem="{Binding SelectedCategory}" KeyboardNavigation.TabNavigation="None"
@@ -82,10 +100,13 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" Spacing="2" Margin="0 10 0 10">
-                <TextBlock Text="{Binding CurrentDisposition.Date, StringFormat={}{0:dddd\, dd.MM.yyyy}}" />
-                <TextBlock Text="{Binding CurrentDisposition.Shift, StringFormat=Smena:{0}}" />
-            </StackPanel>
+            <Grid Grid.Row="0" Grid.Column="2" RowDefinitions="*,*" ColumnDefinitions="*,10,Auto"
+                  x:Name="DispositionShiftGrid">
+                <TextBlock Grid.Row="0" Classes="selected_disposition_date" Grid.ColumnSpan="3"
+                           Text="{Binding CurrentDisposition.Date, StringFormat={}{0:dddd\, dd.MM.yyyy}}" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Smena"/>
+                <TextBlock Grid.Row="1" Grid.Column="2" Classes="selected_disposition_shift" Text="{Binding CurrentDisposition.Shift}" />
+            </Grid>
             <DataGrid Grid.Row="1" Grid.Column="2" Items="{Binding Dispositions}" AutoGenerateColumns="False" x:DataType="models:Disposition"
                       SelectedItem="{Binding SelectedDisposition}" CanUserResizeColumns="True" CanUserSortColumns="True"
                       x:Name="DispositionsDataGrid"
