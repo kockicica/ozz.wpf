@@ -93,7 +93,7 @@
                     </StackPanel>
                     <DataGrid Grid.Row="1" Items="{Binding Dispositions}" AutoGenerateColumns="False" x:DataType="models:Disposition"
                               SelectedItem="{Binding SelectedDisposition}" CanUserResizeColumns="True" CanUserSortColumns="True"
-                              Focusable="True">
+                              IsReadOnly="True" Focusable="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="" Binding="{Binding OrderAsString}" Width="*" />
                             <DataGridTextColumn Header="" Binding="{Binding ., Converter={StaticResource DispositionToShortDataConverter}}" Width="*" />
