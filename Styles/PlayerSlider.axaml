@@ -25,11 +25,11 @@
         <GridLength x:Key="PlayerSliderPostContentMargin">15</GridLength>
 
 
-        <StaticResource x:Key="PlayerSliderTrackFill" ResourceKey="SystemControlForegroundBaseMediumLowBrush" />
-        <StaticResource x:Key="PlayerSliderTrackValueFill" ResourceKey="SystemControlHighlightAccentBrush" />
+        <StaticResource x:Key="PlayerSliderTrackFill" ResourceKey="SystemControlForegroundBaseLowBrush" />
+        <StaticResource x:Key="PlayerSliderTrackValueFill" ResourceKey="SystemAccentColorLight3" />
 
         <!-- <StaticResource x:Key="PlayerSliderThumbBackground" ResourceKey="SystemControlForegroundAccentBrush" /> -->
-        <SolidColorBrush x:Key="PlayerSliderThumbBackground" Color="{DynamicResource ThemeAccentColor}" />
+        <SolidColorBrush x:Key="PlayerSliderThumbBackground" Color="{DynamicResource SystemAccentColorDark1}" />
         <!-- <StaticResource x:Key="PlayerSliderThumbBackground" ResourceKey="ThemeAccentColor" /> -->
         <StaticResource x:Key="PlayerSliderThumbBackgroundPointerOver" ResourceKey="SystemAccentColorLight1" />
         <StaticResource x:Key="PlayerSliderThumbBackgroundPressed" ResourceKey="SystemAccentColorDark1" />
