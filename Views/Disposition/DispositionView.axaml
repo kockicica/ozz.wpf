@@ -8,7 +8,7 @@
              xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
              xmlns:models="clr-namespace:ozz.wpf.Models"
              xmlns:controls="clr-namespace:ozz.wpf.Controls"
-             x:Name="Disposition" KeyUp="InputElement_OnKeyUp"
+             x:Name="Disposition" KeyUp="InputElement_OnKeyUp" Background="{DynamicResource ThemeBackgroundColor}"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" d:DataContext="{x:Static viewModels:DesignData.DispositionViewModel}"
              x:Class="ozz.wpf.Views.Disposition.DispositionView">
     <UserControl.Styles>
@@ -22,104 +22,94 @@
         </Style>
     </UserControl.Styles>
     <Grid RowDefinitions="Auto,*, Auto">
-        <TabStrip Items="{Binding Categories}" SelectedItem="{Binding SelectedCategory}" KeyboardNavigation.TabNavigation="None" x:Name="CategoryTabStrip">
+        <TabStrip Items="{Binding Categories}" SelectedItem="{Binding SelectedCategory}" KeyboardNavigation.TabNavigation="None"
+                  x:Name="CategoryTabStrip">
             <TabStrip.ItemTemplate>
                 <DataTemplate x:DataType="models:Category">
                     <TextBlock Text="{Binding Name}" />
                 </DataTemplate>
             </TabStrip.ItemTemplate>
         </TabStrip>
-        <Grid Grid.Row="1" ColumnDefinitions="8*, 4*">
-            <DockPanel Grid.Column="0">
-                <Grid DockPanel.Dock="Top">
-                    <StackPanel Margin="5" Spacing="5" KeyboardNavigation.TabNavigation="None">
-                        <TextBox Text="{Binding SearchTerm}" VerticalAlignment="Center" Watermark="Naziv ili deo naziva" Classes="clearButton" />
-                        <controls:CustomExpander Header="Napredna pretraga" IsTabStop="False">
-                            <StackPanel Orientation="Vertical" Spacing="5">
-                                <StackPanel Orientation="Horizontal" Spacing="5">
-                                    <TextBlock Text="Od:" VerticalAlignment="Center" />
-                                    <!-- <DatePicker x:Name="FromPicker" SelectedDate="{Binding SearchFrom}" VerticalAlignment="Center" /> -->
-                                    <CalendarDatePicker x:Name="FromPicker" SelectedDate="{Binding SearchFrom, Mode=TwoWay}" />
-                                    <TextBlock Text="Do:" VerticalAlignment="Center" />
-                                    <CalendarDatePicker x:Name="ToPicker" SelectedDate="{Binding SearchTo, Mode=TwoWay}" />
-                                    <CheckBox IsThreeState="True" IsChecked="{Binding SearchActive}">Aktivni?</CheckBox>
-                                    <!-- <Button Content="Clear" VerticalAlignment="Center" Command="{Binding ClearDate}" CommandParameter="searchFrom" /> -->
-                                </StackPanel>
-                                <!-- <StackPanel Orientation="Horizontal" Spacing="5"> -->
-                                <!--     <TextBlock Text="Do:" VerticalAlignment="Center" /> -->
-                                <!--     <DatePicker x:Name="ToPicker" SelectedDate="{Binding SearchTo}" VerticalAlignment="Center" /> -->
-                                <!--     <Button Content="Clear" VerticalAlignment="Center" Command="{Binding ClearDate}" CommandParameter="searchTo" /> -->
-                                <!-- </StackPanel> -->
-                            </StackPanel>
-                        </controls:CustomExpander>
+        <Grid Grid.Row="1" ColumnDefinitions="8*, 5, 4*" RowDefinitions="Auto,*,Auto">
+            <StackPanel Margin="5" Spacing="5" KeyboardNavigation.TabNavigation="None" Grid.Row="0" Grid.Column="0">
+                <TextBox Text="{Binding SearchTerm}" VerticalAlignment="Center" Watermark="Naziv ili deo naziva" Classes="clearButton" />
+                <controls:CustomExpander Header="Napredna pretraga" IsTabStop="False">
+                    <StackPanel Orientation="Vertical" Spacing="5">
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <TextBlock Text="Od:" VerticalAlignment="Center" />
+                            <!-- <DatePicker x:Name="FromPicker" SelectedDate="{Binding SearchFrom}" VerticalAlignment="Center" /> -->
+                            <CalendarDatePicker x:Name="FromPicker" SelectedDate="{Binding SearchFrom, Mode=TwoWay}" />
+                            <TextBlock Text="Do:" VerticalAlignment="Center" />
+                            <CalendarDatePicker x:Name="ToPicker" SelectedDate="{Binding SearchTo, Mode=TwoWay}" />
+                            <CheckBox IsThreeState="True" IsChecked="{Binding SearchActive}">Aktivni?</CheckBox>
+                            <!-- <Button Content="Clear" VerticalAlignment="Center" Command="{Binding ClearDate}" CommandParameter="searchFrom" /> -->
+                        </StackPanel>
+                        <!-- <StackPanel Orientation="Horizontal" Spacing="5"> -->
+                        <!--     <TextBlock Text="Do:" VerticalAlignment="Center" /> -->
+                        <!--     <DatePicker x:Name="ToPicker" SelectedDate="{Binding SearchTo}" VerticalAlignment="Center" /> -->
+                        <!--     <Button Content="Clear" VerticalAlignment="Center" Command="{Binding ClearDate}" CommandParameter="searchTo" /> -->
+                        <!-- </StackPanel> -->
                     </StackPanel>
-                </Grid>
-                <DataGrid Name="RecordingGrid" Items="{Binding Recordings}" AutoGenerateColumns="False" x:DataType="models:AudioRecording"
-                          IsReadOnly="True"
-                          IsTabStop="True" Focusable="True"
-                          CanUserResizeColumns="True" SelectionMode="Single" SelectedItem="{Binding SelectedRecording}">
-                    <i:Interaction.Behaviors>
-                        <iac:FocusOnAttachedToVisualTreeBehavior />
-                        <ia:EventTriggerBehavior EventName="DoubleTapped" SourceObject="{Binding #RecordingGrid}">
-                            <ia:InvokeCommandAction Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}" />
-                        </ia:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
+                </controls:CustomExpander>
+            </StackPanel>
+            <DataGrid Grid.Column="0" Grid.Row="1" Name="RecordingGrid" Items="{Binding Recordings}" AutoGenerateColumns="False"
+                      x:DataType="models:AudioRecording"
+                      IsReadOnly="True"
+                      IsTabStop="True" Focusable="True"
+                      CanUserResizeColumns="True" SelectionMode="Single" SelectedItem="{Binding SelectedRecording}">
+                <i:Interaction.Behaviors>
+                    <iac:FocusOnAttachedToVisualTreeBehavior />
+                    <ia:EventTriggerBehavior EventName="DoubleTapped" SourceObject="{Binding #RecordingGrid}">
+                        <ia:InvokeCommandAction Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}" />
+                    </ia:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
 
-                    <!-- Focusable="True" TabIndex="0" IsTabStop="True" -->
-                    <DataGrid.KeyBindings>
-                        <KeyBinding Gesture="Enter" Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}" />
-                        <KeyBinding Gesture="Space" Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}" />
-                        <KeyBinding Gesture="F2" Command="{Binding SelectDisposition}" />
-                    </DataGrid.KeyBindings>
-                    <DataGrid.Columns>
-                        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                        <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="4*" />
-                        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                        <DataGridTextColumn Header="Datum" Binding="{Binding Date, StringFormat={}{0:dd.MM.yyyy}}" Width="2*" />
-                        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                        <DataGridTextColumn Header="Trajanje" Binding="{Binding Duration, Converter={StaticResource DurationToStringConverter}}"
-                                            Width="*" />
-                    </DataGrid.Columns>
-                </DataGrid>
+                <!-- Focusable="True" TabIndex="0" IsTabStop="True" -->
+                <DataGrid.KeyBindings>
+                    <KeyBinding Gesture="Enter" Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}" />
+                    <KeyBinding Gesture="Space" Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}" />
+                    <KeyBinding Gesture="F2" Command="{Binding SelectDisposition}" />
+                </DataGrid.KeyBindings>
+                <DataGrid.Columns>
+                    <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                    <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="4*" />
+                    <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                    <DataGridTextColumn Header="Datum" Binding="{Binding Date, StringFormat={}{0:dd.MM.yyyy}}" Width="2*" />
+                    <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                    <DataGridTextColumn Header="Trajanje" Binding="{Binding Duration, Converter={StaticResource DurationToStringConverter}}"
+                                        Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
 
-                <!-- <views:AudioRecordingsListView x:Name="RecordingsListView"> -->
-                <!-- </views:AudioRecordingsListView> -->
-            </DockPanel>
-            <Panel Grid.Column="1">
-                <Grid RowDefinitions="Auto,*,Auto">
-                    <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="2" Margin="0 10 0 10">
-                        <TextBlock Text="{Binding CurrentDisposition.Date, StringFormat={}{0:dddd\, dd.MM.yyyy}}" />
-                        <TextBlock Text="{Binding CurrentDisposition.Shift, StringFormat=Smena:{0}}" />
-                    </StackPanel>
-                    <DataGrid Grid.Row="1" Items="{Binding Dispositions}" AutoGenerateColumns="False" x:DataType="models:Disposition"
-                              SelectedItem="{Binding SelectedDisposition}" CanUserResizeColumns="True" CanUserSortColumns="True"
-                              IsReadOnly="True" Focusable="True">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="" Binding="{Binding OrderAsString}" Width="*" />
-                            <DataGridTextColumn Header="" Binding="{Binding ., Converter={StaticResource DispositionToShortDataConverter}}" Width="*" />
-                            <!-- <DataGridTextColumn Header="Kategorija" Binding="{Binding Category}"></DataGridTextColumn> -->
-                            <DataGridTextColumn Header="" Binding="{Binding PlayCountRemainingAsString}" Width="2*" />
-                            <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="6*" />
-                            <DataGridTextColumn Header="Trajanje" Width="3*"
-                                                Binding="{Binding Duration, Converter={StaticResource DurationToStringConverter}}" />
-                        </DataGrid.Columns>
-                        <DataGrid.KeyBindings>
-                            <KeyBinding Gesture="F2" Command="{Binding SortDispositionsByRemaining}" />
-                            <KeyBinding Gesture="Space" Command="{Binding HandleSelectedDisposition}" />
-                            <KeyBinding Gesture="Enter" Command="{Binding HandleSelectedDisposition}" />
-                        </DataGrid.KeyBindings>
-                    </DataGrid>
-                    <Grid Grid.Row="2">
-                        <Grid ColumnDefinitions="*,Auto,10,Auto,*,Auto,10,*" Classes="block_info" Margin="0 10 0 10">
-                            <TextBlock Grid.Column="1" Text="Blok" />
-                            <TextBlock Grid.Column="3" Classes="data_value" Text="{Binding CurrentBlockDuration, StringFormat='{}{0:hh\\:mm\\:ss}'}" />
-                            <TextBlock Grid.Column="5" Text="Označeno" />
-                            <TextBlock Grid.Column="7" Classes="data_value" Text="{Binding CurrentBlockCount}" />
-                        </Grid>
-                        <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center" Classes="block_info" />
-                    </Grid>
-                </Grid>
-            </Panel>
+            <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" Spacing="2" Margin="0 10 0 10">
+                <TextBlock Text="{Binding CurrentDisposition.Date, StringFormat={}{0:dddd\, dd.MM.yyyy}}" />
+                <TextBlock Text="{Binding CurrentDisposition.Shift, StringFormat=Smena:{0}}" />
+            </StackPanel>
+            <DataGrid Grid.Row="1" Grid.Column="2" Items="{Binding Dispositions}" AutoGenerateColumns="False" x:DataType="models:Disposition"
+                      SelectedItem="{Binding SelectedDisposition}" CanUserResizeColumns="True" CanUserSortColumns="True"
+                      IsReadOnly="True" Focusable="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="" Binding="{Binding OrderAsString}" Width="*" />
+                    <DataGridTextColumn Header="" Binding="{Binding ., Converter={StaticResource DispositionToShortDataConverter}}" Width="*" />
+                    <!-- <DataGridTextColumn Header="Kategorija" Binding="{Binding Category}"></DataGridTextColumn> -->
+                    <DataGridTextColumn Header="" Binding="{Binding PlayCountRemainingAsString}" Width="2*" />
+                    <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="6*" />
+                    <DataGridTextColumn Header="Trajanje" Width="3*"
+                                        Binding="{Binding Duration, Converter={StaticResource DurationToStringConverter}}" />
+                </DataGrid.Columns>
+                <DataGrid.KeyBindings>
+                    <KeyBinding Gesture="F2" Command="{Binding SortDispositionsByRemaining}" />
+                    <KeyBinding Gesture="Space" Command="{Binding HandleSelectedDisposition}" />
+                    <KeyBinding Gesture="Enter" Command="{Binding HandleSelectedDisposition}" />
+                </DataGrid.KeyBindings>
+            </DataGrid>
+
+            <Grid Grid.Row="2" Grid.Column="2" ColumnDefinitions="*,Auto,10,Auto,*,Auto,10,*" Classes="block_info" Margin="0 10 0 10">
+                <TextBlock Grid.Column="1" Text="Blok" />
+                <TextBlock Grid.Column="3" Classes="data_value" Text="{Binding CurrentBlockDuration, StringFormat='{}{0:hh\\:mm\\:ss}'}" />
+                <TextBlock Grid.Column="5" Text="Označeno" />
+                <TextBlock Grid.Column="7" Classes="data_value" Text="{Binding CurrentBlockCount}" />
+            </Grid>
         </Grid>
         <StackPanel Grid.Row="2" Orientation="Horizontal" IsTabStop="False" KeyboardNavigation.TabNavigation="None">
             <Button Content="{Binding SelectedCategory.Name}" Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}" />
