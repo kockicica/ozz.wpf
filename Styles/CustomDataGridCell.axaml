@@ -64,5 +64,10 @@
         </Setter>
 
     </Style>
+    
+    <Style Selector="DataGridRowsPresenter#PART_RowsPresenter">
+        <Setter Property="Background" Value="White" />
+    </Style>
+    
 
 </Styles>
