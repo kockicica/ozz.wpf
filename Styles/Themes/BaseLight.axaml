@@ -71,11 +71,10 @@
                     <Color x:Key="SystemAccentColorDark3">#FF3F6F10</Color>      
                     
                     <Color x:Key="ThemeLow">#FF2E3532</Color>
-                    <Color x:Key="ThemeLowLight">#FF343d39</Color>
+                    <Color x:Key="ThemeLowLight">#FF343D39</Color>
                     <Color x:Key="ThemeMedium">#FF40504F</Color>
                     <Color x:Key="ThemeMediumLight">#FF415958</Color>
-                    <Color x:Key="ThemeLight">#FF8DA6BF</Color>
-                    <Color x:Key="ThemeLightLight">#FFB8C2E4</Color>
+                    <Color x:Key="ThemeLight">#FF3E4844</Color>
                     
                     
                     <Color x:Key="ThemeVeryLow">#FF8B2635</Color>
@@ -97,6 +96,8 @@
 
         <StaticResource x:Key="SystemControlDisabledBaseMediumLowBrush" ResourceKey="SystemBaseMediumLowColor" />
         
+        <!-- splitview -->
+        <SolidColorBrush x:Key="SystemControlPageBackgroundChromeLowBrush" Color="{DynamicResource ThemeLow}"/>
 
         <SolidColorBrush x:Key="ThemeBackgroundColor" Color="{DynamicResource ThemeLowLight}" />
         <!-- <SolidColorBrush x:Key="MainWindowChromeBackground" Color="#8b2635" /> -->
