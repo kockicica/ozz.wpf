@@ -68,6 +68,7 @@
                 <DataGrid.KeyBindings>
                     <KeyBinding Gesture="Enter" Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}" />
                     <KeyBinding Gesture="Space" Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}" />
+                    <KeyBinding Gesture="F6" Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}" />
                     <KeyBinding Gesture="F2" Command="{Binding SelectDisposition}" />
                 </DataGrid.KeyBindings>
                 <DataGrid.Columns>
@@ -87,6 +88,7 @@
             </StackPanel>
             <DataGrid Grid.Row="1" Grid.Column="2" Items="{Binding Dispositions}" AutoGenerateColumns="False" x:DataType="models:Disposition"
                       SelectedItem="{Binding SelectedDisposition}" CanUserResizeColumns="True" CanUserSortColumns="True"
+                      x:Name="DispositionsDataGrid"
                       IsReadOnly="True" Focusable="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="" Binding="{Binding OrderAsString}" Width="*" />
@@ -111,9 +113,29 @@
                 <TextBlock Grid.Column="7" Classes="data_value" Text="{Binding CurrentBlockCount}" />
             </Grid>
         </Grid>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" IsTabStop="False" KeyboardNavigation.TabNavigation="None">
-            <Button Content="{Binding SelectedCategory.Name}" Command="{Binding ViewPlayerCommand}" CommandParameter="{Binding SelectedRecording}" />
-            <TextBlock Text="{Binding SelectedRecording.Name}" VerticalAlignment="Center" />
-        </StackPanel>
+        <Border Grid.Row="2" Padding="8" Height="32" Background="{DynamicResource SystemAccentColorDark3}">
+            <Panel>
+                <StackPanel Orientation="Horizontal" IsTabStop="False" KeyboardNavigation.TabNavigation="None" HorizontalAlignment="Center"
+                            Spacing="20"
+                            IsVisible="{Binding #RecordingGrid.IsFocused}">
+                    <TextBlock Text="ENTER - Izbor" />
+                    <TextBlock Text="TAB - Panel" />
+                    <TextBlock Text="F2 - Dispozicije" />
+                    <TextBlock Text="F6 - Preslušavanje" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" IsTabStop="False" KeyboardNavigation.TabNavigation="None" HorizontalAlignment="Center"
+                            Spacing="20"
+                            IsVisible="{Binding #DispositionsDataGrid.IsFocused}">
+                    <TextBlock Text="TAB - Panel" />
+                    <TextBlock Text="ENTER - Pojedinačno" />
+                    <TextBlock Text="F4 - Petlja" />
+                    <TextBlock Text="F5 - Blok" />
+                    <TextBlock Text="F9 - Grupa" />
+                    <TextBlock Text="F10 - Deselektovanje" />
+                    <TextBlock Text="F12 - Random" />
+                </StackPanel>
+            </Panel>
+
+        </Border>
     </Grid>
 </UserControl>
