@@ -124,6 +124,7 @@
                     <KeyBinding Gesture="F2" Command="{Binding SortDispositionsByRemaining}" />
                     <KeyBinding Gesture="Space" Command="{Binding HandleSelectedDisposition}" />
                     <KeyBinding Gesture="Enter" Command="{Binding HandleSelectedDisposition}" />
+                    <KeyBinding Gesture="F10" Command="{Binding ClearSelectedDispositions}" />
                 </DataGrid.KeyBindings>
             </DataGrid>
 

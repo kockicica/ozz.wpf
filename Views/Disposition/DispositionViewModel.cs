@@ -93,6 +93,12 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
             }
         });
 
+        ClearSelectedDispositions = ReactiveCommand.Create(() => {
+            DispositionBlock.Clear();
+            this.RaisePropertyChanged(nameof(CurrentBlockCount));
+            this.RaisePropertyChanged(nameof(CurrentBlockDuration));
+        });
+
         this.WhenActivated(d => {
 
             _categories = client
@@ -186,6 +192,8 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
     public ReactiveCommand<Unit, Unit> SortDispositionsByRemaining { get; }
 
     public ReactiveCommand<Unit, Unit> HandleSelectedDisposition { get; }
+
+    public ReactiveCommand<Unit, Unit> ClearSelectedDispositions { get; }
 
     public bool? SearchActive {
         get => _searchActive;

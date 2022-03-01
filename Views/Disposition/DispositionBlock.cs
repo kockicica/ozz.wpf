@@ -29,6 +29,9 @@ public class DispositionBlock {
     }
 
     public void Clear() {
+        foreach (var disposition in _dispositions) {
+            disposition.Order = 0;
+        }
         _dispositions.Clear();
     }
 
