@@ -30,7 +30,8 @@
                     <!-- <Color x:Key="SystemBaseLowColor">#FF929FB6</Color> -->
                     <Color x:Key="SystemBaseMediumColor">#4D8093AE</Color>
                     <Color x:Key="SystemBaseMediumHighColor">#338093AE</Color>
-                    <Color x:Key="SystemBaseMediumLowColor">#808093AE</Color>
+                    <Color x:Key="SystemBaseMediumLowColor">#FF1D1F1F</Color>
+                    <!-- <Color x:Key="SystemBaseMediumLowColor">Red</Color> -->
                     
                     
                     
@@ -93,9 +94,11 @@
         <StaticResource x:Key="SystemAltMediumHighColor" ResourceKey="ThemeLow" />
         <StaticResource x:Key="SystemChromeMediumLowColor" ResourceKey="ThemeLow" />
         <StaticResource x:Key="SystemBaseLowColor" ResourceKey="ThemeLow" />
+
+        <StaticResource x:Key="SystemControlDisabledBaseMediumLowBrush" ResourceKey="SystemBaseMediumLowColor" />
         
 
-        <SolidColorBrush x:Key="ThemeBackgroundColor" Color="{DynamicResource ThemeMedium}" />
+        <SolidColorBrush x:Key="ThemeBackgroundColor" Color="{DynamicResource ThemeLowLight}" />
         <!-- <SolidColorBrush x:Key="MainWindowChromeBackground" Color="#8b2635" /> -->
         <SolidColorBrush x:Key="MainWindowChromeBackground" Color="{DynamicResource ThemeLow}" />
         
