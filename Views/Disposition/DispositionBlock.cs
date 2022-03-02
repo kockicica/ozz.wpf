@@ -8,36 +8,38 @@ public class DispositionBlock {
 
     private List<Models.Disposition> _dispositions = new();
 
-    public TimeSpan TotalDuration => _dispositions.Aggregate(
+    public TimeSpan TotalDuration => Dispositions.Aggregate(
         TimeSpan.Zero,
         (span, disposition) => span.Add(TimeSpan.FromMilliseconds(disposition.Duration / 1_000_000)));
 
-    public int TotalCount => _dispositions.Count;
+    public int TotalCount => Dispositions.Count;
+
+    public List<Models.Disposition> Dispositions => _dispositions;
 
     public void HandleDisposition(Models.Disposition d) {
 
-        if (_dispositions.Contains(d)) {
+        if (Dispositions.Contains(d)) {
             d.Order = 0;
-            _dispositions.Remove(d);
+            Dispositions.Remove(d);
         }
         else {
-            _dispositions.Add(d);
-            d.Order = _dispositions.Count;
+            Dispositions.Add(d);
+            d.Order = Dispositions.Count;
         }
         RenumberDispositions();
 
     }
 
     public void Clear() {
-        foreach (var disposition in _dispositions) {
+        foreach (var disposition in Dispositions) {
             disposition.Order = 0;
         }
-        _dispositions.Clear();
+        Dispositions.Clear();
     }
 
     private void RenumberDispositions() {
         var i = 1;
-        foreach (var disposition in _dispositions) {
+        foreach (var disposition in Dispositions) {
             disposition.Order = i++;
         }
 

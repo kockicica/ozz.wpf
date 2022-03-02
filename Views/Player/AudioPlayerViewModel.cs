@@ -9,8 +9,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using ozz.wpf.Config;
-using ozz.wpf.Dialog;
 using ozz.wpf.Models;
+using ozz.wpf.ViewModels;
 
 using ReactiveUI;
 
@@ -18,7 +18,7 @@ using EqualizerModel = ozz.wpf.Models.Equalizer;
 
 namespace ozz.wpf.Views.Player;
 
-public class AudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
+public class AudioPlayerViewModel : ViewModelBase, IActivatableViewModel {
 
     private readonly ILogger<AudioPlayerViewModel> _logger;
 
@@ -180,6 +180,12 @@ public class AudioPlayerViewModel : DialogViewModelBase<DialogResultBase> {
             this.RaiseAndSetIfChanged(ref _equalizer, value);
         }
     }
+
+    #region IActivatableViewModel Members
+
+    public ViewModelActivator Activator { get; } = new();
+
+    #endregion
 
     public void Seek(double position) {
         Player.SeekTo(TimeSpan.FromMilliseconds(position));

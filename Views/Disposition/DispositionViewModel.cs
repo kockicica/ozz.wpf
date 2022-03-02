@@ -99,6 +99,10 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
             this.RaisePropertyChanged(nameof(CurrentBlockDuration));
         });
 
+        ShowBlockPlayer = ReactiveCommand.CreateFromTask(async token => {
+            var res = await _ozzInteractions.ShowBlockPlayer.Handle(DispositionBlock);
+        });
+
         this.WhenActivated(d => {
 
             _categories = client
@@ -194,6 +198,8 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
     public ReactiveCommand<Unit, Unit> HandleSelectedDisposition { get; }
 
     public ReactiveCommand<Unit, Unit> ClearSelectedDispositions { get; }
+
+    public ReactiveCommand<Unit, Unit> ShowBlockPlayer { get; }
 
     public bool? SearchActive {
         get => _searchActive;

@@ -7,7 +7,7 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ozz.wpf.Views.MainWindow"
         x:Name="MainWnd"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/browse_podcasts_2.ico"
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="Default"
         ExtendClientAreaTitleBarHeightHint="32"

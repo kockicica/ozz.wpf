@@ -125,6 +125,7 @@
                     <KeyBinding Gesture="Space" Command="{Binding HandleSelectedDisposition}" />
                     <KeyBinding Gesture="Enter" Command="{Binding HandleSelectedDisposition}" />
                     <KeyBinding Gesture="F10" Command="{Binding ClearSelectedDispositions}" />
+                    <KeyBinding Gesture="F5" Command="{Binding ShowBlockPlayer}" />
                 </DataGrid.KeyBindings>
             </DataGrid>
 

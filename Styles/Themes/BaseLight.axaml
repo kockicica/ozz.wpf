@@ -155,7 +155,8 @@
 
     </Styles.Resources>
 
-    <StyleInclude Source="avares://Avalonia.Themes.Fluent/FluentDark.xaml" />
+    <FluentTheme Mode="Dark" />
+    <!-- <StyleInclude Source="avares://Avalonia.Themes.Fluent/FluentDark.xaml" /> -->
     <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
     <StyleInclude Source="avares://ozz.wpf/Styles/Themes/Base.axaml" />
 

@@ -3,6 +3,7 @@ using System.Reactive;
 
 using ozz.wpf.Models;
 using ozz.wpf.Services.Interactions.Confirm;
+using ozz.wpf.Views.Disposition;
 
 using ReactiveUI;
 
@@ -18,4 +19,5 @@ public interface IOzzInteractions {
     Interaction<Unit, IEnumerable<Schedule>>                CreateSchedules      { get; }
     Interaction<Unit, Unit>                                 CreateDispositions   { get; }
     Interaction<Unit, DispositionSelectItem>                SelectDisposition    { get; }
+    Interaction<DispositionBlock, Unit>                     ShowBlockPlayer      { get; }
 }

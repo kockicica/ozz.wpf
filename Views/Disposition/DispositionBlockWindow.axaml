@@ -1,0 +1,76 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+        xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+        xmlns:controls="clr-namespace:ozz.wpf.Controls"
+        xmlns:models="clr-namespace:ozz.wpf.Models"
+        xmlns:behaviors="clr-namespace:ozz.wpf.Behaviors"
+        xmlns:player="clr-namespace:ozz.wpf.Views.Player"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="ozz.wpf.Views.Disposition.DispositionBlockWindow"
+        x:Name="DispositionBlock" Classes="ModalWindow"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False" SizeToContent="WidthAndHeight"
+        MinWidth="800" MinHeight="600"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="32"
+
+        Title="Emitovanje bloka">
+    <i:Interaction.Behaviors>
+        <behaviors:OnKeyDownTappedTriggerBehavior Key="Escape" TargetControl="{Binding #DispositionBlock}">
+            <ia:CallMethodAction TargetObject="{Binding #DispositionBlock}" MethodName="Close" />
+        </behaviors:OnKeyDownTappedTriggerBehavior>
+    </i:Interaction.Behaviors>
+    <Window.Styles>
+        <Style Selector="Grid#BlockGrid" />
+        <Style Selector="Grid#BlockGrid TextBlock">
+            <Setter Property="Margin" Value="10" />
+        </Style>
+    </Window.Styles>
+    <Panel>
+        <Panel Margin="{Binding #DispositionBlock.OffScreenMargin}">
+            <Border Background="{DynamicResource ThemeBackgroundColor}" Margin="{Binding #DispositionBlock.WindowDecorationMargin}">
+                <Grid RowDefinitions="*, Auto">
+                    <Grid Grid.Row="0" RowDefinitions="*, Auto">
+                        <Grid Grid.Row="0" ColumnDefinitions="*,10,*" RowDefinitions="Auto,*" x:Name="BlockGrid">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Emitovane" />
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Za emitovanje" />
+                            <ListBox Grid.Row="1" Grid.Column="0" Items="{Binding Block.Dispositions}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Disposition">
+                                        <Border Background="Red">
+                                            <TextBlock Text="{Binding Name}" />
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            <DataGrid Grid.Row="1" Grid.Column="2" AutoGenerateColumns="False" IsReadOnly="True"
+                                      CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="True"
+                                      Items="{Binding Block.Dispositions}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" />
+                                    <DataGridTextColumn Header="Trajanje"
+                                                        Binding="{Binding Duration, Converter={StaticResource DurationToStringConverter}}" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                        <player:AudioPlayerView Grid.Row="1" DataContext="{Binding AudioPlayerViewModel}" />
+                    </Grid>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 10" Spacing="10">
+                        <!-- <Button x:Name="YesButton" Command="{Binding SelectDisposition}" Content="Izbor" Classes="success" IsDefault="True" /> -->
+                        <Button x:Name="NoButton" Command="{Binding CloseCommand}" Content="Izlaz" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Panel>
+        <Panel VerticalAlignment="Top" HorizontalAlignment="Left" Height="32">
+            <TextBlock x:Name="WindowCaption" Text="{Binding #DispositionBlock.Title}" VerticalAlignment="Center" FontWeight="Heavy"
+                       Margin="10 0 10 0" />
+        </Panel>
+        <Panel VerticalAlignment="Top" HorizontalAlignment="Right" Height="32">
+            <controls:CloseButton Command="{Binding CloseCommand}" Height="32" Width="40" VerticalAlignment="Top" />
+        </Panel>
+    </Panel>
+</Window>

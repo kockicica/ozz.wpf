@@ -51,6 +51,7 @@ public class OzzInteractions : IOzzInteractions {
     public Interaction<Unit, IEnumerable<Schedule>?>               CreateSchedules      { get; } = new();
     public Interaction<Unit, Unit>                                 CreateDispositions   { get; } = new();
     public Interaction<Unit, DispositionSelectItem?>               SelectDisposition    { get; } = new();
+    public Interaction<DispositionBlock, Unit>                     ShowBlockPlayer      { get; } = new();
 
     #endregion
 
@@ -135,6 +136,7 @@ public class OzzInteractions : IOzzInteractions {
         });
 
         SelectDisposition.RegisterHandler(HandleSelectDisposition);
+        ShowBlockPlayer.RegisterHandler(HandleShowBlockPlayer);
 
     }
 
@@ -195,5 +197,21 @@ public class OzzInteractions : IOzzInteractions {
 
         context.SetOutput(Unit.Default);
 
+    }
+
+    private async Task HandleShowBlockPlayer(InteractionContext<DispositionBlock, Unit> context) {
+
+        var block = context.Input;
+
+        var vm = _resolver.GetService<DispositionBlockViewModel>();
+        vm.Block = block;
+        var modal = new DispositionBlockWindow {
+            DataContext = vm,
+        };
+
+        await modal.ShowDialog(_mainWindowProvider.GetMainWindow());
+        context.SetOutput(Unit.Default);
+
+        return;
     }
 }

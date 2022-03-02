@@ -104,6 +104,7 @@ namespace ozz.wpf {
                                s.AddTransient<CreateScheduleWindowViewModel>();
                                s.AddTransient<CreateDispositionViewModel>();
                                s.AddTransient<DispositionSelectViewModel>();
+                               s.AddTransient<DispositionBlockViewModel>();
 
                                s.AddSingleton<RoutingState>(provider => {
                                    var wnd = provider.GetService<MainWindowViewModel>();
