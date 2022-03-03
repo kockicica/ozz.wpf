@@ -8,6 +8,7 @@
 	<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <VlcWindowsX64Enabled>true</VlcWindowsX64Enabled>
     <VlcWindowsX86Enabled>false</VlcWindowsX86Enabled>
+    <ApplicationIcon>Assets\browse_podcasts_2.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -31,8 +32,8 @@
     <PackageReference Include="Avalonia" Version="0.10.12"/>
     <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.12"/>
     <PackageReference Include="Avalonia.Desktop" Version="0.10.12"/>
-      <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-      <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.12"/>
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.12"/>
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.12"/>
     <PackageReference Include="Avalonia.Svg.Skia" Version="0.10.12"/>
     <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.10.12"/>
