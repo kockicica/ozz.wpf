@@ -247,6 +247,8 @@ public class DispositionBlockViewModel : DialogViewModelBase {
 
     private void HandleMediaPlayerEndReached(EventPattern<EventArgs> d) {
 
+        CurrentDisposition!.IncreasePlayCount();
+
         DispositionsToEmit.Remove(CurrentDisposition!);
         EmittedDispositions.Add(CurrentDisposition!);
         CurrentDisposition = Next(DispositionsToEmit);

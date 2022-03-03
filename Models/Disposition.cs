@@ -90,4 +90,11 @@ public class Disposition : AudioRecording {
     public string PlayCountRemainingAsString => PlayCountRemaining == 0 ? "" : $"X{PlayCountRemaining}";
 
     public string OrderAsString => Order == 0 ? "" : $"{Order}";
+
+    public void IncreasePlayCount() {
+        if (PlayCountCurrent < PlayCountNeeded) {
+            PlayCountCurrent += 1;
+            PlayCountRemaining -= 1;
+        }
+    }
 }
