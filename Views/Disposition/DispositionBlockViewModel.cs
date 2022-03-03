@@ -17,6 +17,7 @@ using Microsoft.Extensions.Options;
 using ozz.wpf.Config;
 using ozz.wpf.Controls;
 using ozz.wpf.Dialog;
+using ozz.wpf.Services;
 using ozz.wpf.Views.Player;
 
 using ReactiveUI;
@@ -24,6 +25,7 @@ using ReactiveUI;
 namespace ozz.wpf.Views.Disposition;
 
 public class DispositionBlockViewModel : DialogViewModelBase {
+    private readonly IEqualizerPresetFactory _equalizerPreset;
 
     private readonly ILogger<DispositionBlockViewModel> _logger;
     private          AudioPlayerConfiguration           _audioPlayerConfiguration;
@@ -57,8 +59,9 @@ public class DispositionBlockViewModel : DialogViewModelBase {
 
 
     public DispositionBlockViewModel(ILogger<DispositionBlockViewModel> logger, IOptions<ServerConfiguration> serverConfigurationOptions,
-                                     IOptions<AudioPlayerConfiguration> audioPlayerConfigurationOptions) {
+                                     IOptions<AudioPlayerConfiguration> audioPlayerConfigurationOptions, IEqualizerPresetFactory equalizerPreset) {
         _logger = logger;
+        _equalizerPreset = equalizerPreset;
         _libVLC = new LibVLC("--no-video");
         _mediaPlayer = new MediaPlayer(_libVLC);
         _serverConfiguration = serverConfigurationOptions.Value;
@@ -66,6 +69,11 @@ public class DispositionBlockViewModel : DialogViewModelBase {
         Player.Volume = _volume;
 
         this.WhenActivated(d => {
+
+            Observable
+                .FromAsync(token => _equalizerPreset.GetDefaultPreset())
+                .Subscribe(equalizer => { Equalizer = equalizer; })
+                .DisposeWith(d);
 
             _playerState
                 = Observable.Merge(
@@ -215,6 +223,8 @@ public class DispositionBlockViewModel : DialogViewModelBase {
             Player.Media = FromDisposition(CurrentDisposition!);
         }
         Player.Volume = Volume;
+        Player.SetEqualizer(FromModel(Models.Equalizer.Default));
+        Player.Stop();
         Player.Play();
     }
 

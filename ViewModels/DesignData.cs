@@ -96,7 +96,8 @@ public static class DesignData {
     private static DispositionBlockViewModel MakeDispositionViewModel() {
         var mdl = new DispositionBlockViewModel(NullLogger<DispositionBlockViewModel>.Instance,
                                                 new OptionsWrapper<ServerConfiguration>(new ServerConfiguration()),
-                                                new OptionsWrapper<AudioPlayerConfiguration>(new AudioPlayerConfiguration()));
+                                                new OptionsWrapper<AudioPlayerConfiguration>(new AudioPlayerConfiguration()),
+                                                new VLCEqualizePresetFactory(NullLogger<VLCEqualizePresetFactory>.Instance));
 
         //var mdl = Locator.Current.GetService<DispositionBlockViewModel>();
         var block = new DispositionBlock();
