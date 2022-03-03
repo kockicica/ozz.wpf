@@ -1,12 +1,12 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace ozz.wpf.Views.Disposition;
 
 public class DispositionBlock {
 
-    private List<Models.Disposition> _dispositions = new();
+    private ObservableCollection<Models.Disposition> _dispositions = new();
 
     public TimeSpan TotalDuration => Dispositions.Aggregate(
         TimeSpan.Zero,
@@ -14,7 +14,7 @@ public class DispositionBlock {
 
     public int TotalCount => Dispositions.Count;
 
-    public List<Models.Disposition> Dispositions => _dispositions;
+    public ObservableCollection<Models.Disposition> Dispositions => _dispositions;
 
     public void HandleDisposition(Models.Disposition d) {
 

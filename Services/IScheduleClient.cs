@@ -16,4 +16,5 @@ public interface IScheduleClient {
     Task<IEnumerable<Schedule>>    Find(ScheduleSearchParams sp, CancellationToken token = default);
     Task<IEnumerable<Schedule>>    CreateDispositions(CreateDispositionParams data, CancellationToken token = default);
     Task<IEnumerable<Disposition>> FindDispositions(DispositionSearchParams sp, CancellationToken token = default);
+    Task                           MarkDispositionExecution(DispositionExecuteParams ep, CancellationToken token = default);
 }

@@ -98,3 +98,8 @@ public class Disposition : AudioRecording {
         }
     }
 }
+
+public class DispositionExecuteParams {
+    public int Schedule { get; set; }
+    public int Shift    { get; set; }
+}

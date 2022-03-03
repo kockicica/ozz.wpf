@@ -167,6 +167,21 @@ public class ScheduleClient : IScheduleClient {
         }
     }
 
+    public async Task MarkDispositionExecution(DispositionExecuteParams ep, CancellationToken token = default) {
+        try {
+            var url = $"/api/dispositions/mark";
+            var rsp = await _client.PostAsJsonAsync(url, ep, token);
+            if (!rsp.IsSuccessStatusCode) {
+                var msg = await rsp.Content.ReadFromJsonAsync<ServerErrorResponse>(cancellationToken: token);
+                throw new DatabaseException(msg?.Message);
+            }
+        }
+        catch (Exception e) {
+            _logger.LogError("Error marking disposition as executed: {@e}", e);
+            throw;
+        }
+    }
+
     #endregion
 
 }

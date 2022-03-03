@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 using Avalonia.Collections;
 using Avalonia.Controls.Notifications;
 
+using DynamicData;
+using DynamicData.Binding;
+
 using Microsoft.Extensions.Logging;
 
 using ozz.wpf.Dialog;
@@ -156,6 +159,29 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
                     this.RaisePropertyChanged(nameof(CurrentBlockDuration));
                 })
                 .DisposeWith(d);
+
+
+            DispositionBlock
+                .Dispositions
+                .ToObservableChangeSet()
+                .WhenPropertyChanged(ds => ds.PlayCountCurrent, false)
+                .SelectMany(value => _scheduleClient
+                                     .MarkDispositionExecution(new DispositionExecuteParams {
+                                             Schedule = value.Sender.ScheduleId,
+                                             Shift = CurrentDisposition.Shift
+                                         }
+                                     )
+                                     .ToObservable(RxApp.MainThreadScheduler)
+                                     .Catch<Unit, Exception>(err => {
+                                         var msg = new Notification("Greška",
+                                                                    $"Greška prilikom markiranja dispozicije:\r\n{err.Message}",
+                                                                    NotificationType.Error);
+                                         _notificationManager.Show(msg);
+                                         return Observable.Never<Unit>();
+                                     }))
+                .Subscribe()
+                .DisposeWith(d);
+
 
         });
 
