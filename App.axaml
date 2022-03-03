@@ -24,5 +24,7 @@
         <StyleInclude Source="avares://ozz.wpf/Controls/CloseButton.axaml" />
         <StyleInclude Source="avares://ozz.wpf/Controls/TablePaging.axaml" />
         <StyleInclude Source="avares://ozz.wpf/Controls/CustomExpander.axaml" />
+        <StyleInclude Source="avares://ozz.wpf/Controls/PlayerSlider.axaml" />
+        <StyleInclude Source="avares://ozz.wpf/Controls/AudioPlayer.axaml" />
     </Application.Styles>
 </Application>

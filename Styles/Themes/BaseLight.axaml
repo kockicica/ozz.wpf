@@ -150,8 +150,11 @@
         <sys:Double x:Key="DataGridRowSelectedHoveredBackgroundOpacity">0.2</sys:Double>
 
         
-        <!-- <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="{DynamicResource FocusVisualBrush}"></SolidColorBrush> -->
-     
+        <!-- Customize AudioPlayer -->
+        <SolidColorBrush x:Key="PlayerButtonForeground" Color="{DynamicResource SystemAccentColor}" />
+        <SolidColorBrush x:Key="PlayerButtonForegroundPointerOver" Color="{DynamicResource SystemAccentColorLight2}" />
+        <SolidColorBrush x:Key="PlayerButtonForegroundPressed" Color="{DynamicResource SystemAccentColorLight1}" />
+
 
     </Styles.Resources>
 
@@ -159,6 +162,7 @@
     <!-- <StyleInclude Source="avares://Avalonia.Themes.Fluent/FluentDark.xaml" /> -->
     <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
     <StyleInclude Source="avares://ozz.wpf/Styles/Themes/Base.axaml" />
+    <StyleInclude Source="avares://ozz.wpf/Controls/ControlResources.axaml" />
 
 
 </Styles>

@@ -6,7 +6,6 @@
         </Border>
     </Design.PreviewWith>
 
-    <StyleInclude Source="avares://ozz.wpf/Styles/PlayerSlider.axaml" />
     <StyleInclude Source="avares://ozz.wpf/Styles/CustomButtons.axaml" />
     <StyleInclude Source="avares://ozz.wpf/Styles/CustomCalendarDatePicker.axaml" />
     <StyleInclude Source="avares://ozz.wpf/Styles/CustomDataGridCell.axaml" />

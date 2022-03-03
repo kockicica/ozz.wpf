@@ -1,5 +1,4 @@
 using System;
-using System.Reactive.Linq;
 
 using Avalonia;
 using Avalonia.Controls;
@@ -22,21 +21,10 @@ public class ValueChangedEventArgs : RoutedEventArgs {
     public ValueChangedEventArgs([CanBeNull] RoutedEvent? routedEvent) : base(routedEvent) { }
     public ValueChangedEventArgs([CanBeNull] RoutedEvent? routedEvent, [CanBeNull] IInteractive? source) : base(routedEvent, source) { }
     public double Value { get; set; }
-
 }
 
 [PseudoClasses(":vertical", ":horizontal", ":pressed")]
 public class PlayerSlider : RangeBase {
-
-    private Track?       _track;
-    private Button?      _decreaseButton;
-    private Button?      _increaseButton;
-    private IDisposable? _decreaseButtonPressDispose;
-    private IDisposable? _decreaseButtonReleaseDispose;
-    private IDisposable? _increaseButtonSubscription;
-    private IDisposable? _increaseButtonReleaseDispose;
-    private IDisposable? _pointerMovedDispose;
-    private bool         _isDragging = false;
 
     private const double Tolerance = 0.0001;
 
@@ -57,12 +45,28 @@ public class PlayerSlider : RangeBase {
                 if (!slider._isDragging) {
                     slider.Value = d;
                 }
+                else {
+                    slider.OutsideValue = d;
+                }
             },
             defaultBindingMode: BindingMode.TwoWay
         );
 
     public static readonly RoutedEvent<ValueChangedEventArgs> ValueChangedEvent =
         RoutedEvent.Register<PlayerSlider, ValueChangedEventArgs>(nameof(ValueChanged), RoutingStrategies.Bubble);
+
+    private Button?      _decreaseButton;
+    private IDisposable? _decreaseButtonPressDispose;
+    private IDisposable? _decreaseButtonReleaseDispose;
+    private Button?      _increaseButton;
+    private IDisposable? _increaseButtonReleaseDispose;
+    private IDisposable? _increaseButtonSubscription;
+    private bool         _isDragging = false;
+
+    private double       _outsideValue;
+    private IDisposable? _pointerMovedDispose;
+
+    private Track? _track;
 
     static PlayerSlider() {
         PressedMixin.Attach<PlayerSlider>();
@@ -87,8 +91,8 @@ public class PlayerSlider : RangeBase {
     }
 
     public double OutsideValue {
-        get => Value;
-        set => Value = value;
+        get => _outsideValue;
+        set => SetAndRaise(OutsideValueProperty, ref _outsideValue, value);
     }
 
     public event EventHandler<ValueChangedEventArgs>? ValueChanged {
@@ -213,6 +217,4 @@ public class PlayerSlider : RangeBase {
         PseudoClasses.Set(":vertical", o == Orientation.Vertical);
         PseudoClasses.Set(":horizontal", o == Orientation.Horizontal);
     }
-
-
 }

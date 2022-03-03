@@ -7,7 +7,6 @@
         xmlns:controls="clr-namespace:ozz.wpf.Controls"
         xmlns:models="clr-namespace:ozz.wpf.Models"
         xmlns:behaviors="clr-namespace:ozz.wpf.Behaviors"
-        xmlns:player="clr-namespace:ozz.wpf.Views.Player"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ozz.wpf.Views.Disposition.DispositionBlockWindow"
         x:Name="DispositionBlock" Classes="ModalWindow"
@@ -37,7 +36,7 @@
                         <Grid Grid.Row="0" ColumnDefinitions="*,10,*" RowDefinitions="Auto,*" x:Name="BlockGrid">
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Emitovane" />
                             <TextBlock Grid.Row="0" Grid.Column="2" Text="Za emitovanje" />
-                            <ListBox Grid.Row="1" Grid.Column="0" Items="{Binding Block.Dispositions}">
+                            <ListBox Grid.Row="1" Grid.Column="0" Items="{Binding EmitedDispositions}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate x:DataType="models:Disposition">
                                         <Border Background="Red">
@@ -48,7 +47,7 @@
                             </ListBox>
                             <DataGrid Grid.Row="1" Grid.Column="2" AutoGenerateColumns="False" IsReadOnly="True"
                                       CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="True"
-                                      Items="{Binding Block.Dispositions}">
+                                      Items="{Binding DispositionsToEmit}">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" />
                                     <DataGridTextColumn Header="Trajanje"
@@ -56,11 +55,15 @@
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>
-                        <player:AudioPlayerView Grid.Row="1" DataContext="{Binding AudioPlayerViewModel}" />
+                        <!-- <player:AudioPlayerView Grid.Row="1" DataContext="{Binding AudioPlayerViewModel}" /> -->
+                        <controls:AudioPlayer Grid.Row="1" Volume="{Binding Volume}" Track="{Binding CurrentDisposition}"
+                                              MediaLength="{Binding MediaLength}" MediaPosition="{Binding MediaPosition}"
+                                              PlayerState="{Binding PlayerState}" x:Name="AudioPlayer" />
                     </Grid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 10" Spacing="10">
                         <!-- <Button x:Name="YesButton" Command="{Binding SelectDisposition}" Content="Izbor" Classes="success" IsDefault="True" /> -->
                         <Button x:Name="NoButton" Command="{Binding CloseCommand}" Content="Izlaz" />
+                        <TextBlock Text="{Binding Volume}"/>
                     </StackPanel>
                 </Grid>
             </Border>

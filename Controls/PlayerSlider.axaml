@@ -12,32 +12,6 @@
         </Border>
     </Design.PreviewWith>
 
-    <Styles.Resources>
-        <x:Double x:Key="PlayerSliderHorizontalHeight">40</x:Double>
-        <x:Double x:Key="PlayerSliderHorizontalThumbWidth">16</x:Double>
-        <x:Double x:Key="PlayerSliderHorizontalThumbHeight">40</x:Double>
-        <CornerRadius x:Key="PlayerSliderThumbCornerRadius">0</CornerRadius>
-        <CornerRadius x:Key="PlayerSliderDecreaseButtonCornerRadius">2 0 0 2</CornerRadius>
-        <CornerRadius x:Key="PlayerSliderIncreaseButtonCornerRadius">0 2 2 0</CornerRadius>
-        <x:Double x:Key="PlayerSliderTrackThemeHeight">40</x:Double>
-
-        <GridLength x:Key="PlayerSliderPreContentMargin">15</GridLength>
-        <GridLength x:Key="PlayerSliderPostContentMargin">15</GridLength>
-
-
-        <StaticResource x:Key="PlayerSliderTrackFill" ResourceKey="SystemControlForegroundBaseLowBrush" />
-        <StaticResource x:Key="PlayerSliderTrackValueFill" ResourceKey="SystemAccentColorLight3" />
-
-        <!-- <StaticResource x:Key="PlayerSliderThumbBackground" ResourceKey="SystemControlForegroundAccentBrush" /> -->
-        <SolidColorBrush x:Key="PlayerSliderThumbBackground" Color="{DynamicResource SystemAccentColorDark1}" />
-        <!-- <StaticResource x:Key="PlayerSliderThumbBackground" ResourceKey="ThemeAccentColor" /> -->
-        <StaticResource x:Key="PlayerSliderThumbBackgroundPointerOver" ResourceKey="SystemAccentColorLight1" />
-        <StaticResource x:Key="PlayerSliderThumbBackgroundPressed" ResourceKey="SystemAccentColorDark1" />
-        <StaticResource x:Key="PlayerSliderThumbBackgroundDisabled" ResourceKey="SystemControlDisabledChromeDisabledHighBrush" />
-
-
-    </Styles.Resources>
-
     <Style Selector="Thumb.PlayerSliderThumbStyle">
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Template">
