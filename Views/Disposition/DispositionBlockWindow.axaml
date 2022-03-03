@@ -18,6 +18,9 @@
         <behaviors:OnKeyDownTappedTriggerBehavior Key="Escape" TargetControl="{Binding #DispositionBlock}">
             <ia:CallMethodAction TargetObject="{Binding #DispositionBlock}" MethodName="Close" />
         </behaviors:OnKeyDownTappedTriggerBehavior>
+        <behaviors:OnKeyDownTappedTriggerBehavior Key="Enter" TargetControl="{Binding #DispositionBlock}">
+            <ia:CallMethodAction TargetObject="{Binding #DispositionBlock}" MethodName="HandlePlayOrPause" />
+        </behaviors:OnKeyDownTappedTriggerBehavior>
     </i:Interaction.Behaviors>
     <Window.Styles>
         <Style Selector="Grid#BlockGrid" />
@@ -73,12 +76,13 @@
                             </ListBox>
                         </Grid>
                         <controls:AudioPlayer Grid.Row="1" Volume="{Binding Volume}" Track="{Binding CurrentDisposition}" TrackName="{Binding CurrentTrackName}"
+                                              CanStop="False"
                                               MediaLength="{Binding MediaLength}" MediaPosition="{Binding MediaPosition}"
                                               PlayerState="{Binding PlayerState}" x:Name="AudioPlayer" />
                     </Grid>
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 10" Spacing="10">
-                        <Button x:Name="NoButton" Command="{Binding CloseCommand}" Content="Izlaz" />
-                    </StackPanel>
+                    <!-- <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 10" Spacing="10"> -->
+                    <!--     <Button x:Name="NoButton" Command="{Binding CloseCommand}" Content="Izlaz" /> -->
+                    <!-- </StackPanel> -->
                 </Grid>
             </Border>
         </Panel>

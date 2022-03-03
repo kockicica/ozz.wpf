@@ -129,5 +129,8 @@
         <Setter Property="IsVisible" Value="{TemplateBinding IsEnabled}" />
     </Style>
 
+    <Style Selector="Button.cmd_button#PART_Stop">
+        <Setter Property="IsVisible" Value="{Binding CanStop, RelativeSource={RelativeSource TemplatedParent}}" />
+    </Style>
 
 </Styles>

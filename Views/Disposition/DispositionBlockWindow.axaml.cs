@@ -31,23 +31,23 @@ public partial class DispositionBlockWindow : DialogWindowBase<DialogResultBase>
             Observable.FromEventPattern<RoutedEventArgs>(_audioPlayer, nameof(AudioPlayer.Play))
                       .Subscribe(pattern => {
                           if (ViewModel is DispositionBlockViewModel vm) {
-                              vm.HandlePlay();
+                              vm.HandlePlayOrPause();
                           }
                       })
                       .DisposeWith(d);
 
-            Observable.FromEventPattern<RoutedEventArgs>(_audioPlayer, nameof(AudioPlayer.Stop))
-                      .Subscribe(pattern => {
-                          if (ViewModel is DispositionBlockViewModel vm) {
-                              vm.HandleStop();
-                          }
-                      })
-                      .DisposeWith(d);
+            // Observable.FromEventPattern<RoutedEventArgs>(_audioPlayer, nameof(AudioPlayer.Stop))
+            //           .Subscribe(pattern => {
+            //               if (ViewModel is DispositionBlockViewModel vm) {
+            //                   vm.HandleStop();
+            //               }
+            //           })
+            //           .DisposeWith(d);
 
             Observable.FromEventPattern<RoutedEventArgs>(_audioPlayer, nameof(AudioPlayer.Pause))
                       .Subscribe(pattern => {
                           if (ViewModel is DispositionBlockViewModel vm) {
-                              vm.HandlePause();
+                              vm.HandlePlayOrPause();
                           }
                       })
                       .DisposeWith(d);
@@ -61,6 +61,12 @@ public partial class DispositionBlockWindow : DialogWindowBase<DialogResultBase>
                       .DisposeWith(d);
 
         });
+    }
+
+    public void HandlePlayOrPause() {
+        if (ViewModel is DispositionBlockViewModel vm) {
+            vm.HandlePlayOrPause();
+        }
     }
 
     private void InitializeComponent() {

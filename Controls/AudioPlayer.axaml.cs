@@ -76,6 +76,13 @@ public class AudioPlayer : TemplatedControl {
                                                                        player => player.PlayerState,
                                                                        (player, v) => player.PlayerState = v);
 
+    public static readonly DirectProperty<AudioPlayer, bool?> CanStopProperty =
+        AvaloniaProperty.RegisterDirect<AudioPlayer, bool?>(nameof(CanStop),
+                                                            player => player.CanStop,
+                                                            (player, v) => player.CanStop = v);
+
+
+
     public static readonly RoutedEvent<RoutedEventArgs> PlayEvent =
         RoutedEvent.Register<AudioPlayer, RoutedEventArgs>(nameof(Play), RoutingStrategies.Bubble);
 
@@ -87,6 +94,8 @@ public class AudioPlayer : TemplatedControl {
 
     public static readonly RoutedEvent<AudioPlayerSeekEventArgs> SeekEvent =
         RoutedEvent.Register<AudioPlayer, AudioPlayerSeekEventArgs>(nameof(Seek), RoutingStrategies.Bubble);
+
+    private bool? _canStop;
 
     private TimeSpan? _currentTime;
 
@@ -165,6 +174,11 @@ public class AudioPlayer : TemplatedControl {
             SetAndRaise(PlayerStateProperty, ref _playerState, value);
             HandlePlayerStateChange();
         }
+    }
+
+    public bool? CanStop {
+        get => _canStop;
+        set => SetAndRaise(CanStopProperty, ref _canStop, value);
     }
 
     public event EventHandler<RoutedEventArgs> Play {

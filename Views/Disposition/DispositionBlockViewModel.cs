@@ -222,10 +222,10 @@ public class DispositionBlockViewModel : DialogViewModelBase {
         Player.Pause();
     }
 
-    public void HandleStop() {
-        Player.Stop();
-        Player.Volume = Volume;
-    }
+    // public void HandleStop() {
+    //     Player.Stop();
+    //     Player.Volume = Volume;
+    // }
 
     public void HandleSeek(AudioPlayerSeekEventArgs eventArgs) {
         var totalPosition = TimeSpan.FromMilliseconds((double)eventArgs.Position) -
@@ -234,6 +234,15 @@ public class DispositionBlockViewModel : DialogViewModelBase {
             totalPosition = TimeSpan.Zero;
         }
         Player.SeekTo(totalPosition);
+    }
+
+    public void HandlePlayOrPause() {
+        if (PlayerState == MediaPlayerState.Stopped) {
+            HandlePlay();
+        }
+        else {
+            HandlePause();
+        }
     }
 
     private void HandleMediaPlayerEndReached(EventPattern<EventArgs> d) {
