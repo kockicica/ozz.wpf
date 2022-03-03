@@ -12,7 +12,7 @@
     </Style>
     <Style Selector="Window.ModalWindow">
         <Setter Property="Background" Value="{DynamicResource MainWindowChromeBackground}" />
-        <Setter Property="WindowStartupLocation" Value="CenterOwner" />
+        <!-- <Setter Property="WindowStartupLocation" Value="CenterOwner" /> -->
         <Setter Property="ShowInTaskbar" Value="False" />
         <Setter Property="SizeToContent" Value="WidthAndHeight" />
         <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />
