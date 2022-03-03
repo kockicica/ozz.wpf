@@ -39,6 +39,15 @@ public class AudioPlayer : TemplatedControl {
                                                                       player => player.Track,
                                                                       (player, recording) => player.Track = recording);
 
+    public static readonly DirectProperty<AudioPlayer, string?> TrackNameProperty =
+        AvaloniaProperty.RegisterDirect<AudioPlayer, string?>(nameof(TrackName),
+                                                              player => player.TrackName,
+                                                              (player, n) => player.TrackName = n);
+
+    public static readonly DirectProperty<AudioPlayer, long?> DurationProperty =
+        AvaloniaProperty.RegisterDirect<AudioPlayer, long?>(nameof(Duration),
+                                                            player => player.Duration,
+                                                            (player, n) => player.Duration = n);
 
     public static readonly DirectProperty<AudioPlayer, int> VolumeProperty =
         AvaloniaProperty.RegisterDirect<AudioPlayer, int>(nameof(Volume),
@@ -81,6 +90,8 @@ public class AudioPlayer : TemplatedControl {
 
     private TimeSpan? _currentTime;
 
+    private long? _duration;
+
     private TextBlock? _durationBlock;
     private Equalizer? _equalizer;
     private PathIcon?  _iconPause;
@@ -100,12 +111,24 @@ public class AudioPlayer : TemplatedControl {
     private IDisposable _stopButtonSub;
 
     private AudioRecording? _track;
-    private int             _volume;
+
+    private string? _trackName;
+    private int     _volume;
 
     private Slider? _volumeSlider;
 
     static AudioPlayer() {
         IsEnabledProperty.OverrideDefaultValue<AudioPlayer>(false);
+    }
+
+    public string? TrackName {
+        get => _trackName;
+        set => SetAndRaise(TrackNameProperty, ref _trackName, value);
+    }
+
+    public long? Duration {
+        get => _duration;
+        set => SetAndRaise(DurationProperty, ref _duration, value);
     }
 
     public AudioRecording? Track {

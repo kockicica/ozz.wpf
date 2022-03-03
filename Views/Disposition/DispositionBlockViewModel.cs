@@ -7,6 +7,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
 using DynamicData;
+using DynamicData.Binding;
 
 using LibVLCSharp.Shared;
 
@@ -33,27 +34,31 @@ public class DispositionBlockViewModel : DialogViewModelBase {
 
     private Models.Disposition? _currentDisposition;
 
-    private DispositionBlock?                        _dispositionBlock;
-    private ObservableCollection<Models.Disposition> _dispositionsToEmit = new();
-    private ObservableCollection<Models.Disposition> _emitedDispositions = new();
-    private Models.Equalizer                         _equalizer          = Models.Equalizer.Default;
-    private bool                                     _isPaused           = true;
-    private bool                                     _isStopped          = true;
-    private LibVLC                                   _libVLC;
-    private long                                     _mediaLength = 1;
-    private MediaPlayer                              _mediaPlayer;
-    private ObservableAsPropertyHelper<long>         _mediaPosition;
+    private string? _currentTrackName;
+
+    private DispositionBlock? _dispositionBlock;
+    // private ObservableCollection<Models.Disposition> _dispositionsToEmit = new();
+    // private ObservableCollection<Models.Disposition> _emittedDispositions = new();
+
+    private Models.Equalizer                 _equalizer = Models.Equalizer.Default;
+    private bool                             _isPaused  = true;
+    private bool                             _isStopped = true;
+    private LibVLC                           _libVLC;
+    private long                             _mediaLength = 1;
+    private MediaPlayer                      _mediaPlayer;
+    private ObservableAsPropertyHelper<long> _mediaPosition;
 
     private ObservableAsPropertyHelper<MediaPlayerState> _playerState;
 
-    private ServerConfiguration _serverConfiguration;
-    private int                 _volume = 30;
+    private ServerConfiguration                   _serverConfiguration;
+    private ObservableAsPropertyHelper<TimeSpan>? _totalDispositionsToEmitDuration;
+    private ObservableAsPropertyHelper<TimeSpan>? _totalEmittedDuration;
+    private int                                   _volume = 30;
 
 
     public DispositionBlockViewModel(ILogger<DispositionBlockViewModel> logger, IOptions<ServerConfiguration> serverConfigurationOptions,
-                                     IOptions<AudioPlayerConfiguration> audioPlayerConfigurationOptions, AudioPlayerViewModel audioPlayerViewModel) {
+                                     IOptions<AudioPlayerConfiguration> audioPlayerConfigurationOptions) {
         _logger = logger;
-        _audioPlayerViewModel = audioPlayerViewModel;
         _libVLC = new LibVLC("--no-video");
         _mediaPlayer = new MediaPlayer(_libVLC);
         _serverConfiguration = serverConfigurationOptions.Value;
@@ -62,46 +67,59 @@ public class DispositionBlockViewModel : DialogViewModelBase {
 
         this.WhenActivated(d => {
 
+            _playerState
+                = Observable.Merge(
+                                Observable
+                                    .FromEventPattern(_mediaPlayer, "Playing")
+                                    .Select(_ => MediaPlayerState.Playing),
+                                Observable
+                                    .FromEventPattern(_mediaPlayer, "Paused")
+                                    .Select(_ => MediaPlayerState.Paused),
+                                Observable
+                                    .FromEventPattern(_mediaPlayer, "Stopped")
+                                    .Select(_ => MediaPlayerState.Stopped)
+                                //.Do(_ => { Player.Volume = Volume; })
+                            )
+                            .ToProperty(this, x => x.PlayerState)
+                            .DisposeWith(d);
 
-            _playerState = Observable.Merge(
-                                         Observable.FromEventPattern(_mediaPlayer, "Playing")
-                                                   .Select(_ => MediaPlayerState.Playing)
-                                                   .Do(state => {
-                                                       // IsPaused = false;
-                                                       // IsStopped = false;
-                                                       //MediaLength = _mediaPlayer.Length;
-                                                   }),
-                                         Observable.FromEventPattern(_mediaPlayer, "Paused")
-                                                   .Select(_ => MediaPlayerState.Paused),
-                                         // .Do(state => {
-                                         //     IsPaused = true;
-                                         //     IsStopped = false;
-                                         // }),
-                                         Observable.FromEventPattern(_mediaPlayer, "Stopped")
-                                                   .Select(_ => MediaPlayerState.Stopped)
-                                                   .Do(state => {
-                                                       //MediaLength = 1;
-                                                       // IsPaused = true;
-                                                       // IsStopped = true;
-                                                       Player.Volume = Volume;
-                                                   })
-                                     )
-                                     .ToProperty(this, x => x.PlayerState)
-                                     .DisposeWith(d);
-            // _currentPlayerTime = Observable.Merge(
-            //                                    Observable.FromEventPattern<MediaPlayerTimeChangedEventArgs>(_mediaPlayer, "TimeChanged")
-            //                                              .Select(x => TimeSpan.FromMilliseconds(x.EventArgs.Time)),
-            //                                    Observable.FromEventPattern(_mediaPlayer, "Stopped").Select(_ => MediaPlayerState.Stopped)
-            //                                              .Select(_ => TimeSpan.Zero)
-            //                                )
-            //                                .ToProperty(this, x => x.CurrentPlayerTime)
-            //                                .DisposeWith(d);
+            _mediaPosition
+                = Observable.FromEventPattern<MediaPlayerTimeChangedEventArgs>(_mediaPlayer, nameof(MediaPlayer.TimeChanged))
+                            .Select(x => { return EmittedDispositions.Sum(d => d.Duration / 1_000_000) + x.EventArgs.Time; })
+                            .ToProperty(this, x => x.MediaPosition)
+                            .DisposeWith(d);
 
 
-            _mediaPosition = Observable.FromEventPattern<MediaPlayerTimeChangedEventArgs>(_mediaPlayer, nameof(MediaPlayer.TimeChanged))
-                                       .Select(x => { return EmitedDispositions.Sum(d => d.Duration / 1_000_000) + x.EventArgs.Time; })
-                                       .ToProperty(this, x => x.MediaPosition)
-                                       .DisposeWith(d);
+            _totalDispositionsToEmitDuration
+                = Observable.Merge(
+                                DispositionsToEmit
+                                    .ToObservableChangeSet()
+                                    .Select(_ => (long)0),
+                                Observable
+                                    .FromEventPattern<MediaPlayerTimeChangedEventArgs>(_mediaPlayer, nameof(MediaPlayer.TimeChanged))
+                                    .Select(x => -1 * x.EventArgs.Time)
+                            )
+                            .Select(dd => DispositionsToEmit.Sum(dsp => dsp.Duration / 1_000_000) + dd)
+                            .Select(dd => CurrentDisposition != null ? dd + CurrentDisposition.Duration / 1_000_000 : dd)
+                            .Select(x => TimeSpan.FromMilliseconds(x))
+                            .ToProperty(this, x => x.TotalDispositionsToEmitDuration)
+                            .DisposeWith(d);
+
+            _totalEmittedDuration
+                = Observable.Merge(
+                                EmittedDispositions
+                                    .ToObservableChangeSet()
+                                    .Select(_ => (long)0),
+                                Observable
+                                    .FromEventPattern<MediaPlayerTimeChangedEventArgs>(_mediaPlayer, nameof(MediaPlayer.TimeChanged))
+                                    .Select(x => x.EventArgs.Time)
+                            )
+                            .Select(dd => EmittedDispositions.Sum(dsp => dsp.Duration / 1_000_000) + dd)
+                            .Select(x => TimeSpan.FromMilliseconds(x))
+                            .ToProperty(this, x => x.TotalEmittedDuration)
+                            .DisposeWith(d);
+
+
 
             Observable.FromEventPattern<EventArgs>(_mediaPlayer, nameof(MediaPlayer.EndReached))
                       .ObserveOn(RxApp.MainThreadScheduler)
@@ -113,8 +131,6 @@ public class DispositionBlockViewModel : DialogViewModelBase {
                           var a = pattern;
                       })
                       .DisposeWith(d);
-
-            //Observable.FromEventPattern<>(_mediaPlayer, M)
 
             Disposable.Create(() => {
                           if (Player.IsPlaying) Player.Stop();
@@ -130,26 +146,20 @@ public class DispositionBlockViewModel : DialogViewModelBase {
         set {
             _dispositionBlock = value;
 
-            EmitedDispositions.Clear();
+            EmittedDispositions.Clear();
             if (_dispositionBlock?.Dispositions != null) {
                 DispositionsToEmit.AddRange(_dispositionBlock.Dispositions);
             }
-
-            this.RaisePropertyChanged(nameof(Block));
-
             CurrentDisposition = Next(DispositionsToEmit);
 
-            if (CurrentDisposition != null) {
-                Player.Media = FromDisposition(CurrentDisposition!);
-            }
-
             MediaLength = (long)_dispositionBlock.TotalDuration.TotalMilliseconds;
+
+            this.RaisePropertyChanged(nameof(Block));
+            this.RaisePropertyChanged(nameof(DispositionsToEmit));
         }
     }
 
-    public MediaPlayer Player {
-        get => _mediaPlayer;
-    }
+    public MediaPlayer Player => _mediaPlayer;
 
     public int Volume {
         get => _volume;
@@ -181,15 +191,29 @@ public class DispositionBlockViewModel : DialogViewModelBase {
         get => _currentDisposition;
         set {
             this.RaiseAndSetIfChanged(ref _currentDisposition, value);
+            if (_currentDisposition != null) {
+                CurrentTrackName = $"{_currentDisposition.Order}. - {_currentDisposition.Name}";
+            }
         }
     }
 
-    public ObservableCollection<Models.Disposition> EmitedDispositions => _emitedDispositions;
+    public ObservableCollection<Models.Disposition> EmittedDispositions { get; set; } = new();
 
-    public ObservableCollection<Models.Disposition> DispositionsToEmit => _dispositionsToEmit;
+    public ObservableCollection<Models.Disposition> DispositionsToEmit { get; set; } = new();
+
+    public TimeSpan TotalEmittedDuration => _totalEmittedDuration?.Value ?? TimeSpan.Zero;
+
+    public TimeSpan TotalDispositionsToEmitDuration => _totalDispositionsToEmitDuration?.Value ?? TimeSpan.Zero;
+
+    public string? CurrentTrackName {
+        get => _currentTrackName;
+        set => this.RaiseAndSetIfChanged(ref _currentTrackName, value);
+    }
 
     public void HandlePlay() {
-        //Player.Media = _blockMedia.First();
+        if (CurrentDisposition != null) {
+            Player.Media = FromDisposition(CurrentDisposition!);
+        }
         Player.Volume = Volume;
         Player.Play();
     }
@@ -205,7 +229,7 @@ public class DispositionBlockViewModel : DialogViewModelBase {
 
     public void HandleSeek(AudioPlayerSeekEventArgs eventArgs) {
         var totalPosition = TimeSpan.FromMilliseconds((double)eventArgs.Position) -
-                            TimeSpan.FromMilliseconds(EmitedDispositions.Sum(d => d.Duration / 1_000_000));
+                            TimeSpan.FromMilliseconds(EmittedDispositions.Sum(d => d.Duration / 1_000_000));
         if (totalPosition.TotalMilliseconds < 0) {
             totalPosition = TimeSpan.Zero;
         }
@@ -215,15 +239,13 @@ public class DispositionBlockViewModel : DialogViewModelBase {
     private void HandleMediaPlayerEndReached(EventPattern<EventArgs> d) {
 
         DispositionsToEmit.Remove(CurrentDisposition!);
-        EmitedDispositions.Add(CurrentDisposition!);
+        EmittedDispositions.Add(CurrentDisposition!);
         CurrentDisposition = Next(DispositionsToEmit);
         if (CurrentDisposition != null) {
             Player.Play(FromDisposition(CurrentDisposition));
         }
         Player.Volume = Volume;
     }
-
-
 
     private LibVLCSharp.Shared.Equalizer FromModel(Models.Equalizer mdl) {
         var eq = new LibVLCSharp.Shared.Equalizer();

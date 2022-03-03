@@ -13,7 +13,7 @@
                 </ResourceDictionary>
             </StackPanel.Resources>
             <!-- <controls:PlayerSlider Value="40"/> -->
-            <controls:AudioPlayer Track="{StaticResource DemoTrack}" PlayerState="Stopped" x:Name="Player"
+            <controls:AudioPlayer Track="{StaticResource DemoTrack}" PlayerState="Stopped" x:Name="Player" TrackName="Some track name here"
                                   MediaPosition="200000" MediaLength="1000000">
                 <!-- <controls:AudioPlayer.Track> -->
                 <!--     <models:AudioRecording Duration="100_000_000_000"/> -->
@@ -32,7 +32,7 @@
             <ControlTemplate>
                 <Grid RowDefinitions="Auto, Auto, *" Margin="5" Background="{TemplateBinding Background}">
                     <Grid Grid.Row="0" ColumnDefinitions="*, Auto" RowDefinitions="35, 28" x:Name="PART_TrackInfo">
-                        <TextBlock Classes="name" Text="{Binding Track.Name, RelativeSource={RelativeSource TemplatedParent}}" Grid.Row="0"
+                        <TextBlock Classes="name" Text="{TemplateBinding TrackName}" Grid.Row="0"
                                    Grid.Column="0" Grid.ColumnSpan="2" />
                         <TextBlock Classes="duration"
                                    Text="{Binding Track.Duration, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource DurationToStringConverter}}"

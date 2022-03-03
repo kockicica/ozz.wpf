@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 using AutoMapper;
@@ -82,5 +83,36 @@ public static class DesignData {
             }
             return mdl;
         }
+    }
+
+    public static DispositionBlockViewModel DispositionBlockViewModel => MakeDispositionViewModel();
+
+    // public static DispositionBlockViewModel DispositionBlockViewModel => new(
+    //     NullLogger<DispositionBlockViewModel>.Instance,
+    //     new OptionsWrapper<ServerConfiguration>(new ServerConfiguration()),
+    //     new OptionsWrapper<AudioPlayerConfiguration>(new AudioPlayerConfiguration())
+    // );
+
+    private static DispositionBlockViewModel MakeDispositionViewModel() {
+        var mdl = new DispositionBlockViewModel(NullLogger<DispositionBlockViewModel>.Instance,
+                                                new OptionsWrapper<ServerConfiguration>(new ServerConfiguration()),
+                                                new OptionsWrapper<AudioPlayerConfiguration>(new AudioPlayerConfiguration()));
+
+        //var mdl = Locator.Current.GetService<DispositionBlockViewModel>();
+        var block = new DispositionBlock();
+
+        var exampleDispositions = new List<Disposition>() {
+            new() { Id = 1, Name = "Example 1", Duration = 9_000_000_000 },
+            new() { Id = 2, Name = "Example 2", Duration = 9_000_000_000 },
+            new() { Id = 3, Name = "Example 3", Duration = 9_000_000_000 },
+        };
+
+        exampleDispositions.ForEach(block.HandleDisposition);
+        mdl.Block = block;
+        mdl.MediaLength = 1_000_000;
+        mdl.EmittedDispositions = new ObservableCollection<Disposition>(exampleDispositions);
+
+        return mdl;
+
     }
 }

@@ -107,6 +107,7 @@
         <!-- <SolidColorBrush x:Key="SystemControlFocusVisualPrimaryBrush" Color="{DynamicResource FocusVisualBrush}"></SolidColorBrush> -->
         <SolidColorBrush x:Key="SystemControlFocusVisualPrimaryBrush" Color="{DynamicResource SystemAccentColor}" />
 
+        <!-- text control -->
         <SolidColorBrush x:Key="TextControlBorderBrush" Color="{DynamicResource SystemAccentColorDark3}"/>
         <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="{DynamicResource SystemAccentColor}"/>
         <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="{DynamicResource SystemAccentColor}"/>
@@ -125,6 +126,7 @@
         <SolidColorBrush x:Key="ComboBoxBackgroundFocused" Color="{DynamicResource ThemeLow}"/>
         
 
+        <!-- Calendar datepicker -->
         <SolidColorBrush x:Key="CalendarDatePickerBackground" Color="{DynamicResource ThemeLowLight}"/>
         <SolidColorBrush x:Key="CalendarDatePickerBorderBrush" Color="{DynamicResource SystemAccentColorDark3}"/>
         

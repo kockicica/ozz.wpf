@@ -12,9 +12,15 @@
     </Style>
     <Style Selector="Window.ModalWindow">
         <Setter Property="Background" Value="{DynamicResource MainWindowChromeBackground}" />
+        <Setter Property="WindowStartupLocation" Value="CenterOwner" />
+        <Setter Property="ShowInTaskbar" Value="False" />
+        <Setter Property="SizeToContent" Value="WidthAndHeight" />
+        <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />
+        <Setter Property="ExtendClientAreaChromeHints" Value="NoChrome" />
+        <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="32" />
     </Style>
     <Style Selector="TextBlock#WindowCaption">
-        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="FontWeight" Value="Heavy" />
         <Setter Property="Margin" Value="10 0 10 0" />
         <Setter Property="Foreground" Value="{DynamicResource SystemAltHighColor}" />
     </Style>

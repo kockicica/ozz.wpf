@@ -7,16 +7,13 @@
         xmlns:controls="clr-namespace:ozz.wpf.Controls"
         xmlns:models="clr-namespace:ozz.wpf.Models"
         xmlns:behaviors="clr-namespace:ozz.wpf.Behaviors"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" d:DataContext="{x:Static viewModels:DesignData.DispositionBlockViewModel}"
         x:Class="ozz.wpf.Views.Disposition.DispositionBlockWindow"
         x:Name="DispositionBlock" Classes="ModalWindow"
-        WindowStartupLocation="CenterOwner" ShowInTaskbar="False" SizeToContent="WidthAndHeight"
-        MinWidth="800" MinHeight="600"
-        ExtendClientAreaToDecorationsHint="True"
-        ExtendClientAreaChromeHints="NoChrome"
-        ExtendClientAreaTitleBarHeightHint="32"
-
+        MinWidth="1000" MinHeight="600"
         Title="Emitovanje bloka">
+    <!-- d:DataContext="{x:Static viewModels:DesignData.DispositionBlockViewModel}"     -->
     <i:Interaction.Behaviors>
         <behaviors:OnKeyDownTappedTriggerBehavior Key="Escape" TargetControl="{Binding #DispositionBlock}">
             <ia:CallMethodAction TargetObject="{Binding #DispositionBlock}" MethodName="Close" />
@@ -27,6 +24,14 @@
         <Style Selector="Grid#BlockGrid TextBlock">
             <Setter Property="Margin" Value="10" />
         </Style>
+        <Style Selector="ListBox">
+            <Style.Resources>
+                <ResourceDictionary>
+                    <Thickness x:Key="ListBoxBorderThemeThickness">0</Thickness>
+                    <Thickness x:Key="ListBoxItemPadding">0</Thickness>
+                </ResourceDictionary>
+            </Style.Resources>
+        </Style>
     </Window.Styles>
     <Panel>
         <Panel Margin="{Binding #DispositionBlock.OffScreenMargin}">
@@ -34,36 +39,45 @@
                 <Grid RowDefinitions="*, Auto">
                     <Grid Grid.Row="0" RowDefinitions="*, Auto">
                         <Grid Grid.Row="0" ColumnDefinitions="*,10,*" RowDefinitions="Auto,*" x:Name="BlockGrid">
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Emitovane" />
-                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Za emitovanje" />
-                            <ListBox Grid.Row="1" Grid.Column="0" Items="{Binding EmitedDispositions}">
+                            <Grid Grid.Row="0" Grid.Column="0" ColumnDefinitions="*,Auto">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Emitovane" />
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding TotalEmittedDuration, StringFormat='{}{0:hh\\:mm\\:ss}'}" />
+                            </Grid>
+                            <Grid Grid.Row="0" Grid.Column="2" ColumnDefinitions="*,Auto">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Za emitovanje" />
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding TotalDispositionsToEmitDuration, StringFormat='{}{0:hh\\:mm\\:ss}'}" />
+                            </Grid>
+                            <ListBox Grid.Row="1" Grid.Column="0" Items="{Binding EmittedDispositions}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate x:DataType="models:Disposition">
-                                        <Border Background="Red">
-                                            <TextBlock Text="{Binding Name}" />
-                                        </Border>
+                                        <Grid ColumnDefinitions="*,7*,3*">
+                                            <TextBlock Text="{Binding Order}" />
+                                            <TextBlock Text="{Binding Name}" Grid.Column="1" />
+                                            <TextBlock Text="{Binding Duration, Converter={StaticResource DurationToStringConverter}}"
+                                                       Grid.Column="2" />
+                                        </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-                            <DataGrid Grid.Row="1" Grid.Column="2" AutoGenerateColumns="False" IsReadOnly="True"
-                                      CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="True"
-                                      Items="{Binding DispositionsToEmit}">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" />
-                                    <DataGridTextColumn Header="Trajanje"
-                                                        Binding="{Binding Duration, Converter={StaticResource DurationToStringConverter}}" />
-                                </DataGrid.Columns>
-                            </DataGrid>
+                            <ListBox Grid.Row="1" Grid.Column="2" Items="{Binding DispositionsToEmit}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Disposition">
+                                        <Grid ColumnDefinitions="*,7*,3*">
+                                            <TextBlock Text="{Binding Order}" />
+                                            <TextBlock Text="{Binding Name}" Grid.Column="1" />
+                                            <TextBlock Text="{Binding Duration, Converter={StaticResource DurationToStringConverter}}"
+                                                       Grid.Column="2" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
                         </Grid>
-                        <!-- <player:AudioPlayerView Grid.Row="1" DataContext="{Binding AudioPlayerViewModel}" /> -->
-                        <controls:AudioPlayer Grid.Row="1" Volume="{Binding Volume}" Track="{Binding CurrentDisposition}"
+                        <controls:AudioPlayer Grid.Row="1" Volume="{Binding Volume}" Track="{Binding CurrentDisposition}" TrackName="{Binding CurrentTrackName}"
                                               MediaLength="{Binding MediaLength}" MediaPosition="{Binding MediaPosition}"
                                               PlayerState="{Binding PlayerState}" x:Name="AudioPlayer" />
                     </Grid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 10" Spacing="10">
-                        <!-- <Button x:Name="YesButton" Command="{Binding SelectDisposition}" Content="Izbor" Classes="success" IsDefault="True" /> -->
                         <Button x:Name="NoButton" Command="{Binding CloseCommand}" Content="Izlaz" />
-                        <TextBlock Text="{Binding Volume}"/>
                     </StackPanel>
                 </Grid>
             </Border>
