@@ -1,5 +1,4 @@
 <Styles xmlns="https://github.com/avaloniaui"
-
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
         <Border Padding="20">
@@ -8,8 +7,6 @@
     </Design.PreviewWith>
 
     <!-- Add Styles Here -->
-
-
     <Styles.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -17,20 +14,17 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 
-        <!-- <SolidColorBrush x:Key="ThemeBackgroundColor" Color="{DynamicResource SystemAltHighColor}" /> -->
-        <SolidColorBrush x:Key="ThemeBackgroundColor" Color="#FFF0EEE2" />
-        <!-- <SolidColorBrush x:Key="MainWindowChromeBackground" Color="{DynamicResource SystemAccentColor}" /> -->
-        <SolidColorBrush x:Key="MainWindowChromeBackground" Color="#FFF76201" />
-        <SolidColorBrush x:Key="DataGridPresenterBackground" Color="{DynamicResource SystemAltMediumHighColor}" />
-        <!-- <Color x:Key="SystemAccentColor">#FF93876E</Color> -->
+        <SolidColorBrush x:Key="ThemeBackgroundColor" Color="{DynamicResource SystemAltHighColor}" />
+        <SolidColorBrush x:Key="MainWindowChromeBackground" Color="{DynamicResource SystemAccentColor}" />
+        <SolidColorBrush x:Key="DataGridPresenterBackground" Color="{DynamicResource SystemListLowColor}" />
+        <!-- <SolidColorBrush x:Key="SystemControlBackgroundAltHighBrush" Color="DarkGreen"/> -->
 
     </Styles.Resources>
 
-    <FluentTheme Mode="Light" />
+    <FluentTheme Mode="Dark" />
     <!-- <StyleInclude Source="avares://Avalonia.Themes.Fluent/FluentLight.xaml" /> -->
     <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
     <StyleInclude Source="avares://ozz.wpf/Styles/Themes/Base.axaml" />
     <StyleInclude Source="avares://ozz.wpf/Controls/ControlResources.axaml" />
-
-
+    
 </Styles>
