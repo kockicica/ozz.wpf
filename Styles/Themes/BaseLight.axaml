@@ -1,5 +1,4 @@
 <Styles xmlns="https://github.com/avaloniaui"
-        xmlns:sys="clr-namespace:System;assembly=System.Runtime"
 
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
@@ -9,159 +8,23 @@
     </Design.PreviewWith>
 
     <!-- Add Styles Here -->
-    
+
 
     <Styles.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary>
-                    <Color x:Key="SystemAltHighColor">#FFFFFFFF</Color>
-                    <!-- <Color x:Key="SystemAltLowColor">#33FFFFFF</Color> -->
-                    <!-- <Color x:Key="SystemAltMediumColor">#99FFFFFF</Color> -->
-                    
-                    <!-- <Color x:Key="SystemAltMediumHighColor">#CCFFFFFF</Color> -->
-                    
-                    <!-- <Color x:Key="SystemAltMediumLowColor">#66FFFFFF</Color> -->
-
-                    <!-- <Color x:Key="SystemBaseHighColor">YellowGreen</Color> -->
-                    <!-- <Color x:Key="SystemBaseLowColor">YellowGreen</Color> -->
-
-                    <!-- <Color x:Key="SystemBaseHighColor">#FF000000</Color> -->
-                    <!-- <Color x:Key="SystemBaseLowColor">#FF929FB6</Color> -->
-                    <Color x:Key="SystemBaseMediumColor">#4D8093AE</Color>
-                    <Color x:Key="SystemBaseMediumHighColor">#338093AE</Color>
-                    <Color x:Key="SystemBaseMediumLowColor">#FF1D1F1F</Color>
-                    <!-- <Color x:Key="SystemBaseMediumLowColor">Red</Color> -->
-                    
-                    
-                    
-                    <!-- <Color x:Key="SystemBaseHighColor">#FF000000</Color> -->
-                    <!-- <Color x:Key="SystemBaseLowColor">#33000000</Color> -->
-                    <!-- <Color x:Key="SystemBaseMediumColor">#99000000</Color> -->
-                    <!-- <Color x:Key="SystemBaseMediumHighColor">#CC000000</Color> -->
-                    <!-- <Color x:Key="SystemBaseMediumLowColor">#66000000</Color> -->
-
-                    <!-- <Color x:Key="SystemChromeAltLowColor">#FF171717</Color> -->
-                    <!-- <Color x:Key="SystemChromeBlackHighColor">#FF000000</Color> -->
-                    <!-- <Color x:Key="SystemChromeBlackLowColor">#33000000</Color> -->
-                    <!-- <Color x:Key="SystemChromeBlackMediumLowColor">#66000000</Color> -->
-                    <!-- <Color x:Key="SystemChromeBlackMediumColor">#CC000000</Color> -->
-                    <!-- <Color x:Key="SystemChromeDisabledHighColor">#FFCCCCCC</Color> -->
-                    <!-- <Color x:Key="SystemChromeDisabledLowColor">#FF7A7A7A</Color> -->
-                    <!-- <Color x:Key="SystemChromeHighColor">#FFCCCCCC</Color> -->
-                    <!-- <Color x:Key="SystemChromeLowColor">#FFF2F2F2</Color> -->
-                    <!-- <Color x:Key="SystemChromeMediumColor">#FFE6E6E6</Color> -->
-                    <!-- <Color x:Key="SystemChromeMediumLowColor">#FFF2F2F2</Color> -->
-                    <!-- <Color x:Key="SystemChromeWhiteColor">#FFFFFFFF</Color> -->
-                    <!-- <Color x:Key="SystemChromeGrayColor">#FF767676</Color> -->
-                    <!-- <Color x:Key="SystemListLowColor">#19000000</Color> -->
-                    <!-- <Color x:Key="SystemListMediumColor">#33000000</Color> -->
-                    <!-- <Color x:Key="SystemErrorTextColor">#C50500</Color> -->
-
-                    <!-- <Color x:Key="SystemRevealListLowColor">#17000000</Color> -->
-                    <!-- <Color x:Key="SystemRevealListMediumColor">#2E000000</Color> -->
-
-                    <!-- <Color x:Key="SystemAccentColor">Red</Color> -->
-                    <Color x:Key="SystemAccentColor">#FF78A827</Color>
-                    <Color x:Key="SystemAccentColorLight1">#FF88B340</Color>
-                    <Color x:Key="SystemAccentColorLight2">#FF99BF59</Color>
-                    <Color x:Key="SystemAccentColorLight3">#FFA9CA73</Color>
-                    <Color x:Key="SystemAccentColorDark1">#FF65951F</Color>
-                    <Color x:Key="SystemAccentColorDark2">#FF528217</Color>
-                    <Color x:Key="SystemAccentColorDark3">#FF3F6F10</Color>      
-                    
-                    <Color x:Key="ThemeLow">#FF2E3532</Color>
-                    <Color x:Key="ThemeLowLight">#FF343D39</Color>
-                    <Color x:Key="ThemeMedium">#FF40504F</Color>
-                    <Color x:Key="ThemeMediumLight">#FF415958</Color>
-                    <Color x:Key="ThemeLight">#FF3E4844</Color>
-                    
-                    
-                    <Color x:Key="ThemeVeryLow">#FF8B2635</Color>
-                   
-                    
-                    
-                </ResourceDictionary>
+                <ResourceDictionary />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 
-        <!-- <SolidColorBrush x:Key="SystemControlBackgroundBaseLowBrush" Color="{StaticResource SystemBaseLowColor}" /> -->
-        <!-- <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{StaticResource SystemBaseHighColor}" Opacity="0.8" /> -->
-        
-
-        <StaticResource x:Key="FocusVisualBrush" ResourceKey="SystemAccentColor" />
-        <StaticResource x:Key="SystemAltMediumHighColor" ResourceKey="ThemeLow" />
-        <StaticResource x:Key="SystemChromeMediumLowColor" ResourceKey="ThemeLow" />
-        <StaticResource x:Key="SystemBaseLowColor" ResourceKey="ThemeLow" />
-
-        <StaticResource x:Key="SystemControlDisabledBaseMediumLowBrush" ResourceKey="SystemBaseMediumLowColor" />
-        
-        <!-- splitview -->
-        <SolidColorBrush x:Key="SystemControlPageBackgroundChromeLowBrush" Color="{DynamicResource ThemeLow}"/>
-
-        <SolidColorBrush x:Key="ThemeBackgroundColor" Color="{DynamicResource ThemeLowLight}" />
-        <!-- <SolidColorBrush x:Key="MainWindowChromeBackground" Color="#8b2635" /> -->
-        <SolidColorBrush x:Key="MainWindowChromeBackground" Color="{DynamicResource ThemeLow}" />
-        
-        <!-- focus adorner -->
-        <!-- <SolidColorBrush x:Key="SystemControlFocusVisualPrimaryBrush" Color="{DynamicResource FocusVisualBrush}"></SolidColorBrush> -->
-        <SolidColorBrush x:Key="SystemControlFocusVisualPrimaryBrush" Color="{DynamicResource SystemAccentColor}" />
-
-        <!-- text control -->
-        <SolidColorBrush x:Key="TextControlBorderBrush" Color="{DynamicResource SystemAccentColorDark3}"/>
-        <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="{DynamicResource SystemAccentColor}"/>
-        <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="{DynamicResource SystemAccentColor}"/>
-
-        <SolidColorBrush x:Key="TextControlBackground" Color="{DynamicResource ThemeLowLight}"/>
-        <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="{DynamicResource ThemeLow}"/>
-        <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{DynamicResource ThemeLow}"/>
-
-
-        <SolidColorBrush x:Key="ComboBoxBorderBrush" Color="{DynamicResource SystemAccentColorDark3}"/>
-        <SolidColorBrush x:Key="ComboBoxBorderBrushFocused" Color="{DynamicResource SystemAccentColor}"/>
-        <SolidColorBrush x:Key="ComboBoxBorderBrushPointerOver" Color="{DynamicResource SystemAccentColor}"/>
-        
-        <SolidColorBrush x:Key="ComboBoxBackground" Color="{DynamicResource ThemeLowLight}"/>
-        <SolidColorBrush x:Key="ComboBoxBackgroundPointerOver" Color="{DynamicResource ThemeLow}"/>
-        <SolidColorBrush x:Key="ComboBoxBackgroundFocused" Color="{DynamicResource ThemeLow}"/>
-        
-
-        <!-- Calendar datepicker -->
-        <SolidColorBrush x:Key="CalendarDatePickerBackground" Color="{DynamicResource ThemeLowLight}"/>
-        <SolidColorBrush x:Key="CalendarDatePickerBorderBrush" Color="{DynamicResource SystemAccentColorDark3}"/>
-        
-        <!-- <SolidColorBrush x:Key="SystemControlBackgroundAltHighBrush" Color="{DynamicResource ThemeLow}" /> -->
-        <!-- <SolidColorBrush x:Key="SystemControlBackgroundAltMediumBrush" Color="{DynamicResource ThemeLowLight}" /> -->
-        <!-- <SolidColorBrush x:Key="SystemControlPageBackgroundAltMediumBrush" Color="{DynamicResource ThemeLowLight}" /> -->
-
-
-        <SolidColorBrush x:Key="DataGridColumnHeaderBackgroundBrush" Color="Transparent" />
-        <SolidColorBrush x:Key="DataGridCellFocusVisualPrimaryBrush" Color="{DynamicResource FocusVisualBrush}" />
-
-
-        <SolidColorBrush x:Key="DataGridRowSelectedUnfocusedBackgroundColor" Color="{DynamicResource FocusVisualBrush}" />
-        <sys:Double x:Key="DataGridRowSelectedUnfocusedBackgroundOpacity">0.2</sys:Double>
-
-        <SolidColorBrush x:Key="DataGridRowSelectedHoveredUnfocusedBackgroundColor" Color="{DynamicResource FocusVisualBrush}" />
-        <sys:Double x:Key="DataGridRowSelectedHoveredUnfocusedBackgroundOpacity">0.2</sys:Double>
-
-        <SolidColorBrush x:Key="DataGridRowSelectedBackgroundColor" Color="{DynamicResource FocusVisualBrush}" />
-        <sys:Double x:Key="DataGridRowSelectedBackgroundOpacity">0.2</sys:Double>
-
-        <SolidColorBrush x:Key="DataGridRowSelectedHoveredBackgroundColor" Color="{DynamicResource FocusVisualBrush}" />
-        <sys:Double x:Key="DataGridRowSelectedHoveredBackgroundOpacity">0.2</sys:Double>
-
-        
-        <!-- Customize AudioPlayer -->
-        <SolidColorBrush x:Key="PlayerButtonForeground" Color="{DynamicResource SystemAccentColor}" />
-        <SolidColorBrush x:Key="PlayerButtonForegroundPointerOver" Color="{DynamicResource SystemAccentColorLight2}" />
-        <SolidColorBrush x:Key="PlayerButtonForegroundPressed" Color="{DynamicResource SystemAccentColorLight1}" />
-
+        <SolidColorBrush x:Key="ThemeBackgroundColor" Color="{DynamicResource SystemAltHighColor}" />
+        <SolidColorBrush x:Key="MainWindowChromeBackground" Color="{DynamicResource SystemAccentColor}" />
+        <SolidColorBrush x:Key="DataGridPresenterBackkground" Color="{DynamicResource SystemListLowColor}" />
 
     </Styles.Resources>
 
-    <FluentTheme Mode="Dark" />
-    <!-- <StyleInclude Source="avares://Avalonia.Themes.Fluent/FluentDark.xaml" /> -->
+    <FluentTheme Mode="Light" />
+    <!-- <StyleInclude Source="avares://Avalonia.Themes.Fluent/FluentLight.xaml" /> -->
     <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
     <StyleInclude Source="avares://ozz.wpf/Styles/Themes/Base.axaml" />
     <StyleInclude Source="avares://ozz.wpf/Controls/ControlResources.axaml" />

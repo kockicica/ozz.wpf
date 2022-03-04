@@ -38,6 +38,9 @@
         <Style Selector="TextBlock.selected_disposition_shift">
             <Setter Property="FontWeight" Value="Heavy" />
         </Style>
+        <Style Selector="Border#CommandHelpBar">
+            <Setter Property="Background" Value="{DynamicResource SystemAccentColorLight3}"/>
+        </Style>
     </UserControl.Styles>
     <Grid RowDefinitions="Auto,*, Auto">
         <TabStrip Items="{Binding Categories}" SelectedItem="{Binding SelectedCategory}" KeyboardNavigation.TabNavigation="None"
@@ -136,7 +139,7 @@
                 <TextBlock Grid.Column="7" Classes="data_value" Text="{Binding CurrentBlockCount}" />
             </Grid>
         </Grid>
-        <Border Grid.Row="2" Padding="8" Height="32" Background="{DynamicResource SystemAccentColorDark3}">
+        <Border Grid.Row="2" Padding="8" Height="32" x:Name="CommandHelpBar">
             <Panel>
                 <StackPanel Orientation="Horizontal" IsTabStop="False" KeyboardNavigation.TabNavigation="None" HorizontalAlignment="Center"
                             Spacing="20"
