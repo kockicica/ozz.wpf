@@ -15,10 +15,10 @@
            <SolidColorBrush x:Key="PlayerButtonBackgroundPressed" Color="Transparent" />
 
 
-           <StaticResource x:Key="PlayerButtonForeground" ResourceKey="SystemControlForegroundBaseHighBrush"/>
-           <StaticResource x:Key="PlayerButtonForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
-           <StaticResource x:Key="PlayerButtonForegroundPointerOver" ResourceKey="SystemControlHighlightBaseHighBrush" />
-           <StaticResource x:Key="PlayerButtonForegroundPressed" ResourceKey="SystemControlHighlightBaseHighBrush" />
+           <StaticResource x:Key="PlayerButtonForeground" ResourceKey="SystemAccentColor"/>
+           <StaticResource x:Key="PlayerButtonForegroundDisabled" ResourceKey="SystemControlDisabledBaseLowBrush" />
+           <StaticResource x:Key="PlayerButtonForegroundPointerOver" ResourceKey="SystemAccentColorLight1" />
+           <StaticResource x:Key="PlayerButtonForegroundPressed" ResourceKey="SystemAccentColorLight1" />
 
            <SolidColorBrush x:Key="AudioPlayerBackground" Color="Transparent" />
 
