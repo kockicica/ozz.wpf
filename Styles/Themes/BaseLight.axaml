@@ -19,7 +19,7 @@
 
         <SolidColorBrush x:Key="ThemeBackgroundColor" Color="{DynamicResource SystemAltHighColor}" />
         <SolidColorBrush x:Key="MainWindowChromeBackground" Color="{DynamicResource SystemAccentColor}" />
-        <SolidColorBrush x:Key="DataGridPresenterBackkground" Color="{DynamicResource SystemListLowColor}" />
+        <SolidColorBrush x:Key="DataGridPresenterBackground" Color="{DynamicResource SystemListLowColor}" />
 
     </Styles.Resources>
 

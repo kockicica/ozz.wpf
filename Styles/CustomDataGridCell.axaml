@@ -66,7 +66,7 @@
     </Style>
     
     <Style Selector="DataGridRowsPresenter#PART_RowsPresenter">
-        <Setter Property="Background" Value="{DynamicResource DataGridPresenterBackkground}" />
+        <Setter Property="Background" Value="{DynamicResource DataGridPresenterBackground}" />
     </Style>
     
 

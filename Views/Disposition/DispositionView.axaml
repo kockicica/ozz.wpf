@@ -39,7 +39,7 @@
             <Setter Property="FontWeight" Value="Heavy" />
         </Style>
         <Style Selector="Border#CommandHelpBar">
-            <Setter Property="Background" Value="{DynamicResource SystemAccentColorLight3}"/>
+            <Setter Property="Background" Value="{DynamicResource SystemChromeBlackMediumLowColor}"/>
         </Style>
     </UserControl.Styles>
     <Grid RowDefinitions="Auto,*, Auto">
