@@ -10,6 +10,9 @@
     <Style Selector="Window#MainWnd">
         <Setter Property="Background" Value="{DynamicResource MainWindowChromeBackground}" />
     </Style>
+    <Style Selector="Window#MainWnd[IsActive=False]">
+        <Setter Property="Background" Value="{DynamicResource SystemBaseLowColor}" />
+    </Style>
     <Style Selector="Window.ModalWindow">
         <Setter Property="Background" Value="{DynamicResource MainWindowChromeBackground}" />
         <!-- <Setter Property="WindowStartupLocation" Value="CenterOwner" /> -->
