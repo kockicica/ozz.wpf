@@ -34,6 +34,12 @@
 
                     <Color x:Key="ThemeColor3">#FFF76201</Color>
                     
+                    <Color x:Key="SystemAccentColor">#FF2F4858</Color>
+                    <Color x:Key="SystemAccentColorDark1">#FF3F5462</Color>
+                    <Color x:Key="SystemAccentColorDark2">#FF29353C</Color>
+                    <Color x:Key="SystemAccentColorLight1">#FF285D7F</Color>
+                    <Color x:Key="SystemAccentColorLight2">#FF487B9D</Color>
+                    
 
                     <!-- <SolidColorBrush x:Key="SystemControlFocusVisualPrimaryBrush" Color="Red" /> -->
                     

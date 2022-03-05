@@ -38,7 +38,7 @@
 
 
            <StaticResource x:Key="PlayerSliderTrackFill" ResourceKey="SystemControlForegroundBaseLowBrush" />
-           <StaticResource x:Key="PlayerSliderTrackValueFill" ResourceKey="SystemAccentColorLight3" />
+           <StaticResource x:Key="PlayerSliderTrackValueFill" ResourceKey="SystemAccentColorLight2" />
 
            <!-- <StaticResource x:Key="PlayerSliderThumbBackground" ResourceKey="SystemControlForegroundAccentBrush" /> -->
            <SolidColorBrush x:Key="PlayerSliderThumbBackground" Color="{DynamicResource SystemAccentColorDark1}" />
