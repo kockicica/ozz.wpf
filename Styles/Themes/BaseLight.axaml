@@ -76,6 +76,15 @@
 
         <!-- Focus adorner -->
         <SolidColorBrush x:Key="SystemControlFocusVisualPrimaryBrush" Color="{DynamicResource ThemeColor2Dark1}" />
+        
+        <!-- Default buttons -->
+        <SolidColorBrush x:Key="ButtonBackground" Color="{DynamicResource ThemeColor2}"/>
+        <SolidColorBrush x:Key="ButtonForeground" Color="{DynamicResource SystemAltHighColor}"/>
+        <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="{DynamicResource SystemAltHighColor}"/>
+        <SolidColorBrush x:Key="ButtonForegroundPressed" Color="{DynamicResource SystemAltHighColor}"/>
+        <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="{DynamicResource SystemAltMediumColor}"/>
+        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource ThemeColor2Light1}"/>
+        <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{DynamicResource ThemeColor2Dark1}"/>
 
 
     </Styles.Resources>
