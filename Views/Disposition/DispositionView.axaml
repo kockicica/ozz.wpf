@@ -75,7 +75,7 @@
             </StackPanel>
             <DataGrid Grid.Column="0" Grid.Row="1" Name="RecordingGrid" Items="{Binding Recordings}" AutoGenerateColumns="False"
                       x:DataType="models:AudioRecording" Classes="BorderedElement"
-                      IsReadOnly="True"
+                      IsReadOnly="True" Margin="5 0 0 0"
                       IsTabStop="True" Focusable="True"
                       CanUserResizeColumns="True" SelectionMode="Single" SelectedItem="{Binding SelectedRecording}">
                 <i:Interaction.Behaviors>
@@ -104,7 +104,7 @@
             </DataGrid>
 
             <Grid Grid.Row="0" Grid.Column="2" RowDefinitions="*,*" ColumnDefinitions="*,10,Auto"
-                  x:Name="DispositionShiftGrid">
+                  x:Name="DispositionShiftGrid" Margin="0 0 5 0">
                 <TextBlock Grid.Row="0" Classes="selected_disposition_date" Grid.ColumnSpan="3"
                            Text="{Binding CurrentDisposition.Date, StringFormat={}{0:dddd\, dd.MM.yyyy}}" />
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Smena"/>
@@ -113,6 +113,7 @@
             <DataGrid Grid.Row="1" Grid.Column="2" Items="{Binding Dispositions}" AutoGenerateColumns="False" x:DataType="models:Disposition"
                       SelectedItem="{Binding SelectedDisposition}" CanUserResizeColumns="True" CanUserSortColumns="True"
                       x:Name="DispositionsDataGrid" Classes="BorderedElement"
+                      Margin="0 0 5 0"
                       IsReadOnly="True" Focusable="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="" Binding="{Binding OrderAsString}" Width="*" />
