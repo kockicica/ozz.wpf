@@ -13,16 +13,50 @@
     <Styles.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary />
+                <ResourceDictionary>
+                    <!-- <SolidColorBrush x:Key="SystemControlFocusVisualPrimaryBrush" Color="Red" /> -->
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 
-        <!-- <SolidColorBrush x:Key="ThemeBackgroundColor" Color="{DynamicResource SystemAltHighColor}" /> -->
-        <SolidColorBrush x:Key="ThemeBackgroundColor" Color="#FFF0EEE2" />
-        <!-- <SolidColorBrush x:Key="MainWindowChromeBackground" Color="{DynamicResource SystemAccentColor}" /> -->
-        <SolidColorBrush x:Key="MainWindowChromeBackground" Color="#FFF76201" />
+
+        <Color x:Key="ThemeColor1">#FFF0EEE2</Color>
+
+        <Color x:Key="ThemeColor2">#FF93876e</Color>
+
+        <Color x:Key="ThemeColor2Light1">#CC93876e</Color>
+        <Color x:Key="ThemeColor2Light2">#9993876e</Color>
+        <Color x:Key="ThemeColor2Dark1">#FF766A52</Color>
+        <Color x:Key="ThemeColor2Dark2">#FF594F38</Color>
+        
+        <Color x:Key="ThemeColor2MediumHigh">#CC93876e</Color>
+        <Color x:Key="ThemeColor2Medium">#9993876e</Color>
+        <Color x:Key="ThemeColor2MediumLow">#6693876e</Color>
+        <Color x:Key="ThemeColor2Low">#3393876e</Color>
+        
+
+        <Color x:Key="ThemeColor3">#FFF76201</Color>
+
+        <SolidColorBrush x:Key="ThemeBackgroundColor" Color="{DynamicResource ThemeColor1}" />
+
+        <SolidColorBrush x:Key="MainWindowChromeBackground" Color="{DynamicResource ThemeColor3}" />
+        
+        <!-- List and grid border color -->
+        <SolidColorBrush x:Key="VisualElementBorderBrush" Color="{DynamicResource ThemeColor2}"/>
+        <Thickness x:Key="VisualElementBorderThickness">1</Thickness>
+
+        <!-- Data grid -->
         <SolidColorBrush x:Key="DataGridPresenterBackground" Color="{DynamicResource SystemAltMediumHighColor}" />
-        <!-- <Color x:Key="SystemAccentColor">#FF93876E</Color> -->
+        <SolidColorBrush x:Key="DataGridColumnHeaderBackgroundBrush" Color="{DynamicResource ThemeColor2}" />
+        <SolidColorBrush x:Key="DataGridColumnHeaderHoveredBackgroundColor" Color="{DynamicResource ThemeColor2Light1}" />
+        <SolidColorBrush x:Key="DataGridColumnHeaderForegroundBrush" Color="{DynamicResource SystemAltHighColor}" />
+        <SolidColorBrush x:Key="DataGridColumnHeaderPressedBackgroundColor" Color="{DynamicResource ThemeColor2Dark1}" />
+        <SolidColorBrush x:Key="DataGridGridLinesBrush" Color="{StaticResource ThemeColor2Dark1}" Opacity="0.4" />
+
+
+        <!-- Focus adorner -->
+        <SolidColorBrush x:Key="SystemControlFocusVisualPrimaryBrush" Color="{DynamicResource ThemeColor2Dark1}" />
+
 
     </Styles.Resources>
 

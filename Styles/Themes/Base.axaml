@@ -7,7 +7,7 @@
     </Design.PreviewWith>
     
     <Styles.Resources>
-        <Thickness x:Key="ButtonPadding">30 5 30 6</Thickness>
+        <Thickness x:Key="ButtonPadding">30 6 30 6</Thickness>
 
         <Thickness x:Key="SystemControlFocusVisualMargin">0</Thickness>
         <Thickness x:Key="SystemControlFocusVisualPrimaryThickness">1</Thickness>

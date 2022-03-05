@@ -74,7 +74,7 @@
                 </controls:CustomExpander>
             </StackPanel>
             <DataGrid Grid.Column="0" Grid.Row="1" Name="RecordingGrid" Items="{Binding Recordings}" AutoGenerateColumns="False"
-                      x:DataType="models:AudioRecording"
+                      x:DataType="models:AudioRecording" Classes="BorderedElement"
                       IsReadOnly="True"
                       IsTabStop="True" Focusable="True"
                       CanUserResizeColumns="True" SelectionMode="Single" SelectedItem="{Binding SelectedRecording}">
@@ -112,7 +112,7 @@
             </Grid>
             <DataGrid Grid.Row="1" Grid.Column="2" Items="{Binding Dispositions}" AutoGenerateColumns="False" x:DataType="models:Disposition"
                       SelectedItem="{Binding SelectedDisposition}" CanUserResizeColumns="True" CanUserSortColumns="True"
-                      x:Name="DispositionsDataGrid"
+                      x:Name="DispositionsDataGrid" Classes="BorderedElement"
                       IsReadOnly="True" Focusable="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="" Binding="{Binding OrderAsString}" Width="*" />

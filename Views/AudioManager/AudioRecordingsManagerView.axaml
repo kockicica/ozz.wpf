@@ -57,7 +57,7 @@
         <!--     <TextBlock Text="{Binding SelectedCategory.Id}" /> -->
         <!-- </StackPanel> -->
         <DataGrid Grid.Row="2" Items="{Binding Results}" AutoGenerateColumns="False" IsReadOnly="True" x:Name="Grid" IsTabStop="True"
-                  Focusable="True"
+                  Focusable="True" Classes="BorderedElement"
                   SelectedItem="{Binding SelectedRecording}">
             <DataGrid.KeyBindings>
                 <KeyBinding Gesture="Enter" Command="{Binding EditRecording}" CommandParameter="{Binding SelectedRecording}" />

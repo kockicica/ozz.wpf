@@ -15,6 +15,9 @@
         <Style Selector="Grid#SearchGrid CalendarDatePicker">
             <Setter Property="HorizontalAlignment" Value="Stretch" />
         </Style>
+        <Style Selector="DataGrid">
+            <Setter Property="Margin" Value="5"/>
+        </Style>
     </UserControl.Styles>
     <Grid RowDefinitions="Auto, Auto, *, Auto" KeyboardNavigation.TabNavigation="Continue">
         <Grid Grid.Row="0" ColumnDefinitions="*, Auto" x:Name="SearchGrid" Margin="10" KeyboardNavigation.TabNavigation="Continue">
@@ -59,7 +62,7 @@
         <!--     </StackPanel> -->
         <!-- </StackPanel> -->
         <DataGrid Grid.Row="2" AutoGenerateColumns="False" Items="{Binding Schedules}" x:DataType="models:Schedule" CanUserReorderColumns="True"
-                  CanUserResizeColumns="True" CanUserSortColumns="True" GridLinesVisibility="All" x:Name="SchedulesGrid" Focusable="True"
+                  CanUserResizeColumns="True" CanUserSortColumns="True" GridLinesVisibility="All" x:Name="SchedulesGrid" Focusable="True" Classes="BorderedElement"
                   SelectionChanged="SchedulesGrid_OnSelectionChanged">
             <DataGrid.Styles>
                 <Style Selector="NumericUpDown">
