@@ -8,41 +8,61 @@
     </Design.PreviewWith>
 
     <!-- Add Styles Here -->
-
+    
 
     <Styles.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
+
+                    <Color x:Key="ThemeColor1">#FFF0EEE2</Color>
+
+                    <Color x:Key="ThemeColor2">#FF93876e</Color>
+
+                    <Color x:Key="ThemeColor2Light1">#CC93876e</Color>
+                    <Color x:Key="ThemeColor2Light2">#9993876e</Color>
+                    <Color x:Key="ThemeColor2Dark1">#FF766A52</Color>
+                    <Color x:Key="ThemeColor2Dark2">#FF594F38</Color>
+                    <Color x:Key="ThemeColor2Dark3">#FF3E3520</Color>
+                    <Color x:Key="ThemeColor2Dark4">#FF261D04</Color>
+
+                    <Color x:Key="ThemeColor2MediumHigh">#CC93876e</Color>
+                    <Color x:Key="ThemeColor2Medium">#9993876e</Color>
+                    <Color x:Key="ThemeColor2MediumLow">#6693876e</Color>
+                    <Color x:Key="ThemeColor2Low">#3393876e</Color>
+
+
+                    <Color x:Key="ThemeColor3">#FFF76201</Color>
+                    
+
                     <!-- <SolidColorBrush x:Key="SystemControlFocusVisualPrimaryBrush" Color="Red" /> -->
+                    
+                    <!-- <SolidColorBrush x:Key="SystemBaseLowColor" Color="{DynamicResource ThemeColor2Low}"/> -->
+                    
                 </ResourceDictionary>
+                
             </ResourceDictionary.MergedDictionaries>
+
+            
+           
         </ResourceDictionary>
 
+        <StaticResource x:Key="SystemBaseLowColor" ResourceKey="ThemeColor2"/>
 
-        <Color x:Key="ThemeColor1">#FFF0EEE2</Color>
+        <StaticResource x:Key="SystemBaseMediumLowColor" ResourceKey="ThemeColor2MediumLow" />
+        <StaticResource x:Key="SystemBaseMediumHighColor" ResourceKey="ThemeColor2MediumHigh" />
+        <StaticResource x:Key="SystemBaseHighColor" ResourceKey="ThemeColor2" />
 
-        <Color x:Key="ThemeColor2">#FF93876e</Color>
+        <StaticResource x:Key="SystemControlForegroundBaseLowBrush" ResourceKey="ThemeColor2" />
+        <StaticResource x:Key="SystemControlForegroundBaseMediumLowBrush" ResourceKey="ThemeColor2" />
 
-        <Color x:Key="ThemeColor2Light1">#CC93876e</Color>
-        <Color x:Key="ThemeColor2Light2">#9993876e</Color>
-        <Color x:Key="ThemeColor2Dark1">#FF766A52</Color>
-        <Color x:Key="ThemeColor2Dark2">#FF594F38</Color>
-        
-        <Color x:Key="ThemeColor2MediumHigh">#CC93876e</Color>
-        <Color x:Key="ThemeColor2Medium">#9993876e</Color>
-        <Color x:Key="ThemeColor2MediumLow">#6693876e</Color>
-        <Color x:Key="ThemeColor2Low">#3393876e</Color>
-        
-
-        <Color x:Key="ThemeColor3">#FFF76201</Color>
 
         <SolidColorBrush x:Key="ThemeBackgroundColor" Color="{DynamicResource ThemeColor1}" />
 
         <SolidColorBrush x:Key="MainWindowChromeBackground" Color="{DynamicResource ThemeColor3}" />
-        
+
         <!-- List and grid border color -->
-        <SolidColorBrush x:Key="VisualElementBorderBrush" Color="{DynamicResource ThemeColor2}"/>
+        <SolidColorBrush x:Key="VisualElementBorderBrush" Color="{DynamicResource ThemeColor2}" />
         <Thickness x:Key="VisualElementBorderThickness">1</Thickness>
 
         <!-- Data grid -->
