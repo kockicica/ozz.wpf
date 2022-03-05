@@ -14,10 +14,13 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 
-        <SolidColorBrush x:Key="ThemeBackgroundColor" Color="{DynamicResource SystemAltHighColor}" />
+        <!-- <SolidColorBrush x:Key="ThemeBackgroundColor" Color="#FF2F5061" /> -->
+        <SolidColorBrush x:Key="ThemeBackgroundColor" Color="{DynamicResource SystemChromeMediumLowColor}" />
+        <SolidColorBrush x:Key="SystemControlBackgroundChromeMediumLowBrush" Color="{DynamicResource SystemListLowColor}" />
         <SolidColorBrush x:Key="MainWindowChromeBackground" Color="{DynamicResource SystemAccentColor}" />
         <SolidColorBrush x:Key="DataGridPresenterBackground" Color="{DynamicResource SystemListLowColor}" />
         <!-- <SolidColorBrush x:Key="SystemControlBackgroundAltHighBrush" Color="DarkGreen"/> -->
+        <!-- <Color x:Key="SystemAccentColor">#FFF4EAE6</Color> -->
 
     </Styles.Resources>
 
@@ -26,5 +29,5 @@
     <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
     <StyleInclude Source="avares://ozz.wpf/Styles/Themes/Base.axaml" />
     <StyleInclude Source="avares://ozz.wpf/Controls/ControlResources.axaml" />
-    
+
 </Styles>
