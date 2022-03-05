@@ -40,10 +40,6 @@
                     <Color x:Key="SystemAccentColorLight1">#FF285D7F</Color>
                     <Color x:Key="SystemAccentColorLight2">#FF487B9D</Color>
                     
-
-                    <!-- <SolidColorBrush x:Key="SystemControlFocusVisualPrimaryBrush" Color="Red" /> -->
-                    
-                    <!-- <SolidColorBrush x:Key="SystemBaseLowColor" Color="{DynamicResource ThemeColor2Low}"/> -->
                     
                 </ResourceDictionary>
                 
@@ -61,6 +57,10 @@
 
         <StaticResource x:Key="SystemControlForegroundBaseLowBrush" ResourceKey="ThemeColor2" />
         <StaticResource x:Key="SystemControlForegroundBaseMediumLowBrush" ResourceKey="ThemeColor2" />
+        
+        <!-- <StaticResource x:Key="HighlightForegroundColor" ResourceKey="ThemeColor2" /> -->
+
+
 
 
         <SolidColorBrush x:Key="ThemeBackgroundColor" Color="{DynamicResource ThemeColor1}" />

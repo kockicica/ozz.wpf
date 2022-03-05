@@ -154,7 +154,7 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
         set => this.RaiseAndSetIfChanged(ref _caption, value);
     }
 
-    public ReactiveCommand<Unit, IRoutableViewModel?> GoBack { get; }
+    public ReactiveCommand<Unit, Unit> GoBack { get; }
 
     public IRoutableViewModel? CurrentViewModel {
         get => _currentViewModel;

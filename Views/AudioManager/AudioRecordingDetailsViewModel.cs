@@ -93,7 +93,7 @@ public class AudioRecordingDetailsViewModel : ViewModelBase, IRoutableViewModel,
                 })
                 .DisposeWith(d);
 
-            _categories = _dataClient.Categories().ToObservable().Do(categories => {
+            _categories = _dataClient.Categories().ToObservable(RxApp.MainThreadScheduler).Do(categories => {
                 var selected = categories.SingleOrDefault(x => x.Name == CategoryName);
                 SelectedCategory = selected;
             }).ToProperty(this, x => x.Categories).DisposeWith(d);
