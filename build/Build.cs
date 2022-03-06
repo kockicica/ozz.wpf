@@ -4,6 +4,7 @@ using System.IO.Compression;
 using System.Linq;
 
 using Nuke.Common;
+using Nuke.Common.ChangeLog;
 using Nuke.Common.CI;
 using Nuke.Common.Execution;
 using Nuke.Common.Git;
@@ -83,7 +84,7 @@ class Build : NukeBuild {
                            });
 
     Target Publish => _ => _
-                           .DependsOn(Clean, CleanArtifacts)
+                           .DependsOn(Clean, CleanArtifacts, Changelog)
                            .Executes(() =>
                            {
                                Logger.Normal(GetProjectsToBuild().Select(m => m.Name).JoinComma());
@@ -114,6 +115,12 @@ class Build : NukeBuild {
                                       }
 
                                   });
+
+    Target Changelog => _ => _
+        .Executes(() =>
+        {
+            ChangelogTasks.FinalizeChangelog(RootDirectory / "CHANGELOG.md", GitVersion.SemVer, GitRepository);
+        });
 
     /// Support plugins are available for:
     ///   - JetBrains ReSharper        https://nuke.build/resharper

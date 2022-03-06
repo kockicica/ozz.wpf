@@ -97,6 +97,7 @@
           "items": {
             "type": "string",
             "enum": [
+              "Changelog",
               "Clean",
               "CleanArtifacts",
               "Compile",
@@ -116,6 +117,7 @@
           "items": {
             "type": "string",
             "enum": [
+              "Changelog",
               "Clean",
               "CleanArtifacts",
               "Compile",
