@@ -149,9 +149,9 @@ class Build : NukeBuild {
                                              .SetSelfContained(SelfContained)
                                              .EnablePublishSingleFile()
                                              .EnablePublishTrimmed()
-                                             .SetVersion(GitVersion?.SemVer)
-                                             .SetAssemblyVersion(GitVersion?.AssemblySemVer)
-                                             .SetFileVersion(GitVersion?.AssemblySemFileVer)
+                                             .SetVersion(GitVersion.SemVer)
+                                             .SetAssemblyVersion(GitVersion.AssemblySemVer)
+                                             .SetFileVersion(GitVersion.AssemblySemFileVer)
             );
         }
 

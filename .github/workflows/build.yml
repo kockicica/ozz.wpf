@@ -18,5 +18,8 @@ jobs:
       - name: Prepare build
         run: chmod +x ./build.sh
 
+      - name: Install
+        run: dotnet tool install --global GitVersion.Tool
+        
       - name: Create archives
         run: ./build.sh create-archives
