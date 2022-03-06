@@ -15,6 +15,14 @@
         <Style Selector="DataGrid:focus DataGridCell:current /template/ Grid#FocusVisual">
             <Setter Property="IsVisible" Value="False" />
         </Style>
+        <Style Selector="DataGrid:focus">
+            <!-- <Style.Resources> -->
+            <!--     <ResourceDictionary> -->
+            <!--         <Thickness x:Key="SystemControlFocusVisualPrimaryThickness">4</Thickness> -->
+            <!--     </ResourceDictionary> -->
+            <!-- </Style.Resources> -->
+            <!-- <Setter Property="BorderBrush" Value="Red" /> -->
+        </Style>
         <Style Selector="Grid.block_info TextBlock.data_value">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="FontWeight" Value="Heavy" />
@@ -39,8 +47,24 @@
             <Setter Property="FontWeight" Value="Heavy" />
         </Style>
         <Style Selector="Border#CommandHelpBar">
-            <Setter Property="Background" Value="{DynamicResource SystemChromeBlackMediumLowColor}"/>
+            <Setter Property="Background" Value="{DynamicResource SystemBaseLowColor}" />
         </Style>
+        <Style Selector="Border#CommandHelpBar TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource SystemAltHighColor}" />
+        </Style>
+        <Style Selector="DataGrid">
+            <Setter Property="FocusAdorner">
+                <FocusAdornerTemplate>
+                    <Border BorderThickness="2"
+                            BorderBrush="{DynamicResource SystemControlFocusVisualPrimaryBrush}"
+                            Margin="{DynamicResource SystemControlFocusVisualMargin}">
+                        <Border BorderThickness="{DynamicResource SystemControlFocusVisualSecondaryThickness}"
+                                BorderBrush="{DynamicResource SystemControlFocusVisualSecondaryBrush}" />
+                    </Border>
+                </FocusAdornerTemplate>
+            </Setter>
+        </Style>
+        
     </UserControl.Styles>
     <Grid RowDefinitions="Auto,*, Auto">
         <TabStrip Items="{Binding Categories}" SelectedItem="{Binding SelectedCategory}" KeyboardNavigation.TabNavigation="None"
@@ -107,7 +131,7 @@
                   x:Name="DispositionShiftGrid" Margin="0 0 5 0">
                 <TextBlock Grid.Row="0" Classes="selected_disposition_date" Grid.ColumnSpan="3"
                            Text="{Binding CurrentDisposition.Date, StringFormat={}{0:dddd\, dd.MM.yyyy}}" />
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Smena"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Smena" />
                 <TextBlock Grid.Row="1" Grid.Column="2" Classes="selected_disposition_shift" Text="{Binding CurrentDisposition.Shift}" />
             </Grid>
             <DataGrid Grid.Row="1" Grid.Column="2" Items="{Binding Dispositions}" AutoGenerateColumns="False" x:DataType="models:Disposition"
