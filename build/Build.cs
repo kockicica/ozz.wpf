@@ -84,7 +84,7 @@ class Build : NukeBuild {
                            });
 
     Target Publish => _ => _
-                           .DependsOn(Clean, CleanArtifacts, Changelog)
+                           .DependsOn(Clean, CleanArtifacts)
                            .Executes(() =>
                            {
                                Logger.Normal(GetProjectsToBuild().Select(m => m.Name).JoinComma());
