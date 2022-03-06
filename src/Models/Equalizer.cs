@@ -1,4 +1,3 @@
-using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -8,10 +7,10 @@ using JetBrains.Annotations;
 namespace ozz.wpf.Models;
 
 public class Equalizer : INotifyPropertyChanged {
-    private double _preAmp;
     private string _name;
+    private double _preAmp;
 
-    public int    Id   { get; set; }
+    public int Id { get; set; }
 
     public string Name {
         get => _name;
@@ -45,7 +44,11 @@ public class Equalizer : INotifyPropertyChanged {
         }
     }
 
+    #region INotifyPropertyChanged Members
+
     public event PropertyChangedEventHandler? PropertyChanged;
+
+    #endregion
 
     [NotifyPropertyChangedInvocator]
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null) {
@@ -54,9 +57,9 @@ public class Equalizer : INotifyPropertyChanged {
 }
 
 public class EqualizerBand : INotifyPropertyChanged {
-
-    private int    _number;
     private double _amp;
+
+    private int _number;
 
     public int Number {
         get => _number;
@@ -74,7 +77,11 @@ public class EqualizerBand : INotifyPropertyChanged {
         }
     }
 
+    #region INotifyPropertyChanged Members
+
     public event PropertyChangedEventHandler? PropertyChanged;
+
+    #endregion
 
     [NotifyPropertyChangedInvocator]
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null) {

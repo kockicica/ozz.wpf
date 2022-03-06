@@ -3,17 +3,17 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
-	<!--Avalonia doesen't support TrimMode=link currently,but we are working on that https://github.com/AvaloniaUI/Avalonia/issues/6892 -->
-	<TrimMode>copyused</TrimMode>
+    <!--Avalonia doesen't support TrimMode=link currently,but we are working on that https://github.com/AvaloniaUI/Avalonia/issues/6892 -->
+    <TrimMode>copyused</TrimMode>
 	<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <VlcWindowsX64Enabled>true</VlcWindowsX64Enabled>
     <VlcWindowsX86Enabled>false</VlcWindowsX86Enabled>
     <ApplicationIcon>Assets\browse_podcasts_2.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
-    <AvaloniaResource Include="Assets\**" />
-    <None Remove=".gitignore" />
+    <Folder Include="Models\"/>
+    <AvaloniaResource Include="Assets\**"/>
+    <None Remove=".gitignore"/>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -22,18 +22,16 @@
 	<!--This helps with theme dll-s trimming.
 	If you will publish your application in self-contained mode with p:PublishTrimmed=true and it will use Fluent theme Default theme will be trimmed from the output and vice versa.
 	https://github.com/AvaloniaUI/Avalonia/issues/5593 -->
-	<TrimmableAssembly Include="Avalonia.Themes.Fluent" />
-	<TrimmableAssembly Include="Avalonia.Themes.Default" />
+    <TrimmableAssembly Include="Avalonia.Themes.Fluent"/>
+	<TrimmableAssembly Include="Avalonia.Themes.Default"/>
   </ItemGroup>
   <ItemGroup>
-<!--    <PackageReference Include="Aura.UI" Version="0.1.4.2"/>-->
-      <!--    <PackageReference Include="Aura.UI.FluentTheme" Version="0.1.4.2"/>-->
       <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0"/>
     <PackageReference Include="Avalonia" Version="0.10.12"/>
     <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.12"/>
     <PackageReference Include="Avalonia.Desktop" Version="0.10.12"/>
-      <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-      <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.12"/>
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.12"/>
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.12"/>
     <PackageReference Include="Avalonia.Svg.Skia" Version="0.10.12"/>
     <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.10.12"/>
@@ -69,11 +67,11 @@
       <DependentUpon>DispositionView.axaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-      <!--    <Compile Update="Views\Disposition\AnotherWindow.axaml.cs">-->
-      <!--      <DependentUpon>AnotherWindow.axaml</DependentUpon>-->
-      <!--      <SubType>Code</SubType>-->
-      <!--    </Compile>-->
-      <Compile Update="Views\Player\AudioPlayerView.axaml.cs">
+    <!--    <Compile Update="Views\Disposition\AnotherWindow.axaml.cs">-->
+    <!--      <DependentUpon>AnotherWindow.axaml</DependentUpon>-->
+    <!--      <SubType>Code</SubType>-->
+    <!--    </Compile>-->
+    <Compile Update="Views\Player\AudioPlayerView.axaml.cs">
       <DependentUpon>AudioPlayerView.axaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -89,10 +87,6 @@
       <DependentUpon>EditAudioRecordingWindow.axaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-      <!--    <Compile Update="Views\Disposition\AnotherWindow.axaml.cs">-->
-      <!--      <DependentUpon>AnotherWindow.axaml</DependentUpon>-->
-      <!--      <SubType>Code</SubType>-->
-      <!--    </Compile>-->
       <Compile Update="Views\Equalizer\EqualizerView.axaml.cs">
       <DependentUpon>EqualizerView.axaml</DependentUpon>
       <SubType>Code</SubType>

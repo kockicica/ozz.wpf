@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace ozz.wpf.Dialog; 
+namespace ozz.wpf.Dialog;
 
 public interface IDialogService {
 
@@ -9,5 +9,4 @@ public interface IDialogService {
     Task ShowDialogAsync(string viewModelName);
 
     Task ShowDialogAsync<TParam>(string viewModelName, TParam param);
-
 }

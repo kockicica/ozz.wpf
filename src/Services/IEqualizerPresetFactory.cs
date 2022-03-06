@@ -12,5 +12,4 @@ public interface IEqualizerPresetFactory {
     Task<Equalizer> GetDefaultPreset();
 
     Task<Equalizer> SavePreset(Equalizer preset);
-
 }

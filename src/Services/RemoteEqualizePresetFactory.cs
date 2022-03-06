@@ -5,18 +5,19 @@ using Microsoft.Extensions.Logging;
 
 using ozz.wpf.Models;
 
-
 namespace ozz.wpf.Services;
 
 public class RemoteEqualizePresetFactory : IEqualizerPresetFactory {
+    private IClient _client;
 
     private ILogger<RemoteEqualizePresetFactory> _logger;
-    private IClient                              _client;
 
     public RemoteEqualizePresetFactory(ILogger<RemoteEqualizePresetFactory> logger, IClient client) {
         _logger = logger;
         _client = client;
     }
+
+    #region IEqualizerPresetFactory Members
 
     public async Task<IEnumerable<Equalizer>> GetPresets() {
         var data = await _client.Equalizers();
@@ -38,4 +39,7 @@ public class RemoteEqualizePresetFactory : IEqualizerPresetFactory {
             return await _client.UpdateEqualizer(preset.Id, preset);
         }
     }
+
+    #endregion
+
 }

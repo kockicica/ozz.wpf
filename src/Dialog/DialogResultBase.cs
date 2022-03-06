@@ -1,7 +1,4 @@
-namespace ozz.wpf.Dialog; 
+namespace ozz.wpf.Dialog;
 
 public class DialogResultBase {
-
-    
-
 }

@@ -6,6 +6,8 @@ namespace ozz.wpf.Services;
 
 public class LocatorBasedResolver : IResolver {
 
+    #region IResolver Members
+
     public T GetService<T>() {
         var fnd = Locator.Current.GetService<T>();
         if (fnd == null) {
@@ -13,5 +15,7 @@ public class LocatorBasedResolver : IResolver {
         }
         return fnd;
     }
+
+    #endregion
 
 }

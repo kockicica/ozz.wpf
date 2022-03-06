@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -17,6 +16,8 @@ public class VLCEqualizePresetFactory : IEqualizerPresetFactory {
     public VLCEqualizePresetFactory(ILogger<VLCEqualizePresetFactory> logger) {
         _logger = logger;
     }
+
+    #region IEqualizerPresetFactory Members
 
     public Task<IEnumerable<Equalizer>> GetPresets() {
 
@@ -45,4 +46,7 @@ public class VLCEqualizePresetFactory : IEqualizerPresetFactory {
     public Task<Equalizer> SavePreset(Equalizer preset) {
         return Task.FromResult(preset);
     }
+
+    #endregion
+
 }

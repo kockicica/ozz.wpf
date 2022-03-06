@@ -7,6 +7,8 @@ namespace ozz.wpf.Services;
 
 public class DurationToStringConverter : IValueConverter {
 
+    #region IValueConverter Members
+
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture) {
         if (value == null) {
             return string.Empty;
@@ -21,7 +23,7 @@ public class DurationToStringConverter : IValueConverter {
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) {
         var ts = TimeSpan.Zero;
-        
+
         if (value != null && TimeSpan.TryParse(value.ToString(), NumberFormatInfo.InvariantInfo, out var tst)) {
             ts = tst;
         }
@@ -30,5 +32,6 @@ public class DurationToStringConverter : IValueConverter {
 
     }
 
+    #endregion
 
 }

@@ -4,8 +4,6 @@ using Avalonia.Controls.Notifications;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 
-using ozz.wpf.ViewModels;
-
 using ReactiveUI;
 
 namespace ozz.wpf.Views {
