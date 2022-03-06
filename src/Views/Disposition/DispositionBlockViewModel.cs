@@ -222,10 +222,10 @@ public class DispositionBlockViewModel : DialogViewModelBase {
         if (CurrentDisposition != null) {
             Player.Media = FromDisposition(CurrentDisposition!);
         }
-        Player.Volume = Volume;
-        Player.SetEqualizer(FromModel(Models.Equalizer.Default));
         Player.Stop();
+        Player.Volume = Volume;
         Player.Play();
+        Player.Volume = Volume;
     }
 
     public void HandlePause() {
