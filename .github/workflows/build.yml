@@ -1,0 +1,22 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+
+      - name: Prepare build
+        run: chmod +x ./build.sh
+
+      - name: Create archives
+        run: ./build.sh create-archives

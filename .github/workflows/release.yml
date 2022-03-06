@@ -2,10 +2,8 @@ name: ozz.wpf-cli
 
 on:
   push:
-    branches:
-      - main
-    # tags:
-    #   - '*'
+    tags:
+      - 'v*.*.*'
 
 jobs:
 
@@ -21,8 +19,7 @@ jobs:
         id: contains_tag
         with:
           reference: "main"
-          #tag: "${{ github.ref }}"
-          tag: "Latest"
+          tag: "${{ github.ref }}"
 
   publish:
     runs-on: ubuntu-latest
