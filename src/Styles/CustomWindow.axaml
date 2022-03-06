@@ -1,0 +1,31 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- Add Styles Here -->
+    <Style Selector="Window#MainWnd">
+        <Setter Property="Background" Value="{DynamicResource MainWindowChromeBackground}" />
+    </Style>
+    <Style Selector="Window#MainWnd[IsActive=False]">
+        <Setter Property="Background" Value="{DynamicResource SystemBaseLowColor}" />
+    </Style>
+    <Style Selector=":is(Window).ModalWindow">
+        <Setter Property="Background" Value="{DynamicResource MainWindowChromeBackground}" />
+        <!-- <Setter Property="WindowStartupLocation" Value="CenterOwner" /> -->
+        <Setter Property="ShowInTaskbar" Value="False" />
+        <Setter Property="SizeToContent" Value="WidthAndHeight" />
+        <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />
+        <Setter Property="ExtendClientAreaChromeHints" Value="NoChrome" />
+        <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="32" />
+    </Style>
+    <Style Selector="TextBlock#WindowCaption">
+        <Setter Property="FontWeight" Value="Heavy" />
+        <Setter Property="Margin" Value="10 0 10 0" />
+        <Setter Property="Foreground" Value="{DynamicResource SystemAltHighColor}" />
+    </Style>
+    
+</Styles>

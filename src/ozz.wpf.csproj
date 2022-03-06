@@ -1,0 +1,107 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <!--Avalonia doesen't support TrimMode=link currently,but we are working on that https://github.com/AvaloniaUI/Avalonia/issues/6892 -->
+    <TrimMode>copyused</TrimMode>
+	<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <VlcWindowsX64Enabled>true</VlcWindowsX64Enabled>
+    <VlcWindowsX86Enabled>false</VlcWindowsX86Enabled>
+    <ApplicationIcon>Assets\browse_podcasts_2.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Models\"/>
+    <AvaloniaResource Include="Assets\**"/>
+    <None Remove=".gitignore"/>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+	<!--This helps with theme dll-s trimming.
+	If you will publish your application in self-contained mode with p:PublishTrimmed=true and it will use Fluent theme Default theme will be trimmed from the output and vice versa.
+	https://github.com/AvaloniaUI/Avalonia/issues/5593 -->
+    <TrimmableAssembly Include="Avalonia.Themes.Fluent"/>
+	<TrimmableAssembly Include="Avalonia.Themes.Default"/>
+  </ItemGroup>
+  <ItemGroup>
+      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0"/>
+    <PackageReference Include="Avalonia" Version="0.10.12"/>
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.12"/>
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.12"/>
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.12"/>
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.12"/>
+    <PackageReference Include="Avalonia.Svg.Skia" Version="0.10.12"/>
+    <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.10.12"/>
+    <PackageReference Include="LibVLCSharp" Version="3.6.5"/>
+    <PackageReference Include="LibVLCSharp.Avalonia" Version="3.6.5"/>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0"/>
+    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0"/>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0"/>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
+    <PackageReference Include="ReactiveMarbles.ObservableEvents.SourceGenerator" Version="1.1.4">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Serilog" Version="2.10.0"/>
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="4.2.0"/>
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1"/>
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0"/>
+    <PackageReference Include="Splat.Microsoft.Extensions.DependencyInjection" Version="14.1.45"/>
+    <PackageReference Include="Splat.Microsoft.Extensions.Logging" Version="14.1.45"/>
+    <PackageReference Include="TagLibSharp" Version="2.2.0"/>
+    <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.16"/>
+	<PackageReference Include="XamlNameReferenceGenerator" Version="1.3.4"/>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Xaml"/>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\Dialogs\ModalAudioPlayerWindow.axaml.cs">
+      <DependentUpon>ModalAudioPlayerWindow.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Disposition\DispositionView.axaml.cs">
+      <DependentUpon>DispositionView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <!--    <Compile Update="Views\Disposition\AnotherWindow.axaml.cs">-->
+    <!--      <DependentUpon>AnotherWindow.axaml</DependentUpon>-->
+    <!--      <SubType>Code</SubType>-->
+    <!--    </Compile>-->
+    <Compile Update="Views\Player\AudioPlayerView.axaml.cs">
+      <DependentUpon>AudioPlayerView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\AudioManager\AudioRecordingsManagerView.axaml.cs">
+      <DependentUpon>AudioRecordingsManagerView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\AudioManager\AudioRecordingDetails.axaml.cs">
+      <DependentUpon>AudioRecordingDetails.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\AudioManager\EditAudioRecordingWindow.axaml.cs">
+      <DependentUpon>EditAudioRecordingWindow.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+      <Compile Update="Views\Equalizer\EqualizerView.axaml.cs">
+      <DependentUpon>EqualizerView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Manager\ManagerView.axaml.cs">
+      <DependentUpon>ManagerView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\ScheduleManager\CreateSchedule\CreateScheduleView.axaml.cs">
+      <DependentUpon>CreateScheduleView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Assets\ResourceDictionary\Playlists.xaml"/>
+  </ItemGroup>
+  
+</Project>

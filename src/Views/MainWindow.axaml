@@ -1,0 +1,82 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:rxui="clr-namespace:Avalonia.ReactiveUI;assembly=Avalonia.ReactiveUI"
+        xmlns:views="clr-namespace:ozz.wpf.Views"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="ozz.wpf.Views.MainWindow"
+        x:Name="MainWnd"
+        Icon="/Assets/browse_podcasts_2.ico"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="Default"
+        ExtendClientAreaTitleBarHeightHint="32"
+        WindowStartupLocation="CenterScreen"
+        Title="OZZZZZZZZZ-o-matic">
+    <Window.Styles>
+        <Style Selector="Grid#Overlay">
+            <!-- <Setter Property="IsVisible" Value="{Binding OverlayVisible}" /> -->
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="Black" Opacity=".4" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style Selector="Grid#RoutedView">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush Source="/Assets/music_library.png" AlignmentX="Right" AlignmentY="Bottom" Opacity="0.1" Stretch="Uniform" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style Selector="Window#MainWnd">
+            <!-- <Setter Property="Background" Value="{DynamicResource MainWindowChromeBackground}" /> -->
+        </Style>
+        <Style Selector="views|LoginView">
+            <!-- <Setter Property="Opacity" Value="1"></Setter> -->
+            <!-- <Setter Property="Background" Value="Red"></Setter> -->
+        </Style>
+        <Style Selector="Border#LoginViewBorder">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Padding" Value="0 80" />
+            <Setter Property="Opacity" Value="0.5" />
+            <Setter Property="Background" Value="LightGray" />
+
+        </Style>
+    </Window.Styles>
+
+    <Design.DataContext>
+        <views:MainWindowViewModel />
+    </Design.DataContext>
+    <Panel>
+        <Panel Margin="{Binding #MainWnd.OffScreenMargin}">
+            <Grid x:Name="LayoutRoot" Margin="{Binding #MainWnd.WindowDecorationMargin}">
+                <Grid x:Name="Overlay"/>
+                <Grid x:Name="RoutedView">
+                    <!-- <Image Source="{DynamicResource music_libraryDrawingImage}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Opacity="1" -->
+                    <!--        Height="600"> -->
+                    <!-- </Image> -->
+                    <rxui:RoutedViewHost Router="{Binding Router}">
+                        <rxui:RoutedViewHost.DefaultContent>
+                            <Panel>
+                                <Border x:Name="LoginViewBorder" />
+                                <views:LoginView DataContext="{Binding LoginViewModel}" />
+                            </Panel>
+                        </rxui:RoutedViewHost.DefaultContent>
+                    </rxui:RoutedViewHost>
+                </Grid>
+            </Grid>
+        </Panel>
+        <DockPanel Height="32" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <TextBlock x:Name="WindowCaption" Text="{Binding #MainWnd.Title}" DockPanel.Dock="Left" VerticalAlignment="Center" Margin="10 0 10 0"
+                       FontWeight="Bold" />
+        </DockPanel>
+        <!-- <Border BorderThickness="1 1 1 0" CornerRadius="4 4 0 0" BorderBrush="#55000000" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="250 8 0 0"> -->
+        <!--     <Border.Background> -->
+        <!--         <SolidColorBrush Color="White" Opacity="0.7" /> -->
+        <!--     </Border.Background> -->
+        <!--     <TextBlock Margin="5 5 5 0" Text="Content In Title Bar" /> -->
+        <!-- </Border> -->
+
+    </Panel>
+</Window>

@@ -1,0 +1,112 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+    
+    <Styles.Resources>
+        <SolidColorBrush x:Key="SuccessButtonBackground" Color="Green" />
+        <SolidColorBrush x:Key="SuccessButtonBackgroundPointerOver" Color="LightGreen" />
+        <SolidColorBrush x:Key="SuccessButtonBackgroundPressed" Color="LightGreen" />
+
+        <SolidColorBrush x:Key="SuccessButtonForeground" Color="White" />
+        <SolidColorBrush x:Key="SuccessButtonForegroundPointerOver" Color="Black" />
+        <SolidColorBrush x:Key="SuccessButtonForegroundPressed" Color="Black" />
+
+        <SolidColorBrush x:Key="AlertButtonBackground" Color="Red" />
+        <SolidColorBrush x:Key="AlertButtonBackgroundPointerOver" Color="IndianRed" />
+        <SolidColorBrush x:Key="AlertButtonBackgroundPressed" Color="IndianRed" />
+
+        <SolidColorBrush x:Key="AlertButtonForeground" Color="White" />
+        <SolidColorBrush x:Key="AlertButtonForegroundPointerOver" Color="White" />
+        <SolidColorBrush x:Key="AlertButtonForegroundPressed" Color="White" />
+
+        <SolidColorBrush x:Key="CloseWindowButtonBackground" Color="Transparent" />
+        <SolidColorBrush x:Key="CloseWindowButtonBackgroundPointerOver" Color="DarkRed" />
+        <SolidColorBrush x:Key="CloseWindowButtonBackgroundPressed" Color="DarkRed" />
+        
+        <SolidColorBrush x:Key="CloseWindowButtonForeground" Color="Black" />
+        <SolidColorBrush x:Key="CloseWindowButtonForegroundPointerOver" Color="White" />
+        <SolidColorBrush x:Key="CloseWindowButtonForegroundPressed" Color="White" />
+        
+        
+    </Styles.Resources>
+    
+    <Style Selector="Button.success">
+        <Setter Property="Background" Value="{DynamicResource SuccessButtonBackground}" />
+    </Style>
+    
+    <Style Selector="Button.success /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource SuccessButtonForeground}" />
+    </Style>
+    
+    <Style Selector="Button.success:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource SuccessButtonBackgroundPointerOver}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource SuccessButtonForegroundPointerOver}" />
+    </Style>
+    
+    <Style Selector="Button.success:pressed  /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource SuccessButtonBackgroundPressed}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPressed}" />
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource SuccessButtonForegroundPressed}" />
+    </Style>
+    
+    
+    <Style Selector="Button.alert">
+        <Setter Property="Background" Value="{DynamicResource AlertButtonBackground}" />
+    </Style>
+    
+    <Style Selector="Button.alert /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource AlertButtonForeground}" />
+    </Style>
+    
+    <Style Selector="Button.alert:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource AlertButtonBackgroundPointerOver}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource AlertButtonForegroundPointerOver}" />
+    </Style>
+
+    <Style Selector="Button.alert:pressed  /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource AlertButtonBackgroundPressed}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPressed}" />
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource AlertButtonForegroundPressed}" />
+    </Style>
+    
+
+    <!-- Close windows button template -->
+    <!-- <Style Selector="Button.window-close"> -->
+    <!--     <Setter Property="Background" Value="{DynamicResource CloseWindowButtonBackground}" /> -->
+    <!-- </Style> -->
+    <!-- -->
+    <!-- <Style Selector="Button.window-close /template/ ContentPresenter#PART_ContentPresenter"> -->
+    <!--     <Setter Property="TextBlock.Foreground" Value="{DynamicResource CloseWindowButtonForeground}" /> -->
+    <!-- </Style> -->
+    <!-- -->
+    <!-- <Style Selector="Button.window-close PathIcon"> -->
+    <!--     <Setter Property="Foreground" Value="{DynamicResource CloseWindowButtonForeground}" /> -->
+    <!-- </Style> -->
+    <!-- -->
+    <!-- <Style Selector="Button.window-close:pointerover PathIcon"> -->
+    <!--     <Setter Property="Foreground" Value="{DynamicResource CloseWindowButtonForegroundPointerOver}" /> -->
+    <!-- </Style> -->
+    <!-- -->
+    <!-- <Style Selector="Button.window-close:pressed PathIcon"> -->
+    <!--     <Setter Property="Foreground" Value="{DynamicResource CloseWindowButtonForegroundPointerOver}" /> -->
+    <!-- </Style> -->
+    <!-- -->
+    <!-- <Style Selector="Button.window-close:pointerover /template/ ContentPresenter#PART_ContentPresenter"> -->
+    <!--     <Setter Property="Background" Value="{DynamicResource CloseWindowButtonBackgroundPointerOver}" /> -->
+    <!--     <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" /> -->
+    <!--     <Setter Property="TextBlock.Foreground" Value="{DynamicResource CloseWindowButtonForegroundPointerOver}" /> -->
+    <!-- </Style> -->
+    <!-- -->
+    <!-- <Style Selector="Button.window-close:pressed  /template/ ContentPresenter#PART_ContentPresenter"> -->
+    <!--     <Setter Property="Background" Value="{DynamicResource CloseWindowButtonBackgroundPressed}" /> -->
+    <!--     <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPressed}" /> -->
+    <!--     <Setter Property="TextBlock.Foreground" Value="{DynamicResource CloseWindowButtonForegroundPressed}" /> -->
+    <!-- </Style> -->
+    
+</Styles>

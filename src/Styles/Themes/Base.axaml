@@ -1,0 +1,23 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+    
+    <Styles.Resources>
+        <Thickness x:Key="ButtonPadding">30 6 30 6</Thickness>
+
+        <Thickness x:Key="SystemControlFocusVisualMargin">0</Thickness>
+        <Thickness x:Key="SystemControlFocusVisualPrimaryThickness">1</Thickness>
+        <Thickness x:Key="SystemControlFocusVisualSecondaryThickness">0</Thickness>
+        
+        <Thickness x:Key="TextControlBorderThemeThicknessFocused">1</Thickness>
+        
+        <CornerRadius x:Key="ControlCornerRadius">3</CornerRadius>
+        <CornerRadius x:Key="OverlayCornerRadius">5</CornerRadius>
+    </Styles.Resources>
+
+    <!-- Add Styles Here -->
+</Styles>

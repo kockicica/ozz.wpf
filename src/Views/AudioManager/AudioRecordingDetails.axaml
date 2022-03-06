@@ -1,0 +1,71 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:iac="clr-namespace:Avalonia.Xaml.Interactions.Custom;assembly=Avalonia.Xaml.Interactions"
+             xmlns:models="clr-namespace:ozz.wpf.Models"
+             xmlns:player="clr-namespace:ozz.wpf.Views.Player"
+             xmlns:audioManager="clr-namespace:ozz.wpf.Views.AudioManager"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ozz.wpf.Views.AudioManager.AudioRecordingDetailsView">
+    <UserControl.DataContext>
+        <audioManager:AudioRecordingDetailsViewModel />
+    </UserControl.DataContext>
+    <UserControl.Styles>
+        <Style Selector="TextBox">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0 3 6 3" />
+        </Style>
+        <Style Selector="CheckBox">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0 3 6 3" />
+        </Style>
+        <Style Selector="Label">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0 3 6 3" />
+        </Style>
+    </UserControl.Styles>
+    <ScrollViewer>
+
+        <Grid RowDefinitions="Auto" Margin="10">
+            <Grid ColumnDefinitions="Auto,10,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*">
+                <Label Grid.Row="0" Grid.Column="0">Naziv</Label>
+                <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Name}">
+                    <i:Interaction.Behaviors>
+                        <iac:FocusOnAttachedToVisualTreeBehavior />
+                    </i:Interaction.Behaviors>
+                </TextBox>
+                <Label Grid.Row="1" Grid.Column="0">Komentar</Label>
+                <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Comment}" />
+                <Label Grid.Row="2" Grid.Column="0">Klijent</Label>
+                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding Client}" />
+                <Label Grid.Row="3" Grid.Column="0">Aktivan</Label>
+                <CheckBox Grid.Row="3" Grid.Column="2" IsChecked="{Binding Active}" />
+                <Label Grid.Row="4" Grid.Column="0">Kategorija</Label>
+                <ComboBox Grid.Row="4" Grid.Column="2" Items="{Binding Categories}" SelectedItem="{Binding SelectedCategory}"
+                          HorizontalAlignment="Stretch">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="models:Category">
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Label Grid.Row="5" Grid.Column="0">Audio</Label>
+                <Grid Grid.Row="5" Grid.Column="2">
+                    <Grid RowDefinitions="Auto, Auto" Margin="0 20 0 0">
+                        <Button Content="Pronađi" Command="{Binding BrowseForAudioFile}" IsVisible="{Binding !IsUpdate}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
+                        <player:AudioPlayerView Grid.Row="1" DataContext="{Binding AudioPlayerViewModel}"
+                                               IsEnabled="{Binding Track, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                    </Grid>
+                </Grid>
+            </Grid>
+            <!-- <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right"> -->
+            <!--     <Button Content="Reset" Command="{Binding ClearFields}" /> -->
+            <!--     <Button Content="Snimi" Command="{Binding CreateAudioFile}" IsDefault="True" /> -->
+            <!-- </StackPanel> -->
+        </Grid>
+
+    </ScrollViewer>
+
+</UserControl>

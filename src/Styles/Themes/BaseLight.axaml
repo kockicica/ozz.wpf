@@ -1,0 +1,105 @@
+<Styles xmlns="https://github.com/avaloniaui"
+
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- Add Styles Here -->
+    
+
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+
+                    <Color x:Key="ThemeColor1">#FFF0EEE2</Color>
+
+                    <Color x:Key="ThemeColor2">#FF93876e</Color>
+
+                    <Color x:Key="ThemeColor2Light1">#CC93876e</Color>
+                    <Color x:Key="ThemeColor2Light2">#9993876e</Color>
+                    <Color x:Key="ThemeColor2Dark1">#FF766A52</Color>
+                    <Color x:Key="ThemeColor2Dark2">#FF594F38</Color>
+                    <Color x:Key="ThemeColor2Dark3">#FF3E3520</Color>
+                    <Color x:Key="ThemeColor2Dark4">#FF261D04</Color>
+
+                    <Color x:Key="ThemeColor2MediumHigh">#CC93876e</Color>
+                    <Color x:Key="ThemeColor2Medium">#9993876e</Color>
+                    <Color x:Key="ThemeColor2MediumLow">#6693876e</Color>
+                    <Color x:Key="ThemeColor2Low">#3393876e</Color>
+
+
+                    <Color x:Key="ThemeColor3">#FFF76201</Color>
+                    
+                    <Color x:Key="SystemAccentColor">#FF2F4858</Color>
+                    <Color x:Key="SystemAccentColorDark1">#FF3F5462</Color>
+                    <Color x:Key="SystemAccentColorDark2">#FF29353C</Color>
+                    <Color x:Key="SystemAccentColorLight1">#FF285D7F</Color>
+                    <Color x:Key="SystemAccentColorLight2">#FF487B9D</Color>
+                    
+                    
+                </ResourceDictionary>
+                
+            </ResourceDictionary.MergedDictionaries>
+
+            
+           
+        </ResourceDictionary>
+
+        <StaticResource x:Key="SystemBaseLowColor" ResourceKey="ThemeColor2"/>
+
+        <StaticResource x:Key="SystemBaseMediumLowColor" ResourceKey="ThemeColor2MediumLow" />
+        <StaticResource x:Key="SystemBaseMediumHighColor" ResourceKey="ThemeColor2MediumHigh" />
+        <StaticResource x:Key="SystemBaseHighColor" ResourceKey="ThemeColor2" />
+
+        <StaticResource x:Key="SystemControlForegroundBaseLowBrush" ResourceKey="ThemeColor2" />
+        <StaticResource x:Key="SystemControlForegroundBaseMediumLowBrush" ResourceKey="ThemeColor2" />
+        
+        <!-- <StaticResource x:Key="HighlightForegroundColor" ResourceKey="ThemeColor2" /> -->
+
+
+
+
+        <SolidColorBrush x:Key="ThemeBackgroundColor" Color="{DynamicResource ThemeColor1}" />
+
+        <SolidColorBrush x:Key="MainWindowChromeBackground" Color="{DynamicResource ThemeColor3}" />
+
+        <!-- List and grid border color -->
+        <SolidColorBrush x:Key="VisualElementBorderBrush" Color="{DynamicResource ThemeColor2}" />
+        <Thickness x:Key="VisualElementBorderThickness">1</Thickness>
+
+        <!-- Data grid -->
+        <SolidColorBrush x:Key="DataGridPresenterBackground" Color="{DynamicResource SystemAltMediumHighColor}" />
+        <SolidColorBrush x:Key="DataGridColumnHeaderBackgroundBrush" Color="{DynamicResource ThemeColor2}" />
+        <SolidColorBrush x:Key="DataGridColumnHeaderHoveredBackgroundColor" Color="{DynamicResource ThemeColor2Light1}" />
+        <SolidColorBrush x:Key="DataGridColumnHeaderForegroundBrush" Color="{DynamicResource SystemAltHighColor}" />
+        <SolidColorBrush x:Key="DataGridColumnHeaderPressedBackgroundColor" Color="{DynamicResource ThemeColor2Dark1}" />
+        <SolidColorBrush x:Key="DataGridGridLinesBrush" Color="{StaticResource ThemeColor2Dark1}" Opacity="0.4" />
+
+
+        <!-- Focus adorner -->
+        <SolidColorBrush x:Key="SystemControlFocusVisualPrimaryBrush" Color="{DynamicResource ThemeColor2Dark1}" />
+        
+        <!-- Default buttons -->
+        <SolidColorBrush x:Key="ButtonBackground" Color="{DynamicResource ThemeColor2}"/>
+        <SolidColorBrush x:Key="ButtonForeground" Color="{DynamicResource SystemAltHighColor}"/>
+        <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="{DynamicResource SystemAltHighColor}"/>
+        <SolidColorBrush x:Key="ButtonForegroundPressed" Color="{DynamicResource SystemAltHighColor}"/>
+        <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="{DynamicResource SystemAltMediumColor}"/>
+        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource ThemeColor2Light1}"/>
+        <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{DynamicResource ThemeColor2Dark1}"/>
+
+
+    </Styles.Resources>
+
+    <FluentTheme Mode="Light" />
+    <!-- <StyleInclude Source="avares://Avalonia.Themes.Fluent/FluentLight.xaml" /> -->
+    <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+    <StyleInclude Source="avares://ozz.wpf/Styles/Themes/Base.axaml" />
+    <StyleInclude Source="avares://ozz.wpf/Controls/ControlResources.axaml" />
+
+
+</Styles>

@@ -1,0 +1,20 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- Add Styles Here -->
+    <Style Selector=":is(TemplatedControl).BorderedElement">
+        <Setter Property="BorderThickness" Value="{DynamicResource VisualElementBorderThickness}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource VisualElementBorderBrush}"/>
+    </Style>
+    
+    <!-- Highlighted text foreground -->
+    <Style Selector="TextBox">
+        <Setter Property="SelectionForegroundBrush" Value="{DynamicResource SystemAltHighColor}"/>
+    </Style>
+    
+</Styles>

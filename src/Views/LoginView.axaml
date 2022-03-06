@@ -1,0 +1,26 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:iac="clr-namespace:Avalonia.Xaml.Interactions.Custom;assembly=Avalonia.Xaml.Interactions"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ozz.wpf.Views.LoginView">
+    <Grid>
+        <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Width="400">
+            <Border>
+                <Grid RowDefinitions="Auto, 20, Auto" ColumnDefinitions="*,2*">
+                    <TextBlock Text="Korisničko ime:" VerticalAlignment="Center" IsTabStop="True" TabIndex="0" />
+                    <TextBox x:Name="UsernameBlock" Grid.Column="1" Grid.Row="0" Text="{Binding Username}" HorizontalAlignment="Stretch"
+                             VerticalAlignment="Center">
+                        <i:Interaction.Behaviors>
+                            <iac:FocusOnAttachedToVisualTreeBehavior/>
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                    <Button x:Name="LoginBtn" Opacity="1" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Content="Prijava" HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Command="{Binding Login}" CommandParameter="{Binding Username}" IsDefault="True" />
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

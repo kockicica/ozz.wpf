@@ -1,0 +1,88 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             xmlns:vm="clr-namespace:ozz.wpf.ViewModels"
+             xmlns:services="clr-namespace:ozz.wpf.Services"
+             xmlns:models="clr-namespace:ozz.wpf.Models"
+             xmlns:controls="clr-namespace:ozz.wpf.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" d:DataContext="{x:Static vm:DesignData.AudioRecordingsManagerViewModel}"
+             x:Class="ozz.wpf.Views.AudioManager.AudioRecordingsManagerView">
+    <i:Interaction.Behaviors>
+        <ia:EventTriggerBehavior SourceObject="{Binding #Grid}" EventName="DoubleTapped">
+            <ia:InvokeCommandAction Command="{Binding EditRecording}" CommandParameter="{Binding SelectedRecording}" />
+        </ia:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+    <UserControl.Styles>
+        <Style Selector="Grid#SearchGrid Label">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style Selector="Grid#SearchGrid CalendarDatePicker">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+
+    </UserControl.Styles>
+    <Grid RowDefinitions="Auto, Auto, *, Auto" Margin="5">
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,10,*,10,Auto,10,*,10,Auto" RowDefinitions="Auto,10,Auto,10,Auto" x:Name="SearchGrid">
+            <Label Grid.Row="0" Grid.Column="0" Content="Naziv" />
+            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SearchParams.Name}" />
+            <Label Grid.Row="0" Grid.Column="4" Content="Kategorija" />
+            <ComboBox Grid.Row="0" Grid.Column="6" Items="{Binding Categories}" x:Name="CategoriesCombo"
+                      services:ExampleBehavior.Items="{Binding Categories}"
+                      SelectedItem="{Binding SelectedCategory}"
+                      HorizontalAlignment="Stretch">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="models:Category">
+                        <Grid>
+                            <TextBlock Text="{Binding Name}" IsVisible="{Binding ., Converter={x:Static ObjectConverters.IsNotNull}}" />
+                            <TextBlock Text="Bilo koja" IsVisible="{Binding ., Converter={x:Static ObjectConverters.IsNull}}" />
+                        </Grid>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Label Content="Od" Grid.Row="2" Grid.Column="0" Target="FromCalendarPicker" />
+            <CalendarDatePicker Grid.Row="2" Grid.Column="2" SelectedDate="{Binding SearchParams.FromDate, Mode=TwoWay}" x:Name="FromCalendarPicker" />
+            <Label Content="Do" Grid.Row="2" Grid.Column="4" Target="ToCalendarPicker" />
+            <CalendarDatePicker Grid.Row="2" Grid.Column="6" SelectedDate="{Binding SearchParams.ToDate, Mode=TwoWay}" x:Name="ToCalendarPicker" />
+            <Label Content="Aktivni" Grid.Row="4" Grid.Column="0" />
+            <CheckBox Grid.Row="4" Grid.Column="2" IsThreeState="True" IsChecked="{Binding SearchParams.Active}" />
+            <Button Grid.Row="2" Grid.Column="8" Command="{Binding Search}" Content="Pretraga" />
+
+        </Grid>
+        <!-- <StackPanel Grid.Row="1"> -->
+        <!--     <TextBlock Text="{Binding SearchParams.Name}" /> -->
+        <!--     <TextBlock Text="{Binding SearchParams.CategoryId}" /> -->
+        <!--     <TextBlock Text="{Binding SelectedCategory.Id}" /> -->
+        <!-- </StackPanel> -->
+        <DataGrid Grid.Row="2" Items="{Binding Results}" AutoGenerateColumns="False" IsReadOnly="True" x:Name="Grid" IsTabStop="True"
+                  Focusable="True" Classes="BorderedElement"
+                  SelectedItem="{Binding SelectedRecording}">
+            <DataGrid.KeyBindings>
+                <KeyBinding Gesture="Enter" Command="{Binding EditRecording}" CommandParameter="{Binding SelectedRecording}" />
+                <KeyBinding Gesture="Space" Command="{Binding EditRecording}" CommandParameter="{Binding SelectedRecording}" />
+            </DataGrid.KeyBindings>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="4*" />
+                <DataGridTextColumn Header="Datum" Binding="{Binding Date, StringFormat={}{0:dd.MM.yyyy}}" Width="2*" />
+                <DataGridTextColumn Header="Kategorija" Binding="{Binding Category}" Width="2*" />
+                <DataGridTextColumn Header="Aktivna" Binding="{Binding Active, Converter={StaticResource BoolToStringConverter}}" Width="*" />
+                <DataGridTextColumn Header="Trajanje" Binding="{Binding Duration, Converter={StaticResource DurationToStringConverter}}" Width="*" />
+            </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Izmena" Command="{Binding EditRecording}" CommandParameter="{Binding SelectedRecording}"
+                              IsEnabled="{Binding SelectedRecording, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                    <MenuItem Header="Brisanje" Command="{Binding DeleteRecording}" CommandParameter="{Binding SelectedRecording}"
+                              IsEnabled="{Binding SelectedRecording, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+        <Grid Grid.Row="3" ColumnDefinitions="*, Auto">
+            <TextBlock Text="{Binding TotalRecords, StringFormat=Ukupno:{0}}" VerticalAlignment="Center" />
+            <controls:TablePaging Count="{Binding TotalRecords}" Grid.Column="1" CurrentPage="{Binding CurrentPage}" PageSize="{Binding PageSize}"
+                                  Margin="0 5 5 5" />
+        </Grid>
+    </Grid>
+</UserControl>

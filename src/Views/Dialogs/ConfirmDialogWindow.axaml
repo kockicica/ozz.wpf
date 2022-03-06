@@ -1,0 +1,43 @@
+<controls:CustomWindow xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:dialogs="clr-namespace:ozz.wpf.Views.Dialogs"
+        xmlns:controls="clr-namespace:ozz.wpf.Controls"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="ozz.wpf.Views.Dialogs.ConfirmDialogWindow"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False" SizeToContent="WidthAndHeight"
+        MinWidth="400" MinHeight="150"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="32"
+        Title="ConfirmDialogWindow" x:Name="ConfirmDialog" Classes="ModalWindow">
+    <Window.DataContext>
+        <dialogs:ConfirmDialogViewModel />
+    </Window.DataContext>
+    <Grid RowDefinitions="*, Auto">
+        <Grid Grid.Row="0" ColumnDefinitions="Auto, *" VerticalAlignment="Center" Margin="20 0 20 0">
+            <!-- <Image Height="64" Width="64" Source="{StaticResource xmarkDrawingImage}"></Image> -->
+            <PathIcon Height="48" Width="48" Data="{StaticResource circle_question}" Foreground="{DynamicResource ThemeAccentColor2}"
+                      Margin="16" />
+            <TextBlock Grid.Column="1" Text="{Binding Message}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="20 0 0 0" />
+        </Grid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 10" Spacing="10">
+            <Button x:Name="YesButton" Command="{Binding CommandYes}" Content="Da" />
+            <Button x:Name="NoButton" Command="{Binding CommandNo}" Content="Ne" />
+        </StackPanel>
+    </Grid>
+    
+    <!-- <Panel> -->
+    <!--     <Panel Margin="{Binding #ConfirmDialog.OffScreenMargin}"> -->
+    <!--         <Border Background="{DynamicResource ThemeBackgroundColor}" Margin="{Binding #ConfirmDialog.WindowDecorationMargin}"> -->
+    <!--             </Border> -->
+    <!--     </Panel> -->
+    <!--     <Panel VerticalAlignment="Top" HorizontalAlignment="Left" Height="32"> -->
+    <!--         <TextBlock x:Name="WindowCaption" Text="{Binding #ConfirmDialog.Title}" VerticalAlignment="Center" FontWeight="Heavy" Margin="10 0 10 0" /> -->
+    <!--     </Panel> -->
+    <!--     <Panel VerticalAlignment="Top" HorizontalAlignment="Right" Height="32"> -->
+    <!--         <controls:CloseButton Command="{Binding CloseCommand}" Height="32" Width="40" VerticalAlignment="Top" /> -->
+    <!--     </Panel> -->
+    <!-- </Panel> -->
+</controls:CustomWindow>

@@ -1,0 +1,66 @@
+<controls:CustomWindow xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+        xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+        xmlns:viewModels="clr-namespace:ozz.wpf.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="120" d:DesignHeight="850"
+        xmlns:models="clr-namespace:ozz.wpf.Models"
+        xmlns:controls="clr-namespace:ozz.wpf.Controls"
+        xmlns:behaviors="clr-namespace:ozz.wpf.Behaviors"
+        xmlns:player="clr-namespace:ozz.wpf.Views.Player"
+        xmlns:equalizer="clr-namespace:ozz.wpf.Views.Equalizer"
+        x:Class="ozz.wpf.Views.Dialogs.ModalAudioPlayerWindow"
+        d:DataContext="{x:Static viewModels:DesignData.ModalAudioPlayer}"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False" SizeToContent="WidthAndHeight"
+        MinHeight="500" MinWidth="800"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="32"
+        x:Name="ModalAudioPlayer" Classes="ModalWindow"
+        Title="Preslušavanje snimka">
+    <i:Interaction.Behaviors>
+        <behaviors:OnKeyDownTappedTriggerBehavior Key="Escape" TargetControl="{Binding #ModalAudioPlayer}">
+            <ia:CallMethodAction TargetObject="{Binding #ModalAudioPlayer}" MethodName="Close" />
+        </behaviors:OnKeyDownTappedTriggerBehavior>
+        <behaviors:OnKeyDownTappedTriggerBehavior Key="Space" TargetControl="{Binding #ModalAudioPlayer}">
+            <ia:InvokeCommandAction Command="{Binding PlayerModel.PlayOrPause}" />
+        </behaviors:OnKeyDownTappedTriggerBehavior>
+    </i:Interaction.Behaviors>
+    <DockPanel LastChildFill="True">
+        <Border Padding="5">
+            <Grid RowDefinitions="*, *">
+                <player:AudioPlayerView DataContext="{Binding PlayerModel}" />
+                <Grid Grid.Row="1" ColumnDefinitions="*, Auto">
+                    <equalizer:EqualizerView DataContext="{Binding EqualizerViewModel}" />
+                    <StackPanel Orientation="Vertical" Grid.Column="1">
+                        <Button Command="{Binding EqualizerViewModel.ResetCommand}">Reset</Button>
+                        <ToggleSwitch IsChecked="{Binding EqualizerOn}" />
+                        <ComboBox Items="{Binding Equalizers}" SelectedItem="{Binding EqualizerViewModel.Equalizer}" x:Name="ComboBox">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate x:DataType="models:Equalizer">
+                                    <TextBlock Text="{Binding Name}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+    </DockPanel>
+    
+    <!-- <Panel> -->
+    <!--     <Panel Margin="{Binding #ModalAudioPlayer.OffScreenMargin}"> -->
+    <!--         <Border Background="{DynamicResource ThemeBackgroundColor}" Margin="{Binding #ModalAudioPlayer.WindowDecorationMargin}"> -->
+    <!--         </Border> -->
+    <!--     </Panel> -->
+    <!--     <Panel VerticalAlignment="Top" HorizontalAlignment="Left" Height="32"> -->
+    <!--         <TextBlock x:Name="WindowCaption" Text="{Binding #ModalAudioPlayer.Title}" VerticalAlignment="Center" FontWeight="Heavy" -->
+    <!--                    Margin="10 0 10 0" /> -->
+    <!--     </Panel> -->
+    <!--     <Panel VerticalAlignment="Top" HorizontalAlignment="Right" Height="32"> -->
+    <!--         <controls:CloseButton Command="{Binding CloseCommand}" Height="32" Width="40" VerticalAlignment="Top" /> -->
+    <!--     </Panel> -->
+    <!-- </Panel> -->
+</controls:CustomWindow>

@@ -1,0 +1,31 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:ozz.wpf"
+             xmlns:services="clr-namespace:ozz.wpf.Services"
+             xmlns:disposition="clr-namespace:ozz.wpf.Views.Disposition"
+             x:Class="ozz.wpf.App">
+    <Application.Resources>
+        <services:DurationToStringConverter x:Key="DurationToStringConverter" />
+        <services:ToIdConverter x:Key="ToIdConverter" />
+        <services:BoolToStringConverter x:Key="BoolToStringConverter" />
+        <disposition:DispositionToShortDataConverter x:Key="DispositionToShortDataConverter" />
+    </Application.Resources>
+    <Application.DataTemplates>
+        <local:ViewLocator />
+    </Application.DataTemplates>
+
+    <Application.Styles>
+        <!-- <FluentTheme Mode="Light" /> -->
+        <!-- <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" /> -->
+        <!-- <StyleInclude Source="avares://Aura.UI.FluentTheme/AuraUI.xaml" /> -->
+        <StyleInclude Source="avares://ozz.wpf/Styles/Themes/BaseLight.axaml" />
+        <StyleInclude Source="avares://ozz.wpf/Controls/CustomWindow.axaml" />
+        <StyleInclude Source="avares://ozz.wpf/Styles/Styles.axaml" />
+        <StyleInclude Source="avares://ozz.wpf/Icons.axaml" />
+        <StyleInclude Source="avares://ozz.wpf/Controls/CloseButton.axaml" />
+        <StyleInclude Source="avares://ozz.wpf/Controls/TablePaging.axaml" />
+        <StyleInclude Source="avares://ozz.wpf/Controls/CustomExpander.axaml" />
+        <StyleInclude Source="avares://ozz.wpf/Controls/PlayerSlider.axaml" />
+        <StyleInclude Source="avares://ozz.wpf/Controls/AudioPlayer.axaml" />
+    </Application.Styles>
+</Application>

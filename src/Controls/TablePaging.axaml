@@ -1,0 +1,112 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:ozz.wpf.Controls"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime">
+    <Design.PreviewWith>
+        <StackPanel Width="800" Height="400" Orientation="Vertical" Spacing="10">
+            <controls:TablePaging PageSize="20" Count="22" x:Name="Paging">
+                <!-- <controls:TablePaging.PageSizes> -->
+                <!--     <collections:ArrayList> -->
+                <!--         <system:Int32>10</system:Int32> -->
+                <!--         <system:Int32>20</system:Int32> -->
+                <!--         <system:Int32>50</system:Int32> -->
+                <!--     </collections:ArrayList> -->
+                <!-- </controls:TablePaging.PageSizes> -->
+            </controls:TablePaging>
+            <TextBlock Text="{Binding #Paging.PageSize, StringFormat=Page size:{0}}" />
+            <TextBlock Text="{Binding #Paging.CurrentPage, StringFormat=Current page:{0}}" />
+            <TextBlock Text="{Binding #Paging.TotalPages, StringFormat=Total pages:{0}}" />
+        </StackPanel>
+    </Design.PreviewWith>
+
+    <Style>
+        <Style.Resources>
+            <Thickness x:Key="TablePagingPageButtonPadding">6</Thickness>
+            <system:Double x:Key="TablePagingFontSize">12</system:Double>
+            <StreamGeometry x:Key="prev_page">F1 M256,512z M0,0z M203.9,405.3C209.777,411.894 209.261,421.99 202.712,427.92 196.15,433.826 186.022,433.295 180.122,426.732L36.1,266.7C30.631,260.575,30.631,251.39,36.1,245.26L180.1,86.16C186.006,79.598 196.13,79.066 202.69,84.972 209.608,91.243 209.473,101.362 203.878,107.592L69.53,256 203.9,405.3z</StreamGeometry>
+            <StreamGeometry x:Key="next_page">F1 M256,512z M0,0z M219.9,266.7L75.89,426.7C69.984,433.262 59.86,433.794 53.3,427.888 46.382,421.617 46.517,411.498 52.112,405.268L186.5,256 52.11,106.7C46.23,100.1 46.75,90.04 53.29,84.1 59.86,78.2 69.98,78.73 75.89,85.29L219.89,244.39C225.4,251.4,225.4,260.6,219.9,266.7z</StreamGeometry>
+            <StreamGeometry x:Key="first_page">F1 M448,512z M0,0z M202.7,84.1C196.1,78.2,186,78.73,180.1,85.29L36.1,245.3C30.631,251.425,30.631,260.61,36.1,266.74L180.1,425.84C186.006,432.402 196.13,432.934 202.69,427.028 209.239,421.09 209.754,410.998 203.878,404.408L69.53,256 203.93,106.7C209.5,100.5,209.6,90.38,202.7,84.1z M261.5,256L395.9,106.7C401.496,100.47 401.63,90.35 394.712,84.08 388.15,78.174 378.022,78.705 372.122,85.268L228.122,244.368C222.653,250.493,222.653,259.678,228.122,265.808L372.122,424.908C378.028,431.47 388.152,432.002 394.712,426.096 401.261,420.158 401.776,410.066 395.9,403.476L261.5,256z</StreamGeometry>
+            <StreamGeometry x:Key="last_page">F1 M448,512z M0,0z M75.89,85.29C69.98,78.73 59.86,78.2 53.29,84.1 46.75,90.04 46.23,100.1 52.11,106.7L186.5,256 52.1,405.3C46.504,411.53 46.37,421.65 53.288,427.92 59.85,433.826 69.978,433.295 75.878,426.732L219.878,267.632C225.347,261.507,225.347,252.322,219.878,246.192L75.89,85.29z M411.9,245.3L267.9,85.29C261.994,78.728 251.87,78.196 245.31,84.102 238.761,90.04 238.246,100.132 244.122,106.722L378.5,256 244.1,405.3C238.504,411.53 238.37,421.65 245.288,427.92 251.85,433.826 261.978,433.295 267.878,426.732L411.878,267.632C417.4,260.6,417.4,251.4,411.9,245.3z</StreamGeometry>
+        </Style.Resources>
+    </Style>
+
+    <Style Selector="StackPanel#PART_StackPanel">
+        <Setter Property="Spacing" Value="5" />
+        <Setter Property="Margin" Value="10 0 0 0" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="IsVisible" Value="{Binding TotalPages, RelativeSource={RelativeSource TemplatedParent}}" />
+    </Style>
+
+    <Style Selector="StackPanel#PART_StackPanel TextBlock">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <!-- <Setter Property="FontSize" Value="12"></Setter> -->
+    </Style>
+
+    <Style Selector="ComboBox#PART_PageSizeCombo">
+        <Setter Property="FontSize" Value="{DynamicResource TablePagingFontSize}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="2 0 0 0" />
+    </Style>
+    
+    <Style Selector="controls|TablePaging /template/ Button">
+        <Setter Property="Padding" Value="{DynamicResource TablePagingPageButtonPadding}" />
+        <Setter Property="Margin" Value="2 0 0 0" />
+    </Style>
+
+    <Style Selector="controls|TablePaging Button:disabled PathIcon">
+        <Setter Property="Foreground" Value="{DynamicResource ButtonBackgroundDisabled}" />
+    </Style>
+
+    <Style Selector="controls|TablePaging">
+        <Setter Property="FontSize" Value="{DynamicResource TablePagingFontSize}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto">
+                    <Button x:Name="PART_FirstPage" Grid.Column="0">
+                        <PathIcon Data="{DynamicResource first_page}" />
+                    </Button>
+                    <Button x:Name="PART_PrevPage" Grid.Column="1">
+                        <PathIcon Data="{DynamicResource prev_page}" />
+                    </Button>
+                    <Grid Grid.Column="2" ColumnDefinitions="Auto, Auto" HorizontalAlignment="Center">
+                        <ComboBox Name="PART_PageSizeCombo" Grid.Column="0" Items="{TemplateBinding PageSizes}"
+                                  VerticalAlignment="Center"
+                                  SelectedItem="{TemplateBinding PageSize, Mode=TwoWay}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding .}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <StackPanel x:Name="PART_StackPanel" Orientation="Horizontal" Grid.Column="1">
+                            <TextBlock Text="Strana"/>
+                            <ContentPresenter Content="{TemplateBinding CurrentPage}"/>
+                            <ContentPresenter Content="od" />
+                            <ContentPresenter Content="{TemplateBinding TotalPages}"/>
+                        </StackPanel>
+
+                    </Grid>
+                    <!-- <StackPanel Orientation="Horizontal" Grid.Column="2"> -->
+                    <!--     <ComboBox Name="PART_PageSizeCombo" Items="{TemplateBinding PageSizes}" -->
+                    <!--               SelectedItem="{TemplateBinding PageSize, Mode=TwoWay}"> -->
+                    <!--         <ComboBox.ItemTemplate> -->
+                    <!--             <DataTemplate> -->
+                    <!--                 <TextBlock Text="{Binding .}"></TextBlock> -->
+                    <!--             </DataTemplate> -->
+                    <!--         </ComboBox.ItemTemplate> -->
+                    <!--     </ComboBox> -->
+                    <!--     <StackPanel x:Name="PART_StackPanel" Orientation="Horizontal" Background="Yellow"> -->
+                    <!--          -->
+                    <!--     </StackPanel> -->
+                    <!-- </StackPanel> -->
+                    <Button x:Name="PART_NextPage" Grid.Column="3">
+                        <PathIcon Data="{DynamicResource next_page}"/>
+                    </Button>
+                    <Button x:Name="PART_LastPage" Grid.Column="4">
+                        <PathIcon Data="{DynamicResource last_page}"/>
+                    </Button>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>
