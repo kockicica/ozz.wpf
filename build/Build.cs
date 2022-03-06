@@ -119,7 +119,10 @@ class Build : NukeBuild {
     Target Changelog => _ => _
         .Executes(() =>
         {
-            ChangelogTasks.FinalizeChangelog(RootDirectory / "CHANGELOG.md", GitVersion.SemVer, GitRepository);
+            ControlFlow.SuppressErrors(() =>
+            {
+                ChangelogTasks.FinalizeChangelog(RootDirectory / "CHANGELOG.md", GitVersion.SemVer, GitRepository);
+            });
         });
 
     /// Support plugins are available for:
