@@ -1,4 +1,4 @@
-<Window xmlns="https://github.com/avaloniaui"
+<controls:CustomWindow xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,37 +13,38 @@
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaTitleBarHeightHint="32"
         Title="Novi raspored">
-    <Panel>
-        <Panel Margin="{Binding #CreateSchedule.OffScreenMargin}">
-            <Border Background="{DynamicResource ThemeBackgroundColor}" Margin="{Binding #CreateSchedule.WindowDecorationMargin}">
-                <Grid RowDefinitions="*, Auto">
-                    <createSchedule:CreateScheduleView DataContext="{Binding ScheduleViewModel}" x:Name="CreateScheduleView">
-                        <!-- <i:Interaction.Behaviors> -->
-                        <!--     <iac:FocusOnAttachedToVisualTreeBehavior /> -->
-                        <!-- </i:Interaction.Behaviors> -->
-                    </createSchedule:CreateScheduleView>
-                    <Grid Grid.Row="1" Margin="10 0 10 10" ColumnDefinitions="*,Auto,Auto">
-                        <Button Command="{Binding CloseCommand}" Content="Prekid" />
-                        <Button Grid.Column="1" Content="Nazad" x:Name="BackButton" IsVisible="{Binding ScheduleViewModel.CanBackToGeneralData^}"
-                                Command="{Binding ScheduleViewModel.BackToGeneralData}" />
-                        <Button Grid.Column="2" Content="Dalje" x:Name="NextButton" IsEnabled="{Binding ScheduleViewModel.CanEditScheduleTable^}"
-                                IsVisible="{Binding !ScheduleViewModel.CanBackToGeneralData^}"
-                                Command="{Binding ScheduleViewModel.EditScheduleTable}" />
-                        <Button Grid.Column="2" Content="Kreiranje" x:Name="CreateButton"
-                                IsVisible="{Binding ScheduleViewModel.CanBackToGeneralData^}"
-                                Command="{Binding Create}" />
-                    </Grid>
+    <Grid RowDefinitions="*, Auto">
+        <createSchedule:CreateScheduleView DataContext="{Binding ScheduleViewModel}" x:Name="CreateScheduleView">
+            <!-- <i:Interaction.Behaviors> -->
+            <!--     <iac:FocusOnAttachedToVisualTreeBehavior /> -->
+            <!-- </i:Interaction.Behaviors> -->
+        </createSchedule:CreateScheduleView>
+        <Grid Grid.Row="1" Margin="10 0 10 10" ColumnDefinitions="*,Auto,Auto">
+            <Button Command="{Binding CloseCommand}" Content="Prekid" />
+            <Button Grid.Column="1" Content="Nazad" x:Name="BackButton" IsVisible="{Binding ScheduleViewModel.CanBackToGeneralData^}"
+                    Command="{Binding ScheduleViewModel.BackToGeneralData}" />
+            <Button Grid.Column="2" Content="Dalje" x:Name="NextButton" IsEnabled="{Binding ScheduleViewModel.CanEditScheduleTable^}"
+                    IsVisible="{Binding !ScheduleViewModel.CanBackToGeneralData^}"
+                    Command="{Binding ScheduleViewModel.EditScheduleTable}" />
+            <Button Grid.Column="2" Content="Kreiranje" x:Name="CreateButton"
+                    IsVisible="{Binding ScheduleViewModel.CanBackToGeneralData^}"
+                    Command="{Binding Create}" />
+        </Grid>
 
-                </Grid>
-            </Border>
-        </Panel>
-        <Panel VerticalAlignment="Top" HorizontalAlignment="Left" Height="32">
-            <TextBlock x:Name="WindowCaption" Text="{Binding #CreateSchedule.Title}" VerticalAlignment="Center" FontWeight="Heavy"
-                       Margin="10 0 10 0" />
-        </Panel>
-        <Panel VerticalAlignment="Top" HorizontalAlignment="Right" Height="32">
-            <controls:CloseButton Command="{Binding CloseCommand}" Height="32" Width="40" VerticalAlignment="Top" />
-        </Panel>
-    </Panel>
+    </Grid>
+    
+    <!-- <Panel> -->
+    <!--     <Panel Margin="{Binding #CreateSchedule.OffScreenMargin}"> -->
+    <!--         <Border Background="{DynamicResource ThemeBackgroundColor}" Margin="{Binding #CreateSchedule.WindowDecorationMargin}"> -->
+    <!--         </Border> -->
+    <!--     </Panel> -->
+    <!--     <Panel VerticalAlignment="Top" HorizontalAlignment="Left" Height="32"> -->
+    <!--         <TextBlock x:Name="WindowCaption" Text="{Binding #CreateSchedule.Title}" VerticalAlignment="Center" FontWeight="Heavy" -->
+    <!--                    Margin="10 0 10 0" /> -->
+    <!--     </Panel> -->
+    <!--     <Panel VerticalAlignment="Top" HorizontalAlignment="Right" Height="32"> -->
+    <!--         <controls:CloseButton Command="{Binding CloseCommand}" Height="32" Width="40" VerticalAlignment="Top" /> -->
+    <!--     </Panel> -->
+    <!-- </Panel> -->
 
-</Window>
+</controls:CustomWindow>

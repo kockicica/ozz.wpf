@@ -10,5 +10,6 @@
     <StyleInclude Source="avares://ozz.wpf/Styles/CustomCalendarDatePicker.axaml" />
     <StyleInclude Source="avares://ozz.wpf/Styles/CustomDataGridCell.axaml" />
     <StyleInclude Source="avares://ozz.wpf/Styles/CustomWindow.axaml" />
+    <StyleInclude Source="avares://ozz.wpf/Styles/CustomElements.axaml" />
     
 </Styles>

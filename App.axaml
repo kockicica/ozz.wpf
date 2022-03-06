@@ -19,6 +19,7 @@
         <!-- <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" /> -->
         <!-- <StyleInclude Source="avares://Aura.UI.FluentTheme/AuraUI.xaml" /> -->
         <StyleInclude Source="avares://ozz.wpf/Styles/Themes/BaseLight.axaml" />
+        <StyleInclude Source="avares://ozz.wpf/Controls/CustomWindow.axaml" />
         <StyleInclude Source="avares://ozz.wpf/Styles/Styles.axaml" />
         <StyleInclude Source="avares://ozz.wpf/Icons.axaml" />
         <StyleInclude Source="avares://ozz.wpf/Controls/CloseButton.axaml" />

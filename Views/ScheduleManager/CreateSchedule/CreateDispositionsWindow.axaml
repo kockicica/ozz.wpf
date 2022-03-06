@@ -1,4 +1,4 @@
-<Window xmlns="https://github.com/avaloniaui"
+<controls:CustomWindow xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -25,40 +25,40 @@
             <ia:CallMethodAction TargetObject="{Binding #CreateDisposition}" MethodName="Close" />
         </behaviors:OnKeyDownTappedTriggerBehavior>
     </i:Interaction.Behaviors>
+    <Grid RowDefinitions="*, Auto">
+        <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid Grid.Row="0" ColumnDefinitions="Auto,10,150" RowDefinitions="Auto,10,Auto" x:Name="FormGrid" Margin="20"
+                  KeyboardNavigation.TabNavigation="Continue" HorizontalAlignment="Stretch">
+                <Label Grid.Row="0" Grid.Column="0" Content="Početni datum" />
+                <CalendarDatePicker Grid.Row="0" Grid.Column="2" SelectedDate="{Binding FromDate, Mode=TwoWay}" x:Name="DatePicker"
+                                    Focusable="True" HorizontalAlignment="Stretch"
+                                    IsTabStop="True" TabIndex="0">
+                    <i:Interaction.Behaviors>
+                        <iac:FocusOnAttachedToVisualTreeBehavior />
+                    </i:Interaction.Behaviors>
+                </CalendarDatePicker>
+                <Label Grid.Row="2" Grid.Column="0" Content="Broj dana" />
+                <NumericUpDown Grid.Row="2" Grid.Column="2" Value="{Binding NumberOfDays}" Minimum="1" Maximum="30" />
+            </Grid>
+        </Border>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 10" Spacing="10">
+            <Button x:Name="YesButton" Command="{Binding Create}" Content="Da" />
+            <Button x:Name="NoButton" Command="{Binding CloseCommand}" Content="Ne" />
+        </StackPanel>
+    </Grid>
     
-    <Panel>
-        <Panel Margin="{Binding #CreateDisposition.OffScreenMargin}">
-            <Border Background="{DynamicResource ThemeBackgroundColor}" Margin="{Binding #CreateDisposition.WindowDecorationMargin}">
-                <Grid RowDefinitions="*, Auto">
-                    <Border HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Grid Grid.Row="0" ColumnDefinitions="Auto,10,150" RowDefinitions="Auto,10,Auto" x:Name="FormGrid" Margin="20"
-                              KeyboardNavigation.TabNavigation="Continue" HorizontalAlignment="Stretch">
-                            <Label Grid.Row="0" Grid.Column="0" Content="Početni datum" />
-                            <CalendarDatePicker Grid.Row="0" Grid.Column="2" SelectedDate="{Binding FromDate, Mode=TwoWay}" x:Name="DatePicker"
-                                                Focusable="True" HorizontalAlignment="Stretch"
-                                                IsTabStop="True" TabIndex="0">
-                                <i:Interaction.Behaviors>
-                                    <iac:FocusOnAttachedToVisualTreeBehavior />
-                                </i:Interaction.Behaviors>
-                            </CalendarDatePicker>
-                            <Label Grid.Row="2" Grid.Column="0" Content="Broj dana" />
-                            <NumericUpDown Grid.Row="2" Grid.Column="2" Value="{Binding NumberOfDays}" Minimum="1" Maximum="30" />
-                        </Grid>
-                    </Border>
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 10" Spacing="10">
-                        <Button x:Name="YesButton" Command="{Binding Create}" Content="Da" />
-                        <Button x:Name="NoButton" Command="{Binding CloseCommand}" Content="Ne" />
-                    </StackPanel>
-                </Grid>
-            </Border>
-        </Panel>
-        <Panel VerticalAlignment="Top" HorizontalAlignment="Left" Height="32">
-            <TextBlock x:Name="WindowCaption" Text="{Binding #CreateDisposition.Title}" VerticalAlignment="Center" FontWeight="Heavy"
-                       Margin="10 0 10 0" />
-        </Panel>
-        <Panel VerticalAlignment="Top" HorizontalAlignment="Right" Height="32">
-            <controls:CloseButton Command="{Binding CloseCommand}" Height="32" Width="40" VerticalAlignment="Top" />
-        </Panel>
-    </Panel>
+    <!-- <Panel> -->
+    <!--     <Panel Margin="{Binding #CreateDisposition.OffScreenMargin}"> -->
+    <!--         <Border Background="{DynamicResource ThemeBackgroundColor}" Margin="{Binding #CreateDisposition.WindowDecorationMargin}"> -->
+    <!--         </Border> -->
+    <!--     </Panel> -->
+    <!--     <Panel VerticalAlignment="Top" HorizontalAlignment="Left" Height="32"> -->
+    <!--         <TextBlock x:Name="WindowCaption" Text="{Binding #CreateDisposition.Title}" VerticalAlignment="Center" FontWeight="Heavy" -->
+    <!--                    Margin="10 0 10 0" /> -->
+    <!--     </Panel> -->
+    <!--     <Panel VerticalAlignment="Top" HorizontalAlignment="Right" Height="32"> -->
+    <!--         <controls:CloseButton Command="{Binding CloseCommand}" Height="32" Width="40" VerticalAlignment="Top" /> -->
+    <!--     </Panel> -->
+    <!-- </Panel> -->
 
-</Window>
+</controls:CustomWindow>

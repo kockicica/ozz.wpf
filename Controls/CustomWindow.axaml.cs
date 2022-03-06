@@ -2,9 +2,7 @@ using System;
 using System.ComponentModel;
 
 using Avalonia;
-using Avalonia.Collections;
 using Avalonia.Controls;
-using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Markup.Xaml;
 using Avalonia.Markup.Xaml.Templates;
@@ -48,7 +46,7 @@ public class CustomWindow : Window, IStyleable {
             nameof(ButtonsAreaTemplate)
         );
 
-    ContentPresenter _contentPresenter;
+    Button _closeButton;
 
     // public string Classes {
     //     get { return GetValue(ClassesProperty); }
@@ -107,18 +105,13 @@ public class CustomWindow : Window, IStyleable {
 
     Type IStyleable.StyleKey => typeof(CustomWindow);
 
-    IAvaloniaReadOnlyList<string> IStyleable.Classes => new Classes("ModalWindow");
-
     #endregion
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
         base.OnApplyTemplate(e);
-        _contentPresenter = e.NameScope.Find<ContentPresenter>("PART_ContentPresenter");
-        _contentPresenter.PropertyChanged += (sender, args) => {
-            if (args.Property == ContentProperty) {
-                ((IStyledElement)this).InvalidateStyles();
-            }
-        };
+
+        _closeButton = e.NameScope.Find<Button>("PART_CloseButton");
+        _closeButton.Click += (sender, args) => { Close(); };
 
     }
 
@@ -133,4 +126,6 @@ public class CustomWindow : Window, IStyleable {
     private void InitializeComponent() {
         AvaloniaXamlLoader.Load(this);
     }
+
+    //IAvaloniaReadOnlyList<string> IStyleable.Classes => new Classes("ModalWindow");
 }

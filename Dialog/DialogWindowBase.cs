@@ -5,13 +5,14 @@ using System.Reactive.Linq;
 
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.ReactiveUI;
+
+using ozz.wpf.Controls;
 
 using ReactiveUI;
 
 namespace ozz.wpf.Dialog;
 
-public class DialogWindowBase<TResult> : ReactiveWindow<DialogViewModelBase<TResult>>
+public class DialogWindowBase<TResult> : CustomReactiveWindow<DialogViewModelBase<TResult>>
     where TResult : DialogResultBase {
 
     protected DialogWindowBase() {

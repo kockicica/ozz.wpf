@@ -15,7 +15,12 @@
         Title="OZZZZZZZZZ-o-matic">
     <Window.Styles>
         <Style Selector="Grid#Overlay">
-            <Setter Property="IsVisible" Value="{Binding OverlayVisible}" />
+            <!-- <Setter Property="IsVisible" Value="{Binding OverlayVisible}" /> -->
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="Black" Opacity=".4" />
+                </Setter.Value>
+            </Setter>
         </Style>
         <Style Selector="Grid#RoutedView">
             <Setter Property="Background">
@@ -46,11 +51,7 @@
     <Panel>
         <Panel Margin="{Binding #MainWnd.OffScreenMargin}">
             <Grid x:Name="LayoutRoot" Margin="{Binding #MainWnd.WindowDecorationMargin}">
-                <Grid x:Name="Overlay" Panel.ZIndex="1000">
-                    <Grid.Background>
-                        <SolidColorBrush Color="Black" Opacity=".4" />
-                    </Grid.Background>
-                </Grid>
+                <Grid x:Name="Overlay"/>
                 <Grid x:Name="RoutedView">
                     <!-- <Image Source="{DynamicResource music_libraryDrawingImage}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Opacity="1" -->
                     <!--        Height="600"> -->

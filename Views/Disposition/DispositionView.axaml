@@ -38,6 +38,9 @@
         <Style Selector="TextBlock.selected_disposition_shift">
             <Setter Property="FontWeight" Value="Heavy" />
         </Style>
+        <Style Selector="Border#CommandHelpBar">
+            <Setter Property="Background" Value="{DynamicResource SystemChromeBlackMediumLowColor}"/>
+        </Style>
     </UserControl.Styles>
     <Grid RowDefinitions="Auto,*, Auto">
         <TabStrip Items="{Binding Categories}" SelectedItem="{Binding SelectedCategory}" KeyboardNavigation.TabNavigation="None"
@@ -71,8 +74,8 @@
                 </controls:CustomExpander>
             </StackPanel>
             <DataGrid Grid.Column="0" Grid.Row="1" Name="RecordingGrid" Items="{Binding Recordings}" AutoGenerateColumns="False"
-                      x:DataType="models:AudioRecording"
-                      IsReadOnly="True"
+                      x:DataType="models:AudioRecording" Classes="BorderedElement"
+                      IsReadOnly="True" Margin="5 0 0 0"
                       IsTabStop="True" Focusable="True"
                       CanUserResizeColumns="True" SelectionMode="Single" SelectedItem="{Binding SelectedRecording}">
                 <i:Interaction.Behaviors>
@@ -101,7 +104,7 @@
             </DataGrid>
 
             <Grid Grid.Row="0" Grid.Column="2" RowDefinitions="*,*" ColumnDefinitions="*,10,Auto"
-                  x:Name="DispositionShiftGrid">
+                  x:Name="DispositionShiftGrid" Margin="0 0 5 0">
                 <TextBlock Grid.Row="0" Classes="selected_disposition_date" Grid.ColumnSpan="3"
                            Text="{Binding CurrentDisposition.Date, StringFormat={}{0:dddd\, dd.MM.yyyy}}" />
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Smena"/>
@@ -109,7 +112,8 @@
             </Grid>
             <DataGrid Grid.Row="1" Grid.Column="2" Items="{Binding Dispositions}" AutoGenerateColumns="False" x:DataType="models:Disposition"
                       SelectedItem="{Binding SelectedDisposition}" CanUserResizeColumns="True" CanUserSortColumns="True"
-                      x:Name="DispositionsDataGrid"
+                      x:Name="DispositionsDataGrid" Classes="BorderedElement"
+                      Margin="0 0 5 0"
                       IsReadOnly="True" Focusable="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="" Binding="{Binding OrderAsString}" Width="*" />
@@ -136,7 +140,7 @@
                 <TextBlock Grid.Column="7" Classes="data_value" Text="{Binding CurrentBlockCount}" />
             </Grid>
         </Grid>
-        <Border Grid.Row="2" Padding="8" Height="32" Background="{DynamicResource SystemAccentColorDark3}">
+        <Border Grid.Row="2" Padding="8" Height="32" x:Name="CommandHelpBar">
             <Panel>
                 <StackPanel Orientation="Horizontal" IsTabStop="False" KeyboardNavigation.TabNavigation="None" HorizontalAlignment="Center"
                             Spacing="20"

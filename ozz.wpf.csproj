@@ -26,14 +26,14 @@
 	<TrimmableAssembly Include="Avalonia.Themes.Default" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Aura.UI" Version="0.1.4.2"/>
-    <PackageReference Include="Aura.UI.FluentTheme" Version="0.1.4.2"/>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0"/>
+<!--    <PackageReference Include="Aura.UI" Version="0.1.4.2"/>-->
+      <!--    <PackageReference Include="Aura.UI.FluentTheme" Version="0.1.4.2"/>-->
+      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0"/>
     <PackageReference Include="Avalonia" Version="0.10.12"/>
     <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.12"/>
     <PackageReference Include="Avalonia.Desktop" Version="0.10.12"/>
-    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.12"/>
+      <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+      <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.12"/>
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.12"/>
     <PackageReference Include="Avalonia.Svg.Skia" Version="0.10.12"/>
     <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.10.12"/>
