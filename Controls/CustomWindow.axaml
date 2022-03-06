@@ -12,7 +12,7 @@
             </controls:CustomWindow>
         </Panel>
     </Design.PreviewWith>
-    
+
     <Styles.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -24,30 +24,41 @@
         <Setter Property="WindowStartupLocation" Value="CenterOwner" />
         <Setter Property="ShowInTaskbar" Value="False" />
         <Setter Property="SizeToContent" Value="WidthAndHeight" />
+
+        <Setter Property="Background" Value="{DynamicResource MainWindowChromeBackground}" />
+        <Setter Property="TransparencyBackgroundFallback" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+        <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
+        <Setter Property="FontFamily" Value="{DynamicResource ContentControlThemeFontFamily}" />
+
         <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />
         <Setter Property="ExtendClientAreaChromeHints" Value="NoChrome" />
         <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="32" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
-                    <!-- <Panel Margin="{Binding Path=OffScreenMargin, RelativeSource={RelativeSource AncestorType=controls:CustomWindow}}"> -->
-                    <Panel Margin="{TemplateBinding OffScreenMargin}">
-                        <Border Background="{DynamicResource ThemeBackgroundColor}"
-                                Margin="{Binding Path=WindowDecorationMargin, RelativeSource={RelativeSource AncestorType=controls:CustomWindow}}">
-                            <VisualLayerManager>
-                                <ContentPresenter Content="{TemplateBinding Content}" x:Name="PART_ContentPresenter" />
-                            </VisualLayerManager>
-                        </Border>
-                    </Panel>
-                    <Panel VerticalAlignment="Top" HorizontalAlignment="Left" Height="32">
-                        <TextBlock x:Name="WindowCaption" Text="{TemplateBinding Title}" VerticalAlignment="Center"
-                                   Margin="10 0 10 0" />
-                    </Panel>
-                    <Panel VerticalAlignment="Top" HorizontalAlignment="Right" Height="32">
-                        <controls:CloseButton Height="32" Width="40" VerticalAlignment="Top" />
-                    </Panel>
+                    <Border Name="PART_TransparencyFallback" IsHitTestVisible="False" />
+                    <Border Background="{TemplateBinding Background}" IsHitTestVisible="False" />
+                    <Panel Background="Transparent" Margin="{TemplateBinding WindowDecorationMargin}" />
+                    <VisualLayerManager>
+                        <VisualLayerManager.ChromeOverlayLayer>
+                            <Panel VerticalAlignment="Top" HorizontalAlignment="Left" Height="32">
+                                <TextBlock x:Name="WindowCaption"
+                                           Text="{Binding Title, RelativeSource={RelativeSource AncestorType=controls:CustomWindow}}"
+                                           VerticalAlignment="Center"
+                                           Margin="10 0 10 0" />
+                            </Panel>
+                            <Panel VerticalAlignment="Top" HorizontalAlignment="Right" Height="32">
+                                <controls:CloseButton Height="32" Width="40" VerticalAlignment="Top" x:Name="PART_CloseButton" />
+                            </Panel>
+                        </VisualLayerManager.ChromeOverlayLayer>
+                        <ContentPresenter Content="{TemplateBinding Content}" x:Name="PART_ContentPresenter"
+                                          Background="{DynamicResource ThemeBackgroundColor}"
+                                          Margin="{TemplateBinding WindowDecorationMargin}" />
+                    </VisualLayerManager>
                 </Panel>
             </ControlTemplate>
         </Setter>
     </Style>
+    <!-- <StyleInclude Source="avares://ozz.wpf/Styles/Styles.axaml" /> -->
 </Styles>

@@ -1,4 +1,4 @@
-<Window xmlns="https://github.com/avaloniaui"
+<controls:CustomWindow xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -22,35 +22,25 @@
         </behaviors:OnKeyDownTappedTriggerBehavior>
     </i:Interaction.Behaviors>
 
-    <Window.Styles>
-        <Styles>
-            <!-- <Style Selector="Window"> -->
-            <!--     <Setter Property="Background" Value="{DynamicResource WindowChromeBackground}" /> -->
-            <!-- </Style> -->
-            <!-- <Style Selector="TextBlock#WindowCaption"> -->
-            <!--     <Setter Property="FontWeight" Value="Heavy"></Setter> -->
-            <!--     <Setter Property="Margin" Value="10 0 10 0"></Setter> -->
-            <!-- </Style> -->
-        </Styles>
-    </Window.Styles>
-    <Panel>
-        <Panel Margin="{Binding #EditAudioRecording.OffScreenMargin}">
-            <Border Background="{DynamicResource ThemeBackgroundColor}" Margin="{Binding #EditAudioRecording.WindowDecorationMargin}">
-                <Grid RowDefinitions="*, Auto">
-                    <audioManager:AudioRecordingDetailsView Grid.Row="0" DataContext="{Binding AudioRecordingDetailsViewModel}" />
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" Spacing="10" Margin="0 0 10 10">
-                        <Button Command="{Binding CloseCommand}">Prekid</Button>
-                        <Button Command="{Binding Update}">OK</Button>
-                    </StackPanel>
-                </Grid>
-            </Border>
-
-        </Panel>
-        <Panel VerticalAlignment="Top" HorizontalAlignment="Left" Height="32">
-            <TextBlock x:Name="WindowCaption" Text="{Binding #EditAudioRecording.Title}" VerticalAlignment="Center" />
-        </Panel>
-        <Panel VerticalAlignment="Top" HorizontalAlignment="Right" Height="32">
-            <controls:CloseButton Command="{Binding CloseCommand}" Height="32" Width="40" VerticalAlignment="Top" />
-        </Panel>
-    </Panel>
-</Window>
+    <Grid RowDefinitions="*, Auto">
+        <audioManager:AudioRecordingDetailsView Grid.Row="0" DataContext="{Binding AudioRecordingDetailsViewModel}" />
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" Spacing="10" Margin="0 0 10 10">
+            <Button Command="{Binding CloseCommand}">Prekid</Button>
+            <Button Command="{Binding Update}">OK</Button>
+        </StackPanel>
+    </Grid>
+    
+    <!-- <Panel> -->
+    <!--     <Panel Margin="{Binding #EditAudioRecording.OffScreenMargin}"> -->
+    <!--         <Border Background="{DynamicResource ThemeBackgroundColor}" Margin="{Binding #EditAudioRecording.WindowDecorationMargin}"> -->
+    <!--         </Border> -->
+    <!-- -->
+    <!--     </Panel> -->
+    <!--     <Panel VerticalAlignment="Top" HorizontalAlignment="Left" Height="32"> -->
+    <!--         <TextBlock x:Name="WindowCaption" Text="{Binding #EditAudioRecording.Title}" VerticalAlignment="Center" /> -->
+    <!--     </Panel> -->
+    <!--     <Panel VerticalAlignment="Top" HorizontalAlignment="Right" Height="32"> -->
+    <!--         <controls:CloseButton Command="{Binding CloseCommand}" Height="32" Width="40" VerticalAlignment="Top" /> -->
+    <!--     </Panel> -->
+    <!-- </Panel> -->
+</controls:CustomWindow>

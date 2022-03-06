@@ -13,7 +13,7 @@
     <Style Selector="Window#MainWnd[IsActive=False]">
         <Setter Property="Background" Value="{DynamicResource SystemBaseLowColor}" />
     </Style>
-    <Style Selector="Window.ModalWindow">
+    <Style Selector=":is(Window).ModalWindow">
         <Setter Property="Background" Value="{DynamicResource MainWindowChromeBackground}" />
         <!-- <Setter Property="WindowStartupLocation" Value="CenterOwner" /> -->
         <Setter Property="ShowInTaskbar" Value="False" />
