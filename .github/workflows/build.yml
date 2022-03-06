@@ -26,3 +26,4 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           files: ./archives/**
+          automatic_release_tag: "latest"
