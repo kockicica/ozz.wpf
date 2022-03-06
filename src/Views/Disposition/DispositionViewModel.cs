@@ -86,6 +86,7 @@ public class DispositionViewModel : ViewModelBase, IActivatableViewModel, IRouta
             Dispositions?.SortDescriptions.Clear();
             Dispositions?.SortDescriptions.Add(DataGridSortDescription.FromPath(nameof(Disposition.PlayCountRemaining)).SwitchSortDirection());
             Dispositions?.Refresh();
+            SelectedDisposition = (Disposition?)Dispositions?[0];
         });
 
         HandleSelectedDisposition = ReactiveCommand.Create(() => {
