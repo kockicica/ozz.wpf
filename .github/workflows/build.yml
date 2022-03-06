@@ -6,7 +6,7 @@ on:
 jobs:
 
   publish:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
@@ -14,9 +14,6 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 6.0.x
-
-      - name: Install dependencies
-        run: dotnet restore
 
       - name: Prepare build
         run: chmod +x ./build.sh
