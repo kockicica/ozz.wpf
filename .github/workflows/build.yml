@@ -14,12 +14,12 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 6.0.x
-
-      - name: Prepare build
-        run: chmod +x ./build.sh
+      
+      #      - name: Prepare build
+      #        run: chmod +x ./build.sh
 
       - name: Create archives
-        run: ./build.sh create-archives
+        run: ./build.ps create-archives
 
       - name: Release
         uses: marvinpinto/action-automatic-releases@latest
