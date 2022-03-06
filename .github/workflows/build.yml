@@ -19,7 +19,7 @@ jobs:
       #        run: chmod +x ./build.sh
 
       - name: Create archives
-        run: ./build.ps create-archives
+        run: ./build.ps1 create-archives
 
       - name: Release
         uses: marvinpinto/action-automatic-releases@latest
