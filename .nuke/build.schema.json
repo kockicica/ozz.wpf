@@ -6,6 +6,10 @@
     "build": {
       "type": "object",
       "properties": {
+        "ArchivesFolder": {
+          "type": "string",
+          "description": "Archives folder"
+        },
         "Configuration": {
           "type": "string",
           "description": "Configuration to build - Default is 'Debug' (local) or 'Release' (server)",
@@ -42,9 +46,20 @@
             "VSCode"
           ]
         },
+        "Modules": {
+          "type": "array",
+          "description": "List of modules to buld",
+          "items": {
+            "type": "string"
+          }
+        },
         "NoLogo": {
           "type": "boolean",
           "description": "Disables displaying the NUKE logo"
+        },
+        "OutputFolder": {
+          "type": "string",
+          "description": "Output folder"
         },
         "Partition": {
           "type": "string",
@@ -65,6 +80,17 @@
           "type": "string",
           "description": "Root directory during build execution"
         },
+        "Runtimes": {
+          "type": "array",
+          "description": "List of runtimes",
+          "items": {
+            "type": "string"
+          }
+        },
+        "SelfContained": {
+          "type": "boolean",
+          "description": "Self-contained"
+        },
         "Skip": {
           "type": "array",
           "description": "List of targets to be skipped. Empty list skips all dependencies",
@@ -72,7 +98,10 @@
             "type": "string",
             "enum": [
               "Clean",
+              "CleanArtifacts",
               "Compile",
+              "CreateArchives",
+              "Publish",
               "Restore"
             ]
           }
@@ -88,7 +117,10 @@
             "type": "string",
             "enum": [
               "Clean",
+              "CleanArtifacts",
               "Compile",
+              "CreateArchives",
+              "Publish",
               "Restore"
             ]
           }
