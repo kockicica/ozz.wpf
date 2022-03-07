@@ -40,6 +40,9 @@
             <Setter Property="Height" Value="{DynamicResource ItemHeight}" />
             <Setter Property="Padding" Value="0" />
         </Style>
+        <Style Selector="Button.MenuButton">
+            <Setter Property="Foreground" Value="{DynamicResource SystemBaseHighColor}"/>
+        </Style>
     </UserControl.Styles>
     <SplitView x:Name="SplitView" PanePlacement="Left" DisplayMode="CompactInline" IsPaneOpen="False" CompactPaneLength="58">
         <SplitView.Pane>
@@ -70,7 +73,7 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="manager:ManagerMenuItem">
-                            <Button HorizontalAlignment="Stretch" Height="{DynamicResource ItemHeight}" Command="{Binding Command}">
+                            <Button HorizontalAlignment="Stretch" Height="{DynamicResource ItemHeight}" Command="{Binding Command}" Classes="MenuButton">
                                 <Button.Resources>
                                     <SolidColorBrush x:Key="ButtonBackground">Transparent</SolidColorBrush>
                                     <Thickness x:Key="ButtonPadding">0 5 0 5</Thickness>
