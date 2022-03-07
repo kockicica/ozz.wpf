@@ -5,6 +5,7 @@
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:iac="clr-namespace:Avalonia.Xaml.Interactions.Custom;assembly=Avalonia.Xaml.Interactions"
              xmlns:models="clr-namespace:ozz.wpf.Models"
+             xmlns:controls="clr-namespace:ozz.wpf.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ozz.wpf.Views.ScheduleManager.ScheduleManagerView">
     <!-- d:DataContext="{x:Type scheduleManager:ScheduleManagerViewModel}" -->
@@ -23,7 +24,7 @@
         <Grid Grid.Row="0" ColumnDefinitions="*, Auto" x:Name="SearchGrid" Margin="10" KeyboardNavigation.TabNavigation="Continue">
             <Grid RowDefinitions="Auto, 10, Auto" ColumnDefinitions="Auto,10,*,10,Auto,10,*,10" KeyboardNavigation.TabNavigation="Continue">
                 <Label Content="Audio snimak" Grid.Row="0" Grid.Column="0" Target="RecordAutoComplete" />
-                <AutoCompleteBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="5" AsyncPopulator="{Binding PopulateAsync}" FilterMode="None"
+                <controls:CustomAutoCompleteBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="5" AsyncPopulator="{Binding PopulateAsync}" FilterMode="None"
                                  SelectedItem="{Binding SelectedRecording}" ValueMemberBinding="{Binding Name}"
                                  MinimumPopulateDelay="{Binding AutoCompleteThrottleTime}" x:Name="RecordAutoComplete">
                     <AutoCompleteBox.ItemTemplate>
@@ -39,7 +40,7 @@
                     <i:Interaction.Behaviors>
                         <iac:FocusOnAttachedToVisualTreeBehavior />
                     </i:Interaction.Behaviors>
-                </AutoCompleteBox>
+                </controls:CustomAutoCompleteBox>
                 <Label Content="Od" Grid.Row="2" Grid.Column="0" Target="FromCalendarPicker" />
                 <CalendarDatePicker Grid.Row="2" Grid.Column="2" SelectedDate="{Binding FromDate, Mode=TwoWay}" x:Name="FromCalendarPicker" />
                 <Label Content="Do" Grid.Row="2" Grid.Column="4" Target="ToCalendarPicker" />
