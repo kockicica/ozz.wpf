@@ -206,7 +206,7 @@ public class ScheduleManagerViewModel : ViewModelBase, IActivatableViewModel, IR
 
     #region ICaption Members
 
-    public string Caption { get; } = "Održavanje rasporeda";
+    public string Caption => IsReport ? "Pregled rasporeda" : "Održavanje rasporeda";
 
     #endregion
 

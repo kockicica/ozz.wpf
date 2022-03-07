@@ -95,12 +95,12 @@
             </Grid>
         </SplitView.Pane>
         <Grid RowDefinitions="Auto, *" Background="{DynamicResource ThemeBackgroundColor}">
-            <StackPanel x:Name="PART_Toolbar" Orientation="Horizontal">
+            <DockPanel x:Name="PART_Toolbar" LastChildFill="True">
                 <!-- <Button DockPanel.Dock="Left" Command="{Binding GoBack}"> -->
                 <!--     <PathIcon Data="{StaticResource chevron_left_regular}" /> -->
                 <!-- </Button> -->
-                <TextBlock Classes="h1" Text="{Binding Caption}" VerticalAlignment="Center" Margin="10 0 0 0" />
-            </StackPanel>
+                <TextBlock Classes="h1" Text="{Binding Caption}" VerticalAlignment="Center" Margin="10 5 0 5" />
+            </DockPanel>
             <rxui:RoutedViewHost Grid.Row="1" Router="{Binding Router}">
                 <rxui:RoutedViewHost.DefaultContent>
                 </rxui:RoutedViewHost.DefaultContent>
