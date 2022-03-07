@@ -104,6 +104,8 @@ namespace ozz.wpf {
                                s.AddTransient<CreateDispositionViewModel>();
                                s.AddTransient<DispositionSelectViewModel>();
                                s.AddTransient<DispositionBlockViewModel>();
+                               s.AddTransient<AudioRecordingsLogViewModel>();
+                               s.AddTransient<IViewFor<AudioRecordingsLogViewModel>, AudioRecordingsLogView>();
 
                                s.AddSingleton<RoutingState>(provider => {
                                    var wnd = provider.GetService<MainWindowViewModel>();

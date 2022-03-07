@@ -35,6 +35,8 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
     private readonly IResolver _resolver;
 
+    private AudioRecordingsLogViewModel? _audioRecordingsLogViewModel;
+
     private AudioRecordingsManagerViewModel? _audioRecordingsManagerViewModel;
 
     private string _caption = "Home";
@@ -96,6 +98,8 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
         ViewScheduleReport = ReactiveCommand.Create(() => { Router.Navigate.Execute(ScheduleReportViewModel); });
 
+        ViewAudioRecordingsLog = ReactiveCommand.Create(() => { Router.Navigate.Execute(AudioRecordingsLogViewModel); });
+
         this.WhenActivated(d => {
             Router.CurrentViewModel
                   .Subscribe(model => {
@@ -150,6 +154,8 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
     public ReactiveCommand<Unit, Unit> ViewScheduleReport { get; }
 
+    public ReactiveCommand<Unit, Unit> ViewAudioRecordingsLog { get; }
+
 
     //public ReactiveCommand<Unit, Unit> CreateSchedulePage { get; }
     public ReactiveCommand<Unit, IEnumerable<Schedule>?> CreateSchedulePage { get; }
@@ -181,6 +187,7 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
         new() { Caption = "Novi raspored", Command = CreateSchedulePage, Icon = "calendar_plus" },
         new() { Caption = "Kreiranje dispozicija", Command = CreateDispositions, Icon = "person_ski_jumping" },
         new() { Caption = "Pregled rasporeda", Command = ViewScheduleReport, Icon = "calendar_range" },
+        new() { Caption = "Log emitovanja", Command = ViewAudioRecordingsLog, Icon = "eyes" },
     };
 
     public AudioRecordingDetailsViewModel? CreateAudioRecordingViewModel
@@ -204,6 +211,9 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
             return _scheduleReportViewModel;
         }
     }
+
+    public AudioRecordingsLogViewModel? AudioRecordingsLogViewModel
+        => _audioRecordingsLogViewModel ??= _resolver.GetService<AudioRecordingsLogViewModel>();
 
     #region IActivatableViewModel Members
 

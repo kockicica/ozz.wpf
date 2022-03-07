@@ -19,10 +19,6 @@ public class DesignTimeClient : IClient {
         }.AsEnumerable());
     }
 
-    public Task<PagedResults<AudioRecording>> AudioRecordings(AudioRecordingsSearchParams sp, CancellationToken token) {
-        return Task.FromResult(new PagedResults<AudioRecording> { Count = 0, Data = System.Array.Empty<AudioRecording>().AsEnumerable() });
-    }
-
     public Task<IEnumerable<Equalizer>?> Equalizers() {
         return Task.FromResult(new List<Equalizer>().AsEnumerable())!;
     }
@@ -51,6 +47,12 @@ public class DesignTimeClient : IClient {
         throw new System.NotImplementedException();
     }
 
+    #endregion
+
+    public Task<PagedResults<AudioRecording>> AudioRecordings(AudioRecordingsSearchParams sp, CancellationToken token) {
+        return Task.FromResult(new PagedResults<AudioRecording> { Count = 0, Data = System.Array.Empty<AudioRecording>().AsEnumerable() });
+    }
+
     public async Task<AudioRecording> Create(CreateAudioRecording data) {
         throw new System.NotImplementedException();
     }
@@ -62,9 +64,6 @@ public class DesignTimeClient : IClient {
     public async Task DeleteAudioRecording(int id) {
         throw new System.NotImplementedException();
     }
-
-    #endregion
-
 }
 
 public class DesignTimeAudioRecordingsService : IAudioRecordingsService {
@@ -85,6 +84,10 @@ public class DesignTimeAudioRecordingsService : IAudioRecordingsService {
 
     public Task Delete(int id) {
         return Task.CompletedTask;
+    }
+
+    public Task<IEnumerable<AudioRecordingLog>> Logs(AudioRecordingLogSearchParams sp, CancellationToken token = default) {
+        return Task.FromResult(new List<AudioRecordingLog>().AsEnumerable());
     }
 
     #endregion

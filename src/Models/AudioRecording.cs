@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 
 using JetBrains.Annotations;
 
@@ -131,4 +132,22 @@ public class UpdateAudioRecording {
     public string Client   { get; set; }
     public string Comment  { get; set; }
     public bool   Active   { get; set; }
+}
+
+public class AudioRecordingLog {
+    public string Name     { get; set; }
+    public string Category { get; set; }
+
+    [JsonConverter(typeof(TimeSpanDurationJsonConverter))]
+    public TimeSpan Duration { get; set; }
+
+    public DateTime Time         { get; set; }
+    public int      Shift        { get; set; }
+    public DateTime ScheduleDate { get; set; }
+}
+
+public class AudioRecordingLogSearchParams {
+    public int       Recording { get; set; }
+    public DateTime? From      { get; set; }
+    public DateTime? To        { get; set; }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -105,6 +106,23 @@ public class BackendAudioRecordingsService : IAudioRecordingsService {
         catch (Exception e) {
             _logger.LogError("Error updating audio record: {@e}", e);
             throw new AudioRecordingDeleteException(e.Message);
+        }
+    }
+
+    public async Task<IEnumerable<AudioRecordingLog>> Logs(AudioRecordingLogSearchParams sp, CancellationToken token = default) {
+        try {
+            var url = $"/api/audio/log{sp.ToQueryString()}";
+            var res = await _client.GetAsync(url, token);
+            if (!res.IsSuccessStatusCode) {
+                var msg = await res.Content.ReadFromJsonAsync<ServerErrorResponse>(cancellationToken: token);
+                throw new HttpRequestException(msg?.Message, null, HttpStatusCode.InternalServerError);
+            }
+            var rsp = await res.Content.ReadFromJsonAsync<IEnumerable<AudioRecordingLog>>(cancellationToken: token);
+            return rsp!;
+        }
+        catch (Exception e) {
+            _logger.LogError("Error getting audio recording logs: {@e}", e);
+            throw;
         }
     }
 

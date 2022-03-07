@@ -82,7 +82,7 @@ public class ScheduleSearchParams {
 
 public class TimeSpanDurationJsonConverter : JsonConverter<TimeSpan> {
     public override TimeSpan Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-        if (typeToConvert == typeof(long)) {
+        if (typeToConvert == typeof(TimeSpan)) {
             if (!reader.TryGetInt64(out var duration)) {
                 return TimeSpan.Zero;
             }

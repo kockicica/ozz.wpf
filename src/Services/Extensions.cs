@@ -59,4 +59,18 @@ public static class Extensions {
         return items.Any() ? $"?{string.Join("&", items)}" : string.Empty;
 
     }
+
+    public static string ToQueryString(this AudioRecordingLogSearchParams sp) {
+        var items = new List<string>();
+
+        items.Add($"recording={sp.Recording}");
+        if (sp.From != null) {
+            items.Add($"from={sp.From.Value:yyyy-MM-dd}");
+        }
+        if (sp.To != null) {
+            items.Add($"to={sp.To.Value:yyyy-MM-dd}");
+        }
+        return items.Any() ? $"?{string.Join("&", items)}" : string.Empty;
+
+    }
 }
