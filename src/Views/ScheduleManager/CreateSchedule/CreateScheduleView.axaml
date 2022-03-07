@@ -48,7 +48,7 @@
                         <player:AudioPlayerView Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="5" DataContext="{Binding PlayerViewModel}"
                                                 IsEnabled="{Binding Track, Converter={x:Static ObjectConverters.IsNotNull}}" />
                         <Label Grid.Row="3" Grid.Column="0">Početni datum</Label>
-                        <CalendarDatePicker Grid.Row="3" Grid.Column="2" SelectedDate="{Binding StartDate}" HorizontalAlignment="Stretch" />
+                        <CalendarDatePicker Grid.Row="3" Grid.Column="2" SelectedDate="{Binding StartDate, Mode=TwoWay}" HorizontalAlignment="Stretch" />
                         <Label Grid.Row="3" Grid.Column="4">Broj dana</Label>
                         <NumericUpDown Grid.Row="3" Grid.Column="6" Value="{Binding NumberOfDays}" Minimum="1" Maximum="366" />
                     </Grid>
