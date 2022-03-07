@@ -39,11 +39,13 @@
                     <Color x:Key="SystemAccentColorDark2">#FF29353C</Color>
                     <Color x:Key="SystemAccentColorLight1">#FF285D7F</Color>
                     <Color x:Key="SystemAccentColorLight2">#FF487B9D</Color>
+                    <Color x:Key="SystemAccentColorLight3">#FFA6D8FF</Color>
                     
                     
                 </ResourceDictionary>
                 
             </ResourceDictionary.MergedDictionaries>
+
 
             
            
@@ -78,6 +80,12 @@
         <SolidColorBrush x:Key="DataGridColumnHeaderForegroundBrush" Color="{DynamicResource SystemAltHighColor}" />
         <SolidColorBrush x:Key="DataGridColumnHeaderPressedBackgroundColor" Color="{DynamicResource ThemeColor2Dark1}" />
         <SolidColorBrush x:Key="DataGridGridLinesBrush" Color="{StaticResource ThemeColor2Dark1}" Opacity="0.4" />
+        
+        <!-- <Color x:Key="DataGridRowSelectedBackgroundColor" ResourceKey="SystemAccentColorLight3"/> -->
+        <StaticResource x:Key="DataGridRowSelectedBackgroundColor" ResourceKey="SystemAccentColorLight3"/>
+        <StaticResource x:Key="DataGridRowSelectedUnfocusedBackgroundColor" ResourceKey="SystemAccentColorLight3"/>
+        <StaticResource x:Key="DataGridRowSelectedHoveredUnfocusedBackgroundColor" ResourceKey="SystemAccentColorLight3"/>
+        <StaticResource x:Key="DataGridRowSelectedHoveredBackgroundColor" ResourceKey="SystemAccentColorLight2"/>
 
 
         <!-- Focus adorner -->
