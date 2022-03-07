@@ -95,3 +95,24 @@ public class TimeSpanDurationJsonConverter : JsonConverter<TimeSpan> {
         writer.WriteNumberValue(value.TotalMilliseconds * 1_000_000);
     }
 }
+
+public class ScheduleReport : HasId {
+    public AudioRecording? Recording       { get; set; }
+    public int             Shift1          { get; set; }
+    public int             Shift2          { get; set; }
+    public int             Shift3          { get; set; }
+    public int             Shift4          { get; set; }
+    public int             Shift1Played    { get; set; }
+    public int             Shift2Played    { get; set; }
+    public int             Shift3Played    { get; set; }
+    public int             Shift4Played    { get; set; }
+    public int             TotalPlayCount  { get; set; }
+    public bool            HasDispositions { get; set; }
+
+    #region HasId Members
+
+    public int Id { get; set; }
+
+    #endregion
+
+}

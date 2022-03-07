@@ -73,7 +73,6 @@ namespace ozz.wpf {
                                //s.AddSingleton<IEqualizerPresetFactory, VLCEqualizePresetFactory>();
                                s.AddSingleton<IEqualizerPresetFactory, RemoteEqualizePresetFactory>();
                                s.AddSingleton<IResolver, LocatorBasedResolver>();
-                               s.AddSingleton<IAudioRecordingsService, BackendAudioRecordingsService>();
 
                                s.AddSingleton<MainWindowViewModel>();
                                s.AddSingleton<IScreen, MainWindowViewModel>(provider => provider.GetRequiredService<MainWindowViewModel>());
@@ -150,6 +149,11 @@ namespace ozz.wpf {
                                    var config = services.GetService<IOptions<ServerConfiguration>>();
                                    client.BaseAddress = new Uri(config.Value.Url);
 
+                               });
+
+                               s.AddHttpClient<IAudioRecordingsService, BackendAudioRecordingsService>((services, client) => {
+                                   var config = services.GetService<IOptions<ServerConfiguration>>();
+                                   client.BaseAddress = new Uri(config.Value.Url);
                                });
 
                                // add automapper

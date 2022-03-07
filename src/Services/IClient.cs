@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 using ozz.wpf.Models;
@@ -10,10 +9,10 @@ public interface IClient {
 
     Task<IEnumerable<Category>> Categories();
 
-    Task<PagedResults<AudioRecording>> AudioRecordings(AudioRecordingsSearchParams sp, CancellationToken token);
-    Task<AudioRecording?>              Create(CreateAudioRecording data);
-    Task<AudioRecording?>              UpdateAudioRecording(int id, UpdateAudioRecording data);
-    Task                               DeleteAudioRecording(int id);
+    // Task<PagedResults<AudioRecording>> AudioRecordings(AudioRecordingsSearchParams sp, CancellationToken token);
+    // Task<AudioRecording?>              Create(CreateAudioRecording data);
+    // Task<AudioRecording?>              UpdateAudioRecording(int id, UpdateAudioRecording data);
+    // Task                               DeleteAudioRecording(int id);
 
     Task<IEnumerable<Equalizer>?> Equalizers();
     Task<Equalizer?>              Equalizer(int id);

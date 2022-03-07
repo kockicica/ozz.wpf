@@ -16,7 +16,7 @@
             <Setter Property="HorizontalAlignment" Value="Stretch" />
         </Style>
         <Style Selector="DataGrid">
-            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Margin" Value="5" />
         </Style>
     </UserControl.Styles>
     <Grid RowDefinitions="Auto, Auto, *, Auto" KeyboardNavigation.TabNavigation="Continue">
@@ -37,7 +37,7 @@
                         </DataTemplate>
                     </AutoCompleteBox.ItemTemplate>
                     <i:Interaction.Behaviors>
-                        <iac:FocusOnAttachedToVisualTreeBehavior/>
+                        <iac:FocusOnAttachedToVisualTreeBehavior />
                     </i:Interaction.Behaviors>
                 </AutoCompleteBox>
                 <Label Content="Od" Grid.Row="2" Grid.Column="0" Target="FromCalendarPicker" />
@@ -62,7 +62,8 @@
         <!--     </StackPanel> -->
         <!-- </StackPanel> -->
         <DataGrid Grid.Row="2" AutoGenerateColumns="False" Items="{Binding Schedules}" x:DataType="models:Schedule" CanUserReorderColumns="True"
-                  CanUserResizeColumns="True" CanUserSortColumns="True" GridLinesVisibility="All" x:Name="SchedulesGrid" Focusable="True" Classes="BorderedElement"
+                  CanUserResizeColumns="True" CanUserSortColumns="True" GridLinesVisibility="All" x:Name="SchedulesGrid" Focusable="True"
+                  Classes="BorderedElement" IsReadOnly="{Binding IsReport}"
                   SelectionChanged="SchedulesGrid_OnSelectionChanged">
             <DataGrid.Styles>
                 <Style Selector="NumericUpDown">
@@ -82,12 +83,16 @@
                                     IsReadOnly="True"
                                     Width="*" />
                 <DataGridTextColumn Header="Smena 4" Binding="{Binding Shift4}" Width="*" />
+                <DataGridTextColumn Header="Smena 4 p" Binding="{Binding Shift4Played}" Width="*" IsVisible="{Binding IsReport}"/>
                 <DataGridTextColumn Header="Smena 1" Binding="{Binding Shift1}" Width="*" />
+                <DataGridTextColumn Header="Smena 1 p" Binding="{Binding Shift1Played}" Width="*" IsVisible="{Binding IsReport}" />
                 <DataGridTextColumn Header="Smena 2" Binding="{Binding Shift2}" Width="*" />
+                <DataGridTextColumn Header="Smena 2 p" Binding="{Binding Shift2Played}" Width="*" IsVisible="{Binding IsReport}" />
                 <DataGridTextColumn Header="Smena 3" Binding="{Binding Shift3}" Width="*" />
+                <DataGridTextColumn Header="Smena 3 p" Binding="{Binding Shift3Played}" Width="*" IsVisible="{Binding IsReport}" />
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
-                <ContextMenu>
+                <ContextMenu IsVisible="{Binding !IsReport}">
                     <MenuItem Header="Brisanje izabranih" Command="{Binding DeleteSchedules}"
                               CommandParameter="{Binding #SchedulesGrid.SelectedItems}"
                               IsEnabled="{Binding #SchedulesGrid.SelectedItems, Converter={x:Static ObjectConverters.IsNotNull}}" />

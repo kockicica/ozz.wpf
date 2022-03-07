@@ -49,6 +49,8 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
     private ScheduleManagerViewModel? _scheduleManagerViewModel;
 
+    private ScheduleManagerViewModel? _scheduleReportViewModel;
+
     public ManagerViewModel(ILogger<ManagerViewModel> logger, IScreen hostScreen, IResolver resolver, IOzzInteractions ozzInteractions,
                             INotificationManager notificationManager) {
         _logger = logger;
@@ -91,6 +93,8 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
         GoBack = ReactiveCommand.CreateFromObservable(() => Router.NavigateBack.Execute());
 
         CreateDispositions = ReactiveCommand.CreateFromTask(async () => { await _ozzInteractions.CreateDispositions.Handle(Unit.Default); });
+
+        ViewScheduleReport = ReactiveCommand.Create(() => { Router.Navigate.Execute(ScheduleReportViewModel); });
 
         this.WhenActivated(d => {
             Router.CurrentViewModel
@@ -144,6 +148,7 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
     public ReactiveCommand<Unit, Unit> CreateDispositions { get; }
 
+    public ReactiveCommand<Unit, Unit> ViewScheduleReport { get; }
 
 
     //public ReactiveCommand<Unit, Unit> CreateSchedulePage { get; }
@@ -175,6 +180,7 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
         new() { Caption = "Upravljanje rasporedom", Command = ViewScheduleManager, Icon = "calendar_pen" },
         new() { Caption = "Novi raspored", Command = CreateSchedulePage, Icon = "calendar_plus" },
         new() { Caption = "Kreiranje dispozicija", Command = CreateDispositions, Icon = "person_ski_jumping" },
+        new() { Caption = "Pregled rasporeda", Command = ViewScheduleReport, Icon = "calendar_range" },
     };
 
     public AudioRecordingDetailsViewModel? CreateAudioRecordingViewModel
@@ -186,6 +192,17 @@ public class ManagerViewModel : ViewModelBase, IActivatableViewModel, IRoutableV
 
     public CreateScheduleViewModel? CreateScheduleViewModel {
         get => _createScheduleViewModel ??= _resolver.GetService<CreateScheduleViewModel>();
+    }
+
+    public ScheduleManagerViewModel? ScheduleReportViewModel {
+        get {
+            if (_scheduleReportViewModel != null) {
+                return _scheduleReportViewModel;
+            }
+            _scheduleReportViewModel = _resolver.GetService<ScheduleManagerViewModel>();
+            _scheduleReportViewModel.IsReport = true;
+            return _scheduleReportViewModel;
+        }
     }
 
     #region IActivatableViewModel Members

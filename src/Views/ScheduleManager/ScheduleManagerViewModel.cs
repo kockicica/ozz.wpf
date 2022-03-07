@@ -39,6 +39,7 @@ public class ScheduleManagerViewModel : ViewModelBase, IActivatableViewModel, IR
 
     private DateTime?              _fromDate;
     private bool                   _isInEdit;
+    private bool                   _isReport;
     private DataGridCollectionView _schedules      = new(Array.Empty<Schedule>());
     private SourceList<Schedule>   _scheduleSource = new();
     private AudioRecording?        _selectedRecording;
@@ -68,23 +69,27 @@ public class ScheduleManagerViewModel : ViewModelBase, IActivatableViewModel, IR
 
         HandleEnterKey = ReactiveCommand.Create(() => { });
 
-        DeleteSchedules = ReactiveCommand.CreateFromTask<IList, IEnumerable<Schedule>?>(async (list, token) => {
-            var msg = new ConfirmMessageConfig {
-                Message = $"Da li ste sigurni da želite brisanje {list.Count} rasporeda?",
-                ButtonTypes = new List<ConfirmButtonType> {
-                    new() { Button = ConfirmMessageResult.Yes, Class = "danger" },
-                    new() { Button = ConfirmMessageResult.No },
-                }
-            };
-            var res = await _ozzInteractions.Confirm.Handle(msg);
-            if (res != ConfirmMessageResult.Yes) return null;
+        DeleteSchedules = ReactiveCommand
+            .CreateFromTask<IList, IEnumerable<Schedule>?>(
+                async (list, token) => {
+                    var msg = new ConfirmMessageConfig {
+                        Message = $"Da li ste sigurni da želite brisanje {list.Count} rasporeda?",
+                        ButtonTypes = new List<ConfirmButtonType> {
+                            new() { Button = ConfirmMessageResult.Yes, Class = "danger" },
+                            new() { Button = ConfirmMessageResult.No },
+                        }
+                    };
+                    var res = await _ozzInteractions.Confirm.Handle(msg);
+                    if (res != ConfirmMessageResult.Yes) return null;
 
-            var schedules = list.Cast<Schedule>().ToList();
-            foreach (var schedule in schedules) {
-                await _scheduleClient.Delete(schedule.Id, token);
-            }
-            return schedules;
-        });
+                    var schedules = list.Cast<Schedule>().ToList();
+                    foreach (var schedule in schedules) {
+                        await _scheduleClient.Delete(schedule.Id, token);
+                    }
+                    return schedules;
+                },
+                this.WhenAnyValue(x => x.IsReport, b => !b)
+            );
 
         this.WhenActivated(d => {
             Search
@@ -116,6 +121,7 @@ public class ScheduleManagerViewModel : ViewModelBase, IActivatableViewModel, IR
             _scheduleSource
                 .Connect()
                 .WhenAnyPropertyChanged()
+                .TakeWhile(schedule => !IsReport)
                 .SelectMany(s => Observable.FromAsync(token => UpdateSchedule(s, token), RxApp.MainThreadScheduler))
                 .Catch<Schedule?, Exception>(exception => {
                     _notificationManager.Show(new Notification("Greška", $"Greška prilikom promene:\n{exception.Message}", NotificationType.Error));
@@ -185,6 +191,11 @@ public class ScheduleManagerViewModel : ViewModelBase, IActivatableViewModel, IR
     public IList SelectedSchedules {
         get => _selectedSchedules;
         set => this.RaiseAndSetIfChanged(ref _selectedSchedules, value);
+    }
+
+    public bool IsReport {
+        get => _isReport;
+        set => this.RaiseAndSetIfChanged(ref _isReport, value);
     }
 
     #region IActivatableViewModel Members
