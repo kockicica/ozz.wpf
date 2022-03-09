@@ -1,10 +1,14 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Avalonia.ReactiveUI;
 
 using LibVLCSharp.Shared;
 
+using ozz.wpf.Services;
 using ozz.wpf.Views;
+
+using ReactiveUI;
 
 using Splat;
 
@@ -18,6 +22,12 @@ namespace ozz.wpf {
         }
 
         public override void OnFrameworkInitializationCompleted() {
+
+            var suspension = new AutoSuspendHelper(ApplicationLifetime);
+            RxApp.SuspensionHost.CreateNewAppState = () => new AppState();
+            RxApp.SuspensionHost.SetupDefaultSuspendResume(new NewtonsoftJsonSuspensionDriver("appstate.json"));
+            suspension.OnFrameworkInitializationCompleted();
+
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
                 var vm = Locator.Current.GetService<MainWindowViewModel>();
                 //vm.Disposition = Locator.Current.GetService<DispositionViewModel>();

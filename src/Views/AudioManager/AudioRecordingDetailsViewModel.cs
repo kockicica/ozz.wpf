@@ -25,7 +25,8 @@ using File = TagLib.File;
 namespace ozz.wpf.Views.AudioManager;
 
 public class AudioRecordingDetailsViewModel : ViewModelBase, IRoutableViewModel, IActivatableViewModel, ICaption {
-    private readonly IClient _dataClient;
+    private readonly IClient                 _dataClient;
+    private readonly IEqualizerPresetFactory _equalizerPresetFactory;
 
     private readonly ILogger<AudioRecordingDetailsViewModel> _logger;
     private readonly INotificationManager                    _notificationManager;
@@ -51,7 +52,7 @@ public class AudioRecordingDetailsViewModel : ViewModelBase, IRoutableViewModel,
 
     public AudioRecordingDetailsViewModel(ILogger<AudioRecordingDetailsViewModel> logger, IScreen hostScreen, IClient client,
                                           INotificationManager notificationManager, IOzzInteractions ozzInteractions,
-                                          AudioPlayerViewModel audioPlayerViewModel) {
+                                          AudioPlayerViewModel audioPlayerViewModel, IEqualizerPresetFactory equalizerPresetFactory) {
 
         _logger = logger;
         _dataClient = client;
@@ -59,6 +60,7 @@ public class AudioRecordingDetailsViewModel : ViewModelBase, IRoutableViewModel,
         _ozzInteractions = ozzInteractions;
         HostScreen = hostScreen;
         AudioPlayerViewModel = audioPlayerViewModel;
+        _equalizerPresetFactory = equalizerPresetFactory;
 
         BrowseForAudioFile = ReactiveCommand.CreateFromObservable<Unit, string?>(
             unit => _ozzInteractions.Browse.Handle(new BrowseForFileConfig { Title = "Pronađite audio fajl", Filters = MakeFileDialogFilters() }));
@@ -75,9 +77,13 @@ public class AudioRecordingDetailsViewModel : ViewModelBase, IRoutableViewModel,
 
         this.WhenActivated(d => {
 
+            Observable.FromAsync(token => _equalizerPresetFactory.GetDefaultPreset())
+                      .Subscribe(equalizer => AudioPlayerViewModel.Equalizer = equalizer)
+                      .DisposeWith(d);
+
             BrowseForAudioFile
                 .Where(s => !string.IsNullOrEmpty(s))
-                .Subscribe(fileName => {
+                .Subscribe(async fileName => {
                     FileName = fileName;
                     var tfile = File.Create(fileName);
                     Duration = tfile.Properties.Duration;

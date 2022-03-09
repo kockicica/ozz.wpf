@@ -120,6 +120,7 @@ namespace ozz.wpf {
                                s.AddSingleton<IOzzInteractions, OzzInteractions>();
 
                                s.AddSingleton<IMainWindowProvider, MainWindowProvider>();
+                               s.AddSingleton<IAppStateManager, AppStateManager>();
 
                                // configure settings
                                s.AddOptions<ServerConfiguration>()
@@ -131,15 +132,7 @@ namespace ozz.wpf {
                                 });
 
                                s.AddOptions<AudioPlayerConfiguration>()
-                                .Bind(ctx.Configuration.GetSection(AudioPlayerConfiguration.AudioPlayer))
-                                .PostConfigure(configuration => {
-                                    configuration.Volume ??= 100;
-                                    configuration.Volume = configuration.Volume switch {
-                                        < 0 => 0,
-                                        > 100 => 100,
-                                        _ => configuration.Volume
-                                    };
-                                });
+                                .Bind(ctx.Configuration.GetSection(AudioPlayerConfiguration.AudioPlayer));
 
                                s.AddHttpClient<IClient, Client>((services, client) => {
                                    var config = services.GetService<IOptions<ServerConfiguration>>();

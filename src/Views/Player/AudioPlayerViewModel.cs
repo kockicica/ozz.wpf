@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 
 using ozz.wpf.Config;
 using ozz.wpf.Models;
+using ozz.wpf.Services;
 using ozz.wpf.ViewModels;
 
 using ReactiveUI;
@@ -19,6 +20,8 @@ using EqualizerModel = ozz.wpf.Models.Equalizer;
 namespace ozz.wpf.Views.Player;
 
 public class AudioPlayerViewModel : ViewModelBase, IActivatableViewModel {
+
+    private readonly IAppStateManager _appStateManager;
 
     private readonly ILogger<AudioPlayerViewModel> _logger;
 
@@ -46,15 +49,16 @@ public class AudioPlayerViewModel : ViewModelBase, IActivatableViewModel {
 
     private AudioRecording? _track;
 
-    private int _volume = 30;
+    //private int _volume = 30;
 
     public AudioPlayerViewModel(ILogger<AudioPlayerViewModel> logger, IOptions<AudioPlayerConfiguration> options,
-                                IOptions<ServerConfiguration> serverConfigurationOptions) {
+                                IOptions<ServerConfiguration> serverConfigurationOptions, IAppStateManager appStateManager) {
 
-        _volume = options.Value.Volume.GetValueOrDefault();
+        //_volume = options.Value.Volume.GetValueOrDefault();
         _serverConfiguration = serverConfigurationOptions.Value;
 
         _logger = logger;
+        _appStateManager = appStateManager;
         _libVLC = new LibVLC("--no-video");
         _mediaPlayer = new MediaPlayer(_libVLC);
 
@@ -166,9 +170,10 @@ public class AudioPlayerViewModel : ViewModelBase, IActivatableViewModel {
     }
 
     public int Volume {
-        get => _volume;
+        get => _appStateManager.State.Volume;
         set {
-            this.RaiseAndSetIfChanged(ref _volume, value);
+            //this.RaiseAndSetIfChanged(ref _volume, value);
+            _appStateManager.State.Volume = value;
             Player.Volume = value;
         }
     }

@@ -21,7 +21,9 @@ using ReactiveUI;
 namespace ozz.wpf.Views.ScheduleManager.CreateSchedule;
 
 public class CreateScheduleViewModel : ViewModelBase, IRoutableViewModel, IScreen, IActivatableViewModel, ICaption {
+
     private readonly IAudioRecordingsService _audioRecordingsService;
+    private readonly IEqualizerPresetFactory _equalizerPresetFactory;
 
     private readonly ILogger<CreateScheduleViewModel> _logger;
     private readonly IScheduleClient                  _scheduleClient;
@@ -39,7 +41,8 @@ public class CreateScheduleViewModel : ViewModelBase, IRoutableViewModel, IScree
 
     public CreateScheduleViewModel(ILogger<CreateScheduleViewModel> logger, IScreen hostScreen, IResolver resolver,
                                    IAudioRecordingsService audioRecordingsService, AudioPlayerViewModel? playerViewModel,
-                                   ScheduleRecordingViewModel scheduleRecordingViewModel, IScheduleClient scheduleClient) {
+                                   ScheduleRecordingViewModel scheduleRecordingViewModel, IScheduleClient scheduleClient,
+                                   IEqualizerPresetFactory equalizerPresetFactory) {
         _logger = logger;
         HostScreen = hostScreen;
         _resolver = resolver;
@@ -47,6 +50,7 @@ public class CreateScheduleViewModel : ViewModelBase, IRoutableViewModel, IScree
         _playerViewModel = playerViewModel;
         _scheduleRecordingViewModel = scheduleRecordingViewModel;
         _scheduleClient = scheduleClient;
+        _equalizerPresetFactory = equalizerPresetFactory;
 
         EditScheduleTable = ReactiveCommand.Create(() => { Router.Navigate.Execute(ScheduleRecordingViewModel!); }, CanEditScheduleTable);
 
@@ -59,10 +63,11 @@ public class CreateScheduleViewModel : ViewModelBase, IRoutableViewModel, IScree
         this.WhenActivated(d => {
 
             Router.CurrentViewModel
-                  .Subscribe(model => {
+                  .Subscribe(async model => {
                       _activeViewModel = model;
                       if (_activeViewModel == null) {
                           PlayerViewModel = _resolver.GetService<AudioPlayerViewModel>();
+                          PlayerViewModel.Equalizer = await _equalizerPresetFactory.GetDefaultPreset();
                           if (SelectedRecording != null) {
                               PlayerViewModel.Track = SelectedRecording;
                           }

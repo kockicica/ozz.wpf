@@ -25,6 +25,7 @@ using ReactiveUI;
 namespace ozz.wpf.Views.Disposition;
 
 public class DispositionBlockViewModel : DialogViewModelBase {
+    private readonly IAppStateManager        _appStateManager;
     private readonly IEqualizerPresetFactory _equalizerPreset;
 
     private readonly ILogger<DispositionBlockViewModel> _logger;
@@ -54,19 +55,22 @@ public class DispositionBlockViewModel : DialogViewModelBase {
 
     private ServerConfiguration                   _serverConfiguration;
     private ObservableAsPropertyHelper<TimeSpan>? _totalDispositionsToEmitDuration;
+
     private ObservableAsPropertyHelper<TimeSpan>? _totalEmittedDuration;
-    private int                                   _volume = 30;
+    //private int                                   _volume = 30;
 
 
     public DispositionBlockViewModel(ILogger<DispositionBlockViewModel> logger, IOptions<ServerConfiguration> serverConfigurationOptions,
-                                     IOptions<AudioPlayerConfiguration> audioPlayerConfigurationOptions, IEqualizerPresetFactory equalizerPreset) {
+                                     IOptions<AudioPlayerConfiguration> audioPlayerConfigurationOptions, IEqualizerPresetFactory equalizerPreset,
+                                     IAppStateManager appStateManager) {
         _logger = logger;
         _equalizerPreset = equalizerPreset;
+        _appStateManager = appStateManager;
         _libVLC = new LibVLC("--no-video");
         _mediaPlayer = new MediaPlayer(_libVLC);
         _serverConfiguration = serverConfigurationOptions.Value;
-        _volume = audioPlayerConfigurationOptions.Value.Volume.GetValueOrDefault();
-        Player.Volume = _volume;
+        //_volume = audioPlayerConfigurationOptions.Value.Volume.GetValueOrDefault();
+        Player.Volume = _appStateManager.State.Volume;
 
         this.WhenActivated(d => {
 
@@ -170,11 +174,10 @@ public class DispositionBlockViewModel : DialogViewModelBase {
     public MediaPlayer Player => _mediaPlayer;
 
     public int Volume {
-        get => _volume;
+        get => _appStateManager.State.Volume;
         set {
+            _appStateManager.State.Volume = value;
             Player.Volume = value;
-            this.RaiseAndSetIfChanged(ref _volume, value);
-
         }
     }
 
